@@ -13,6 +13,8 @@ public class EventInfo {
     String parking;
     String capacity;
     String atm;
+    String filterName;
+    boolean press;
 
     public EventInfo(int imageId, String date, String name, String tags, String price, String info, String place, String toilet,String parking,String capacity,String atm) {
         this.imageId = imageId;
@@ -27,7 +29,16 @@ public class EventInfo {
         this.capacity=capacity;
         this.atm=atm;
     }
-
+    public EventInfo(int imageId, String date, String name, String tags, String price, String info, String place,String filterName) {
+        this.imageId = imageId;
+        this.date = date;
+        this.name = name;
+        this.tags = tags;
+        this.price = price;
+        this.info = info;
+        this.place = place;
+        this.filterName=filterName;
+    }
 
     public int getImageId() {
         return imageId;
@@ -113,4 +124,11 @@ public class EventInfo {
     public void setAtm(String atm) {
         this.atm = atm;
     }
+    public String getFilterName() {
+        return filterName;
+    }
+
+    public void setFilterName(String filterName) {this.filterName = filterName;}
+    public void setPress(boolean t){press=t;};
+    public boolean getPress(){return press;};
 }

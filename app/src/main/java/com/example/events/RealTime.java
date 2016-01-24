@@ -175,7 +175,7 @@ public class RealTime extends AppCompatActivity implements View.OnClickListener,
     }
 
     public void openMenuPage(View v) {
-        Intent menuPageIntent = new Intent (this, Menu.class);
+        Intent menuPageIntent = new Intent (this, com.example.events.Menu.class);
         startActivity (menuPageIntent);
     }
 

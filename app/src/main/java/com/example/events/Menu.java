@@ -27,7 +27,7 @@ public class Menu extends AppCompatActivity {
         super.onCreate (savedInstanceState);
         setContentView (R.layout.activity_menu);
 
-        login_button = (LoginButton) findViewById (R.id.login_button);
+        login_button = (LoginButton) findViewById (R.id.login_button11);
         AccessToken accessToken = AccessToken.getCurrentAccessToken ();
         if (accessToken != null) {
             login_button.setVisibility (View.INVISIBLE);

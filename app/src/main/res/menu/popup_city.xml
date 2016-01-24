@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/one"
+        android:title="Tel Aviv"/>
+
+    <item
+        android:id="@+id/two"
+        android:title="Jerusalem"/>
+
+    <item
+        android:id="@+id/three"
+        android:title="Haifa"
+        />
+    <item
+        android:id="@+id/four"
+        android:title="Ramat Gan"
+        />
+    <item
+        android:id="@+id/five"
+        android:title="Tiberias"
+        />
+    <item
+        android:id="@+id/six"
+        android:title="Hertzelia"
+        />
+    <item
+        android:id="@+id/seven"
+        android:title="Beer Sheva"
+        />
+    <item
+        android:id="@+id/eight"
+        android:title="Afola"
+        />
+    <item
+        android:id="@+id/nine"
+        android:title="Bnei Brak"
+        />
+    <item
+    android:id="@+id/ten"
+    android:title="Ariel"
+    />
+    <item
+        android:id="@+id/eleven"
+        android:title="Naaria"
+        />
+    <item
+        android:id="@+id/twelve"
+        android:title="Akko"
+        />
+    <item
+        android:id="@+id/thirteen"
+        android:title="Eilat"
+        />
+
+</menu>
