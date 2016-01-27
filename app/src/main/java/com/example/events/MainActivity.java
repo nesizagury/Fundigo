@@ -35,6 +35,7 @@ import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 import com.facebook.share.model.ShareLinkContent;
 import com.facebook.share.widget.ShareDialog;
+import com.parse.ParsePush;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -118,9 +119,22 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 //        LoginManager.getInstance().logInWithReadPermissions(this, Arrays.asList("publish_actions", "rsvp_event"));
         Event.setTextColor (Color.WHITE);
         loc = getLocation ();
-        if (loc == null) turnOnGps ();
+        if (loc == null) turnOnGps();
         if (loc != null)
-            Toast.makeText (getApplicationContext (), "" + loc.getLongitude () + " ," + loc.getLatitude (), Toast.LENGTH_LONG).show ();
+            Toast.makeText (getApplicationContext (), "" + loc.getLongitude () + " ," + loc.getLatitude (), Toast.LENGTH_LONG).show();
+
+
+        SharedPreferences ratePrefs = getSharedPreferences("First Update", 0);
+        if (!ratePrefs.getBoolean("FrstTime", false)) {
+
+            ParsePush.subscribeInBackground("All_Users");
+
+            SharedPreferences.Editor edit = ratePrefs.edit();
+            edit.putBoolean("FrstTime", true);
+            edit.commit();
+        }
+
+
     }
 
     private void turnOnGps() {

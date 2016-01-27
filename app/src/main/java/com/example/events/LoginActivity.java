@@ -25,6 +25,7 @@ import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseObject;
+import com.parse.ParsePush;
 import com.parse.ParseQuery;
 import com.sinch.verification.CodeInterceptionException;
 import com.sinch.verification.Config;
@@ -101,11 +102,21 @@ public class LoginActivity extends AppCompatActivity {
         phoneET.setOnEditorActionListener (new TextView.OnEditorActionListener () {
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 if ((event != null && (event.getKeyCode () == KeyEvent.KEYCODE_ENTER)) || (actionId == EditorInfo.IME_ACTION_DONE)) {
-                    area = s.getSelectedItem ().toString ();
-                    username = usernameTE.getText ().toString ();
+                    area = s.getSelectedItem().toString ();
+                    username = usernameTE.getText ().toString();
                     phone_number = getNumber (phoneET.getText ().toString (), area);
 
-                    Toast.makeText (getApplicationContext (), phone_number, Toast.LENGTH_SHORT).show ();
+                    Toast.makeText (getApplicationContext (), phone_number, Toast.LENGTH_SHORT).show();
+                    ParsePush push = new ParsePush();
+
+                    push.unsubscribeInBackground("All_Users");
+                    push.setChannel("All_Users");
+
+                    push.setMessage("Hey Their Are Come To See Events Near You");
+
+                    push.subscribeInBackground("All_Users");
+                    push.sendInBackground();
+
 
                     smsVerify (phone_number);
 
@@ -162,9 +173,12 @@ public class LoginActivity extends AppCompatActivity {
             Bundle b = new Bundle ();
             Intent ticketsPageIntent = new Intent (LoginActivity.this, TicketsPage.class);
             Intent intentHere = getIntent ();
-            ticketsPageIntent.putExtra ("eventName", intentHere.getStringExtra ("eventName"));
-            ticketsPageIntent.putExtras (b);
-            saveToFile (phone_number);
+            ticketsPageIntent.putExtra("eventName", intentHere.getStringExtra("eventName"));
+            ticketsPageIntent.putExtras(b);
+            saveToFile(phone_number);
+
+
+
             startActivity (ticketsPageIntent);
             finish ();
         } catch (ParseException e) {

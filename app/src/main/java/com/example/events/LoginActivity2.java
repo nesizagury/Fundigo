@@ -108,6 +108,7 @@ public class LoginActivity2 extends Activity {
                 user.signUp ();
                 Toast.makeText (getApplicationContext (), "Successfully Signed up", Toast.LENGTH_SHORT).show ();
                 Intent intent = new Intent (this, MainActivity.class);
+
                 startActivity (intent);
                 finish ();
             } catch (ParseException e) {
