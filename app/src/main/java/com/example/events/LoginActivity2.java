@@ -143,8 +143,6 @@ public class LoginActivity2 extends Activity {
 
     public void LogIn(String username){
 
-
-
         if(username.equals(""))
         {
             Toast.makeText(getApplicationContext(), "Successfully Loged in as customer", Toast.LENGTH_SHORT).show();
@@ -176,6 +174,7 @@ public class LoginActivity2 extends Activity {
                 try {
                     ParseUser.logIn(username, username);
                     Toast.makeText(getApplicationContext(), "Successfully Loged in", Toast.LENGTH_SHORT).show();
+                    Constants.IS_PRODUCER = true;
                     Intent intent = new Intent(this, MainActivity.class);
                     startActivity(intent);
                     finish();

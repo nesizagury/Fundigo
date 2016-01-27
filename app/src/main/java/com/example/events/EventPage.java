@@ -1,13 +1,16 @@
 package com.example.events;
 
 import android.app.Activity;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.support.v7.app.AlertDialog;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -17,6 +20,7 @@ import com.facebook.share.model.ShareLinkContent;
 import com.facebook.share.widget.ShareDialog;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
+import com.parse.ParseUser;
 
 import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
@@ -36,6 +40,7 @@ public class EventPage extends Activity implements View.OnClickListener {
     int producer_id;
     int customer_id;
     private ImageView iv_share;
+    private ImageView iv_chat;
     private final static String TAG = "EventPage";
     private int image_id;
     static final int REQUEST_CODE_MY_PICK = 1;
@@ -81,6 +86,8 @@ public class EventPage extends Activity implements View.OnClickListener {
         customer_id = b.getInt("customer_id");
         iv_share = (ImageView) findViewById(R.id.imageEvenetPageView2);
         iv_share.setOnClickListener(this);
+        iv_chat = (ImageView) findViewById(R.id.imageEvenetPageView5);
+        iv_chat.setOnClickListener(this);
     }
 
     public void openTicketsPage(View view) {
@@ -126,8 +133,13 @@ public class EventPage extends Activity implements View.OnClickListener {
 
 
     public void openChat(View view) {
-
+        Log.e(TAG, "openChat clicked");
+        Log.e(TAG, "MainActivity.isCustomer " + MainActivity.isCustomer);
+        Log.e(TAG, "MainActivity.isGuest " + MainActivity.isGuest);
         if (MainActivity.isCustomer) {
+            Log.e(TAG, "before ChatActivity.class");
+            Log.e(TAG, "producer_id " + Integer.toString(producer_id));
+            Log.e(TAG, "customer_id " + Integer.toString(customer_id));
             Intent intent = new Intent(EventPage.this, ChatActivity.class);
             intent.putExtra("producer_id", Integer.toString(producer_id));
             intent.putExtra("customer_id", Integer.toString(customer_id));
@@ -176,7 +188,7 @@ public class EventPage extends Activity implements View.OnClickListener {
 
         }
 */
-
+        Log.e(TAG, "before MessagesRoom.class");
         Intent intent = new Intent(this, MessagesRoom.class);
         intent.putExtra("array", (Serializable) mrbList);
         intent.putExtra("producer_id", Integer.toString(producer_id));
@@ -223,12 +235,58 @@ public class EventPage extends Activity implements View.OnClickListener {
                 startActivityForResult(intentPick, REQUEST_CODE_MY_PICK);
 
                 break;
+            case R.id.imageEvenetPageView5:
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                builder.setTitle("You can get more info\nabout the event!");
+                builder.setMessage("How do you want to do it?");
+                builder.setIcon(image_id);
+                builder.setPositiveButton("Send message to producer", listener);
+                builder.setNegativeButton("Real Time Chat", listener);
+                builder.setNeutralButton("Cancel...", listener);
+                AlertDialog dialog = builder.create();
+                dialog.show();
+                TextView messageText = (TextView) dialog.findViewById(android.R.id.message);
+                messageText.setGravity(Gravity.CENTER);
+                break;
         }
     }
 
+    DialogInterface.OnClickListener listener = new DialogInterface.OnClickListener() {
+        @Override
+
+        public void onClick(DialogInterface dialog, int which) {
+            Intent intent;
+            switch (which) {
+                case DialogInterface.BUTTON_POSITIVE:
+                    Log.e(TAG, "ParseUser.getCurrentUser() " + ParseUser.getCurrentUser());
+                    Log.e(TAG, "customer_id " + customer_id);
+                    intent = new Intent(EventPage.this, ChatActivity.class);
+                    intent.putExtra("producer_id", Integer.toString(producer_id));
+                    intent.putExtra("customer_id", Integer.toString(customer_id));
+                    startActivity(intent);
+
+                    break;
+                case DialogInterface.BUTTON_NEGATIVE:
+                 //   if (customer_id != 0) {
+                        intent = new Intent(EventPage.this, RealTimeChatActivity.class);
+                        intent.putExtra("customer_id", Integer.toString(customer_id));
+                        intent.putExtra("producer_id", Integer.toString(producer_id));
+                        intent.putExtra("eventName", eventName);
+                        Log.e(TAG, "producer_id "+ producer_id+"customer_id "+ customer_id+ "eventName "+eventName );
+                        startActivity(intent);
+                   // }
+                    break;
+                case DialogInterface.BUTTON_NEUTRAL:
+                    dialog.dismiss();
+                    break;
+            }
+        }
+    };
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == REQUEST_CODE_MY_PICK) {
+        if (requestCode == REQUEST_CODE_MY_PICK && resultCode != 0) {
             String appName = data.getComponent().flattenToShortString();
 
             Log.e(TAG, "" + appName);

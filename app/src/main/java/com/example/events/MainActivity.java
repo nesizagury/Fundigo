@@ -72,9 +72,13 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         }
         setContentView (R.layout.activity_main);
         Intent intent = getIntent ();
+        Log.e(TAG,"chat_id "+ intent.getStringExtra ("chat_id") );
+        Log.e(TAG,"is_guest "+ intent.getStringExtra ("is_guest") );
         if (intent.getStringExtra ("chat_id") != null) {
+            Log.e(TAG, "customer_id "+customer_id);
             customer_id = Integer.parseInt (intent.getStringExtra ("chat_id"));
             isCustomer = true;
+            Log.e(TAG, "customer_id "+customer_id);
 
         }
         if (intent.getStringExtra ("is_guest") != null) {
