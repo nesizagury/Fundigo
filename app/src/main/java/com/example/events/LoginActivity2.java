@@ -34,6 +34,7 @@ public class LoginActivity2 extends Activity {
     String isGuest = "";
 
     String customer_id;
+    String isProducer;
 
 
 
@@ -66,7 +67,9 @@ public class LoginActivity2 extends Activity {
 
 
         producer_username = producer_usernameET.getText ().toString ();
+        isProducer = "true";
         LogIn(producer_username);
+
 
 
     }
@@ -76,8 +79,6 @@ public class LoginActivity2 extends Activity {
         LogIn("");
 
     }
-
-
 
 
     public void Signup(View view) {
@@ -143,9 +144,7 @@ public class LoginActivity2 extends Activity {
 
     public void LogIn(String username){
 
-
-
-        if(username.equals(""))
+        if(username.equals("") && isProducer == null)
         {
             Toast.makeText(getApplicationContext(), "Successfully Loged in as customer", Toast.LENGTH_SHORT).show();
             Intent intent = new Intent(this, MainActivity.class);
@@ -175,8 +174,10 @@ public class LoginActivity2 extends Activity {
             if (exists) {
                 try {
                     ParseUser.logIn(username, username);
-                    Toast.makeText(getApplicationContext(), "Successfully Loged in", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext()," Successfully Loged in", Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent(this, MainActivity.class);
+                    intent.putExtra("is_producer",isProducer);
+                    intent.putExtra("producerId",producer_username);
                     startActivity(intent);
                     finish();
                 } catch (ParseException e1) {

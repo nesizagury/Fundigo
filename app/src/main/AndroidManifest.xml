@@ -43,6 +43,8 @@
         </activity>
         <activity android:name=".SavedEvent">
         </activity>
+        <activity android:name=".CreateEventActivity">
+        </activity>
         <activity android:name=".EventService"
                   android:theme="@style/AppTheme.PopupServiceEvent"></activity>
         <activity

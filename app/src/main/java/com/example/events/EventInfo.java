@@ -1,8 +1,10 @@
 package com.example.events;
 
+import android.graphics.Bitmap;
+
 public class EventInfo {
 
-    int imageId;
+    Bitmap imageId;
     String date;
     String name;
     String tags;
@@ -13,8 +15,12 @@ public class EventInfo {
     String parking;
     String capacity;
     String atm;
+    String producerId;
 
-    public EventInfo(int imageId, String date, String name, String tags, String price, String info, String place, String toilet,String parking,String capacity,String atm) {
+
+
+    public EventInfo(Bitmap imageId, String date, String name, String tags, String price, String info,
+                     String place, String toilet,String parking,String capacity,String atm) {
         this.imageId = imageId;
         this.date = date;
         this.name = name;
@@ -26,14 +32,19 @@ public class EventInfo {
         this.parking=parking;
         this.capacity=capacity;
         this.atm=atm;
+
     }
 
 
-    public int getImageId() {
+    public EventInfo(){
+
+    }
+
+    public Bitmap getImageId() {
         return imageId;
     }
 
-    public void setImageId(int imageId) {
+    public void setImageId(Bitmap imageId) {
         this.imageId = imageId;
     }
 
@@ -112,5 +123,13 @@ public class EventInfo {
     }
     public void setAtm(String atm) {
         this.atm = atm;
+    }
+
+    public String getProducerId() {
+        return producerId;
+    }
+
+    public void setProducerId(String producerId) {
+        this.producerId = producerId;
     }
 }

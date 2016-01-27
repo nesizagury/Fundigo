@@ -37,7 +37,6 @@ public class EventPage extends Activity implements View.OnClickListener {
     int customer_id;
     private ImageView iv_share;
     private final static String TAG = "EventPage";
-    private int image_id;
     static final int REQUEST_CODE_MY_PICK = 1;
 
 
@@ -55,9 +54,13 @@ public class EventPage extends Activity implements View.OnClickListener {
         found = !readFromFile().equals("");
 
         final Intent intent = getIntent();
-        image_id = intent.getIntExtra("eventImage", R.mipmap.pic0);
-        ImageView event_image = (ImageView) findViewById(R.id.eventPage_image);
-        event_image.setImageResource(image_id);
+
+        if(getIntent().getByteArrayExtra("eventImage") != null) {
+            byte[] byteArray = getIntent().getByteArrayExtra("eventImage");
+            Bitmap bitmap = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.length);
+            ImageView event_image = (ImageView) findViewById(R.id.eventPage_image);
+            event_image.setImageBitmap(bitmap);
+        }
         date = intent.getStringExtra("eventDate");
         TextView event_date = (TextView) findViewById(R.id.eventPage_date);
         event_date.setText(date);
@@ -127,7 +130,6 @@ public class EventPage extends Activity implements View.OnClickListener {
                 String receiveString = "";
                 while ((receiveString = bufferedReader.readLine()) != null) {
                     phone_number = receiveString;
-                    Toast.makeText(getApplicationContext(), phone_number, Toast.LENGTH_SHORT).show();
                 }
                 inputStream.close();
             }
@@ -158,7 +160,6 @@ public class EventPage extends Activity implements View.OnClickListener {
         List<MessageRoomBean> mrbList = new ArrayList<MessageRoomBean>();
         ParseQuery<Room> query = ParseQuery.getQuery(Room.class);
         query.whereEqualTo("producer_id", Integer.toString(producer_id));
-        // Toast.makeText (getApplicationContext (), "producer_id = " + rList.size(), Toast.LENGTH_SHORT).show();
 
         query.orderByDescending("createdAt");
         try {
@@ -204,7 +205,7 @@ public class EventPage extends Activity implements View.OnClickListener {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.imageEvenetPageView2:
-                Log.e(TAG, "" + image_id);
+
 
                 try {
 

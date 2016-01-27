@@ -1,6 +1,8 @@
 package com.example.events;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.location.Location;
@@ -14,9 +16,11 @@ import android.widget.GridView;
 import android.widget.Toast;
 
 import com.parse.ParseException;
+import com.parse.ParseFile;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 
+import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -56,13 +60,48 @@ public class RealTime extends AppCompatActivity implements View.OnClickListener,
             loc.setLongitude (x);
         }
         Toast.makeText (this, "" + loc.getLongitude () + "  " + loc.getLatitude (), Toast.LENGTH_SHORT).show ();
-        ArrayList<Event> arrayList = new ArrayList<> ();
+        ArrayList <Event> arrayList = new ArrayList<> ();
         try {
             arrayList = sortList ();
         } catch (ParseException e) {
         }
 
+/*
 
+        for (int i = 0; i < 15; i++) {
+
+            Event event = new Event();
+            event.setName(MainActivity.events_data.get(i).getName());
+            event.setDescription(MainActivity.events_data.get(i).getInfo());
+            event.setAddress(MainActivity.events_data.get(i).getPlace());
+            event.setPrice(MainActivity.events_data.get(i).getPrice());
+            event.setTags(MainActivity.events_data.get(i).getTags());
+            event.setNumOfTicketsLeft("" + 9999);
+
+            event.setProducerId(i + 1 + "");
+
+            Bitmap bitmap = BitmapFactory.decodeResource(getResources(), MainActivity.events_data.get(i).getImageId());
+            ByteArrayOutputStream stream = new ByteArrayOutputStream ();
+            bitmap.compress (Bitmap.CompressFormat.JPEG, 100, stream);
+            byte[] image = stream.toByteArray ();
+            ParseFile file = new ParseFile ("picturePath", image);
+            try {
+                file.save ();
+            } catch (ParseException e) {
+                e.printStackTrace ();
+            }
+
+           event.put ("ImageFile", file);
+
+            try {
+                event.save();
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+
+        }
+
+*/
         gridView = (GridView) findViewById (R.id.gridview);
         Adapters adapters = new Adapters (this, arrayList);
         gridView.setAdapter (adapters);
@@ -91,32 +130,42 @@ public class RealTime extends AppCompatActivity implements View.OnClickListener,
      */
     public void openFilterPage(View v) {
         Intent filterPageIntent = new Intent (this, FilterPage.class);
-        startActivity (filterPageIntent);
+        startActivity(filterPageIntent);
     }
 
-    public ArrayList<Event> sortList() throws ParseException {
+    public ArrayList <Event> sortList() throws ParseException {
         double x, y;
+        ParseFile imageFile;
+        byte[] data;
+        Bitmap bmp;
         ArrayList<Event> arr = new ArrayList<> ();
         ParseQuery<ParseObject> query = ParseQuery.getQuery ("Event");
         List<ParseObject> listObject = query.find ();
         int index = 0;
         for (int i = 0; i < listObject.size (); i++) {
             ParseObject tempObject = listObject.get (i);
+            imageFile = (ParseFile) tempObject.get("ImageFile");
+            data = imageFile.getData();
+            bmp = BitmapFactory.decodeByteArray(data, 0, data.length);
             if (!arr.contains (tempObject)) {
+                Toast.makeText(getApplicationContext(), "Please fill the  empty fields", Toast.LENGTH_SHORT).show ();
+
                 x = tempObject.getDouble ("X");
                 y = tempObject.getDouble ("Y");
                 Event tempEvent = new Event ();
                 tempEvent.setLocation (x, y);
-                tempEvent.setName (tempObject.getString ("Name"));
+                tempEvent.setName(tempObject.getString("Name"));
+                tempEvent.setBitmap(bmp);
                 arr.add (index++, tempEvent);
+
             }
         }
 
-        Collections.sort (arr, new Comparator<Event> () {
+        Collections.sort(arr, new Comparator<Event>() {
             @Override
             public int compare(Event a, Event b) {
-                if (a.getdis () < b.getdis ()) return -1;
-                if (a.getdis () >= b.getdis ()) return 1;
+                if (a.getdis() < b.getdis()) return -1;
+                if (a.getdis() >= b.getdis()) return 1;
                 return 0;
             }
         });

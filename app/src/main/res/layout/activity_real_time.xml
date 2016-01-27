@@ -129,4 +129,7 @@
         android:id="@+id/gridview"
         layout="@layout/grid_view"
         ></include>
+
+
+
 </RelativeLayout>

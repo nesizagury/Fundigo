@@ -16,6 +16,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -36,45 +37,12 @@ public class Adapters extends BaseAdapter {
     Uri uri;
 
 
-    public Adapters(Context c) {
+    public Adapters(Context c, List <EventInfo> list) {
 
         this.context = c;
+        this.list = list;
 
-        Resources res = context.getResources();
-        String[] eventDate_list;
-        String[] eventName_list;
-        String[] eventTag_list;
-        String[] eventPrice_list;
-        String[] eventInfo_list;
-        String[] eventPlace_list;
 
-        eventName_list = res.getStringArray(R.array.eventNames);
-        eventDate_list = res.getStringArray(R.array.eventDates);
-        eventTag_list = res.getStringArray(R.array.eventTags);
-        eventPrice_list = res.getStringArray(R.array.eventPrice);
-        eventInfo_list = res.getStringArray(R.array.eventInfo);
-        eventPlace_list = res.getStringArray(R.array.eventPlace);
-
-        String arrToilet[] = res.getStringArray(R.array.eventToiletService);
-        String arrParking[] = res.getStringArray(R.array.eventParkingService);
-        String arrCapacity[] = res.getStringArray(R.array.eventCapacityService);
-        String arrATM[] = res.getStringArray(R.array.eventATMService);
-
-        for (int j = 0; j < 3; j++) {
-            for (int i = 0; i < 14; i++)
-                list.add (new EventInfo (
-                                                R.mipmap.pic0 + i,
-                                                eventDate_list[i],
-                                                eventName_list[i],
-                                                eventTag_list[i],
-                                                eventPrice_list[i],
-                                                eventInfo_list[i],
-                                                eventPlace_list[i],
-                                                arrToilet[i],
-                                                arrParking[i],
-                                                arrCapacity[i],
-                                                arrATM[i]));
-        }
     }
 
     public Adapters(Context c, ArrayList<Event> arrayList) {
@@ -102,21 +70,8 @@ public class Adapters extends BaseAdapter {
 
         List<EventInfo> ans = new ArrayList<EventInfo> ();
 
-        for (int j = 0; j < 1; j++) {
-            for (int i = 0; i < 15; i++)
-                ans.add (new EventInfo (
-                                               R.mipmap.pic0 + i,
-                                               eventDate_list[i],
-                                               eventName_list[i],
-                                               eventTag_list[i],
-                                               eventPrice_list[i],
-                                               eventInfo_list[i],
-                                               eventPlace_list[i],
-                                               arrToilet[i],
-                                               arrParking[i],
-                                               arrCapacity[i],
-                                               arrATM[i]));
-        }
+
+
         boolean flag = true;
         for (int i = 0; i < arrayList.size(); i++) {
             for (int j = 0; j < ans.size() && flag; j++) {
@@ -163,7 +118,7 @@ public class Adapters extends BaseAdapter {
         }
 
         EventInfo event = list.get(i);
-        holder.image.setImageResource(event.imageId);
+        holder.image.setImageBitmap(event.imageId);
 
         holder.date.setText(event.getDate());
         holder.name.setText(event.getName());
