@@ -110,6 +110,11 @@ class CostumeAdapter extends BaseAdapter{
         if(walkValue/3600>1){
             list.remove(1);
         }
+        for(int i=0;i<list.size();i++){
+            if(list.get(i).description==null || list.get(i).description=="" || list.get(i).description==" "){
+                list.remove(i);
+            }
+        }
 
     }
 
