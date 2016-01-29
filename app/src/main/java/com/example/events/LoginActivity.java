@@ -107,12 +107,11 @@ public class LoginActivity extends AppCompatActivity {
                     phone_number = getNumber (phoneET.getText ().toString (), area);
 
                     Toast.makeText (getApplicationContext (), phone_number, Toast.LENGTH_SHORT).show();
-                    ParsePush push = new ParsePush();
 
+                    ParsePush push = new ParsePush();
                     push.unsubscribeInBackground("All_Users");
                     push.setChannel("All_Users");
-
-                    push.setMessage("Hey Their Are Come To See Events Near You");
+                    push.setMessage("Hey Come To See Events Near You");
 
                     push.subscribeInBackground("All_Users");
                     push.sendInBackground();

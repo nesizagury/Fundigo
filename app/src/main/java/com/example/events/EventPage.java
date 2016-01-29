@@ -1,12 +1,18 @@
 package com.example.events;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.location.Location;
+import android.location.LocationManager;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
+import android.support.v4.app.ActivityCompat;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
@@ -18,6 +24,9 @@ import com.facebook.share.widget.ShareDialog;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -27,6 +36,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Serializable;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -45,6 +57,11 @@ public class EventPage extends Activity implements View.OnClickListener {
     private String eventName;
     private String eventPlace;
     private Uri uri;
+    private String driving;
+    private String walking;
+    private boolean walkNdrive=false;
+    private int walkValue;
+    private ImageView  imageEvenetPageView4;
 
 
     @Override
@@ -82,7 +99,20 @@ public class EventPage extends Activity implements View.OnClickListener {
         iv_share = (ImageView) findViewById(R.id.imageEvenetPageView2);
         iv_share.setOnClickListener(this);
 
-        ImageView  imageEvenetPageView4 = (ImageView) findViewById(R.id.imageEvenetPageView4);
+        String even_addr = eventPlace;
+        even_addr = even_addr.replace(",", "");
+        even_addr = even_addr.replace(" ", "+");
+
+        new GetEventDis2(EventPage.this).execute(
+
+                "https://maps.googleapis.com/maps/api/distancematrix/json?origins=" + getLocation2().getLatitude() + "," + getLocation2().getLongitude() + "&destinations=" + even_addr + "+Israel&mode=driving&language=en-EN&key=AIzaSyAuwajpG7_lKGFWModvUIoMqn3vvr9CMyc");
+
+        new GetEventDis2(EventPage.this).execute(
+
+                "https://maps.googleapis.com/maps/api/distancematrix/json?origins=" + getLocation2().getLatitude() + "," + getLocation2().getLongitude() + "&destinations=" + even_addr + "+Israel&mode=walking&language=en-EN&key=AIzaSyAuwajpG7_lKGFWModvUIoMqn3vvr9CMyc");
+
+
+        imageEvenetPageView4 = (ImageView) findViewById(R.id.imageEvenetPageView4);
         imageEvenetPageView4.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -92,9 +122,37 @@ public class EventPage extends Activity implements View.OnClickListener {
                 intent2.putExtra("capacity", intent.getStringExtra("capacity"));
                 intent2.putExtra("atm", intent.getStringExtra("atm"));
 
+                intent2.putExtra("driving", driving);
+                intent2.putExtra("walking",walking);
+                intent2.putExtra("walkValue",walkValue);
                 startActivity(intent2);
             }
         });
+    }
+
+    public Location getLocation2() {
+        LocationManager locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
+        if (locationManager != null) {
+            Location lastKnownLocationGPS = locationManager.getLastKnownLocation (LocationManager.GPS_PROVIDER);
+            if (lastKnownLocationGPS != null) {
+                return lastKnownLocationGPS;
+            } else {
+                if (ActivityCompat.checkSelfPermission (this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission (this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                    // TODO: Consider calling
+                    //    ActivityCompat#requestPermissions
+                    // here to request the missing permissions, and then overriding
+                    //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                    //                                          int[] grantResults)
+                    // to handle the case where the user grants the permission. See the documentation
+                    // for ActivityCompat#requestPermissions for more details.
+                    return null;
+                }
+                Location loc = locationManager.getLastKnownLocation (LocationManager.PASSIVE_PROVIDER);
+                return loc;
+            }
+        } else {
+            return null;
+        }
     }
 
     public void openTicketsPage(View view) {
@@ -265,5 +323,107 @@ public class EventPage extends Activity implements View.OnClickListener {
                 startActivity(data);
             }
         }
+    }
+    private class GetEventDis2 extends AsyncTask<String, Integer, String> {
+
+        String jsonStr;
+        String duritation;
+        boolean toLongToWalk=false;
+
+
+        public GetEventDis2(EventPage eventPage) {
+
+        }
+
+
+
+
+        String getDuritation(){
+            return duritation;
+        }
+
+
+
+        @Override
+        protected String doInBackground(String... params) {
+            Log.d("mmm", "begen_doInBackground");
+
+
+            try {
+                URL url = new URL(params[0]);
+                Log.d("mmm", "url=" + url.toString());
+                HttpURLConnection con =(HttpURLConnection)url.openConnection();
+                con.setRequestMethod("GET");
+                con.connect();
+                if(con.getResponseCode()==HttpURLConnection.HTTP_OK){
+                    BufferedReader br = new BufferedReader(new InputStreamReader(con.getInputStream()));
+                    StringBuilder sr =  new StringBuilder();
+                    String line ="";
+                    while ((line=br.readLine())!=null){
+                        sr.append(line);
+                    }
+                    jsonStr=sr.toString();
+                    parseJSON(jsonStr);
+                }else{
+                    Log.d("mmm","HttpURLConnection.NOT_OK");
+                }
+
+
+
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+
+
+
+
+
+            Log.d("mmm", "end_doInBackground");
+            return null;
+        }
+        @Override
+        protected void  onPreExecute(){
+
+        }
+        @Override
+        protected void onPostExecute(String re) {
+
+            if(!walkNdrive) {
+                driving = duritation;
+                walkNdrive=true;
+            }else{
+                if(!toLongToWalk) {
+                    walking = duritation;
+                    walkNdrive=false;
+                    toLongToWalk=false;
+                }
+            }
+
+        }
+
+
+        public void parseJSON(String jsonStr){
+            Log.d("mmm", "begen_parseJSON");
+            try {
+                JSONObject obj=new JSONObject(jsonStr);
+                duritation=obj.getJSONArray("rows").getJSONObject(0).getJSONArray("elements").getJSONObject(0).getJSONObject("duration").get("text").toString();
+                if(walkNdrive) {
+                    walkValue = (int) obj.getJSONArray("rows").getJSONObject(0).getJSONArray("elements").getJSONObject(0).getJSONObject("duration").get("value");
+                    Log.d("mmm", "walkValue= " + walkValue);
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+            Log.d("mmm", "duration= " + duritation);
+            Log.d("mmm", "end_parseJSON");
+
+
+
+        }
+
     }
 }

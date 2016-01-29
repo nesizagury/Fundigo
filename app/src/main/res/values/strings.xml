@@ -17,6 +17,8 @@
     <string name="send">Send</string>
 
     <string-array name="eventServiceTitles">
+        <item>Driving</item>
+        <item>Walking</item>
         <item>Toilet</item>
         <item>Parking</item>
         <item>Capacity</item>
@@ -177,18 +179,18 @@
     <string-array name="eventPlace">
 
         <item>Even Gvirol 75, Tel Aviv</item>
-        <item>Chelnov 29, Haifa</item>
+        <item>Moshe Goshen 25, Kiryat Motzkin</item>
         <item>Derech Hashalom 125, Ramat Gan</item>
         <item>Begin Road 48, Tiberias</item>
-        <item>Rabin 3, Hertzelia</item>
-        <item>Ben Yehoda 1, Beer Sheva</item>
+        <item>Herzliya David Hamelech</item>
+        <item>Ben Yehuda 1, Beer Sheva</item>
         <item>Gaza 102, Jerusalem</item>
-        <item>Kanfei Nesharim 5, Afola</item>
-        <item>Gefen 2, Tel Aviv</item>
+        <item>Kanfei Nesharim 5, Afula</item>
+        <item>Hagefen 2, Tel Aviv</item>
         <item>Jabutinsky 86, Bnei Brak</item>
         <item>Dovdevan 26, Tiberias</item>
-        <item>Hamakabim 17, Ariel</item>
-        <item>Arlozorov 52, Naaria</item>
+        <item>Yafe Nof 17, Ariel</item>
+        <item>Arlozorov 52, Nahariya</item>
         <item>Hayarkon 4, Akko</item>
         <item>Moses 84, Eilat</item>
 
