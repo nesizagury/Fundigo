@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="#e1e1e1"
+                tools:context="com.example.events.MainActivity"
+    >
+
+    <LinearLayout
+        android:id="@+id/toolbar_up"
+        android:layout_width="fill_parent"
+        android:layout_height="30dp"
+        android:orientation="horizontal"
+        android:weightSum="700.0"
+        android:background="#FFA500"
+
+        >
+
+        <ImageView
+            android:id="@+id/settings_item"
+            android:layout_height="match_parent"
+            android:layout_width="0dip"
+            android:layout_weight="100"
+            android:layout_gravity="left"
+            android:src="@drawable/ic_setting"
+            android:background="#FFA500"
+            android:padding="2dp"/>
+
+        <ImageView
+            android:id="@+id/notification_item"
+            android:layout_height="match_parent"
+            android:layout_width="0dip"
+            android:layout_weight="100"
+            android:src="@drawable/ic_notification"
+            android:background="#FFA500"
+            android:padding="4dp"/>
+
+        <Button
+            android:id="@+id/city_item"
+            android:layout_height="match_parent"
+            android:layout_width="0dip"
+            android:layout_weight="300"
+            android:text="Tel-Aviv"
+            android:background="#FFA500"
+            />
+
+        <ImageView
+            android:id="@+id/Filter"
+            android:layout_height="match_parent"
+            android:layout_width="0dip"
+            android:layout_weight="100"
+            android:src="@drawable/filter_line"
+            android:onClick="openFilterPage"
+            android:background="#FFA500"
+            android:padding="4dp"/>
+
+        <ImageView
+            android:layout_width="0dip"
+            android:layout_height="match_parent"
+            android:layout_weight="100"
+            android:id="@+id/search"
+            android:actionViewClass="android.widget.SearchView"
+            android:src="@drawable/ic_search"
+            android:background="#FFA500"
+            android:padding="2dp"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/toolbar"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/toolbar_up"
+        android:orientation="horizontal"
+        android:weightSum="392.0"
+
+        >
+
+        <Button
+            android:id="@+id/BarEvent_button"
+            android:layout_width="0dip"
+            android:layout_height="55dip"
+            android:layout_weight="130"
+            android:background="#5e6ecb"
+            android:gravity="center"
+            android:text="Events"
+            android:textColor="#000000"
+            android:textSize="15sp"
+            />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="#e1e1e1"/>
+
+        <Button
+            android:id="@+id/BarSavedEvent_button"
+            android:layout_width="0dip"
+            android:layout_height="55dip"
+            android:layout_weight="130"
+            android:background="#3F51B5"
+            android:gravity="center"
+            android:text="SavedEvents"
+            android:textColor="#000000"
+            android:textSize="15sp"
+            />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="#e1e1e1"/>
+
+        <Button
+            android:id="@+id/BarRealTime_button"
+            android:layout_width="0dip"
+            android:layout_height="55dip"
+            android:layout_weight="130"
+            android:background="#3F51B5"
+            android:gravity="center"
+            android:text="Real-Time"
+            android:textColor="#000000"
+            android:textSize="15sp"
+            />
+
+    </LinearLayout>
+
+    <View
+        android:id="@+id/devider11"
+        android:layout_width="fill_parent"
+        android:layout_height="1dp"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/toolbar"
+        android:background="#c5c5c5"/>
+
+    <ListView
+        android:id="@+id/listView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/devider11"
+        android:layout_marginLeft="7dp"
+        android:layout_marginRight="7dp"
+        android:background="#fefefe"
+        android:divider="#e1e1e1"
+        android:dividerHeight="9dp"
+        android:drawSelectorOnTop="false"/>
+
+    <com.facebook.login.widget.LoginButton
+        android:id="@+id/login_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"/>
+
+
+</RelativeLayout>

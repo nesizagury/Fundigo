@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent"
+    android:descendantFocusability="blocksDescendants">
+
+    <ImageButton
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:id="@+id/message_itemIV"
+        android:scaleType="fitXY"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true"
+        android:background="@drawable/ic_gov" />
+
+    <TextView
+        android:layout_width="170dp"
+        android:layout_height="30dp"
+        android:text="New Text"
+        android:id="@+id/message_item_nameTV"
+        android:layout_alignParentTop="true"
+        android:layout_toEndOf="@+id/message_itemIV"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="5dp" />
+
+    <TextView
+        android:layout_width="260dp"
+        android:layout_height="20dp"
+        android:text="New Text"
+        android:id="@+id/message_item_bodyTV"
+        android:layout_below="@+id/message_item_nameTV"
+        android:layout_toEndOf="@+id/message_itemIV"
+        android:textSize="16sp"
+        android:layout_marginLeft="15dp" />
+</RelativeLayout>

@@ -1,0 +1,286 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name"></string>
+
+    <string name="filterPageName">Filter</string>
+    <string name="search_hint">search</string>
+
+    <string-array name="eventNames">
+
+        <item>Red Carpet Event</item>
+        <item>River-Side Show</item>
+        <item>Baby Shower</item>
+        <item>A Night At The Museum</item>
+        <item>The Paws New York</item>
+        <item>Eat Bowl Play</item>
+        <item>Xbox Live Show</item>
+        <item>Heart Bowl Night</item>
+        <item>On The Balloon</item>
+        <item>Hottmail Second Look</item>
+        <item>Wine And The Secret</item>
+        <item>The The Paws </item>
+        <item>K+R Main Show</item>
+        <item>Nation On New Theme Theater</item>
+        <item>Night Again</item>
+
+    </string-array>
+
+    <string-array name="eventTags">
+
+        <item>#Food&amp;Drink #Party</item>
+        <item>#Music #Party</item>
+        <item>#Food&amp;Drink #Performance</item>
+        <item>#Film #Performance</item>
+        <item>#Music #Party</item>
+        <item>#Music #Performance</item>
+        <item>#Holiday #Party</item>
+        <item>#Arts #Festival</item>
+        <item>#Expo</item>
+        <item>#Business #Networking</item>
+        <item>#Arts #Conference</item>
+        <item>#Helth #Conference</item>
+        <item>#Food&amp;Drink #Convention</item>
+        <item>#Community #Party</item>
+        <item>#Sport&amp;Fitness #Race</item>
+
+    </string-array>
+
+    <string-array name="eventDates">
+
+        <item>3.2.16</item>
+        <item>3.5.16</item>
+        <item>9.7.16</item>
+        <item>21.12.16</item>
+        <item>29.2.16</item>
+        <item>7.2.16</item>
+        <item>25.3.16</item>
+        <item>16.2.16</item>
+        <item>15.9.16</item>
+        <item>1.2.16</item>
+        <item>30.11.16</item>
+        <item>17.2.16</item>
+        <item>6.10.16</item>
+        <item>9.2.16</item>
+        <item>29.8.16</item>
+
+    </string-array>
+
+    <string-array name="eventPrice">
+
+        <item>40$</item>
+        <item>25$-100$</item>
+        <item>FREE</item>
+        <item>25$</item>
+        <item>0$-40$</item>
+        <item>FREE</item>
+        <item>10$</item>
+        <item>70$</item>
+        <item>5$-30$</item>
+        <item>25$</item>
+        <item>FREE</item>
+        <item>15$-150$</item>
+        <item>20$</item>
+        <item>5$</item>
+        <item>FREE</item>
+
+    </string-array>
+
+    <string-array name="eventInfo">
+
+        <item>
+            Target Audience
+OB or GYN Physicians, Physicians, Nurses, Nurse Practitioners, Physician Assistants
+Program Purpose or Objectives
+The purpose of this CME activity is to provide a review of clinical conditions encountered by the Family Physician and address common gynecological problems.
+At the conclusion of this activity, participants should be able to:
+Understand current evaluation and treatment of infertility
+Understand assisted reproductive technologies
+Evaluate sexual dysfunction at the menopause
+            Target Audience
+OB or GYN Physicians, Physicians, Nurses, Nurse Practitioners, Physician Assistants
+Program Purpose or Objectives
+The purpose of this CME activity is to provide a review of clinical conditions encountered by the Family Physician and address common gynecological problems.
+At the conclusion of this activity, participants should be able to:
+Understand current evaluation and treatment of infertility
+Understand assisted reproductive technologies
+Evaluate sexual dysfunction at the menopause
+        </item>
+        <item>
+The Winter Antiques Show marks its 62nd year as the most prestigious art, antiques, and design fair in America, featuring the “best of the best” from Antiquity through the present. Held at the historic Park Avenue Armory in New York City, the Show provides curators, new and established collectors, dealers, and design professionals with opportunities to view and purchase exceptional pieces showcased by 73 exhibitors.
+            The Winter Antiques Show marks its 62nd year as the most prestigious art, antiques, and design fair in America, featuring the “best of the best” from Antiquity through the present. Held at the historic Park Avenue Armory in New York City, the Show provides curators, new and established collectors, dealers, and design professionals with opportunities to view and purchase exceptional pieces showcased by 73 exhibitors.
+        </item>
+        <item>
+            All that glitters is indeed gold at New York City’s most colossal New Year’s Eve celebration hosted by one of the city’s most opulent spaces, the Hammerstein Ballroom. It’s no secret that you’ve spent the last 364 days of this year immersed in hard work so end it with hard play and exquisite amenities like a premium open bar and A-list entertainment at this incomparable NYE party.  The most impeccably cultivated holiday blowout this city has ever seen, Joonbug and the Hammerstein Ballroom invite you to dress exquisitely and act shamelessly this New Year’s Eve.
+                        All that glitters is indeed gold at New York City’s most colossal New Year’s Eve celebration hosted by one of the city’s most opulent spaces, the Hammerstein Ballroom. It’s no secret that you’ve spent the last 364 days of this year immersed in hard work so end it with hard play and exquisite amenities like a premium open bar and A-list entertainment at this incomparable NYE party.  The most impeccably cultivated holiday blowout this city has ever seen, Joonbug and the Hammerstein Ballroom invite you to dress exquisitely and act shamelessly this New Year’s Eve.
+
+        </item>
+        <item>
+            CIMES 2016 is a truly global machine tool trading and sourcing platform hosted in the world’s biggest machine tool market: China. As Asia’s leading machine tool exhibition for metal cutting tools and CNC machine trade, it also showcases the very latest high-end metalworking and industrial automation technology. In 2016, CIMES will showcase the world’s top industry giants and international pavilions from key manufacturing countries.
+In order to maximize the ROI for exhibitors and buyers at this Industrial automation exhibition, the organizers will invite an unprecedented array of VIP buyers from key Asian application industries including aerospace and aviation, medical equipment, shipbuilding and new energy. Accurate product segmentation and highly efficient marketing solutions will allow facilitate the establishment of powerful, direct connections with matching business partners.
+                        CIMES 2016 is a truly global machine tool trading and sourcing platform hosted in the world’s biggest machine tool market: China. As Asia’s leading machine tool exhibition for metal cutting tools and CNC machine trade, it also showcases the very latest high-end metalworking and industrial automation technology. In 2016, CIMES will showcase the world’s top industry giants and international pavilions from key manufacturing countries.
+            In order to maximize the ROI for exhibitors and buyers at this Industrial automation exhibition, the organizers will invite an unprecedented array of VIP buyers from key Asian application industries including aerospace and aviation, medical equipment, shipbuilding and new energy. Accurate product segmentation and highly efficient marketing solutions will allow facilitate the establishment of powerful, direct connections with matching business partners.
+        </item>
+        <item>
+LUST NY
+is a Brand New Venue With:
+State of the Art Lighting | Impeccable Sound | Custom Orange Stone Bar
+Over 25 Elevated VIPs | Skybox VIP |10ft Projector Screens
+Custom CO2 w or Fog | Hazer Machines and More
+
+LUST NY
+is the definition of what nightlife venues
+will look like 10 years from now.
+
+Located in the Heart of Sunset Park Brooklyn
+Very Easy to Get To, No Matter Where Youre Coming From
+Right off the BQE, Five Minutes from the Battery Tunnel
+and Brooklyn Bridge, Barclay Center and Verazano Bridge as well.
+
+Valet Parking, Kitchen and Hookah are Just Extras Here at
+            LUST NY
+is a Brand New Venue With:
+State of the Art Lighting | Impeccable Sound | Custom Orange Stone Bar
+Over 25 Elevated VIPs | Skybox VIP |10ft Projector Screens
+Custom CO2 w or Fog | Hazer Machines and More
+
+LUST NY
+is the definition of what nightlife venues
+will look like 10 years from now.
+
+Located in the Heart of Sunset Park Brooklyn
+Very Easy to Get To, No Matter Where Youre Coming From
+Right off the BQE, Five Minutes from the Battery Tunnel
+and Brooklyn Bridge, Barclay Center and Verazano Bridge as well.
+
+Valet Parking, Kitchen and Hookah are Just Extras Here at
+        </item>
+        <item>
+The Annual New Jersey City Hip Hop Day Festival is a free festival that pays tribute to the four elements of Hip Hop and New Jerseys Contribution to Hip Hop as a whole. The Festival is held downtown Jersey City at Exchange Place. The four sides of the park are dedicated to the four elements of Hip Hop displaying B-Boy and B-Girl exhibits, Emcee Battles, Turntablism and Graffiti artists.
+            The Annual New Jersey City Hip Hop Day Festival is a free festival that pays tribute to the four elements of Hip Hop and New Jerseys Contribution to Hip Hop as a whole. The Festival is held downtown Jersey City at Exchange Place. The four sides of the park are dedicated to the four elements of Hip Hop displaying B-Boy and B-Girl exhibits, Emcee Battles, Turntablism and Graffiti artists.
+        </item>
+        <item>
+New York Citys most elegant and exciting venue with a full service bar and restaurant.
+With six pool tables, ping pong and Foosball.
++ 10 Large Projection Screens w or Surround Sound.
+
+For that ultimate Nightlife experience.
+Play offers a unique space to
+Eat, Drink, Bowl, and SHOOT POOL.
+
+PLAY Lounge combines games and nightlife in a great blend to give you an experience that is worth every penny you shed.
+
+The delectable New American menu offers you a list of dishes to choose from, after which you can get back to the game or then just lounge around with your pals. The chic interior is complete with a plush red and grey seating area and a sleek bar make for a cool hub where you can sit back and sip the fresh cocktails while enjoying the atmosphere.
+New York Citys most elegant and exciting venue with a full service bar and restaurant.
+With six pool tables, ping pong and Foosball.
++ 10 Large Projection Screens w or Surround Sound.
+
+For that ultimate Nightlife experience.
+Play offers a unique space to
+Eat, Drink, Bowl, and SHOOT POOL.
+
+PLAY Lounge combines games and nightlife in a great blend to give you an experience that is worth every penny you shed.
+
+The delectable New American menu offers you a list of dishes to choose from, after which you can get back to the game or then just lounge around with your pals. The chic interior is complete with a plush red and grey seating area and a sleek bar make for a cool hub where you can sit back and sip the fresh cocktails while enjoying the atmosphere.
+        </item>
+        <item>
+THIS IS A FREE GUARANTEE SEAT TICKET. YOU MUST PRESENT I.D. WITH THE TICKET AND HAVE EVERYONE WITH YOU FOR EARLY ENTRY. GUARANTTED SEATING STARTS AT 12 NOON-12:30 ANY SEAT NOT CLAIMED BY 12:30 WILL BE MADE AVAILABLE TO THE STANDING GENERAL PUBLIC
+YOU CANNOT TRANSFER THIS TICKET TO ANOTHER PERSON - THE PERSON WHO ORDERS THIS TICKET MUST HAVE I.D. TO MATCH THE NAME ON THE TICKET.
+THANK YOU VERY MUCH.
+Have questions about FREE FASHION SHOW - FASHION ON THE HUDSON 8 - 30 DESIGNERS? Contact Fashion Avenue News
+THIS IS A FREE GUARANTEE SEAT TICKET. YOU MUST PRESENT I.D. WITH THE TICKET AND HAVE EVERYONE WITH YOU FOR EARLY ENTRY. GUARANTTED SEATING STARTS AT 12 NOON-12:30 ANY SEAT NOT CLAIMED BY 12:30 WILL BE MADE AVAILABLE TO THE STANDING GENERAL PUBLIC
+YOU CANNOT TRANSFER THIS TICKET TO ANOTHER PERSON - THE PERSON WHO ORDERS THIS TICKET MUST HAVE I.D. TO MATCH THE NAME ON THE TICKET.
+THANK YOU VERY MUCH.
+Have questions about FREE FASHION SHOW - FASHION ON THE HUDSON 8 - 30 DESIGNERS? Contact Fashion Avenue News
+
+        </item>
+        <item>
+Explore the legendary home of the New York Mets, Citi Field Ballpark, while sipping hundreds of craft beer samples and munching mouth-watering bacon dishes, all created exclusively for the festival by the best local restaurants and eateries.
+In addition to the delicious suds and grub, experience great music, play interactive games, strike a pose at the photo booth, battle it out on the bungee run, brand yourself with bacon and beer-inspired tats, and leave having discovered a slew of new breweries and restaurants!
+Explore the legendary home of the New York Mets, Citi Field Ballpark, while sipping hundreds of craft beer samples and munching mouth-watering bacon dishes, all created exclusively for the festival by the best local restaurants and eateries.
+In addition to the delicious suds and grub, experience great music, play interactive games, strike a pose at the photo booth, battle it out on the bungee run, brand yourself with bacon and beer-inspired tats, and leave having discovered a slew of new breweries and restaurants!
+                </item>
+        <item>
+Cloud Expo offers the worlds most comprehensive selection of technical and strategic Industry Keynotes, General Sessions, Breakout Sessions, and signature Power Panels. The exhibition floor features 100+ exhibitors offering specific solutions and comprehensive strategies.
+
+The floor also features a Demo Theater that give delegates the opportunity to get even closer to the technology they want to see and the people who offer it.
+
+Attend Cloud Expo. Create your own custom experience. Learn the latest from the worlds best technologists. Talk to the vendors you are considering, and put them to the test.
+  Cloud Expo offers the worlds most comprehensive selection of technical and strategic Industry Keynotes, General Sessions, Breakout Sessions, and signature Power Panels. The exhibition floor features 100+ exhibitors offering specific solutions and comprehensive strategies.
+
+The floor also features a Demo Theater that give delegates the opportunity to get even closer to the technology they want to see and the people who offer it.
+
+Attend Cloud Expo. Create your own custom experience. Learn the latest from the worlds best technologists. Talk to the vendors you are considering, and put them to the test.
+           </item>
+        <item>
+Each year thousands of art industry insiders flock to Artexpo New York in search of the art and artists that will shape trends in galleries worldwide. Hosting more than 25,000 avid art enthusiasts annually, we’re the largest international gathering of qualified trade buyers—including gallery owners and managers, art dealers, interior designers, architects, corporate art buyers and art and framing retailers.
+            Each year thousands of art industry insiders flock to Artexpo New York in search of the art and artists that will shape trends in galleries worldwide. Hosting more than 25,000 avid art enthusiasts annually, we’re the largest international gathering of qualified trade buyers—including gallery owners and managers, art dealers, interior designers, architects, corporate art buyers and art and framing retailers.
+
+        </item>
+        <item>
+Join us as we come together for a night of startup or tech networking and story sharing. If you dont have a specific agenda, hang out and mingle with like-minded folks and enjoy the great atmosphere. Who knows who youll meet or what youll learn! You must be 21+ to attend. There will be half off featured specialty cocktails and appetizers.
+            Join us as we come together for a night of startup or tech networking and story sharing. If you dont have a specific agenda, hang out and mingle with like-minded folks and enjoy the great atmosphere. Who knows who youll meet or what youll learn! You must be 21+ to attend. There will be half off featured specialty cocktails and appetizers.
+
+        </item>
+        <item>
+The Bergen County Superintendents Association and 4.0 Schools NYC have partnered with EdSurge to tailor the event to our education leaders.
+Attend workshops on Emerging Tech and Trends
+Engage in small group sessions with leading edtech companies selected based on your district priorities
+Take part in thoughtful conversations around critical issues such as data management, evaluating tech and building partnerships
+Meet and share your experiences with peers from other districts
+            The Bergen County Superintendents Association and 4.0 Schools NYC have partnered with EdSurge to tailor the event to our education leaders.
+Attend workshops on Emerging Tech and Trends
+Engage in small group sessions with leading edtech companies selected based on your district priorities
+Take part in thoughtful conversations around critical issues such as data management, evaluating tech and building partnerships
+Meet and share your experiences with peers from other districts
+        </item>
+        <item>
+Are You Ready For It!
+
+The Year 2016 Is almost upon us, how will you be celebrating New Years Eve this time around? If you havent made plans yet, why not join us at Ruby Lounge In Totowa NJ. Lets party and make it a Really Great New Years Celebration!
+
+Doors Open At 8pm.
+
+
+
+$20 Prepaid Admission Ticket Includes:
+
+* Guarenteed Entrance To What Will Likely Be A Sold Out Event
+
+* Light Buffet and Continental Breakfast (While Supplies Last)
+
+* 2 DJs Playing The Best Of Classic Dance Hits, Top 40, And Some Latin Music
+
+* Free Parking In There Huge Lot
+
+* Noisemakers and Bead Necklaces To Party With
+            Are You Ready For It!
+
+The Year 2016 Is almost upon us, how will you be celebrating New Years Eve this time around? If you havent made plans yet, why not join us at Ruby Lounge In Totowa NJ. Lets party and make it a Really Great New Years Celebration!
+
+Doors Open At 8pm.
+
+
+
+$20 Prepaid Admission Ticket Includes:
+
+* Guarenteed Entrance To What Will Likely Be A Sold Out Event
+
+* Light Buffet and Continental Breakfast (While Supplies Last)
+
+* 2 DJs Playing The Best Of Classic Dance Hits, Top 40, And Some Latin Music
+
+* Free Parking In There Huge Lot
+
+* Noisemakers and Bead Necklaces To Party With
+        </item>
+        <item>
+Now you can meet people face to face before setting up that first date. Remember what that was like?
+Dress is trendy or upscale. No, guys, suits are not required. But when you see how fashionable the ladies look, youll be glad if you dressed to impress. Ladies, you can wear anything from your little black dress to what you wore to work that day. Light music will play and new friends will be made. Show up with your room mate, your life mate, your co-workers..or show up alone.
+     Now you can meet people face to face before setting up that first date. Remember what that was like?
+Dress is trendy or upscale. No, guys, suits are not required. But when you see how fashionable the ladies look, youll be glad if you dressed to impress. Ladies, you can wear anything from your little black dress to what you wore to work that day. Light music will play and new friends will be made. Show up with your room mate, your life mate, your co-workers..or show up alone.
+        </item>
+
+    </string-array>
+
+</resources>

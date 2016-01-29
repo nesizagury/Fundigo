@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:text="Phone Number:"
+        android:id="@+id/phoneTV"
+        android:textSize="25sp"
+        android:gravity="center"
+        android:layout_marginTop="204dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true" />
+
+    <EditText
+        android:layout_width="190dp"
+        android:layout_height="wrap_content"
+        android:inputType="number"
+        android:ems="10"
+        android:id="@+id/phoneET"
+        android:layout_below="@+id/phoneTV"
+        android:gravity="center"
+        android:layout_alignParentEnd="true"
+        android:layout_marginRight="30dp"
+        android:maxLength="7" />
+
+    <Spinner
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/spinner"
+        android:layout_alignBottom="@+id/phoneET"
+        android:layout_alignParentStart="true"
+        android:layout_alignTop="@+id/phoneET"
+        android:layout_marginLeft="20dp" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:text="Username:"
+        android:id="@+id/usernameTV"
+        android:textSize="25sp"
+        android:gravity="center"
+        android:visibility="invisible"
+        android:layout_above="@+id/phoneET"
+        android:layout_alignParentStart="true" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textPersonName"
+        android:ems="10"
+        android:id="@+id/usernameTE"
+        android:layout_below="@+id/usernameTV"
+        android:layout_centerHorizontal="true"
+        android:visibility="invisible" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:text="Insert Image"
+        android:id="@+id/imageTV"
+        android:textSize="25sp"
+        android:gravity="center"
+        android:visibility="invisible"
+        android:layout_below="@+id/phoneTV"
+        android:layout_alignParentStart="true" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Signup"
+        android:id="@+id/button2"
+        android:onClick="Signup"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="38dp"
+        android:visibility="invisible" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Upload"
+        android:id="@+id/upload_button"
+        android:onClick="imageUpload"
+        android:visibility="invisible"
+        android:layout_alignTop="@+id/phoneET"
+        android:layout_alignStart="@+id/button2" />
+
+    <ImageView
+        android:layout_width="200dp"
+        android:layout_height="180dp"
+        android:id="@+id/imageV"
+        android:layout_above="@+id/usernameTV"
+        android:layout_centerHorizontal="true"
+        android:visibility="invisible"
+        android:background="#d7d5d5" />
+
+    <TextView
+        android:layout_width="80dp"
+        android:layout_height="25dp"
+        android:text="(optional)"
+        android:id="@+id/optionalTV"
+        android:layout_below="@+id/imageV"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="15dp"
+        android:textSize="14sp"
+        android:visibility="invisible"
+        android:gravity="center" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Dear user, since it&apos;s your first use of purchasing tickets through the app - You must pass a sample and short registration."
+        android:id="@+id/explanationTV"
+        android:layout_alignTop="@+id/imageV"
+        android:layout_alignBottom="@+id/imageV"
+        android:gravity="center"
+        android:layout_alignEnd="@+id/usernameTE"
+        android:layout_alignStart="@+id/usernameTE"
+        android:textColor="#a3a2a2"
+        android:textSize="19sp" />
+</RelativeLayout>

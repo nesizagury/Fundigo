@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+    >
+
+    <LinearLayout
+        android:id="@+id/toolbar_up"
+        android:layout_width="fill_parent"
+        android:layout_height="30dp"
+        android:background="#FFA500"
+        android:orientation="horizontal"
+        android:weightSum="700.0"
+
+        >
+
+        <ImageView
+            android:id="@+id/settings_item"
+            android:layout_width="0dip"
+            android:layout_height="match_parent"
+            android:layout_gravity="left"
+            android:layout_weight="100"
+            android:background="#FFA500"
+            android:padding="2dp"
+            android:src="@drawable/ic_setting"/>
+
+        <ImageView
+            android:id="@+id/notification_item"
+            android:layout_width="0dip"
+            android:layout_height="match_parent"
+            android:layout_weight="100"
+            android:background="#FFA500"
+            android:padding="4dp"
+            android:src="@drawable/ic_notification"/>
+
+        <Button
+            android:id="@+id/city_item"
+            android:layout_width="0dip"
+            android:layout_height="match_parent"
+            android:layout_weight="300"
+            android:background="#FFA500"
+            android:text="Tel-Aviv"
+            />
+
+        <ImageView
+            android:id="@+id/Filter"
+            android:layout_width="0dip"
+            android:layout_height="match_parent"
+            android:layout_weight="100"
+            android:background="#FFA500"
+            android:onClick="openFilterPage"
+            android:padding="4dp"
+            android:src="@drawable/filter_line"/>
+
+        <ImageView
+            android:id="@+id/search"
+            android:layout_width="0dip"
+            android:layout_height="match_parent"
+            android:layout_weight="100"
+            android:actionViewClass="android.widget.SearchView"
+            android:background="#FFA500"
+            android:padding="2dp"
+            android:src="@drawable/ic_search"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/toolbar"
+        android:layout_width="fill_parent"
+        android:layout_height="50dip"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/toolbar_up"
+        android:orientation="horizontal"
+        android:weightSum="392.0"
+        >
+
+        <Button
+            android:id="@+id/BarEvent_button"
+            android:layout_width="0dip"
+            android:layout_height="55dip"
+            android:layout_weight="130"
+            android:background="#5e6ecb"
+            android:gravity="center"
+            android:text="Events"
+            android:textColor="#000000"
+            android:textSize="15sp"
+            />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="#e1e1e1"/>
+
+        <Button
+            android:id="@+id/BarSavedEvent_button"
+            android:layout_width="0dip"
+            android:layout_height="55dip"
+            android:layout_weight="130"
+            android:background="#3F51B5"
+            android:gravity="center"
+            android:text="SavedEvents"
+            android:textColor="#000000"
+            android:textSize="15sp"
+            />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="#e1e1e1"/>
+
+        <Button
+            android:id="@+id/BarRealTime_button"
+            android:layout_width="0dip"
+            android:layout_height="55dip"
+            android:layout_weight="130"
+            android:background="#3F51B5"
+            android:drawableRight="@drawable/point"
+            android:gravity="center"
+            android:text="Real-Time"
+            android:textColor="#000000"
+            android:textSize="15sp"
+            />
+
+    </LinearLayout>
+
+    <include
+        android:id="@+id/gridview"
+        layout="@layout/grid_view"
+        ></include>
+</RelativeLayout>
