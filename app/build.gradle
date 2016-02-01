@@ -29,5 +29,6 @@ dependencies {
     compile 'com.parse.bolts:bolts-android:1.+'
     compile 'com.parse:parse-android:1.+'
     compile 'com.android.support:design:23.1.1'
+    compile 'com.squareup.picasso:picasso:2.5.2'
     compile files('libs/sinch-android-verification-1.1.2.jar')
 }
