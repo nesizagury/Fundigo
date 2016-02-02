@@ -25,7 +25,7 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Sms varification"
+        android:text="Sms Verification"
         android:id="@+id/button3"
         android:layout_alignParentTop="true"
         android:layout_marginTop="65dp"
@@ -33,4 +33,54 @@
         android:layout_alignParentStart="true"
         android:textSize="20dp"
         android:onClick="smsLogin"/>
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/userDetailes"
+        android:id="@+id/buttonUserProfile"
+        android:layout_below="@+id/button3"
+        android:textSize="20dp"
+        android:onClick="getUserProfile"
+        android:visibility="gone"
+        android:layout_centerHorizontal="true"
+        />
+
+    <TableLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/profileTable"
+            android:layout_marginTop="10dp"
+            android:layout_centerHorizontal="true"
+            android:visibility="gone"
+            android:layout_below="@id/buttonUserProfile">
+            <TableRow>
+               <TextView
+                android:layout_column="1"
+                android:text="User Name:"
+                android:padding="5dp" />
+               <TextView
+                android:gravity="right"
+                android:id="@+id/userRow"
+                android:padding="5dp" />
+            </TableRow>
+            <TableRow>
+               <TextView
+                android:layout_column="1"
+                android:text="Phone Number:"
+                android:padding="5dp" />
+               <TextView
+                 android:gravity="right"
+                 android:id="@+id/phoneRow"
+                 android:padding="5dp" />
+            </TableRow>
+    </TableLayout>
+    <ImageView
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:id="@+id/profileImg"
+        android:padding="5dp"
+        android:layout_below="@id/profileTable"
+        android:layout_centerHorizontal="true"
+     />
 </RelativeLayout>

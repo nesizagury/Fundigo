@@ -118,7 +118,6 @@ public class SmsSignUpActivity extends AppCompatActivity {
         username = usernameTE.getText ().toString ();
         Numbers number = new Numbers ();
         number.setName (username);
-
         if (image_selected) {
             Bitmap bitmap = BitmapFactory.decodeFile (picturePath);
             ByteArrayOutputStream stream = new ByteArrayOutputStream ();

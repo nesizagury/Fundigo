@@ -1,11 +1,8 @@
 package com.example.events;
 
 
-import android.Manifest.permission;
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -17,7 +14,6 @@ import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.PopupMenu;
 import android.util.Log;
@@ -126,7 +122,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         };
         MyLocation myLocation = new MyLocation (this.getApplicationContext ());
         myLocation.getLocation (this, locationResult);
-        updateDeviceLocationGPS ();
+     //   updateDeviceLocationGPS ();
     }
 
     private void uploadUserData() {
@@ -241,16 +237,16 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         }
     }
 
-    public void updateDeviceLocationGPS() {
-        LocationManager locationManager = (LocationManager) this.getSystemService (Context.LOCATION_SERVICE);
-        locationListener = new MyLocationListener ();
-        if (ActivityCompat.checkSelfPermission (this, permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission (this, permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            return;
-        }
-        locationManager.requestLocationUpdates (LocationManager.GPS_PROVIDER, 0, 0, locationListener);
-        locationManager.requestLocationUpdates (LocationManager.NETWORK_PROVIDER, 0, 0, locationListener);
-        locationManager.requestLocationUpdates (LocationManager.PASSIVE_PROVIDER, 0, 0, locationListener);
-    }
+   // public void updateDeviceLocationGPS() {
+       // LocationManager locationManager = (LocationManager) this.getSystemService (Context.LOCATION_SERVICE);
+       // locationListener = new MyLocationListener ();
+       // if (ActivityCompat.checkSelfPermission (this, permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission (this, permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+         //   return;
+       // }
+       // locationManager.requestLocationUpdates (LocationManager.GPS_PROVIDER, 0, 0, locationListener);
+        //locationManager.requestLocationUpdates (LocationManager.NETWORK_PROVIDER, 0, 0, locationListener);
+      //  locationManager.requestLocationUpdates (LocationManager.PASSIVE_PROVIDER, 0, 0, locationListener);
+    //}
 
     @Override
     public void onClick(View v) {
