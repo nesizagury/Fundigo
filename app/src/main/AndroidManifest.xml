@@ -41,6 +41,8 @@
         </activity>
         <activity android:name=".RealTime">
         </activity>
+        <activity android:name=".Search">
+        </activity>
         <activity android:name=".Menu">
         </activity>
         <activity android:name=".SavedEvent">
@@ -60,6 +62,8 @@
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/facebook_app_id"/>
+
+
 
         <activity
             android:name=".LoginActivity"

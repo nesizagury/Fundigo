@@ -18,7 +18,8 @@ public class Event extends ParseObject {
         loc.setLongitude (y);
     }
 
-
+    public double getX(){return getDouble("X");}
+    public double getY(){return getDouble("Y");}
     public float getdis() {
         return (RealTime.loc.distanceTo (getLocation ()) / 1000);
     }

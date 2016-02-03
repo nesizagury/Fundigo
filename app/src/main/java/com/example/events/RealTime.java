@@ -8,6 +8,7 @@ import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -19,6 +20,8 @@ import com.parse.ParseObject;
 import com.parse.ParseQuery;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -36,9 +39,11 @@ public class RealTime extends AppCompatActivity implements View.OnClickListener,
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate (savedInstanceState);
         setContentView (R.layout.activity_real_time);
-
+        Calendar c = Calendar.getInstance();
+        long first = c.getTimeInMillis();
         Event = (Button) findViewById (R.id.BarEvent_button);
         RealTime = (Button) findViewById (R.id.BarRealTime_button);
         SavedEvent = (Button) findViewById (R.id.BarSavedEvent_button);
@@ -70,7 +75,8 @@ public class RealTime extends AppCompatActivity implements View.OnClickListener,
         gridView.setAdapter (adapters);
         gridView.setSelector (new ColorDrawable (Color.TRANSPARENT));
         gridView.setOnItemClickListener (this);
-
+        long seconds = c.getTimeInMillis();
+        Toast.makeText(this, ""+(seconds-first), Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -99,14 +105,14 @@ public class RealTime extends AppCompatActivity implements View.OnClickListener,
     public ArrayList<Event> sortList() throws ParseException {
         double x, y;
         ArrayList<Event> arr = new ArrayList<> ();
-        ParseQuery<ParseObject> query = ParseQuery.getQuery ("Event");
-        List<ParseObject> listObject = query.find ();
+        ParseQuery<Event> query = ParseQuery.getQuery ("Event");
+        List<Event> listObject = query.find ();
         int index = 0;
         for (int i = 0; i < listObject.size (); i++) {
-            ParseObject tempObject = listObject.get (i);
+            Event tempObject = listObject.get (i);
             if (!arr.contains (tempObject)) {
-                x = tempObject.getDouble ("X");
-                y = tempObject.getDouble ("Y");
+                x = tempObject.getX();
+                y = tempObject.getY();
                 Event tempEvent = new Event ();
                 tempEvent.setLocation (x, y);
                 tempEvent.setName (tempObject.getString ("Name"));

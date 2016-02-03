@@ -26,6 +26,7 @@ import android.widget.AbsListView;
 import android.widget.AbsListView.OnScrollListener;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -42,6 +43,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -50,7 +52,7 @@ import java.util.Locale;
 public class MainActivity extends AppCompatActivity implements AdapterView.OnItemClickListener, View.OnClickListener {
     private final static String TAG = "MainActivity";
     List<cityLocation> cityLoc ;
-
+    ImageView search;
     ListView list_view;
     public static List<EventInfo> events_data = new ArrayList<EventInfo> ();
     private Button Event, SavedEvent, RealTime,city;
@@ -94,6 +96,8 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         Event = (Button) findViewById (R.id.BarEvent_button);
         SavedEvent = (Button) findViewById (R.id.BarSavedEvent_button);
         RealTime = (Button) findViewById (R.id.BarRealTime_button);
+        search=(ImageView)findViewById(R.id.search);
+        search.setOnClickListener(this);
 
         //Creating the instance of PopupMenu
         popup = new PopupMenu (MainActivity.this, city);
@@ -141,6 +145,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         }
 
         ArrayList<EventInfo> arr=(ArrayList<EventInfo>)getIntent().getSerializableExtra("List");
+        ArrayList<EventInfo> search=(ArrayList<EventInfo>)getIntent().getSerializableExtra("search");
         Adapters adapter;
         if(arr!=null)
         {
@@ -153,6 +158,10 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                 adapter = new Adapters(this, "filter", arr);
             }
         }
+        else if(search!=null)
+        {
+            adapter = new Adapters(this, "filter", search);
+        }
         else if(loc!=null)
         {
             adapter=setCurrentCity();
@@ -162,10 +171,10 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             adapter = new Adapters(this);
         }
 
-        list_view.setAdapter (adapts);
-        list_view.setSelector (new ColorDrawable (Color.TRANSPARENT));
-        list_view.setOnItemClickListener (this);
-        list_view.setOnScrollListener (new OnScrollListener () {
+        list_view.setAdapter(adapter);
+        list_view.setSelector(new ColorDrawable(Color.TRANSPARENT));
+        list_view.setOnItemClickListener(this);
+        list_view.setOnScrollListener(new OnScrollListener() {
 
             @Override
             public void onScroll(AbsListView view, int firstVisibleItem,
@@ -178,17 +187,17 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             @Override
             public void onScrollStateChanged(AbsListView view, int scrollState) {
                 // TODO Auto-generated method stub
-                int position = list_view.getFirstVisiblePosition ();
-                View v = list_view.getChildAt (0);
-                int offset = (v == null) ? 0 : v.getTop ();
+                int position = list_view.getFirstVisiblePosition();
+                View v = list_view.getChildAt(0);
+                int offset = (v == null) ? 0 : v.getTop();
 
                 if (mPosition < position || (mPosition == position && mOffset < offset)) {
                     // Scrolled up
-                    topToolBar.setVisibility (View.GONE);
+                    topToolBar.setVisibility(View.GONE);
 
                 } else {
                     // Scrolled down
-                    topToolBar.setVisibility (View.VISIBLE);
+                    topToolBar.setVisibility(View.VISIBLE);
                 }
             }
         });
@@ -340,6 +349,10 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         } else if (v.getId () == RealTime.getId ()) {
             newIntent = new Intent (this, RealTime.class);
             startActivity(newIntent);
+        }else if(v.getId()==search.getId())
+        {
+            newIntent = new Intent (this, Search.class);
+            startActivity(newIntent);
         }
     }
 
@@ -388,6 +401,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         String[] eventPrice_list;
         String[] eventInfo_list;
         String[] eventPlace_list;
+        String[] eventFilter_list;
 
         eventName_list = res.getStringArray (R.array.eventNames);
         eventDate_list = res.getStringArray (R.array.eventDates);
@@ -395,6 +409,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         eventPrice_list = res.getStringArray (R.array.eventPrice);
         eventPlace_list = res.getStringArray (R.array.eventPlace);
         eventInfo_list = res.getStringArray (R.array.eventInfo);
+        eventFilter_list=res.getStringArray(R.array.filterTags);
 
         String arrToilet[] = getResources ().getStringArray (R.array.eventToiletService);
         String arrParking[] = getResources ().getStringArray (R.array.eventParkingService);
@@ -414,7 +429,8 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                                                        arrToilet[i],
                                                        arrParking[i],
                                                        arrCapacity[i],
-                                                       arrATM[i])
+                                                       arrATM[i],
+                                                       eventFilter_list[i])
                 );
             }
         }

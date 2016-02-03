@@ -47,6 +47,8 @@ public class Adapters extends BaseAdapter {
         String[] eventPrice_list;
         String[] eventInfo_list;
         String[] eventPlace_list;
+        String[] eventFilter_list;
+
 
         eventName_list = res.getStringArray (R.array.eventNames);
         eventDate_list = res.getStringArray (R.array.eventDates);
@@ -54,6 +56,7 @@ public class Adapters extends BaseAdapter {
         eventPrice_list = res.getStringArray (R.array.eventPrice);
         eventInfo_list = res.getStringArray (R.array.eventInfo);
         eventPlace_list = res.getStringArray (R.array.eventPlace);
+        eventFilter_list=res.getStringArray(R.array.filterTags);
 
         String arrToilet[] = res.getStringArray (R.array.eventToiletService);
         String arrParking[] = res.getStringArray (R.array.eventParkingService);
@@ -73,7 +76,8 @@ public class Adapters extends BaseAdapter {
                                                 arrToilet[i],
                                                 arrParking[i],
                                                 arrCapacity[i],
-                                                arrATM[i]));
+                                                arrATM[i],
+                                                eventFilter_list[i]));
         }
     }
 
@@ -88,12 +92,15 @@ public class Adapters extends BaseAdapter {
         String[] eventPrice_list;
         String[] eventInfo_list;
         String[] eventPlace_list;
+        String[] eventFilter_list;
+
         eventName_list = res.getStringArray (R.array.eventNames);
         eventDate_list = res.getStringArray (R.array.eventDates);
         eventTag_list = res.getStringArray (R.array.eventTags);
         eventPrice_list = res.getStringArray (R.array.eventPrice);
         eventInfo_list = res.getStringArray (R.array.eventInfo);
         eventPlace_list = res.getStringArray (R.array.eventPlace);
+        eventFilter_list=res.getStringArray(R.array.filterTags);
 
         String arrToilet[] = res.getStringArray (R.array.eventToiletService);
         String arrParking[] = res.getStringArray (R.array.eventParkingService);
@@ -115,7 +122,8 @@ public class Adapters extends BaseAdapter {
                                                arrToilet[i],
                                                arrParking[i],
                                                arrCapacity[i],
-                                               arrATM[i]));
+                                               arrATM[i],
+                                               eventFilter_list[i]));
         }
         boolean flag = true;
         for (int i = 0; i < arrayList.size (); i++) {

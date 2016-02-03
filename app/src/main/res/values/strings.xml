@@ -15,6 +15,21 @@
     <string name="profile_other">Other profile pic</string>
     <string name="message_hint">Say anything</string>
     <string name="send">Send</string>
+
+    <string-array name="autoComplateStrings">
+        <item>Sport</item>
+        <item>Helth</item>
+        <item>Food</item>
+        <item>Drings</item>
+        <item>Event</item>
+        <item>StendUp</item>
+        <item>Music</item>
+        <item>Party</item>
+        <item>Schools</item>
+        <item>experience</item>
+    </string-array>
+
+
     <string-array name="popUp">
 
         <item>Tel Aviv</item>
