@@ -10,6 +10,7 @@ import android.widget.ListView;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
 
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,8 +25,10 @@ public class TicketsPage extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate (savedInstanceState);
+        super.onCreate(savedInstanceState);
         setContentView (R.layout.tickets_page);
+
+
 
         intent = getIntent ();
         final String eventName = intent.getStringExtra ("eventName");

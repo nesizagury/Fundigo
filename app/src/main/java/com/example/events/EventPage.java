@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -40,16 +41,25 @@ public class EventPage extends Activity implements View.OnClickListener {
     private final static String TAG = "EventPage";
     static final int REQUEST_CODE_MY_PICK = 1;
     Intent intent;
-
+    Button ticketsStatus;
     private String date;
     private String eventName;
     private String eventPlace;
     private Uri uri;
+    Button editEvent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate (savedInstanceState);
+        super.onCreate(savedInstanceState);
         setContentView (R.layout.activity_event_page);
+
+        if(MainActivity.isProducer)
+        {
+            ticketsStatus = (Button) findViewById(R.id.button);
+            ticketsStatus.setText("Tickets Status");
+            editEvent = (Button) findViewById(R.id.priceEventPage);
+            editEvent.setText("Edit Event");
+        }
 
         intent = getIntent ();
         if (getIntent ().getByteArrayExtra ("eventImage") != null) {
@@ -68,8 +78,10 @@ public class EventPage extends Activity implements View.OnClickListener {
         TextView event_tags = (TextView) findViewById (R.id.eventPage_tags);
         event_tags.setText (eventTags);
         String eventPrice = intent.getStringExtra ("eventPrice");
-        TextView event_price = (TextView) findViewById (R.id.priceEventPage);
-        event_price.setText (eventPrice);
+        if(!MainActivity.isProducer) {
+            TextView event_price = (TextView) findViewById(R.id.priceEventPage);
+            event_price.setText(eventPrice);
+        }
         String eventInfo = intent.getStringExtra ("eventInfo");
         TextView event_info = (TextView) findViewById (R.id.eventInfoEventPage);
         event_info.setText (eventInfo);
@@ -99,43 +111,59 @@ public class EventPage extends Activity implements View.OnClickListener {
     }
 
     public void openTicketsPage(View view) {
-        Bundle b = new Bundle ();
-        Intent ticketsPageIntent = new Intent (EventPage.this, TicketsPage.class);
-        Intent intentHere = getIntent ();
-        ticketsPageIntent.putExtra ("eventName", intentHere.getStringExtra ("eventName"));
-        ticketsPageIntent.putExtra ("eventPrice", intentHere.getStringExtra ("eventPrice"));
-        ticketsPageIntent.putExtras (b);
-        startActivity (ticketsPageIntent);
+        if(!MainActivity.isProducer) {
+            Bundle b = new Bundle();
+            Intent ticketsPageIntent = new Intent(EventPage.this, TicketsPage.class);
+            Intent intentHere = getIntent();
+            ticketsPageIntent.putExtra("eventName", intentHere.getStringExtra("eventName"));
+            ticketsPageIntent.putExtra("eventPrice", intentHere.getStringExtra("eventPrice"));
+            ticketsPageIntent.putExtras(b);
+            startActivity(ticketsPageIntent);
+        }
+        else
+        {
+            Intent intent = new Intent(EventPage.this,EventStatus.class);
+            intent.putExtra("name",getIntent().getStringExtra("eventName"));
+            startActivity(intent);
+        }
+
     }
 
     public void openChat(View view) {
         if (MainActivity.isCustomer) {
             Intent intent = new Intent (EventPage.this, ChatActivity.class);
             intent.putExtra ("producer_id", producer_id);
-            intent.putExtra ("customer_id", customer_id);
+            intent.putExtra("customer_id", customer_id);
             startActivity (intent);
-        } else if (!MainActivity.isGuest)
+        } else if (MainActivity.isProducer)
             loadMessagesPage ();
+        else
+            Toast.makeText (this, "Please Register", Toast.LENGTH_SHORT).show ();
+
     }
 
     private void loadMessagesPage() {
-        List<Room> rList = new ArrayList<Room> ();
-        List<MessageRoomBean> mrbList = new ArrayList<MessageRoomBean> ();
-        ParseQuery<Room> query = ParseQuery.getQuery (Room.class);
-        query.whereEqualTo ("producer_id", customer_id);
-        query.orderByDescending ("createdAt");
-        try {
-            rList = query.find ();
-        } catch (ParseException e) {
-            e.printStackTrace ();
-        }
-        for (int i = 0; i < rList.size (); i++) {
-            mrbList.add (new MessageRoomBean (0, null, "", rList.get (i).getCustomer_id (), producer_id));
-        }
-        Intent intent = new Intent (this, MessagesRoom.class);
-        intent.putExtra ("array", (Serializable) mrbList);
-        intent.putExtra ("producer_id", producer_id);
-        startActivity (intent);
+
+
+            List<Room> rList = new ArrayList<Room>();
+            List<MessageRoomBean> mrbList = new ArrayList<MessageRoomBean>();
+            ParseQuery<Room> query = ParseQuery.getQuery(Room.class);
+            query.whereEqualTo("producer_id", customer_id);
+            query.orderByDescending("createdAt");
+            try {
+                rList = query.find();
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+            for (int i = 0; i < rList.size(); i++) {
+                mrbList.add(new MessageRoomBean(0, null, "", rList.get(i).getCustomer_id(), producer_id));
+            }
+            Intent intent = new Intent(this, MessagesRoom.class);
+            intent.putExtra("array", (Serializable) mrbList);
+            intent.putExtra("producer_id", producer_id);
+            startActivity(intent);
+
+
     }
 
     @Override
@@ -184,7 +212,7 @@ public class EventPage extends Activity implements View.OnClickListener {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (data != null && requestCode == REQUEST_CODE_MY_PICK) {
             String appName = data.getComponent ().flattenToShortString ();
-            Log.e (TAG, "" + appName);
+            Log.e(TAG, "" + appName);
             if (appName.equals ("com.facebook.katana/com.facebook.composer.shareintent.ImplicitShareIntentHandlerDefaultAlias")) {
                 ShareDialog shareDialog;
                 shareDialog = new ShareDialog (this);
@@ -204,11 +232,14 @@ public class EventPage extends Activity implements View.OnClickListener {
     }
 
     public void checkIfChangeColorToSaveButtton() {
-        int index = intent.getIntExtra ("index", 0);
-        if (MainActivity.filtered_events_data.get (index).getPress ())
-            save.setImageResource (R.mipmap.whsavedd);
-        else {
-            save.setImageResource (R.mipmap.wh);
+
+        if(MainActivity.isCustomer) {
+            int index = intent.getIntExtra("index", 0);
+            if (MainActivity.filtered_events_data.get(index).getPress())
+                save.setImageResource(R.mipmap.whsavedd);
+            else {
+                save.setImageResource(R.mipmap.wh);
+            }
         }
     }
 
@@ -251,4 +282,16 @@ public class EventPage extends Activity implements View.OnClickListener {
             }
         }
     }
+
+    public void editEvent(View view){
+
+        if(MainActivity.isProducer) {
+            Intent intent = new Intent(EventPage.this, CreateEventActivity.class);
+            intent.putExtra("name", getIntent().getStringExtra("eventName"));
+            intent.putExtra("create","false");
+            startActivity(intent);
+        }
+
+    }
+
 }

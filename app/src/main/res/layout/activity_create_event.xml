@@ -7,196 +7,33 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Create Event"
-        android:id="@+id/textView7"
+        android:id="@+id/headTV"
         android:textSize="25sp"
         android:layout_gravity="center_horizontal"
         android:textStyle="bold|italic"
-        android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="10dp" />
 
-    <EditText
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/nameET"
-        android:visibility="visible" />
-
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Name"
+        android:text="Name:"
         android:id="@+id/nameTV"
         android:layout_gravity="center_horizontal"
         android:textSize="20sp"
-        android:visibility="visible" />
+        android:visibility="visible"
+        android:layout_below="@+id/headTV"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="47dp"
+        android:layout_marginLeft="10dp" />
 
     <EditText
-        android:layout_width="match_parent"
+        android:layout_width="300dp"
         android:layout_height="wrap_content"
-        android:inputType="textMultiLine"
-        android:ems="10"
-        android:id="@+id/descriptionET"
-        />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Description"
-        android:id="@+id/descriptionTV"
-        android:layout_gravity="center_horizontal"
-        android:textSize="20sp"
-        />
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="continue"
-        android:onClick="hideFirstStage"
-        android:id="@+id/continue_button"
-        android:layout_gravity="center_horizontal"
-        android:layout_below="@+id/yET"
-        android:layout_alignEnd="@+id/descriptionTV"
-        android:visibility="visible" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Price:"
-        android:id="@+id/priceTV"
-        android:textSize="23sp"
-         />
-
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:inputType="number"
-        android:ems="10"
-        android:id="@+id/priceET"
-         />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Quantity:"
-        android:id="@+id/quantityTV"
-        android:textSize="23sp"
-      />
-
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:inputType="number"
-        android:ems="10"
-        android:id="@+id/quantityET"
-         />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Address:"
-        android:id="@+id/addressTV"
-        android:textSize="23sp"
-      />
-
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:id="@+id/addressET"
-         />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="X:"
-        android:id="@+id/xTV"
-        android:textSize="23sp"
-    />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Y:"
-        android:id="@+id/yTV"
-        android:textSize="23sp"
-     />
-
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:inputType="numberDecimal"
-        android:ems="10"
-        android:id="@+id/xET"
-
-     />
-
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:inputType="numberDecimal"
-        android:ems="10"
-        android:id="@+id/yET"
-      />
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Continue"
-        android:id="@+id/continue_button2"
-        android:onClick="hideStageTwo"
-        android:visibility="invisible"
-        android:layout_below="@+id/continue_button"
-        android:layout_alignStart="@+id/continue_button" />
-
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/create_imageV"
-        android:layout_centerHorizontal="true"
-        android:layout_alignTop="@+id/nameET"
-        android:layout_above="@+id/addressTV"
-        android:background="#e8e7e7"
-        android:scaleType="fitXY"
-        android:visibility="invisible" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="image"
-        android:id="@+id/imageTV"
-        android:textSize="19sp"
-        android:layout_above="@+id/priceET"
-        android:layout_alignEnd="@+id/nameTV"
-        android:layout_marginBottom="8dp"
-        android:visibility="invisible" />
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="browse"
-        android:id="@+id/browse_button"
-       />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Tags:"
-        android:id="@+id/tagsTV"
-        />
-
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/tagsET"
-      />
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Done"
-        android:id="@+id/done_button"
-        android:onClick="saveEvent"
-         />
+        android:id="@+id/nameET"
+        android:visibility="visible"
+        android:layout_alignTop="@+id/nameTV"
+        android:layout_toEndOf="@+id/nameTV" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -205,38 +42,330 @@
         android:id="@+id/dateTV"
         android:layout_gravity="center_horizontal"
         android:textSize="20sp"
-         />
+        android:layout_marginTop="72dp"
+        android:layout_below="@+id/nameET"
+        android:layout_alignStart="@+id/nameTV"
+        android:visibility="visible" />
 
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/dateET"
-        />
+        android:inputType="date"
 
+        android:layout_alignTop="@+id/dateTV"
+        android:layout_alignEnd="@+id/headTV"
+        android:layout_toEndOf="@+id/nameTV"
+        android:visibility="visible" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Description:"
+        android:id="@+id/descriptionTV"
+        android:layout_gravity="center_horizontal"
+        android:textSize="20sp"
+        android:layout_marginTop="92dp"
+        android:visibility="visible"
+        android:layout_below="@+id/artistET"
+        android:layout_alignStart="@+id/dateTV" />
+
+   <EditText
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:id="@+id/descriptionET"
+       android:imeActionLabel="Done"
+       android:singleLine="true"
+       android:layout_alignTop="@+id/descriptionTV"
+       android:layout_alignEnd="@+id/nameET"
+       android:layout_alignStart="@+id/headTV"
+       android:visibility="visible" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Price:"
+        android:id="@+id/priceTV"
+        android:textSize="23sp"
+        android:layout_alignTop="@+id/nameTV"
+        android:layout_toEndOf="@+id/dateTV"
+        android:visibility="invisible" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="number"
+        android:ems="10"
+        android:id="@+id/priceET"
+        android:layout_alignTop="@+id/nameET"
+        android:layout_alignStart="@+id/headTV"
+        android:layout_alignEnd="@+id/dateET"
+        android:visibility="invisible" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Quantity:"
+        android:id="@+id/quantityTV"
+        android:textSize="23sp"
+        android:layout_alignTop="@+id/quantityET"
+        android:layout_toStartOf="@+id/quantityET"
+        android:visibility="invisible" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="number"
+        android:ems="10"
+        android:id="@+id/quantityET"
+        android:layout_above="@+id/dateET"
+        android:layout_alignEnd="@+id/dateET"
+        android:layout_alignStart="@+id/priceET"
+        android:visibility="invisible" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Address:"
+        android:id="@+id/addressTV"
+        android:textSize="23sp"
+        android:layout_below="@+id/dateET"
+        android:layout_toStartOf="@+id/addressET"
+        android:visibility="invisible" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:id="@+id/addressET"
+        android:imeActionLabel="Done"
+        android:layout_below="@+id/dateET"
+        android:layout_alignStart="@+id/quantityET"
+        android:layout_alignEnd="@+id/xET"
+        android:visibility="invisible" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="X:"
+        android:id="@+id/xTV"
+        android:textSize="23sp"
+        android:layout_above="@+id/descriptionET"
+        android:layout_alignStart="@+id/yTV"
+        android:visibility="invisible" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Y:"
+        android:id="@+id/yTV"
+        android:textSize="23sp"
+        android:layout_below="@+id/descriptionTV"
+        android:layout_alignStart="@+id/dateET"
+        android:visibility="invisible" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="numberDecimal"
+        android:ems="10"
+        android:id="@+id/xET"
+        android:layout_alignTop="@+id/xTV"
+        android:layout_toEndOf="@+id/priceTV"
+        android:visibility="invisible" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="numberDecimal"
+        android:ems="10"
+        android:id="@+id/yET"
+        android:layout_below="@+id/descriptionTV"
+        android:layout_toEndOf="@+id/priceTV"
+        android:visibility="invisible" />
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Place:"
         android:id="@+id/placeTV"
         android:textSize="23sp"
-        />
+        android:layout_below="@+id/yET"
+        android:layout_alignEnd="@+id/priceTV"
+        android:layout_marginTop="34dp"
+        android:visibility="invisible" />
 
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/editText"
-        android:layout_alignTop="@+id/dateTV"
-        android:layout_alignEnd="@+id/quantityET"
-        android:layout_alignStart="@+id/quantityET" />
-
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:inputType="date"
+        android:imeActionLabel="Done"
+        android:singleLine="true"
         android:ems="10"
-        android:id="@+id/editText2"
-        android:layout_alignParentBottom="true"
+        android:id="@+id/placeET"
+        android:layout_alignTop="@+id/placeTV"
+        android:layout_alignStart="@+id/descriptionET"
+        android:visibility="invisible" />
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="120dp"
+        android:id="@+id/create_imageV"
+        android:background="#e8e7e7"
+        android:scaleType="fitXY"
+        android:visibility="invisible"
+        android:layout_alignTop="@+id/nameTV"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="image"
+        android:id="@+id/imageTV"
+        android:textSize="14sp"
+        android:visibility="invisible"
+        android:layout_above="@+id/nameET"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="171dp" />
+        android:layout_marginBottom="10dp" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="browse"
+        android:onClick="imageUpload"
+        android:id="@+id/browse_button"
+        android:visibility="invisible"
+        android:layout_below="@+id/dateTV"
+        android:layout_alignStart="@+id/done_button" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Tags:"
+        android:id="@+id/tagsTV"
+        android:textSize="15sp"
+        android:visibility="invisible"
+        android:layout_below="@+id/yTV"
+        android:layout_toEndOf="@+id/xTV" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/tagsET"
+        android:imeActionLabel="Done"
+        android:singleLine="true"
+        android:visibility="invisible"
+        android:layout_below="@+id/descriptionET"
+        android:layout_alignEnd="@+id/dateET"
+        android:layout_toEndOf="@+id/tagsTV" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Done"
+        android:id="@+id/done_button"
+        android:onClick="saveEvent"
+        android:visibility="invisible"
+        android:layout_below="@+id/tagsET"
+        android:layout_centerHorizontal="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Artist:"
+        android:id="@+id/artistTV"
+        android:layout_gravity="center_horizontal"
+        android:textSize="20sp"
+        android:visibility="visible"
+        android:layout_below="@+id/addressET"
+        android:layout_alignStart="@+id/descriptionTV" />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/artistET"
+        android:imeActionLabel="Done"
+        android:singleLine="true"
+        android:visibility="visible"
+        android:layout_below="@+id/addressET"
+        android:layout_alignStart="@+id/xTV"
+        android:layout_alignEnd="@+id/tagsET" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Hall Capacity:"
+        android:id="@+id/capacityTV"
+        android:layout_gravity="center_horizontal"
+        android:textSize="15sp"
+        android:visibility="invisible"
+        android:layout_marginLeft="10dp"
+        android:layout_alignBottom="@+id/artistTV"
+        android:layout_alignStart="@+id/priceTV" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Parking:"
+        android:id="@+id/parkingTV"
+        android:layout_gravity="center_horizontal"
+        android:textSize="15sp"
+        android:visibility="invisible"
+        android:layout_alignTop="@+id/parkingET"
+        android:layout_alignEnd="@+id/capacityTV"
+        android:layout_marginTop="10dp" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="number"
+        android:ems="10"
+        android:id="@+id/capacityET"
+        android:layout_below="@+id/addressET"
+        android:layout_alignStart="@+id/imageTV"
+        android:layout_alignEnd="@+id/artistET"
+        android:visibility="invisible" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="number"
+        android:ems="10"
+        android:id="@+id/parkingET"
+        android:visibility="invisible"
+        android:layout_above="@+id/xET"
+        android:layout_alignEnd="@+id/artistET"
+        android:layout_alignStart="@+id/capacityET" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Toilet:"
+        android:id="@+id/toiletTV"
+        android:layout_gravity="center_horizontal"
+        android:textSize="15sp"
+        android:visibility="invisible"
+        android:layout_marginLeft="10dp"
+        android:layout_alignTop="@+id/checkBox"
+        android:layout_toEndOf="@+id/dateTV" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:id="@+id/toiletET"
+        android:layout_alignBottom="@+id/descriptionTV"
+        android:layout_alignEnd="@+id/done_button"
+        android:layout_alignStart="@+id/xET"
+        android:visibility="invisible" />
+
+    <CheckBox
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="ATM"
+        android:id="@+id/checkBox"
+        android:checked="false"
+        android:visibility="invisible"
+        android:layout_above="@+id/yET"
+        android:layout_toEndOf="@+id/tagsET" />
+
 
 </RelativeLayout>

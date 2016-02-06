@@ -109,6 +109,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="fill_vertical"
             android:layout_weight="1"
+            android:onClick="editEvent"
             android:background="#3293CD"
             android:text="15$-25$"
             android:textColor="#ffffff"/>

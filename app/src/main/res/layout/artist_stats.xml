@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Adir Miler"
+        android:id="@+id/eventTV"
+        android:textSize="28sp"
+        android:visibility="visible"
+        android:gravity="center_horizontal"
+        android:layout_marginTop="10dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Sum Income:"
+        android:id="@+id/ticketsSoldTV"
+        android:textSize="23sp"
+        android:layout_below="@+id/eventTV"
+        android:layout_alignParentStart="true"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="40dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="0"
+        android:id="@+id/sumIncomeTv"
+        android:textSize="23sp"
+        android:layout_marginLeft="10dp"
+        android:layout_alignTop="@+id/ticketsSoldTV"
+        android:layout_toEndOf="@+id/ticketsSoldTV" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Sum Tickets:"
+        android:id="@+id/ticketsLeftTV"
+        android:textSize="23sp"
+        android:layout_marginLeft="10dp"
+        android:layout_below="@+id/ticketsSoldTV"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="15dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Past Events:"
+        android:id="@+id/textView11"
+        android:textSize="23sp"
+        android:layout_marginLeft="10dp"
+        android:layout_below="@+id/ticketsLeftTV"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="15dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Upcoming Events:"
+        android:id="@+id/textView12"
+        android:textSize="23sp"
+        android:layout_marginLeft="10dp"
+        android:layout_below="@+id/textView11"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="15dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="all Tickets:"
+        android:id="@+id/textView13"
+        android:textSize="23sp"
+        android:layout_marginLeft="10dp"
+        android:layout_below="@+id/textView12"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="15dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="All Tickets Value:"
+        android:id="@+id/textView14"
+        android:textSize="23sp"
+        android:layout_marginLeft="10dp"
+        android:layout_below="@+id/textView13"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="15dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Ticket Price avg:"
+        android:id="@+id/textView15"
+        android:textSize="23sp"
+        android:layout_marginLeft="10dp"
+        android:layout_below="@+id/textView14"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="15dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Upcoming Tickets Price avg:"
+        android:id="@+id/textView16"
+        android:textSize="23sp"
+        android:layout_marginLeft="10dp"
+        android:layout_below="@+id/textView15"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="15dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="0"
+        android:id="@+id/soldTV"
+        android:textSize="23sp"
+        android:layout_marginLeft="10dp"
+        android:layout_alignTop="@+id/ticketsLeftTV"
+        android:layout_toEndOf="@+id/ticketsSoldTV" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="0"
+        android:id="@+id/pastEventsTV"
+        android:textSize="23sp"
+        android:layout_marginLeft="10dp"
+        android:layout_alignTop="@+id/textView11"
+        android:layout_alignEnd="@+id/textView15" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="0"
+        android:id="@+id/upcomingEventsTV"
+        android:textSize="23sp"
+        android:layout_marginLeft="10dp"
+        android:layout_above="@+id/textView13"
+        android:layout_toEndOf="@+id/textView12" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="0"
+        android:id="@+id/alTicketsTV"
+        android:textSize="23sp"
+        android:layout_marginLeft="10dp"
+        android:layout_alignTop="@+id/textView13"
+        android:layout_toEndOf="@+id/textView13" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="0"
+        android:id="@+id/allTicketsValueTV"
+        android:textSize="23sp"
+        android:layout_marginLeft="10dp"
+        android:layout_above="@+id/textView15"
+        android:layout_toEndOf="@+id/textView14" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="0"
+        android:id="@+id/ticketAvgTV"
+        android:textSize="23sp"
+        android:layout_marginLeft="10dp"
+        android:layout_above="@+id/textView16"
+        android:layout_toEndOf="@+id/soldTV" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="0"
+        android:id="@+id/upcomingTicketAvgTV"
+        android:textSize="23sp"
+        android:layout_marginLeft="10dp"
+        android:layout_alignTop="@+id/textView16"
+        android:layout_toEndOf="@+id/textView16" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Events"
+        android:id="@+id/button6"
+        android:onClick="goToEvents"
+        android:layout_below="@+id/textView16"
+        android:layout_toEndOf="@+id/ticketsSoldTV"
+        android:layout_marginTop="30dp" />
+</RelativeLayout>

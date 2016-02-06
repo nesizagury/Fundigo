@@ -4,6 +4,7 @@ android {
     compileSdkVersion 23
     buildToolsVersion '23.0.2'
 
+
     repositories {
         mavenCentral()
         maven { url "https://jitpack.io" }
@@ -25,6 +26,7 @@ android {
 }
 
 dependencies {
+    compile group: 'org.apache.httpcomponents' , name: 'httpclient-android' , version: '4.3.5.1'
     compile 'com.facebook.android:facebook-android-sdk:4.6.0'
     compile fileTree(include: ['*.jar'], dir: 'libs')
     testCompile 'junit:junit:4.12'

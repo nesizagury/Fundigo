@@ -46,5 +46,15 @@
         android:layout_alignTop="@+id/textView6"
         android:layout_alignStart="@+id/event_name_tv" />
 
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="New Button"
+        android:id="@+id/button5"
+        android:onClick="pay"
+        android:layout_marginTop="54dp"
+        android:layout_below="@+id/form_no_zip"
+        android:layout_alignEnd="@+id/event_name_tv" />
+
 
 </RelativeLayout>

@@ -19,16 +19,21 @@ import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.design.widget.TabLayout;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.PopupMenu;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import com.example.events.MyLocation.LocationResult;
 import com.facebook.share.model.ShareLinkContent;
@@ -39,6 +44,7 @@ import com.parse.ParseQuery;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -51,7 +57,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
     ListView list_view;
     public static List<EventInfo> events_data = new ArrayList<EventInfo> ();
-    public static List<EventInfo> filtered_events_data = new ArrayList<EventInfo> ();
+    public static List <EventInfo> filtered_events_data = new ArrayList<EventInfo> ();
     EventsListAdapter eventsListAdapter;
     Button event, savedEvent, realTime, currentCityChosen;
 
@@ -73,83 +79,42 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     static boolean userChoosedCityManually = false;
     static boolean cityFoundGPS = false;
     Button create_button;
-    boolean isProducer = false;
+   static boolean isProducer = false;
     static String producerId;
     int toSkip = 0;
     int limit = 0;
     boolean nothingToLoad = false;
     Event lastEvent;
     private ProgressBar spinner;
+    ListView artist_listView;
+    public static List <String> artist_list = new ArrayList<String>();
+    boolean onArtistList = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate (savedInstanceState);
-        setContentView (R.layout.activity_main);//
-        list_view = (ListView) findViewById (R.id.listView);
-        event = (Button) findViewById (R.id.BarEvent_button);
-        savedEvent = (Button) findViewById (R.id.BarSavedEvent_button);
-        realTime = (Button) findViewById (R.id.BarRealTime_button);
 
-        popup = new PopupMenu (MainActivity.this, currentCityChosen);
-        currentCityChosen = (Button) findViewById (R.id.city_item);
-        inflateCityMenu ();
-        eventsListAdapter = new EventsListAdapter (this, filtered_events_data);
-        realTime.setOnClickListener (this);
-        event.setOnClickListener (this);
-        savedEvent.setOnClickListener (this);
-
-        if (!didInit) {
-//            lastEvent = getLastEvent ();
-            uploadUserData ();
-            didInit = true;
-        }
-
-        list_view.setAdapter (eventsListAdapter);
-        list_view.setSelector (new ColorDrawable (Color.TRANSPARENT));
-        list_view.setOnItemClickListener (this);
-
-        Intent intent = getIntent ();
-        if (intent.getStringExtra ("chat_id") != null) {
-            customer_id = intent.getStringExtra ("chat_id");
+        Intent intent = getIntent();
+        if (intent.getStringExtra("chat_id") != null) {
+            customer_id = intent.getStringExtra("chat_id");
             isCustomer = true;
         }
-        if (intent.getStringExtra ("is_guest") != null) {
+        if (intent.getStringExtra("is_guest") != null) {
             isGuest = true;
         }
-        LocationResult locationResult = new LocationResult () {
-            @Override
-            public void gotLocation(Location location) {
-                if (location != null) {
-                    final String cityGPS = findCurrentCityGPS (location);
-                    if (!cityGPS.isEmpty ()) {
-                        cityFoundGPS = true;
-                        popup.getMenu ().getItem (indexCityGPS).setTitle (namesCity[indexCityGPS]);
-                        indexCityGPS = getCityIndexFromName (cityGPS);
-                        popup.getMenu ().getItem (indexCityGPS).setTitle (cityGPS + "(GPS)");
-                        if (!userChoosedCityManually) {
-                            filterByCity (cityGPS);
-                            runOnUiThread (new Runnable () {
-                                @Override
-                                public void run() {
-                                    currentCityChosen.setText (cityGPS + "(GPS)");
-                                    eventsListAdapter.notifyDataSetChanged ();
-                                }
-                            });
 
-                        }
-
-                    }
-                }
-            }
-        };
-        MyLocation myLocation = new MyLocation (this.getApplicationContext ());
-        myLocation.getLocation (this, locationResult);
-        updateDeviceLocationGPS ();
-        if (intent.getStringExtra ("is_producer") != null) {
+        if (intent.getStringExtra("is_producer") != null) {
             isProducer = true;
-            producerId = intent.getStringExtra ("producerId");
-            create_button = (Button) findViewById (R.id.create_button);
-            create_button.setVisibility (View.VISIBLE);
+            producerId = intent.getStringExtra("producerId");
+        }
+
+        if(isCustomer || isGuest)
+        {
+            organizeCustomer();
+        }
+        else
+        {
+            organizeProducer();
         }
 //        list_view.setOnScrollListener (new AbsListView.OnScrollListener () {
 //            @Override
@@ -171,14 +136,118 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 //                }
 //            }
 //        });
+
     }
 
-    private void uploadUserData() {
-        events_data.clear ();
-        filtered_events_data.clear ();
+    public void organizeProducer() {
+
+        setContentView(R.layout.producer_avtivity_main);
+
+
+        TabLayout tabLayout = (TabLayout) findViewById(R.id.tab_layout);
+        tabLayout.addTab(tabLayout.newTab().setText("Artists"));
+        tabLayout.addTab(tabLayout.newTab().setText("Stats"));
+        tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
+
+        final ViewPager viewPager = (ViewPager) findViewById(R.id.pager);
+        final TabPagerAdapter adapter = new TabPagerAdapter
+                (getSupportFragmentManager(), tabLayout.getTabCount());
+        viewPager.setAdapter(adapter);
+        viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
+        tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                viewPager.setCurrentItem(tab.getPosition());
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+
+            }
+        });
+
+
+
+    }
+
+    public void organizeCustomer() {
+
+        setContentView(R.layout.activity_main);
+        list_view = (ListView) findViewById(R.id.listView);
+        list_view = (ListView) findViewById(R.id.listView);
+        event = (Button) findViewById(R.id.BarEvent_button);
+        savedEvent = (Button) findViewById(R.id.BarSavedEvent_button);
+        realTime = (Button) findViewById(R.id.BarRealTime_button);
+
+        popup = new PopupMenu(MainActivity.this, currentCityChosen);
+        currentCityChosen = (Button) findViewById(R.id.city_item);
+        inflateCityMenu();
+        eventsListAdapter = new EventsListAdapter(this, filtered_events_data);
+        realTime.setOnClickListener(this);
+        event.setOnClickListener(this);
+        savedEvent.setOnClickListener(this);
+
+        if (!didInit) {
+//            lastEvent = getLastEvent ();
+            uploadUserData(null);
+            didInit = true;
+        }
+
+        list_view.setAdapter(eventsListAdapter);
+        list_view.setSelector(new ColorDrawable(Color.TRANSPARENT));
+        list_view.setOnItemClickListener(this);
+
+
+        LocationResult locationResult = new LocationResult() {
+            @Override
+            public void gotLocation(Location location) {
+                if (location != null) {
+                    final String cityGPS = findCurrentCityGPS(location);
+                    if (!cityGPS.isEmpty()) {
+                        cityFoundGPS = true;
+                        popup.getMenu().getItem(indexCityGPS).setTitle(namesCity[indexCityGPS]);
+                        indexCityGPS = getCityIndexFromName(cityGPS);
+                        popup.getMenu().getItem(indexCityGPS).setTitle(cityGPS + "(GPS)");
+                        if (!userChoosedCityManually) {
+                            filterByCity(cityGPS);
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    currentCityChosen.setText(cityGPS + "(GPS)");
+                                    eventsListAdapter.notifyDataSetChanged();
+                                }
+                            });
+
+                        }
+
+                    }
+                }
+            }
+        };
+
+        MyLocation myLocation = new MyLocation(this.getApplicationContext());
+        myLocation.getLocation(this, locationResult);
+        updateDeviceLocationGPS();
+
+    }
+
+
+
+    private void uploadUserData(String artist) {
+        events_data.clear();
+        filtered_events_data.clear();
 
         ParseQuery<Event> query = new ParseQuery ("Event");
-        query.orderByDescending ("createdAt");
+        if(artist != "" && artist != null)
+        {
+            query.whereEqualTo("artist",artist);
+        }
+        query.orderByDescending("createdAt");
 //        query.setSkip (toSkip);
 //        query.setLimit (7);
 //        toSkip += 7;
@@ -201,21 +270,26 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                     bmp = null;
 
                 events_data.add (new EventInfo (
-                                                       bmp,
-                                                       events.get (i).getDate (),
-                                                       events.get (i).getName (),
-                                                       events.get (i).getTags (),
-                                                       events.get (i).getPrice (),
-                                                       events.get (i).getDescription (),
-                                                       events.get (i).getAddress (), null, null, null, null, "Tiberias"));
-                events_data.get (i).setProducerId (events.get (i).getProducerId ());
-
+                        bmp,
+                        events.get (i).getDate (),
+                        events.get (i).getName (),
+                        events.get (i).getTags (),
+                        events.get (i).getPrice (),
+                        events.get (i).getDescription (),
+                        events.get (i).getAddress (), null, null, null, null, "Tiberias"));
+                events_data.get (i).setProducerId(events.get(i).getProducerId());
+                events_data.get(i).setArtist(events.get(i).getArtist());
+                events_data.get(i).setIncome(events.get(i).getIncome());
+                events_data.get(i).setSold(events.get(i).getSold());
+                events_data.get(i).setTicketsLeft(events.get(i).getNumOfTicketsLeft());
 //                if (lastEvent.equals (events.get (i))) {
 //                    nothingToLoad = true;
 //                }
 
+
+
             }
-            filtered_events_data.addAll (events_data);
+            filtered_events_data.addAll(events_data);
 
         } catch (ParseException e) {
             e.printStackTrace ();
@@ -223,8 +297,8 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     }
 
     private void inflateCityMenu() {
-        popup.getMenuInflater ().inflate (R.menu.popup_city, popup.getMenu ());
-        loadCityNamesToPopUp ();
+        popup.getMenuInflater ().inflate(R.menu.popup_city, popup.getMenu());
+        loadCityNamesToPopUp();
         if (userChoosedCityManually) {
             filterByCity (namesCity[0]);
         } else {
@@ -283,7 +357,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     }
 
     private void filterByCity(String cityName) {
-        filtered_events_data.clear ();
+        filtered_events_data.clear();
         if (cityName.equals ("All Cities")) {
             filtered_events_data.addAll (events_data);
             return;
@@ -336,7 +410,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         Intent newIntent = null;
         if (v.getId () == savedEvent.getId ()) {
             newIntent = new Intent (this, SavedEvent.class);
-            startActivity (newIntent);
+            startActivity(newIntent);
         } else if (v.getId () == realTime.getId ()) {
             newIntent = new Intent (this, RealTime.class);
             startActivity (newIntent);
@@ -384,7 +458,10 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             b.putInt ("producer_id", Integer.parseInt (events_data.get (i).getProducerId ()));
         intent.putExtras (b);
         startActivity (intent);
+
     }
+
+
 
     @Override
     protected void onActivityResult(final int requestCode, final int resultCode, final Intent data) {
@@ -400,12 +477,12 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                 ShareDialog shareDialog;
                 shareDialog = new ShareDialog (this);
                 ShareLinkContent linkContent = new ShareLinkContent.Builder ()
-                                                       .setContentTitle ("I`m going to " + name)
-                                                       .setImageUrl (Uri.parse ("https://lh3.googleusercontent.com/-V5wz7jKaQW8/VpvKq0rwEOI/AAAAAAAAB6Y/cZoicmGpQpc/s279-Ic42/pic0.jpg"))
-                                                       .setContentDescription (
-                                                                                      "C u there at " + date + " !" + "\n" + "At " + place)
-                                                       .setContentUrl (Uri.parse ("http://eventpageURL.com/here"))
-                                                       .build ();
+                        .setContentTitle ("I`m going to " + name)
+                        .setImageUrl (Uri.parse ("https://lh3.googleusercontent.com/-V5wz7jKaQW8/VpvKq0rwEOI/AAAAAAAAB6Y/cZoicmGpQpc/s279-Ic42/pic0.jpg"))
+                        .setContentDescription (
+                                "C u there at " + date + " !" + "\n" + "At " + place)
+                        .setContentUrl (Uri.parse ("http://eventpageURL.com/here"))
+                        .build ();
                 shareDialog.show (linkContent);
             } else {
                 startActivity (data);
@@ -483,7 +560,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
     @Override
     public void onPause() {
-        super.onPause ();
+        super.onPause();
         if (locationManager != null) {
             if (ActivityCompat.checkSelfPermission (this, permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission (this, permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                 return;
@@ -495,13 +572,16 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     @Override
     public void onResume() {
         super.onResume ();
-        updateDeviceLocationGPS ();
-        eventsListAdapter.notifyDataSetChanged ();
+        if(isCustomer) {
+            updateDeviceLocationGPS();
+            eventsListAdapter.notifyDataSetChanged();
+        }
     }
 
     public void createEvent(View view) {
 
         Intent intent = new Intent (MainActivity.this, CreateEventActivity.class);
+        intent.putExtra("create","true");
         startActivity (intent);
 
     }
@@ -521,4 +601,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 //        return lastEvent;
 //
 //    }
+
+
+
 }

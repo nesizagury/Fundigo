@@ -40,8 +40,10 @@ public class EventsListAdapter extends BaseAdapter {
 
 
     public EventsListAdapter(Context c, List<EventInfo> eventList) {
+
         this.context = c;
         this.eventList = eventList;
+
     }
 
     public EventsListAdapter(Context c, ArrayList<Event> arrayList) {

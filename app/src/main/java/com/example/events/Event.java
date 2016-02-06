@@ -64,7 +64,7 @@ public class Event extends ParseObject {
     }
 
     public double getX() {
-        return getDouble ("X");
+        return getDouble("X");
     }
 
     public void setX(double x) {
@@ -80,35 +80,35 @@ public class Event extends ParseObject {
     }
 
     public String getToilet() {
-        return getString ("toilet");
+        return getString("eventToiletService");
     }
 
     public void setToilet(String toilet) {
-        put ("toilet", toilet);
+        put ("eventToiletService", toilet);
     }
 
     public String getParking() {
-        return getString ("parking");
+        return getString ("eventParkingService");
     }
 
     public void setParking(String parking) {
-        put ("parking", parking);
+        put ("eventParkingService", parking);
     }
 
     public String getCapacity() {
-        return getString ("capacity");
+        return getString ("eventCapacityService");
     }
 
     public void setCapacity(String capacity) {
-        put ("capacity", capacity);
+        put ("eventCapacityService", capacity);
     }
 
     public String getAtm() {
-        return getString ("atm");
+        return getString ("eventATMService");
     }
 
     public void setAtm(String atm) {
-        put ("atm", atm);
+        put ("eventATMService", atm);
     }
 
     public String getTags() {
@@ -162,6 +162,30 @@ public class Event extends ParseObject {
 
     public void setPlace(String place) {
         put ("place", place);
+    }
+
+    public String getArtist() {
+        return getString ("artist");
+    }
+
+    public void setArtist(String artist) {
+        put ("artist", artist);
+    }
+
+    public String getIncome() {
+        return getString ("income");
+    }
+
+    public void setIncome(String income) {
+        put ("income", income);
+    }
+
+    public String getSold() {
+        return getString ("sold");
+    }
+
+    public void setSold(String sold) {
+        put ("sold", sold);
     }
 
     public void setBitmap(Bitmap b) {

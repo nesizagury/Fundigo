@@ -2,9 +2,10 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/Fundigo_24_1_16.iml" filepath="$PROJECT_DIR$/Fundigo_24_1_16.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Fundigo-moshe_29_1_16.iml" filepath="$PROJECT_DIR$/Fundigo-moshe_29_1_16.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/smsverify/smsverify.iml" filepath="$PROJECT_DIR$/smsverify/smsverify.iml" />
+      <module fileurl="file://$PROJECT_DIR$/testapp/testapp.iml" filepath="$PROJECT_DIR$/testapp/testapp.iml" />
     </modules>
   </component>
 </project>

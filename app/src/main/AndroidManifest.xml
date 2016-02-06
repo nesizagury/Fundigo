@@ -35,6 +35,9 @@
         </activity>
         <activity android:name=".VerifyCard">
         </activity>
+        <activity android:name=".WebRequest"></activity>
+        <activity android:name=".EventStatus"></activity>
+        <activity android:name=".ArtistStats"></activity>
         <activity android:name=".LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
@@ -57,10 +60,10 @@
 
         <meta-data
             android:name="com.parse.APPLICATION_ID"
-            android:value="7FYu4sxa7MuBIdpCmQVWwqNEqX6rxYo6Q0yNKO1v"/>
+            android:value="jjUg4MC4lO7En9xsanKB684rkmmMkxWdY641iBd8" />
         <meta-data
             android:name="com.parse.CLIENT_KEY"
-            android:value="cHnuYnSDcfIuM5goHbprCiNxjCWaSaTe22zVzXn9"/>
+            android:value="EW5jUhU1B4z8fQKZIOga21HD4x7nM6JMhQiX1f45" />
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/facebook_app_id"/>

@@ -19,6 +19,13 @@ public class EventInfo {
     String filterName;
     boolean press;
     String producerId;
+    String artist;
+    String sold;
+    String income;
+    String TicketsLeft;
+    String address;
+
+
 
     public EventInfo(Bitmap imageId,
                      String date,
@@ -44,6 +51,7 @@ public class EventInfo {
         this.capacity = capacity;
         this.atm = atm;
         this.city = city;
+
     }
 
     public Bitmap getImageId() {
@@ -161,4 +169,37 @@ public class EventInfo {
     public void setProducerId(String producerId) {
         this.producerId = producerId;
     }
+
+    public String getArtist() {
+        return artist;
+    }
+
+    public void setArtist(String artist) {
+        this.artist = artist;
+    }
+
+    public String getSold() {
+        return sold;
+    }
+
+    public void setSold(String sold) {
+        this.sold = sold;
+    }
+
+    public String getIncome() {
+        return income;
+    }
+
+    public void setIncome(String income) {
+        this.income = income;
+    }
+
+    public String getTicketsLeft() {
+        return TicketsLeft;
+    }
+
+    public void setTicketsLeft(String ticketsLeft) {
+        TicketsLeft = ticketsLeft;
+    }
+
 }
