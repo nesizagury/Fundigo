@@ -15,61 +15,7 @@
     <string name="profile_other">Other profile pic</string>
     <string name="message_hint">Say anything</string>
     <string name="send">Send</string>
-    <string-array name="popUp">
-        <item>All Cities</item>
-        <item>Haifa</item>
-        <item>Ramat Gan</item>
-        <item>Tiberias</item>
-        <item>Hertzelia</item>
-        <item>Beer Sheva</item>
-        <item>Jerusalem</item>
-        <item>Kiryat Motzkin</item>
-        <item>Bnei Brak</item>
-        <item>Ari\'el</item>
-        <item>Nahariyya</item>
-        <item>Rehovot</item>
-        <item>Eilat</item>
-        <item>Tel Aviv-Yafo</item>
-    </string-array>
-    <string-array name="eventPlace">
 
-        <item>Even Gvirol 75, Tel Aviv-Yafo</item>
-        <item>Chelnov 29, Haifa</item>
-        <item>Derech Hashalom 125, Ramat Gan</item>
-        <item>Begin Road 48, Tiberias</item>
-        <item>Rabin 3, Herzelia</item>
-        <item>Ben Yehoda 1, Be\'er Sheva</item>
-        <item>Gaza 102, Jerusalem</item>
-        <item>Kanfei Nesharim 5, Kiryat Motzkin</item>
-        <item>Gefen 2, Tel Aviv-Yafo</item>
-        <item>Jabutinsky 86, Bnei Brak</item>
-        <item>Dovdevan 26, Tiberias</item>
-        <item>Hamakabim 17, Ari\'el</item>
-        <item>Arlozorov 52, Nahariyya</item>
-        <item>Hayarkon 4, Rehovot</item>
-        <item>Moses 84, Eilat</item>
-
-    </string-array>
-
-    <string-array name="eventCity">
-
-        <item>Tel Aviv-Yafo</item>
-        <item>Haifa</item>
-        <item>Ramat Gan</item>
-        <item>Tiberias</item>
-        <item>Herzelia</item>
-        <item>Be\'er Sheva</item>
-        <item>Jerusalem</item>
-        <item>Kiryat Motzkin</item>
-        <item>Tel Aviv-Yafo</item>
-        <item>Bnei Brak</item>
-        <item>Tiberias</item>
-        <item>Ari\'el</item>
-        <item>Nahariyya</item>
-        <item>Rehovot</item>
-        <item>Eilat</item>
-
-    </string-array>
     <string-array name="eventServiceTitles">
         <item>Driving</item>
         <item>Walking</item>
@@ -229,6 +175,27 @@
 
     </string-array>
 
+
+    <string-array name="eventPlace">
+
+        <item>Even Gvirol 75, Tel Aviv</item>
+        <item>Moshe Goshen 25, Kiryat Motzkin</item>
+        <item>Derech Hashalom 125, Ramat Gan</item>
+        <item>Begin Road 48, Tiberias</item>
+        <item>Herzliya David Hamelech</item>
+        <item>Ben Yehuda 1, Beer Sheva</item>
+        <item>Gaza 102, Jerusalem</item>
+        <item>Kanfei Nesharim 5, Afula</item>
+        <item>Hagefen 2, Tel Aviv</item>
+        <item>Jabutinsky 86, Bnei Brak</item>
+        <item>Dovdevan 26, Tiberias</item>
+        <item>Yafe Nof 17, Ariel</item>
+        <item>Arlozorov 52, Nahariya</item>
+        <item>Hayarkon 4, Akko</item>
+        <item>Moses 84, Eilat</item>
+
+    </string-array>
+
     <string-array name="eventInfo">
 
         <item>
@@ -254,8 +221,8 @@ The Winter Antiques Show marks its 62nd year as the most prestigious art, antiqu
             The Winter Antiques Show marks its 62nd year as the most prestigious art, antiques, and design fair in America, featuring the “best of the best” from Antiquity through the present. Held at the historic Park Avenue Armory in New York City, the Show provides curators, new and established collectors, dealers, and design professionals with opportunities to view and purchase exceptional pieces showcased by 73 exhibitors.
         </item>
         <item>
-            All that glitters is indeed gold at New York City’s most colossal New Year’s Eve celebration hosted by one of the city’s most opulent spaces, the Hammerstein Ballroom. It’s no secret that you’ve spent the last 364 days of this year immersed in hard work so end it with hard play and exquisite amenities like a premium open bar and A-eventList entertainment at this incomparable NYE party.  The most impeccably cultivated holiday blowout this city has ever seen, Joonbug and the Hammerstein Ballroom invite you to dress exquisitely and act shamelessly this New Year’s Eve.
-                        All that glitters is indeed gold at New York City’s most colossal New Year’s Eve celebration hosted by one of the city’s most opulent spaces, the Hammerstein Ballroom. It’s no secret that you’ve spent the last 364 days of this year immersed in hard work so end it with hard play and exquisite amenities like a premium open bar and A-eventList entertainment at this incomparable NYE party.  The most impeccably cultivated holiday blowout this city has ever seen, Joonbug and the Hammerstein Ballroom invite you to dress exquisitely and act shamelessly this New Year’s Eve.
+            All that glitters is indeed gold at New York City’s most colossal New Year’s Eve celebration hosted by one of the city’s most opulent spaces, the Hammerstein Ballroom. It’s no secret that you’ve spent the last 364 days of this year immersed in hard work so end it with hard play and exquisite amenities like a premium open bar and A-list entertainment at this incomparable NYE party.  The most impeccably cultivated holiday blowout this city has ever seen, Joonbug and the Hammerstein Ballroom invite you to dress exquisitely and act shamelessly this New Year’s Eve.
+                        All that glitters is indeed gold at New York City’s most colossal New Year’s Eve celebration hosted by one of the city’s most opulent spaces, the Hammerstein Ballroom. It’s no secret that you’ve spent the last 364 days of this year immersed in hard work so end it with hard play and exquisite amenities like a premium open bar and A-list entertainment at this incomparable NYE party.  The most impeccably cultivated holiday blowout this city has ever seen, Joonbug and the Hammerstein Ballroom invite you to dress exquisitely and act shamelessly this New Year’s Eve.
 
         </item>
         <item>
@@ -313,7 +280,7 @@ Eat, Drink, Bowl, and SHOOT POOL.
 
 PLAY Lounge combines games and nightlife in a great blend to give you an experience that is worth every penny you shed.
 
-The delectable New American menu offers you a eventList of dishes to choose from, after which you can get back to the game or then just lounge around with your pals. The chic interior is complete with a plush red and grey seating area and a sleek bar make for a cool hub where you can sit back and sip the fresh cocktails while enjoying the atmosphere.
+The delectable New American menu offers you a list of dishes to choose from, after which you can get back to the game or then just lounge around with your pals. The chic interior is complete with a plush red and grey seating area and a sleek bar make for a cool hub where you can sit back and sip the fresh cocktails while enjoying the atmosphere.
 New York Citys most elegant and exciting venue with a full service bar and restaurant.
 With six pool tables, ping pong and Foosball.
 + 10 Large Projection Screens w or Surround Sound.
@@ -324,7 +291,7 @@ Eat, Drink, Bowl, and SHOOT POOL.
 
 PLAY Lounge combines games and nightlife in a great blend to give you an experience that is worth every penny you shed.
 
-The delectable New American menu offers you a eventList of dishes to choose from, after which you can get back to the game or then just lounge around with your pals. The chic interior is complete with a plush red and grey seating area and a sleek bar make for a cool hub where you can sit back and sip the fresh cocktails while enjoying the atmosphere.
+The delectable New American menu offers you a list of dishes to choose from, after which you can get back to the game or then just lounge around with your pals. The chic interior is complete with a plush red and grey seating area and a sleek bar make for a cool hub where you can sit back and sip the fresh cocktails while enjoying the atmosphere.
         </item>
         <item>
 THIS IS A FREE GUARANTEE SEAT TICKET. YOU MUST PRESENT I.D. WITH THE TICKET AND HAVE EVERYONE WITH YOU FOR EARLY ENTRY. GUARANTTED SEATING STARTS AT 12 NOON-12:30 ANY SEAT NOT CLAIMED BY 12:30 WILL BE MADE AVAILABLE TO THE STANDING GENERAL PUBLIC
@@ -428,78 +395,5 @@ Dress is trendy or upscale. No, guys, suits are not required. But when you see h
 
     <string name="title_activity_chat">ChatActivity</string>
     <string name="title_activity_payment">PaymentActivity</string>
-    <string-array name="filterTags">
 
-        <item>Drink</item>
-        <item>Music</item>
-        <item>Drink</item>
-        <item>Drink</item>
-        <item>Music</item>
-        <item>Travel</item>
-        <item>Education</item>
-        <item>Home&amp; LifeStyle</item>
-        <item>Education</item>
-        <item>Business</item>
-        <item>Fashion</item>
-        <item>Home&amp; LifeStyle</item>
-        <item>Sports</item>
-        <item>Government</item>
-        <item>Sports</item>
-
-    </string-array>
-
-    <string name="pref_header_general">General</string>
-
-    <string name="pref_title_social_recommendations">Enable social recommendations</string>
-    <string name="pref_description_social_recommendations">Recommendations for people to contact
-        based on your message history
-    </string>
-
-    <string name="pref_title_display_name">Display name</string>
-    <string name="pref_default_display_name">John Smith</string>
-
-    <string name="pref_title_add_friends_to_messages">Add friends to messages</string>
-    <string-array name="pref_example_list_titles">
-        <item>Always</item>
-        <item>When possible</item>
-        <item>Never</item>
-    </string-array>
-    <string-array name="pref_example_list_values">
-        <item>1</item>
-        <item>0</item>
-        <item>-1</item>
-    </string-array>
-
-    <!-- Example settings for Data & Sync -->
-    <string name="pref_header_data_sync">Data &amp; sync</string>
-
-    <string name="pref_title_sync_frequency">Sync frequency</string>
-    <string-array name="pref_sync_frequency_titles">
-        <item>15 minutes</item>
-        <item>30 minutes</item>
-        <item>1 hour</item>
-        <item>3 hours</item>
-        <item>6 hours</item>
-        <item>Never</item>
-    </string-array>
-    <string-array name="pref_sync_frequency_values">
-        <item>15</item>
-        <item>30</item>
-        <item>60</item>
-        <item>180</item>
-        <item>360</item>
-        <item>-1</item>
-    </string-array>
-
-    <string name="pref_title_system_sync_settings">System sync settings</string>
-
-    <!-- Example settings for Notifications -->
-    <string name="pref_header_notifications">Notifications</string>
-
-    <string name="pref_title_new_message_notifications">New message notifications</string>
-
-    <string name="pref_title_ringtone">Ringtone</string>
-    <string name="pref_ringtone_silent">Silent</string>
-
-    <string name="pref_title_vibrate">Vibrate</string>
 </resources>

@@ -1,75 +1,77 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+    >
 
     <LinearLayout
         android:id="@+id/toolbar_up"
         android:layout_width="fill_parent"
         android:layout_height="30dp"
+        android:background="#FFA500"
         android:orientation="horizontal"
         android:weightSum="700.0"
-        android:background="#71B7E6"
 
         >
 
         <ImageView
             android:id="@+id/settings_item"
-            android:layout_height="fill_parent"
             android:layout_width="0dip"
+            android:layout_height="match_parent"
+            android:layout_gravity="left"
             android:layout_weight="100"
-            android:src="@drawable/menu4"
+            android:background="#FFA500"
             android:padding="2dp"
-            android:onClick="openMenuPage"/>
+            android:src="@drawable/ic_setting"/>
 
         <ImageView
             android:id="@+id/notification_item"
-            android:layout_height="match_parent"
             android:layout_width="0dip"
+            android:layout_height="match_parent"
             android:layout_weight="100"
-            android:src="@drawable/notification_icon"
-            android:background="#71B7E6"
-            android:padding="2dp"/>
+            android:background="#FFA500"
+            android:padding="4dp"
+            android:src="@drawable/ic_notification"/>
 
         <Button
             android:id="@+id/city_item"
-            android:layout_height="match_parent"
             android:layout_width="0dip"
+            android:layout_height="match_parent"
             android:layout_weight="300"
+            android:background="#FFA500"
             android:text="Tel-Aviv"
-            android:background="#71B7E6"
-            android:textColor="#ffffff"/>
-
-        <ImageView
-            android:layout_width="0dip"
-            android:layout_height="match_parent"
-            android:layout_weight="100"
-            android:id="@+id/search"
-            android:actionViewClass="android.widget.SearchView"
-            android:src="@drawable/search_icon"
-            android:background="#71B7E6"
-            android:padding="4dp"/>
+            />
 
         <ImageView
             android:id="@+id/Filter"
-            android:layout_height="match_parent"
             android:layout_width="0dip"
+            android:layout_height="match_parent"
             android:layout_weight="100"
-            android:src="@drawable/filer_icon"
+            android:background="#FFA500"
             android:onClick="openFilterPage"
-            android:background="#71B7E6"
-            android:padding="5dp"/>
+            android:padding="4dp"
+            android:src="@drawable/filter_line"/>
+
+        <ImageView
+            android:id="@+id/search"
+            android:layout_width="0dip"
+            android:layout_height="match_parent"
+            android:layout_weight="100"
+            android:actionViewClass="android.widget.SearchView"
+            android:background="#FFA500"
+            android:padding="2dp"
+            android:src="@drawable/ic_search"/>
 
     </LinearLayout>
 
     <LinearLayout
         android:id="@+id/toolbar"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="50dip"
+        android:layout_alignParentStart="true"
         android:layout_below="@+id/toolbar_up"
         android:orientation="horizontal"
         android:weightSum="392.0"
-
         >
 
         <Button
@@ -77,10 +79,10 @@
             android:layout_width="0dip"
             android:layout_height="55dip"
             android:layout_weight="130"
-            android:background="#3293CD"
+            android:background="#5e6ecb"
             android:gravity="center"
             android:text="Events"
-            android:textColor="#ffffff"
+            android:textColor="#000000"
             android:textSize="15sp"
             />
 
@@ -95,10 +97,10 @@
             android:layout_width="0dip"
             android:layout_height="55dip"
             android:layout_weight="130"
-            android:background="#3293CD"
+            android:background="#3F51B5"
             android:gravity="center"
             android:text="SavedEvents"
-            android:textColor="#ffffff"
+            android:textColor="#000000"
             android:textSize="15sp"
             />
 
@@ -113,22 +115,15 @@
             android:layout_width="0dip"
             android:layout_height="55dip"
             android:layout_weight="130"
-            android:background="#1277AB"
+            android:background="#3F51B5"
+            android:drawableRight="@drawable/point"
             android:gravity="center"
             android:text="Real-Time"
-            android:textColor="#ffffff"
+            android:textColor="#000000"
             android:textSize="15sp"
             />
 
     </LinearLayout>
-
-    <View
-        android:id="@+id/devider11"
-        android:layout_width="fill_parent"
-        android:layout_height="1dp"
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/toolbar"
-        android:background="#c5c5c5"/>
 
     <include
         android:id="@+id/gridview"

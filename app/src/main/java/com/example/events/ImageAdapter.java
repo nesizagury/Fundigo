@@ -5,8 +5,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import org.w3c.dom.Text;
 
 public class ImageAdapter extends BaseAdapter
 {
@@ -14,6 +17,7 @@ public class ImageAdapter extends BaseAdapter
     private Context mContext;
     private String[] mNames;
     private Integer[] mImages;
+
 
     public ImageAdapter(Context c, String[]names, Integer[]images)
     {
@@ -47,6 +51,7 @@ public class ImageAdapter extends BaseAdapter
         LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         if( convertView == null )
         {
+            grid = new View(this.mContext);
             grid = inflater.inflate(R.layout.grid_layout, null);
             TextView textView = (TextView) grid.findViewById(R.id.grid_text);
             ImageView imgView = (ImageView) grid.findViewById(R.id.grid_image);

@@ -13,11 +13,11 @@ import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.util.List;
 
-public class ChatListAdapter extends ArrayAdapter<Message> {
+public class ChatListAdapter extends ArrayAdapter <Message> {
     private String mUserId;
 
-    public ChatListAdapter(Context context, List<Message> messages, String userId) {
-        super (context, 0, messages);
+    public ChatListAdapter(Context context, List<Message> messages,String userId) {
+        super(context, 0, messages);
         this.mUserId = userId;
     }
 
@@ -25,31 +25,33 @@ public class ChatListAdapter extends ArrayAdapter<Message> {
     public View getView(int position, View convertView, ViewGroup parent) {
 
         if (convertView == null) {
-            convertView = LayoutInflater.from (getContext ()).
-                                                                     inflate (R.layout.chat_item, parent, false);
-            final ViewHolder holder = new ViewHolder ();
-            holder.imageLeft = (ImageView) convertView.findViewById (R.id.ivProfileLeft);
-            holder.imageRight = (ImageView) convertView.findViewById (R.id.ivProfileRight);
-            holder.body = (TextView) convertView.findViewById (R.id.tvBody);
-            convertView.setTag (holder);
+            convertView = LayoutInflater.from(getContext()).
+                    inflate(R.layout.chat_item, parent, false);
+            final ViewHolder holder = new ViewHolder();
+            holder.imageLeft = (ImageView)convertView.findViewById(R.id.ivProfileLeft);
+            holder.imageRight = (ImageView)convertView.findViewById(R.id.ivProfileRight);
+            holder.body = (TextView)convertView.findViewById(R.id.tvBody);
+            convertView.setTag(holder);
         }
         boolean isMe = false;
-        final Message message = (Message) getItem (position);
-        final ViewHolder holder = (ViewHolder) convertView.getTag ();
-        if (mUserId.equals (message.getUserId ()))
-            isMe = true;
+        final Message message = (Message) getItem(position);
+        final ViewHolder holder = (ViewHolder)convertView.getTag();
+        if(mUserId.equals(message.getUserId()))
+          isMe = true;
         // Show-hide image based on the logged-in user.
         // Display the profile image to the right for our user, left for other users.
         if (isMe) {
-            holder.imageRight.setVisibility (View.VISIBLE);
-            holder.imageLeft.setVisibility (View.GONE);
-            holder.body.setGravity (Gravity.CENTER_VERTICAL | Gravity.RIGHT);
+            holder.imageRight.setVisibility(View.VISIBLE);
+            holder.imageLeft.setVisibility(View.GONE);
+            holder.body.setGravity(Gravity.CENTER_VERTICAL | Gravity.RIGHT);
         } else {
-            holder.imageLeft.setVisibility (View.VISIBLE);
-            holder.imageRight.setVisibility (View.GONE);
-            holder.body.setGravity (Gravity.CENTER_VERTICAL | Gravity.LEFT);
+            holder.imageLeft.setVisibility(View.VISIBLE);
+            holder.imageRight.setVisibility(View.GONE);
+            holder.body.setGravity(Gravity.CENTER_VERTICAL | Gravity.LEFT);
         }
-        holder.body.setText (message.getBody ());
+        final ImageView profileView = isMe ? holder.imageRight : holder.imageLeft;
+       // Picasso.with(getContext()).load(getProfileUrl(message.getUserId())).into(profileView);
+        holder.body.setText(message.getBody());
         return convertView;
     }
 
@@ -57,12 +59,12 @@ public class ChatListAdapter extends ArrayAdapter<Message> {
     private static String getProfileUrl(final String userId) {
         String hex = "";
         try {
-            final MessageDigest digest = MessageDigest.getInstance ("MD5");
-            final byte[] hash = digest.digest (userId.getBytes ());
-            final BigInteger bigInt = new BigInteger (hash);
-            hex = bigInt.abs ().toString (16);
+            final MessageDigest digest = MessageDigest.getInstance("MD5");
+            final byte[] hash = digest.digest(userId.getBytes());
+            final BigInteger bigInt = new BigInteger(hash);
+            hex = bigInt.abs().toString(16);
         } catch (Exception e) {
-            e.printStackTrace ();
+            e.printStackTrace();
         }
         return "http://www.gravatar.com/avatar/" + hex + "?d=identicon";
     }
@@ -72,4 +74,5 @@ public class ChatListAdapter extends ArrayAdapter<Message> {
         public ImageView imageRight;
         public TextView body;
     }
+
 }

@@ -1,37 +1,20 @@
 package com.example.events;
 
-import android.graphics.Bitmap;
-
 public class EventInfo {
 
-    Bitmap imageId;
+    int imageId;
     String date;
     String name;
     String tags;
     String price;
     String info;
     String place;
-    String city;
     String toilet;
     String parking;
     String capacity;
     String atm;
-    String filterName;
-    boolean press;
-    String producerId;
 
-    public EventInfo(Bitmap imageId,
-                     String date,
-                     String name,
-                     String tags,
-                     String price,
-                     String info,
-                     String place,
-                     String toilet,
-                     String parking,
-                     String capacity,
-                     String atm,
-                     String city) {
+    public EventInfo(int imageId, String date, String name, String tags, String price, String info, String place, String toilet,String parking,String capacity,String atm) {
         this.imageId = imageId;
         this.date = date;
         this.name = name;
@@ -39,18 +22,18 @@ public class EventInfo {
         this.price = price;
         this.info = info;
         this.place = place;
-        this.toilet = toilet;
-        this.parking = parking;
-        this.capacity = capacity;
-        this.atm = atm;
-        this.city = city;
+        this.toilet=toilet;
+        this.parking=parking;
+        this.capacity=capacity;
+        this.atm=atm;
     }
 
-    public Bitmap getImageId() {
+
+    public int getImageId() {
         return imageId;
     }
 
-    public void setImageId(Bitmap imageId) {
+    public void setImageId(int imageId) {
         this.imageId = imageId;
     }
 
@@ -102,10 +85,10 @@ public class EventInfo {
         this.place = place;
     }
 
+
     public String getToilet() {
         return toilet;
     }
-
     public void setToilet(String toilet) {
         this.toilet = toilet;
     }
@@ -113,7 +96,6 @@ public class EventInfo {
     public String getParking() {
         return parking;
     }
-
     public void setParking(String parking) {
         this.parking = parking;
     }
@@ -121,7 +103,6 @@ public class EventInfo {
     public String getCapacity() {
         return capacity;
     }
-
     public void setCapacity(String capacity) {
         this.capacity = capacity;
     }
@@ -129,36 +110,7 @@ public class EventInfo {
     public String getAtm() {
         return atm;
     }
-
     public void setAtm(String atm) {
         this.atm = atm;
-    }
-
-    public String getFilterName() {
-        return filterName;
-    }
-
-    public void setFilterName(String filterName) {
-        this.filterName = filterName;
-    }
-
-    public void setPress(boolean t) {
-        press = t;
-    }
-
-    public boolean getPress() {
-        return press;
-    }
-
-    public String getCity() {
-        return city;
-    }
-
-    public String getProducerId() {
-        return producerId;
-    }
-
-    public void setProducerId(String producerId) {
-        this.producerId = producerId;
     }
 }

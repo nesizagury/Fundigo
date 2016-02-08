@@ -58,8 +58,7 @@
             android:layout_height="fill_parent"
             android:layout_marginTop="2dp"
             android:layout_weight="1"
-            android:src="@mipmap/ic_mor_information"
-            android:onClick="openChat"/>
+            android:src="@mipmap/ic_mor_information"/>
 
         <TextView
             android:id="@+id/eventPage_name"
@@ -80,8 +79,7 @@
             android:layout_marginTop="2dp"
             android:layout_weight="1"
             android:adjustViewBounds="false"
-            android:src="@mipmap/wh"
-            android:onClick="onClick"/>
+            android:src="@mipmap/wh"/>
 
         <ImageView
             android:id="@+id/imageEvenetPageView2"
@@ -109,7 +107,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="fill_vertical"
             android:layout_weight="1"
-            android:background="#3293CD"
+            android:background="#3F51B5"
             android:text="15$-25$"
             android:textColor="#ffffff"/>
 
@@ -131,11 +129,10 @@
             android:layout_height="wrap_content"
             android:layout_gravity="fill_vertical"
             android:layout_weight="1"
-            android:background="#3293CD"
+            android:background="#3F51B5"
             android:onClick="openTicketsPage"
             android:text="GET TICKETS"
-            android:textColor="#ffffff"
-            android:textSize="14sp"/>
+            android:textColor="#ffffff"/>
     </LinearLayout>
 
     <ScrollView
@@ -158,6 +155,15 @@
             android:textIsSelectable="false"
             android:textSize="17sp"/>
     </ScrollView>
+
+    <Button
+        android:id="@+id/rt_chat"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/scrollView"
+        android:layout_alignParentStart="true"
+        android:onClick="openChat"
+        android:text="Real Time Chat"/>
 
 
 </RelativeLayout>
