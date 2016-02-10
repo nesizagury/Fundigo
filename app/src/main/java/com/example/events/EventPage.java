@@ -125,11 +125,11 @@ public class EventPage extends Activity implements View.OnClickListener {
         String even_addr = eventPlace;
         even_addr = even_addr.replace (",", "");
         even_addr = even_addr.replace (" ", "+");
-        new GetEventDis2 (EventPage.this).execute (
-
-                                                          "https://maps.googleapis.com/maps/api/distancematrix/json?origins=" + getLocation2 ().getLatitude () + "," + getLocation2 ().getLongitude () + "&destinations=" + even_addr + "+Israel&mode=driving&language=en-EN&key=AIzaSyAuwajpG7_lKGFWModvUIoMqn3vvr9CMyc");
-        new GetEventDis2 (EventPage.this).execute (
-                                                          "https://maps.googleapis.com/maps/api/distancematrix/json?origins=" + getLocation2 ().getLatitude () + "," + getLocation2 ().getLongitude () + "&destinations=" + even_addr + "+Israel&mode=walking&language=en-EN&key=AIzaSyAuwajpG7_lKGFWModvUIoMqn3vvr9CMyc");
+        //new GetEventDis2 (EventPage.this).execute (
+//
+  //                                                        "https://maps.googleapis.com/maps/api/distancematrix/json?origins=" + getLocation2 ().getLatitude () + "," + getLocation2 ().getLongitude () + "&destinations=" + even_addr + "+Israel&mode=driving&language=en-EN&key=AIzaSyAuwajpG7_lKGFWModvUIoMqn3vvr9CMyc");
+    //    new GetEventDis2 (EventPage.this).execute (
+     //                                                     "https://maps.googleapis.com/maps/api/distancematrix/json?origins=" + getLocation2 ().getLatitude () + "," + getLocation2 ().getLongitude () + "&destinations=" + even_addr + "+Israel&mode=walking&language=en-EN&key=AIzaSyAuwajpG7_lKGFWModvUIoMqn3vvr9CMyc");
     }
 
     public void openTicketsPage(View view) {
@@ -138,6 +138,7 @@ public class EventPage extends Activity implements View.OnClickListener {
         Intent intentHere = getIntent ();
         ticketsPageIntent.putExtra ("eventName", intentHere.getStringExtra ("eventName"));
         ticketsPageIntent.putExtra ("eventPrice", intentHere.getStringExtra ("eventPrice"));
+        ticketsPageIntent.putExtra("eventDate",date);// Assaf: added for get the data for correct search order of tickets
         ticketsPageIntent.putExtras (b);
         startActivity (ticketsPageIntent);
     }

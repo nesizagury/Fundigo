@@ -60,6 +60,7 @@ public class TicketsPage extends AppCompatActivity {
         Intent intentHere = getIntent ();
         intent.putExtra ("eventName", intentHere.getStringExtra ("eventName"));
         intent.putExtra ("eventPrice", intentHere.getStringExtra ("eventPrice"));
+        intent.putExtra("eventDate",intentHere.getStringExtra("eventDate"));// added to get the date of each Event into the Tickets table
         intent.putExtras (b);
         startActivity (intent);
     }

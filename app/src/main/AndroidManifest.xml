@@ -1,119 +1,112 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest
-    package="com.example.events"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.example.events">
 
-    <uses-permission android:name="android.permission.READ_SMS"/>
-    <uses-permission android:name="android.permission.RECEIVE_SMS"/>
-    <uses-permission android:name="android.permission.INTERNET"/>
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
-    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
-    <uses-permission android:name="android.permission.CAMERA"/>
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
-    <uses-permission android:name="android.permission.WAKE_LOCK"/>
-    <uses-permission android:name="android.permission.VIBRATE"/>
-    <uses-permission android:name="android.permission.GET_ACCOUNTS"/>
-    <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE"/>
+    <uses-permission android:name="android.permission.READ_SMS" />
+    <uses-permission android:name="android.permission.RECEIVE_SMS" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
+    <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
 
     <permission
         android:name="com.example.eventParses.permission.C2D_MESSAGE"
-        android:protectionLevel="signature"/>
-    <uses-permission android:name="com.example.eventParses.permission.C2D_MESSAGE"/>
+        android:protectionLevel="signature" />
 
-    <uses-feature android:name="android.hardware.camera"/>
-    <uses-feature android:name="android.hardware.camera.autofocus"/>
+    <uses-permission android:name="com.example.eventParses.permission.C2D_MESSAGE" />
 
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-feature android:name="android.hardware.camera" />
+    <uses-feature android:name="android.hardware.camera.autofocus" />
+
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
-        android:name="Fundigo"
+        android:name=".Fundigo"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="Fundigo"
         android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity">
-        </activity>
-        <activity android:name=".EventPage">
-        </activity>
-        <activity android:name=".TicketsPage">
-        </activity>
-        <activity android:name=".FilterPage">
-        </activity>
-        <activity android:name=".CreateEventActivity">
-        </activity>
-        <activity android:name=".VerifyCard">
-        </activity>
+        <activity android:name=".MainActivity" />
+        <activity android:name=".EventPage" />
+        <activity android:name=".TicketsPage" />
+        <activity android:name=".FilterPage" />
+        <activity android:name=".CreateEventActivity" />
+        <activity android:name=".VerifyCard" />
         <activity android:name=".LoginActivity">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
+                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER"/>
+                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".RealTime">
-        </activity>
-        <activity android:name=".Menu">
-        </activity>
-        <activity android:name=".SavedEventActivity">
-        </activity>
+        <activity android:name=".RealTime" />
+        <activity android:name=".Menu" />
+        <activity android:name=".SavedEventActivity" />
         <activity
             android:name=".EventService"
-            android:theme="@style/AppTheme.PopupServiceEvent"></activity>
-        <activity
-            android:name="com.example.events.MessagesRoom"
-            />
-        <activity android:name=".RealTimeChatActivity"></activity>
+            android:theme="@style/AppTheme.PopupServiceEvent" />
+        <activity android:name=".MessagesRoom" />
+        <activity android:name=".RealTimeChatActivity" />
+
         <meta-data
             android:name="com.parse.APPLICATION_ID"
-            android:value="7FYu4sxa7MuBIdpCmQVWwqNEqX6rxYo6Q0yNKO1v"/>
+            android:value="4AdSCwPWdjvwk09Ln4MRVBRAYECLVaM35l9Gas4D" />
         <meta-data
             android:name="com.parse.CLIENT_KEY"
-            android:value="cHnuYnSDcfIuM5goHbprCiNxjCWaSaTe22zVzXn9"/>
+            android:value="lLTpk3wbW4XV6JXbBUFwWBiiDtz1LGB3WHAgmODO" />
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
-            android:value="@string/facebook_app_id"/>
+            android:value="@string/facebook_app_id" />
 
         <activity
             android:name=".SmsSignUpActivity"
             android:label="@string/title_activity_login"
-            android:theme="@style/AppTheme"/>
+            android:theme="@style/AppTheme" />
         <activity
             android:name="com.facebook.FacebookActivity"
             android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
             android:label="@string/app_name"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar"/>
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
         <activity
             android:name=".ChatActivity"
             android:label="@string/title_activity_chat"
-            android:theme="@style/AppTheme"/>
+            android:theme="@style/AppTheme" />
 
         <provider
             android:name="com.facebook.FacebookContentProvider"
             android:authorities="com.facebook.app.FacebookContentProvider1673502059557977"
-            android:exported="true"/>
+            android:exported="true" />
 
-        <service android:name="com.parse.PushService"/>
+        <service android:name="com.parse.PushService" />
 
         <receiver
-            android:name="com.example.events.PushReceiver"
+            android:name=".PushReceiver"
             android:exported="false">
             <intent-filter>
-                <action android:name="com.parse.push.intent.RECEIVE"/>
-                <action android:name="com.parse.push.intent.DELETE"/>
-                <action android:name="com.parse.push.intent.OPEN"/>
+                <action android:name="com.parse.push.intent.RECEIVE" />
+                <action android:name="com.parse.push.intent.DELETE" />
+                <action android:name="com.parse.push.intent.OPEN" />
             </intent-filter>
         </receiver>
         <receiver
             android:name="com.parse.GcmBroadcastReceiver"
             android:permission="com.google.android.c2dm.permission.SEND">
             <intent-filter>
-                <action android:name="com.google.android.c2dm.intent.RECEIVE"/>
-                <action android:name="com.google.android.c2dm.intent.REGISTRATION"/>
+                <action android:name="com.google.android.c2dm.intent.RECEIVE" />
+                <action android:name="com.google.android.c2dm.intent.REGISTRATION" />
 
-                <category android:name="com.example.eventParses"/>
+                <category android:name="com.example.eventParses" />
             </intent-filter>
         </receiver>
+
+        <activity android:name=".CustomerProfileUpdate" />
+        <activity android:name=".EventsTickets"></activity>
     </application>
 
 </manifest>

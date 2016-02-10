@@ -115,5 +115,6 @@ public class LoginActivity extends Activity {
         } catch (IOException e) {
         }
         return phone_number;
+        //return "1-555-521-5554";
     }
 }

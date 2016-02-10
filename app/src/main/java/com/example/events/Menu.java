@@ -38,6 +38,9 @@ public class Menu extends AppCompatActivity {
     CallbackManager callbackManager;
     Button sms_login_button;
     Button user_profile_button;
+    Button user_profile_update_button;
+    Button user_evnets_tickets_button;
+
     protected String currentUser;
     protected String phoneNum;
     protected InputStream picStream;
@@ -46,17 +49,22 @@ public class Menu extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate (savedInstanceState);
-        setContentView (R.layout.activity_menu);
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_menu);
 
         facebook_login_button = (LoginButton) findViewById (R.id.login_button11);
         sms_login_button = (Button) findViewById (R.id.button3);
         user_profile_button = (Button) findViewById (R.id.buttonUserProfile);
-        String number = readFromFile ();
+        user_profile_update_button = (Button) findViewById (R.id.buttonUserProfileUpdate);
+        user_evnets_tickets_button = (Button)findViewById (R.id.eventsTicketsButton);
+
+                String number = readFromFile ();
         if (!number.isEmpty ()) {
-            sms_login_button.setText ("You logged in as " + number);
-            sms_login_button.setOnClickListener (null);
-            user_profile_button.setVisibility (View.VISIBLE);//if already registered then button is visible
+            sms_login_button.setText("You logged in as " + number);
+            sms_login_button.setOnClickListener(null);
+            user_profile_button.setVisibility(View.VISIBLE);//if already registered then button is visible
+            user_profile_update_button.setVisibility(View.VISIBLE);
+            user_evnets_tickets_button.setVisibility(View.VISIBLE);
         }
         AccessToken accessToken = AccessToken.getCurrentAccessToken ();
         if (accessToken != null) {
@@ -98,19 +106,20 @@ public class Menu extends AppCompatActivity {
         } catch (IOException e) {
         }
         return phone_number;
+        //return "1-555-521-5554";
     }
 
     @Override
     public void onActivityResult(final int requestCode, final int resultCode, final Intent data) {
         super.onActivityResult (requestCode, resultCode, data);
         facebook_login_button.setVisibility (View.INVISIBLE);
-        callbackManager.onActivityResult (requestCode, resultCode, data);
+        callbackManager.onActivityResult(requestCode, resultCode, data);
     }
 
     public void smsLogin(View view) {
         Bundle b = new Bundle ();
         Intent intent = new Intent (Menu.this, SmsSignUpActivity.class);
-        startActivity (intent);
+        startActivity(intent);
     }
 
     @Override
@@ -120,12 +129,14 @@ public class Menu extends AppCompatActivity {
         if (!number.isEmpty ()) {
             sms_login_button.setText ("You logged in as " + number);
             sms_login_button.setOnClickListener (null);
-            user_profile_button.setVisibility (View.VISIBLE);
+            user_profile_button.setVisibility(View.VISIBLE);
+            user_profile_update_button.setVisibility(View.VISIBLE);
+            user_evnets_tickets_button.setVisibility(View.VISIBLE);
         }
         tableLayout = (TableLayout) findViewById (R.id.profileTable);
         tableLayout.setVisibility (View.INVISIBLE);
         drawView = (ImageView) findViewById (R.id.profileImg);
-        drawView.setVisibility (View.INVISIBLE);
+        drawView.setVisibility(View.INVISIBLE);
     }
 
     public void getUserProfile(View view) { //get onclick event for pulling the user profile
@@ -134,26 +145,33 @@ public class Menu extends AppCompatActivity {
         String _userPhoneNumber = this.readFromFile ();
         if (!_userPhoneNumber.isEmpty ()) {
             try {
-                ParseQuery<ParseObject> query = ParseQuery.getQuery ("Numbers");
-                query.whereEqualTo ("number", _userPhoneNumber);
-                list = query.find ();
+                ParseQuery<ParseObject> query = ParseQuery.getQuery("Numbers");
+                query.whereEqualTo("number", _userPhoneNumber);
+                list = query.find();
                 for (ParseObject obj : list) {
-                    currentUser = obj.getString ("name");
-                    phoneNum = obj.getString ("number");
-                    ParseFile parseFile = (ParseFile) obj.get ("ImageFile");
-                    picStream = parseFile.getDataStream ();
+                    currentUser = obj.getString("name");
+                    phoneNum = obj.getString("number");
+                    ParseFile parseFile = (ParseFile) obj.get("ImageFile");
+                    picStream = parseFile.getDataStream();
                 }
             } catch (ParseException e) {
-                Log.e ("Exception catch", e.toString ());
+                Log.e("Exception catch", e.toString());
             } catch (Exception e) {
-                Log.e ("Exception catch", e.toString ());
+                Log.e("Exception catch", e.toString());
             }
-            this.UserProfileDisplay ();
-        } else {
-            //throw new Exception("Error Occured in getUserProfile method. User is not Exist or Null");
-            Toast.makeText (getApplicationContext (), "User may not Registered or not Exist", Toast.LENGTH_SHORT).show ();
+            try {
+                if (picStream != null || !phoneNum.isEmpty() || !currentUser.isEmpty())
+                    this.UserProfileDisplay();
+               } catch (Exception e) {
+                Toast.makeText (getApplicationContext (), "User may not Registered or not Exist", Toast.LENGTH_SHORT).show();
+                Log.e("Exception catch", e.toString());
+               }
         }
-    }
+        else {
+            //throw new Exception("Error Occured in getUserProfile method. User is not Exist or Null");
+            Toast.makeText (getApplicationContext (), "User may not Registered or not Exist", Toast.LENGTH_SHORT).show();
+           }
+     }
 
     public void UserProfileDisplay() {
         tableLayout = (TableLayout) findViewById (R.id.profileTable);
@@ -164,17 +182,16 @@ public class Menu extends AppCompatActivity {
         uRaw.setText (currentUser);
         pRaw.setText (phoneNum);
         if (picStream != null) {// for present User Picture
-            this.ImageStreamforProfileDisplay ();
+            this.ImageStreamforProfileDisplay();
         }
     }
 
     public void ImageStreamforProfileDisplay() {
         drawView = (ImageView) findViewById (R.id.profileImg);
         drawView.setVisibility (View.VISIBLE);
-        //TextView picRaw = (TextView)findViewById(R.id.optinalProfileImg);
-        //picRaw.setVisibility(View.VISIBLE);
+
         try {
-            Drawable _draw = Drawable.createFromStream (picStream, null);// Stream the Picture to the ImageView
+            Drawable _draw = Drawable.createFromStream (picStream, null);// Assaf:Stream the Picture to the ImageView
             drawView.setImageDrawable (_draw);
         } catch (Exception e) {
             Log.e (e.toString (), "Image Stream Exception");
@@ -184,6 +201,29 @@ public class Menu extends AppCompatActivity {
             } catch (IOException e) {
                 Log.e (e.toString (), "IO Exception occured");
             }
+        }
+    }
+
+    public void updateUserProfile (View v)
+    {
+        try {
+            Intent I = new Intent(this, CustomerProfileUpdate.class);
+            startActivity(I);
+        }
+        catch (Exception e)
+        {
+            Log.e(e.toString(),"error in update flow");
+        }
+    }
+    public void EventsTicketsDisplay (View v)
+    {
+        try {
+            Intent I = new Intent(this, EventsTickets.class);
+            startActivity(I);
+        }
+        catch (Exception e)
+        {
+            Log.e(e.toString(),"error in events tickets flow");
         }
     }
 }
