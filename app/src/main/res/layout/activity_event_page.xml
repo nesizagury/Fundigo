@@ -109,7 +109,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:background="#3293CD"
-            android:text="15$-25$"
+            android:text="Edit Event"
             android:onClick="editEvent"
             android:textColor="#ffffff"
             android:gravity="center"
@@ -158,6 +158,17 @@
             android:textIsSelectable="false"
             android:textSize="17sp"/>
     </ScrollView>
+
+    <Button
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Real Time"
+        android:id="@+id/realTime"
+        android:onClick="eventOnRealtime"
+        android:visibility="invisible"
+        android:layout_alignBottom="@+id/scrollView"
+        android:layout_centerHorizontal="true" />
 
 
 </RelativeLayout>

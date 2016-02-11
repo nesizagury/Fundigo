@@ -14,11 +14,20 @@ import com.parse.ParseUser;
 import org.acra.ACRA;
 import org.acra.annotation.ReportsCrashes;
 
+import io.branch.referral.Branch;
+
+
 @ReportsCrashes(formUri = "https://collector.tracepot.com/99efad05")
 public class Fundigo extends Application {
     @Override
     public void onCreate() {
         super.onCreate ();
+
+
+
+            Branch.getInstance(this);
+
+
         ACRA.init (this);
         Parse.enableLocalDatastore (this);
         Parse.initialize (this);
@@ -31,6 +40,7 @@ public class Fundigo extends Application {
         ParseObject.registerSubclass (com.example.events.Message.class);
         ParseObject.registerSubclass (com.example.events.Room.class);
         ParseObject.registerSubclass (com.example.events.Numbers.class);
+        ParseObject.registerSubclass (com.example.events.RealTimeEvent.class);
         ParseObject.registerSubclass (MsgRealTime.class);
         FacebookSdk.sdkInitialize (getApplicationContext ());
         ParseUser.enableAutomaticUser ();

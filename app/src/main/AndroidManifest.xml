@@ -27,6 +27,7 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
 
     <application
+
         android:name="Fundigo"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -34,8 +35,12 @@
         android:theme="@style/AppTheme">
         <activity android:name=".MainActivity">
         </activity>
-        <activity android:name=".EventPage">
+        <activity android:name=".EventPage"
+            android:launchMode="singleTask">
+
+
         </activity>
+
         <activity android:name=".TicketsPage">
         </activity>
         <activity android:name=".FilterPage">
@@ -50,6 +55,13 @@
 
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
+            <intent-filter>
+
+                <data android:scheme="event" />
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+            </intent-filter>
         </activity>
         <activity android:name=".RealTime">
         </activity>
@@ -62,6 +74,8 @@
         <activity android:name=".WebRequest"></activity>
         <activity android:name=".EventStatus"></activity>
         <activity android:name=".ArtistStats"></activity>
+        <activity android:name=".EventOnRealtime"></activity>
+        <activity android:name=".RealTimeGuestAddition"></activity>
         <activity
             android:name=".EventService"
             android:theme="@style/AppTheme.PopupServiceEvent"></activity>
@@ -80,7 +94,7 @@
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/facebook_app_id"/>
-
+        <meta-data android:name="com.google.android.gms.version" android:value="@integer/google_play_services_version" />
         <activity
             android:name=".SmsSignUpActivity"
             android:label="@string/title_activity_login"
@@ -121,6 +135,8 @@
                 <category android:name="com.example.events"/>
             </intent-filter>
         </receiver>
+        <meta-data android:name="io.branch.sdk.BranchKey" android:value="key_live_bop3jOlEx4NaSVitfZ2zHoiaBFejkB4S" />
+
     </application>
 
 </manifest>

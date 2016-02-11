@@ -29,6 +29,7 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.facebook.share.model.ShareLinkContent;
 import com.facebook.share.widget.ShareDialog;
@@ -77,14 +78,15 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     public static int indexCityChossen = 0;
     static boolean cityFoundGPS = false;
     public static String currentFilterName = "";
-
+    String i = "";
     static boolean savedAcctivityRunnig = false;
     Context context;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate (savedInstanceState);
+        super.onCreate(savedInstanceState);
         Intent intent = getIntent ();
+
         if (intent.getStringExtra ("chat_id") != null) {
             customer_id = intent.getStringExtra ("chat_id");
             isCustomer = true;
@@ -104,7 +106,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
 
     public void organizeProducer() {
-        setContentView (R.layout.producer_avtivity_main);
+        setContentView(R.layout.producer_avtivity_main);
 
         TabLayout tabLayout = (TabLayout) findViewById (R.id.tab_layout);
         tabLayout.addTab (tabLayout.newTab ().setText ("Artists"));
@@ -136,7 +138,6 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
     public void organizeCustomer() {
         setContentView (R.layout.activity_main);
-
         list_view = (ListView) findViewById (R.id.listView);
         event = (Button) findViewById (R.id.BarEvent_button);
         savedEvent = (Button) findViewById (R.id.BarSavedEvent_button);
@@ -152,14 +153,14 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         savedEvent.setOnClickListener (this);
 
         search = (ImageView) findViewById (R.id.search);
-        search.setOnClickListener (this);
+        search.setOnClickListener(this);
 
-        list_view.setAdapter (eventsListAdapter);
-        list_view.setSelector (new ColorDrawable (Color.TRANSPARENT));
-        list_view.setOnItemClickListener (this);
+        list_view.setAdapter(eventsListAdapter);
+        list_view.setSelector(new ColorDrawable(Color.TRANSPARENT));
+        list_view.setOnItemClickListener(this);
 
-        uploadUserData (null);
-        inflateCityMenu ();
+        uploadUserData(null);
+
     }
 
     @Override
@@ -247,10 +248,21 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                         tempEventsList.get (i).setTicketsLeft (eventParse.get (i).getNumOfTicketsLeft ());
                     }
                     updateSavedEvents (tempEventsList);
-                    all_events_data.clear ();
-                    all_events_data.addAll (tempEventsList);
-                    filtered_events_data.clear ();
-                    filtered_events_data.addAll (tempEventsList);
+                    all_events_data.clear();
+                    all_events_data.addAll(tempEventsList);
+                    filtered_events_data.clear();
+                    filtered_events_data.addAll(tempEventsList);
+
+
+
+                    inflateCityMenu();
+
+
+                    if(!LoginActivity.x.equals("") || LoginActivity.x != "")
+                    {
+                        startEventPage(Integer.parseInt(LoginActivity.x));
+
+                    }
                     eventsListAdapter.notifyDataSetChanged ();
                     updateDeviceLocationGPS ();
                     if (userChoosedCityManually) {
@@ -262,6 +274,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                     e.printStackTrace ();
                     return;
                 }
+
             }
         });
     }
@@ -409,35 +422,10 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
     @Override
     public void onItemClick(AdapterView<?> av, View view, int i, long l) {
-        Bundle b = new Bundle ();
-        Intent intent = new Intent (this, EventPage.class);
-        if (filtered_events_data.get (i).getImageId () != null) {
-            Bitmap bmp = filtered_events_data.get (i).getImageId ();
-            ByteArrayOutputStream stream = new ByteArrayOutputStream ();
-            bmp.compress (Bitmap.CompressFormat.JPEG, 100, stream);
-            byte[] byteArray = stream.toByteArray ();
-            intent.putExtra ("eventImage", byteArray);
-        } else
-            intent.putExtra ("eventImage", "");
-        intent.putExtra ("eventDate", filtered_events_data.get (i).getDate ());
-        intent.putExtra ("eventName", filtered_events_data.get (i).getName ());
-        intent.putExtra ("eventTags", filtered_events_data.get (i).getTags ());
-        intent.putExtra ("eventPrice", filtered_events_data.get (i).getPrice ());
-        intent.putExtra ("eventInfo", filtered_events_data.get (i).getInfo ());
-        intent.putExtra ("eventPlace", filtered_events_data.get (i).getPlace ());
-        intent.putExtra ("toilet", filtered_events_data.get (i).getToilet ());
-        intent.putExtra ("parking", filtered_events_data.get (i).getParking ());
-        intent.putExtra ("capacity", filtered_events_data.get (i).getCapacity ());
-        intent.putExtra ("atm", filtered_events_data.get (i).getAtm ());
-        intent.putExtra ("index", filtered_events_data.get (i).getIndexInFullList ());
 
-        b.putString ("customer_id", customer_id);
-        if (producerId != null)
-            b.putString ("producer_id", producerId);
-        else
-            b.putString ("producer_id", filtered_events_data.get (i).getProducerId ());
-        intent.putExtras (b);
-        startActivity (intent);
+        startEventPage(i);
+
+
     }
 
     @Override
@@ -556,4 +544,42 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         } catch (IOException e) {
         }
     }
+
+   public void startEventPage(int i)
+    {
+
+
+        Bundle b = new Bundle ();
+        Intent intent = new Intent (this, EventPage.class);
+        if (filtered_events_data.get (i).getImageId () != null) {
+            Bitmap bmp = filtered_events_data.get (i).getImageId ();
+            ByteArrayOutputStream stream = new ByteArrayOutputStream ();
+            bmp.compress (Bitmap.CompressFormat.JPEG, 100, stream);
+            byte[] byteArray = stream.toByteArray ();
+            intent.putExtra ("eventImage", byteArray);
+        } else
+            intent.putExtra ("eventImage", "");
+        intent.putExtra ("eventDate", filtered_events_data.get (i).getDate ());
+        intent.putExtra ("eventName", filtered_events_data.get (i).getName());
+        intent.putExtra ("eventTags", filtered_events_data.get (i).getTags());
+        intent.putExtra ("eventPrice", filtered_events_data.get (i).getPrice());
+        intent.putExtra ("eventInfo", filtered_events_data.get (i).getInfo());
+        intent.putExtra ("eventPlace", filtered_events_data.get (i).getPlace());
+        intent.putExtra ("toilet", filtered_events_data.get (i).getToilet());
+        intent.putExtra ("parking", filtered_events_data.get (i).getParking());
+        intent.putExtra ("capacity", filtered_events_data.get (i).getCapacity());
+        intent.putExtra ("atm", filtered_events_data.get (i).getAtm());
+        intent.putExtra ("index", filtered_events_data.get (i).getIndexInFullList());
+        intent.putExtra("i",String.valueOf(i));
+        intent.putExtra("artist",filtered_events_data.get(i).getArtist());
+
+        b.putString ("customer_id", customer_id);
+        if (producerId != null)
+            b.putString ("producer_id", producerId);
+        else
+            b.putString ("producer_id", filtered_events_data.get (i).getProducerId ());
+        intent.putExtras (b);
+        startActivity (intent);
+    }
+
 }

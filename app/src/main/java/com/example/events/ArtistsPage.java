@@ -42,8 +42,8 @@ public class ArtistsPage extends Fragment implements AdapterView.OnItemClickList
         uploadArtistData(MainActivity.producerId);
         artistAdapter = new ArtistAdapter (getActivity().getApplicationContext(),artist_list);
         lv2.setVisibility(View.INVISIBLE);
-        lv.setAdapter (artistAdapter);
-        lv.setSelector (new ColorDrawable (Color.TRANSPARENT));
+        lv.setAdapter(artistAdapter);
+        lv.setSelector(new ColorDrawable(Color.TRANSPARENT));
         lv2.setOnItemClickListener (this);
         eventsListAdapter = new EventsListAdapter (getActivity().getApplicationContext(), filtered_events_data, false);
 
@@ -86,11 +86,12 @@ public class ArtistsPage extends Fragment implements AdapterView.OnItemClickList
     private List uploadUserData(String artist) {
         events_data.clear();
         filtered_events_data.clear();
-
+        boolean isArtist = false;
         ParseQuery<Event> query = new ParseQuery ("Event");
         if(artist != "" && artist != null )
         {
             query.whereEqualTo("artist",artist);
+            isArtist = true;
         }
         else
             query.whereEqualTo("producerId", MainActivity.producerId);
@@ -103,6 +104,16 @@ public class ArtistsPage extends Fragment implements AdapterView.OnItemClickList
             byte[] data;
             Bitmap bmp;
 
+            if(isArtist) {
+                for (int i = 0; i < events.size(); i++) {
+
+                    if (!events.get(i).getProducerId().equals(MainActivity.producerId)) {
+                        events.remove(i);
+                        i--;
+                    }
+
+                }
+            }
             for (int i = 0; i < events.size (); i++) {
 
                 imageFile = (ParseFile) events.get (i).get ("ImageFile");
@@ -222,14 +233,15 @@ public class ArtistsPage extends Fragment implements AdapterView.OnItemClickList
         intent.putExtra ("toilet", filtered_events_data.get (i).getToilet());
         intent.putExtra ("parking", filtered_events_data.get (i).getParking());
         intent.putExtra ("capacity", filtered_events_data.get (i).getCapacity());
-        intent.putExtra ("atm", filtered_events_data.get (i).getAtm ());
+        intent.putExtra ("atm", filtered_events_data.get (i).getAtm());
         intent.putExtra("index", i);
 
+        intent.putExtra("artist",filtered_events_data.get (i).getArtist());
 
         if (MainActivity.producerId != null)
-            b.putInt ("producer_id", Integer.parseInt (MainActivity.producerId));
+            b.putString("producer_id", MainActivity.producerId);
         else
-            b.putInt ("producer_id", Integer.parseInt (filtered_events_data.get (i).getProducerId ()));
+            b.putString ("producer_id", filtered_events_data.get (i).getProducerId ());
         intent.putExtras (b);
         startActivity (intent);
 

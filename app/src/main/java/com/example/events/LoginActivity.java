@@ -1,25 +1,39 @@
 package com.example.events;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.appindexing.AppIndex;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
+import com.parse.SignUpCallback;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
+
+import io.branch.referral.Branch;
+import io.branch.referral.BranchError;
+
 
 public class LoginActivity extends Activity {
     Button producer_loginButton;
@@ -30,20 +44,25 @@ public class LoginActivity extends Activity {
     Button customer_loginButton;
     String isGuest = "";
     String customer_id;
+    boolean emailVerified = false;
+   static String x = "";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate (savedInstanceState);
-        this.requestWindowFeature (Window.FEATURE_NO_TITLE);
-        setContentView (R.layout.activity_login2);
+        super.onCreate(savedInstanceState);
+        this.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        setContentView(R.layout.activity_login2);
+
         producer_usernameET = (EditText) findViewById (R.id.username_et);
         producer_passwordET = (EditText) findViewById (R.id.password_et);
         producer_loginButton = (Button) findViewById (R.id.button_login);
         customer_loginButton = (Button) findViewById (R.id.button_customer);
 
-        customer_id = readFromFile ();
+
+        customer_id = readFromFile("verify");
         if (customer_id.equals ("") || customer_id == null) {
-            customer_loginButton.setText ("GUEST LOGIN");
+            customer_loginButton.setText("GUEST LOGIN");
             isGuest = "true";
         }
     }
@@ -62,25 +81,52 @@ public class LoginActivity extends Activity {
         for (ParseUser user : list) {
             if (user.getUsername ().equals (producer_username)) {
                 exists = true;
+
+                try {
+                    ParseUser.logIn (producer_username, producer_password);
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+
+
+                if(user.get("emailVerified") == true)
+                    emailVerified = true;
+
+
+
+              //  user.setEmail(producer_username);
+                try {
+                    user.save();
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+
                 break;
             }
         }
-        if (exists) {
-            try {
-                ParseUser.logIn (producer_username, producer_password);
-                Toast.makeText (getApplicationContext (), "Successfully Loged in as producer", Toast.LENGTH_SHORT).show ();
-                Constants.IS_PRODUCER = true;
-                Intent intent = new Intent (this, MainActivity.class);
-                intent.putExtra ("producerId", producer_username);
-                startActivity (intent);
-                finish ();
-            } catch (ParseException e1) {
-                Toast.makeText (getApplicationContext (), "Wrong Password, try again :)", Toast.LENGTH_SHORT).show ();
-            }
-        } else {
-            Toast.makeText (getApplicationContext (), "This user does not exist, try again :)", Toast.LENGTH_SHORT).show ();
+        if (exists && emailVerified) {
+
+            Toast.makeText(getApplicationContext(), "Successfully Loged in as producer", Toast.LENGTH_SHORT).show();
+            Constants.IS_PRODUCER = true;
+            Intent intent = new Intent(this, MainActivity.class);
+            intent.putExtra("producerId", producer_username);
+            startActivity(intent);
+            finish();
         }
+        else
+            Toast.makeText(getApplicationContext(), "verify email" , Toast.LENGTH_SHORT).show();
+
+
     }
+
+    private void checkEmail(ParseUser user) {
+
+        user.setEmail(producer_usernameET.getText().toString());
+        Toast.makeText (this, "Sent", Toast.LENGTH_SHORT).show();
+
+
+    }
+
 
     public void customerLogin(View v) {
         Toast.makeText (this, "Successfully Loged in as customer", Toast.LENGTH_SHORT).show ();
@@ -90,27 +136,85 @@ public class LoginActivity extends Activity {
         } else {
             intent.putExtra ("chat_id", customer_id);
         }
-        startActivity (intent);
-        finish ();
-        ;
+
+        startActivity(intent);
+        finish();
+
     }
 
-    private String readFromFile() {
-        String phone_number = "";
+    private String readFromFile(String file) {
+       String s = "";
         try {
-            InputStream inputStream = openFileInput ("verify.txt");
+            InputStream inputStream = openFileInput (file + ".txt");
             if (inputStream != null) {
                 InputStreamReader inputStreamReader = new InputStreamReader (inputStream);
                 BufferedReader bufferedReader = new BufferedReader (inputStreamReader);
                 String receiveString = "";
                 while ((receiveString = bufferedReader.readLine ()) != null) {
-                    phone_number = receiveString;
+                    s = receiveString;
                 }
                 inputStream.close ();
             }
         } catch (FileNotFoundException e) {
         } catch (IOException e) {
         }
-        return phone_number;
+        return s;
     }
+
+
+    @Override
+    public void onStart() {
+        super.onStart();
+
+        Branch branch = Branch.getInstance();
+        branch.initSession(new Branch.BranchReferralInitListener() {
+            @Override
+            public void onInitFinished(JSONObject referringParams, BranchError error) {
+                if (error == null) {
+                    // params are the deep linked params associated with the link that the user clicked before showing up
+                    try {
+                        x = referringParams.getString("i");
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+
+                }
+            }
+
+        }, this.getIntent().getData(), this);
+
+
+    }
+
+    public void signUp(View view){
+
+
+        ParseUser user = new ParseUser();
+        user.setUsername(producer_usernameET.getText ().toString ());
+        user.setPassword(producer_passwordET.getText().toString());
+        user.setEmail(producer_usernameET.getText ().toString ());
+
+
+        user.signUpInBackground(new SignUpCallback() {
+            public void done(ParseException e) {
+                if (e == null) {
+                    Toast.makeText (getApplicationContext(), "Successfully Signed Up", Toast.LENGTH_SHORT).show ();
+                } else {
+                    Toast.makeText (getApplicationContext(), "error = " + e.getMessage(), Toast.LENGTH_SHORT).show ();
+
+                }
+            }
+        });
+
+    }
+
+
+
+    @Override
+    public void onNewIntent(Intent intent) {
+        this.setIntent(intent);
+    }
+
+
 }

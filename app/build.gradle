@@ -25,6 +25,8 @@ android {
 }
 
 dependencies {
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile 'com.google.android.gms:play-services-appindexing:8.4.0'
     compile group: 'org.apache.httpcomponents' , name: 'httpclient-android' , version: '4.3.5.1'
     compile 'com.facebook.android:facebook-android-sdk:4.+'
     compile fileTree(include: ['*.jar'], dir: 'libs')
@@ -36,4 +38,5 @@ dependencies {
     compile 'com.github.dbachelder:CreditCardEntry:1.4.7'
     compile files('libs/sinch-android-verification-1.1.2.jar')
     compile 'com.squareup.picasso:picasso:2.5.2'
+    compile 'io.branch.sdk.android:library:1.+'
 }
