@@ -79,10 +79,10 @@
 
         <meta-data
             android:name="com.parse.APPLICATION_ID"
-            android:value="zHbkCgWz7FPRNK0E3mnB7HwRgEuKalaqnADvr8qK"/>
+            android:value="4AdSCwPWdjvwk09Ln4MRVBRAYECLVaM35l9Gas4D" />
         <meta-data
             android:name="com.parse.CLIENT_KEY"
-            android:value="KOerUm6IRSMz4gPOqNAsNVn0QsCHVWC0SIWI3tle"/>
+            android:value="lLTpk3wbW4XV6JXbBUFwWBiiDtz1LGB3WHAgmODO" />
 
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
