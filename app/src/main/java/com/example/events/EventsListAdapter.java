@@ -2,6 +2,7 @@ package com.example.events;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
@@ -10,6 +11,7 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Environment;
 import android.preference.PreferenceManager;
+import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,6 +33,13 @@ import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 import java.util.List;
 
+import io.branch.indexing.BranchUniversalObject;
+import io.branch.referral.Branch;
+import io.branch.referral.BranchError;
+import io.branch.referral.SharingHelper;
+import io.branch.referral.util.LinkProperties;
+import io.branch.referral.util.ShareSheetStyle;
+
 public class EventsListAdapter extends BaseAdapter {
 
     List<EventInfo> eventList = new ArrayList<EventInfo> ();
@@ -39,7 +48,7 @@ public class EventsListAdapter extends BaseAdapter {
     static final int REQUEST_CODE_MY_PICK = 1;
     Uri uri;
     boolean isSavedActivity;
-
+    public int index;
     public EventsListAdapter(Context c, List<EventInfo> eventList, boolean isSavedActivity) {
         this.context = c;
         this.eventList = eventList;
@@ -48,12 +57,12 @@ public class EventsListAdapter extends BaseAdapter {
 
     @Override
     public int getCount() {
-        return eventList.size ();
+        return eventList.size();
     }
 
     @Override
     public Object getItem(int i) {
-        return eventList.get (i);
+        return eventList.get(i);
     }
 
     @Override
@@ -62,7 +71,7 @@ public class EventsListAdapter extends BaseAdapter {
     }
 
     @Override
-    public View getView(int i, View view, ViewGroup viewGroup) {
+    public View getView(final int i, View view, ViewGroup viewGroup) {
         View row = view;
         final EventListHolder eventListHolder;
 
@@ -79,6 +88,8 @@ public class EventsListAdapter extends BaseAdapter {
         if(isSavedActivity && !event.getIsSaved ()){
             row.setVisibility(View.INVISIBLE);
         }
+
+        index = i;
         eventListHolder.image.setImageBitmap (event.imageId);
         eventListHolder.date.setText (event.getDate ());
         eventListHolder.name.setText (event.getName ());
@@ -165,40 +176,14 @@ public class EventsListAdapter extends BaseAdapter {
             public void onClick(View v) {
                 switch (v.getId ()) {
                     case R.id.imageView2:
-                        try {
-                            Bitmap largeIcon = BitmapFactory.decodeResource (context.getResources (), R.mipmap.pic0);
-                            ByteArrayOutputStream bytes = new ByteArrayOutputStream ();
-                            largeIcon.compress (Bitmap.CompressFormat.JPEG, 40, bytes);
-                            File f = new File (Environment.getExternalStorageDirectory () + File.separator + "test.jpg");
-                            f.createNewFile ();
-                            FileOutputStream fo = new FileOutputStream (f);
-                            fo.write (bytes.toByteArray ());
-                            fo.close ();
-                        } catch (IOException e) {
-                            e.printStackTrace ();
-                        }
-                        Intent intent = new Intent (Intent.ACTION_SEND);
-                        intent.setType ("image/jpeg");
-                        intent.putExtra (Intent.EXTRA_TEXT, "I`m going to " + eventListHolder.name.getText ().toString () +
-                                                                    "\n" + "C u there at " + eventListHolder.date.getText ().toString () + " !" +
-                                                                    "\n" + "At " + eventListHolder.place.getText ().toString () +
-                                                                    "\n" + "http://eventpageURL.com/here");
-                        String imagePath = Environment.getExternalStorageDirectory () + File.separator + "test.jpg";
-                        File imageFileToShare = new File (imagePath);
-                        uri = Uri.fromFile (imageFileToShare);
-                        intent.putExtra (Intent.EXTRA_STREAM, uri);
 
-                        Intent intentPick = new Intent ();
-                        intentPick.setAction (Intent.ACTION_PICK_ACTIVITY);
-                        intentPick.putExtra (Intent.EXTRA_TITLE, "Launch using");
-                        intentPick.putExtra (Intent.EXTRA_INTENT, intent);
-                        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences (context);
-                        SharedPreferences.Editor editor = sp.edit ();
-                        editor.putString ("name", eventListHolder.name.getText ().toString ());
-                        editor.putString ("date", eventListHolder.date.getText ().toString ());
-                        editor.putString ("place", eventListHolder.place.getText ().toString ());
-                        editor.apply ();
-                        ((Activity) context).startActivityForResult (intentPick, REQUEST_CODE_MY_PICK);
+                        Intent intent = new Intent(context,DeepLinkActivity.class);
+                        intent.putExtra("name",eventListHolder.name.getText().toString());
+                        intent.putExtra("date",eventListHolder.date.getText().toString());
+                        intent.putExtra("place", eventListHolder.place.getText().toString());
+                        intent.putExtra("objectId", event.getObjectId());
+                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        context.startActivity(intent);
                         break;
                 }
             }
@@ -207,7 +192,7 @@ public class EventsListAdapter extends BaseAdapter {
     }
 
     private void checkIfChangeColorToSaveButtton(EventInfo event, ImageView saveEvent) {
-        if (event.getIsSaved ()) {
+        if (event.getIsSaved()) {
             saveEvent.setImageResource (R.mipmap.whhsaved);
         } else {
             saveEvent.setImageResource (R.mipmap.whh);
@@ -216,7 +201,7 @@ public class EventsListAdapter extends BaseAdapter {
 
     public EventsListAdapter(Context c, String name, ArrayList<EventInfo> arrayList) {
         this.context = c;
-        if (name.equals ("filter")) {
+        if (name.equals("filter")) {
             eventList = arrayList;
         } else {
             for (int i = 0; i < arrayList.size (); i++) {
@@ -225,4 +210,8 @@ public class EventsListAdapter extends BaseAdapter {
             }
         }
     }
+
+
+
+
 }

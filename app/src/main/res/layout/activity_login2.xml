@@ -48,9 +48,9 @@
         android:text="LOGIN"
         android:onClick="producerLogin"
         android:id="@+id/button_login"
-        android:layout_marginStart="60dp"
         android:layout_below="@+id/password_et"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true"
+        android:layout_alignEnd="@+id/textView3" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -86,11 +86,13 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="SIGNUP"
+        android:text="Create New Producer"
         android:onClick="signUp"
         android:id="@+id/singUpButton"
-        android:layout_above="@+id/textView4"
-        android:layout_toEndOf="@+id/button_login"
-        android:layout_marginStart="47dp" />
+        android:layout_below="@+id/password_et"
+        android:layout_alignParentEnd="true"
+        android:layout_toEndOf="@+id/textView4"
+        android:layout_alignBottom="@+id/button_login"
+        android:textSize="11sp" />
 
 </RelativeLayout>

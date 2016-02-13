@@ -15,6 +15,7 @@ public class EventListHolder {
     TextView place;
     ImageView saveEvent;
 
+
     public EventListHolder(View v) {
         image = (ImageView) v.findViewById(R.id.imageView);
         date = (TextView) v.findViewById(R.id.event_date);

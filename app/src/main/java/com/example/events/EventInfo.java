@@ -31,6 +31,7 @@ public class EventInfo implements Serializable,Parcelable {
     String sold;
     String income;
     String TicketsLeft;
+    String objectId;
 
     public EventInfo(Bitmap imageId,
                      String date,
@@ -250,5 +251,13 @@ public class EventInfo implements Serializable,Parcelable {
 
     public void setTicketsLeft(String ticketsLeft) {
         TicketsLeft = ticketsLeft;
+    }
+
+    public String getObjectId() {
+        return objectId;
+    }
+
+    public void setObjectId(String objectId) {
+        this.objectId = objectId;
     }
 }

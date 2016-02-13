@@ -38,7 +38,6 @@
         <activity android:name=".EventPage"
             android:launchMode="singleTask">
 
-
         </activity>
 
         <activity android:name=".TicketsPage">
@@ -72,10 +71,14 @@
         <activity android:name=".Search">
         </activity>
         <activity android:name=".WebRequest"></activity>
+        <activity android:name=".SignUpActivity"></activity>
         <activity android:name=".EventStatus"></activity>
         <activity android:name=".ArtistStats"></activity>
         <activity android:name=".EventOnRealtime"></activity>
         <activity android:name=".RealTimeGuestAddition"></activity>
+        <activity android:name=".DeepLinkActivity"
+            android:theme="@android:style/Theme.Holo.Dialog">
+    </activity>
         <activity
             android:name=".EventService"
             android:theme="@style/AppTheme.PopupServiceEvent"></activity>

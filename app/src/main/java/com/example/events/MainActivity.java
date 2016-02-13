@@ -55,7 +55,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
     ListView list_view;
     public static List<EventInfo> all_events_data = new ArrayList<EventInfo> ();
-    private static List<EventInfo> filtered_events_data = new ArrayList<EventInfo> ();
+    public static List<EventInfo> filtered_events_data = new ArrayList<EventInfo> ();
     public static EventsListAdapter eventsListAdapter;
     Button event, savedEvent, realTime;
     static Button currentCityButton;
@@ -109,19 +109,19 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         setContentView(R.layout.producer_avtivity_main);
 
         TabLayout tabLayout = (TabLayout) findViewById (R.id.tab_layout);
-        tabLayout.addTab (tabLayout.newTab ().setText ("Artists"));
+        tabLayout.addTab(tabLayout.newTab().setText("Artists"));
         tabLayout.addTab (tabLayout.newTab ().setText ("Stats"));
-        tabLayout.setTabGravity (TabLayout.GRAVITY_FILL);
+        tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
 
         final ViewPager viewPager = (ViewPager) findViewById (R.id.pager);
         final TabPagerAdapter adapter = new TabPagerAdapter
                                                 (getSupportFragmentManager (), tabLayout.getTabCount ());
-        viewPager.setAdapter (adapter);
-        viewPager.addOnPageChangeListener (new TabLayout.TabLayoutOnPageChangeListener (tabLayout));
-        tabLayout.setOnTabSelectedListener (new TabLayout.OnTabSelectedListener () {
+        viewPager.setAdapter(adapter);
+        viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
+        tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
-                viewPager.setCurrentItem (tab.getPosition ());
+                viewPager.setCurrentItem(tab.getPosition());
             }
 
             @Override
@@ -137,6 +137,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     }
 
     public void organizeCustomer() {
+
         setContentView (R.layout.activity_main);
         list_view = (ListView) findViewById (R.id.listView);
         event = (Button) findViewById (R.id.BarEvent_button);
@@ -165,7 +166,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
     @Override
     protected void onResume() {
-        super.onResume ();
+        super.onResume();
         if (userChoosedCityManually) {
             filterByCityAndFilterName (namesCity[indexCityChossen], currentFilterName);
             if (MainActivity.cityFoundGPS && MainActivity.namesCity[MainActivity.indexCityChossen].equals (MainActivity.cityGPS)) {
@@ -241,11 +242,12 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                             }
                         }
                         tempEventsList.get (i).x = eventParse.get (i).getX ();
-                        tempEventsList.get (i).y = eventParse.get (i).getY ();
+                        tempEventsList.get (i).y = eventParse.get (i).getY();
                         tempEventsList.get (i).setArtist (eventParse.get (i).getArtist ());
-                        tempEventsList.get (i).setIncome (eventParse.get (i).getIncome ());
-                        tempEventsList.get (i).setSold (eventParse.get (i).getSold ());
-                        tempEventsList.get (i).setTicketsLeft (eventParse.get (i).getNumOfTicketsLeft ());
+                        tempEventsList.get (i).setIncome(eventParse.get(i).getIncome());
+                        tempEventsList.get (i).setSold(eventParse.get(i).getSold());
+                        tempEventsList.get (i).setTicketsLeft(eventParse.get(i).getNumOfTicketsLeft());
+                        tempEventsList.get (i).setObjectId(eventParse.get(i).getObjectId());
                     }
                     updateSavedEvents (tempEventsList);
                     all_events_data.clear();
@@ -254,14 +256,18 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                     filtered_events_data.addAll(tempEventsList);
 
 
-
                     inflateCityMenu();
 
 
                     if(!LoginActivity.x.equals("") || LoginActivity.x != "")
                     {
-                        startEventPage(Integer.parseInt(LoginActivity.x));
 
+                        for (int i = 0; i < filtered_events_data.size(); i++) {
+                            if(LoginActivity.x.equals(filtered_events_data.get(i).getObjectId())) {
+                                startEventPage(i);
+                                i = filtered_events_data.size();
+                            }
+                        }
                     }
                     eventsListAdapter.notifyDataSetChanged ();
                     updateDeviceLocationGPS ();
@@ -271,7 +277,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                         filterByCityAndFilterName (cityGPS, currentFilterName);
                     }
                 } else {
-                    e.printStackTrace ();
+                    e.printStackTrace();
                     return;
                 }
 
@@ -424,7 +430,6 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     public void onItemClick(AdapterView<?> av, View view, int i, long l) {
 
         startEventPage(i);
-
 
     }
 

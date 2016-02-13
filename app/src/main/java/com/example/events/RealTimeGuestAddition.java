@@ -37,11 +37,6 @@ public class RealTimeGuestAddition extends Activity {
 
         intent = getIntent();
 
-        Toast.makeText(getApplicationContext(),"artist = " + intent.getStringExtra("artist"), Toast.LENGTH_SHORT).show();
-        Toast.makeText(getApplicationContext(),"guest = " + intent.getStringExtra("guestIn"), Toast.LENGTH_SHORT).show();
-        Toast.makeText(getApplicationContext(),"producer = " + intent.getStringExtra("producer"), Toast.LENGTH_SHORT).show();
-
-
 
     }
 

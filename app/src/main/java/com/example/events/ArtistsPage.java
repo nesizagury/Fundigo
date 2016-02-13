@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.parse.ParseException;
 import com.parse.ParseFile;
@@ -30,7 +31,7 @@ public class ArtistsPage extends Fragment implements AdapterView.OnItemClickList
     public static List <EventInfo> filtered_events_data = new ArrayList<EventInfo> ();
     public static List <EventInfo> all_events = new ArrayList<EventInfo> ();
 
-     ListView lv;
+    ListView lv;
     ListView lv2;
     ArtistAdapter artistAdapter;
 
@@ -142,12 +143,26 @@ public class ArtistsPage extends Fragment implements AdapterView.OnItemClickList
                 events_data.get(i).setArtist(events.get(i).getArtist());
                 events_data.get(i).setIncome(events.get(i).getIncome());
                 events_data.get(i).setSold(events.get(i).getSold());
-                events_data.get(i).setTicketsLeft(events.get(i).getNumOfTicketsLeft());;
+                events_data.get(i).setTicketsLeft(events.get(i).getNumOfTicketsLeft());
+                events_data.get(i).setObjectId(events.get(i).getObjectId());
             }
             filtered_events_data.addAll(events_data);
         } catch (ParseException e) {
             e.printStackTrace ();
         }
+
+        if(!LoginActivity.x.equals("") || LoginActivity.x != "")
+        {
+
+            for (int i = 0; i < filtered_events_data.size(); i++) {
+                if(LoginActivity.x.equals(filtered_events_data.get(i).getObjectId())) {
+                    makeIntent(i);
+                    Toast.makeText(getActivity().getApplicationContext(),  "found", Toast.LENGTH_SHORT).show();
+                    i = filtered_events_data.size();
+                }
+            }
+        }
+
         return events_data;
     }
 
@@ -178,7 +193,6 @@ public class ArtistsPage extends Fragment implements AdapterView.OnItemClickList
 
             artist_list.add(new Artist ("All Events",""));
 
-
     }
 
 
@@ -193,11 +207,10 @@ public class ArtistsPage extends Fragment implements AdapterView.OnItemClickList
             @Override
             public boolean onKey(View v, int keyCode, KeyEvent event) {
 
-                if (event.getAction() == KeyEvent.ACTION_UP && keyCode == KeyEvent.KEYCODE_BACK){
+                if (event.getAction() == KeyEvent.ACTION_UP && keyCode == KeyEvent.KEYCODE_BACK) {
 
-                    if(lv.getVisibility() == View.VISIBLE)
-                    {
-                        return  false;
+                    if (lv.getVisibility() == View.VISIBLE) {
+                        return false;
                     }
                     lv2.setVisibility(View.INVISIBLE);
                     lv.setVisibility(View.VISIBLE);
@@ -213,6 +226,12 @@ public class ArtistsPage extends Fragment implements AdapterView.OnItemClickList
 
     @Override
     public void onItemClick(AdapterView<?> av, View view, int i, long l) {
+
+        makeIntent(i);
+
+    }
+
+    public void makeIntent(int i) {
 
         Bundle b = new Bundle ();
         Intent intent = new Intent (getActivity(), EventPage.class);
@@ -244,6 +263,7 @@ public class ArtistsPage extends Fragment implements AdapterView.OnItemClickList
             b.putString ("producer_id", filtered_events_data.get (i).getProducerId ());
         intent.putExtras (b);
         startActivity (intent);
+
 
     }
 }

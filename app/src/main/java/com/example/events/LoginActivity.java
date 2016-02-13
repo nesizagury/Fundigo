@@ -13,6 +13,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.appindexing.AppIndex;
+import com.parse.LogInCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
@@ -46,6 +47,9 @@ public class LoginActivity extends Activity {
     String customer_id;
     boolean emailVerified = false;
    static String x = "";
+    boolean passwordVerified;
+    boolean exists;
+
 
 
     @Override
@@ -59,7 +63,6 @@ public class LoginActivity extends Activity {
         producer_loginButton = (Button) findViewById (R.id.button_login);
         customer_loginButton = (Button) findViewById (R.id.button_customer);
 
-
         customer_id = readFromFile("verify");
         if (customer_id.equals ("") || customer_id == null) {
             customer_loginButton.setText("GUEST LOGIN");
@@ -70,6 +73,8 @@ public class LoginActivity extends Activity {
     public void producerLogin(View v) {
         producer_username = producer_usernameET.getText ().toString ();
         producer_password = producer_passwordET.getText ().toString ();
+        passwordVerified = false;
+        emailVerified = false;
         List<ParseUser> list = new ArrayList<ParseUser> ();
         ParseQuery<ParseUser> query1 = ParseUser.getQuery ();
         try {
@@ -77,44 +82,44 @@ public class LoginActivity extends Activity {
         } catch (ParseException e) {
             Toast.makeText (this, "Error " + e, Toast.LENGTH_SHORT).show ();
         }
-        boolean exists = false;
+
         for (ParseUser user : list) {
             if (user.getUsername ().equals (producer_username)) {
-                exists = true;
-
-                try {
-                    ParseUser.logIn (producer_username, producer_password);
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                }
-
 
                 if(user.get("emailVerified") == true)
                     emailVerified = true;
 
 
+                ParseUser.logInInBackground(producer_username, producer_password, new LogInCallback() {
+                    public void done(ParseUser user, ParseException e) {
+                        if (user != null) {
+                            exists = true;
+                            if (exists && emailVerified) {
 
-              //  user.setEmail(producer_username);
-                try {
-                    user.save();
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                }
+                                Toast.makeText(getApplicationContext(), "Successfully Loged in as producer", Toast.LENGTH_SHORT).show();
+                                Constants.IS_PRODUCER = true;
+                                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                                intent.putExtra("producerId", producer_username);
+                                startActivity(intent);
+                                finish();
+                            }
+                            else
+                            if(exists && !emailVerified)
+                                Toast.makeText(getApplicationContext(), "verify email" , Toast.LENGTH_SHORT).show();
+                            else
+                            if(!exists)
+                                Toast.makeText(getApplicationContext(), "Please Check Your Login Details" , Toast.LENGTH_SHORT).show();
+
+                        } else {
+                            Toast.makeText(getApplicationContext(), "Please Check Your Login Details" , Toast.LENGTH_SHORT).show();
+
+                        }
+                    }
+                });
 
                 break;
             }
         }
-        if (exists && emailVerified) {
-
-            Toast.makeText(getApplicationContext(), "Successfully Loged in as producer", Toast.LENGTH_SHORT).show();
-            Constants.IS_PRODUCER = true;
-            Intent intent = new Intent(this, MainActivity.class);
-            intent.putExtra("producerId", producer_username);
-            startActivity(intent);
-            finish();
-        }
-        else
-            Toast.makeText(getApplicationContext(), "verify email" , Toast.LENGTH_SHORT).show();
 
 
     }
@@ -173,13 +178,17 @@ public class LoginActivity extends Activity {
                 if (error == null) {
                     // params are the deep linked params associated with the link that the user clicked before showing up
                     try {
-                        x = referringParams.getString("i");
+                        x = referringParams.getString("objectId");
+                        Toast.makeText (getApplicationContext(), "id = " + x, Toast.LENGTH_SHORT).show ();
 
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
 
                 }
+                else
+                    Toast.makeText (getApplicationContext(), error.getMessage(), Toast.LENGTH_SHORT).show ();
+
             }
 
         }, this.getIntent().getData(), this);
@@ -189,23 +198,8 @@ public class LoginActivity extends Activity {
 
     public void signUp(View view){
 
-
-        ParseUser user = new ParseUser();
-        user.setUsername(producer_usernameET.getText ().toString ());
-        user.setPassword(producer_passwordET.getText().toString());
-        user.setEmail(producer_usernameET.getText ().toString ());
-
-
-        user.signUpInBackground(new SignUpCallback() {
-            public void done(ParseException e) {
-                if (e == null) {
-                    Toast.makeText (getApplicationContext(), "Successfully Signed Up", Toast.LENGTH_SHORT).show ();
-                } else {
-                    Toast.makeText (getApplicationContext(), "error = " + e.getMessage(), Toast.LENGTH_SHORT).show ();
-
-                }
-            }
-        });
+        Intent intent = new Intent(LoginActivity.this,SignUpActivity.class);
+        startActivity(intent);
 
     }
 
