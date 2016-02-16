@@ -1,0 +1,20 @@
+
+<html>
+  <head>
+
+  </head>
+  <body>
+    
+      <form name="pelepayform" action="https://www.pelepay.co.il/pay/paypage.aspx" method="post">
+		<input type="hidden" value="nesizagury@gmail.com" name="business">
+		<INPUT TYPE="hidden" value="" NAME="amount"><INPUT TYPE="hidden" value="" NAME="orderid">
+		<INPUT TYPE="hidden" value="_product" NAME="description">
+		<input type="image" src="http://www.pelepay.co.il/btn_images/pay_button_3.gif" name="submit" alt="Make payments with pelepay">
+	  </form>
+		<script language="javascript">
+			document.pelepayform.amount.value= "2";//put your chart total amount
+			document.pelepayform.orderid.value= "2";//put your chart order id number
+		</script>
+	
+  </body>
+</html>
