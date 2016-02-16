@@ -1,7 +1,6 @@
 package com.example.events;
 
 import android.app.Activity;
-import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -16,11 +15,9 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AlertDialog;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -29,14 +26,6 @@ import com.facebook.share.model.ShareLinkContent;
 import com.facebook.share.widget.ShareDialog;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
-import com.sinch.verification.CodeInterceptionException;
-import com.sinch.verification.Config;
-import com.sinch.verification.IncorrectCodeException;
-import com.sinch.verification.InvalidInputException;
-import com.sinch.verification.ServiceErrorException;
-import com.sinch.verification.SinchVerification;
-import com.sinch.verification.Verification;
-import com.sinch.verification.VerificationListener;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -69,9 +58,6 @@ public class EventPage extends Activity implements View.OnClickListener {
     static final int REQUEST_CODE_MY_PICK = 1;
     Intent intent;
     Button editEvent;
-    private String phone;
-    private String vCode;
-
 
     private String date;
     private String eventName;
@@ -82,27 +68,20 @@ public class EventPage extends Activity implements View.OnClickListener {
     private boolean walkNdrive = false;
     private int walkValue = -1;
     Bitmap bitmap;
-    private Config  config;
-    private VerificationListener listener0;
-    private Verification verification;
-    private String tempPphone;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_event_page);
-        intent = getIntent ();
-        config = SinchVerification.config().applicationKey ("b9ee3da5-0dc9-40aa-90aa-3d30320746f3").context (getApplicationContext ()).build();
-        listener0 = new MyVerificationListener ();
+        super.onCreate (savedInstanceState);
+        setContentView (R.layout.activity_event_page);
+
         if (Constants.IS_PRODUCER) {
             ticketsStatus = (Button) findViewById (R.id.button);
             ticketsStatus.setText ("Tickets Status");
-            
             editEvent = (Button) findViewById (R.id.priceEventPage);
             editEvent.setText ("Edit Event");
         }
 
-
+        intent = getIntent ();
         if (getIntent ().getByteArrayExtra ("eventImage") != null) {
             byte[] byteArray = getIntent ().getByteArrayExtra ("eventImage");
             bitmap = BitmapFactory.decodeByteArray (byteArray, 0, byteArray.length);
@@ -123,7 +102,7 @@ public class EventPage extends Activity implements View.OnClickListener {
             TextView event_price = (TextView) findViewById (R.id.priceEventPage);
             event_price.setText (eventPrice);
         }
-
+        ;
         TextView event_price = (TextView) findViewById (R.id.priceEventPage);
         event_price.setText (eventPrice);
 
@@ -160,128 +139,41 @@ public class EventPage extends Activity implements View.OnClickListener {
         checkIfChangeColorToSaveButtton ();
         String even_addr = eventPlace;
         even_addr = even_addr.replace (",", "");
-        even_addr = even_addr.replace(" ", "+");
+        even_addr = even_addr.replace (" ", "+");
         if (MainActivity.cityFoundGPS) {
-            new GetEventDis2 (EventPage.this).execute(
-                    "https://maps.googleapis.com/maps/api/distancematrix/json?origins=" + getLocation2().getLatitude() + "," + getLocation2().getLongitude() + "&destinations=" + even_addr + "+Israel&mode=driving&language=en-EN&key=AIzaSyAuwajpG7_lKGFWModvUIoMqn3vvr9CMyc");
-            new GetEventDis2 (EventPage.this).execute(
-                    "https://maps.googleapis.com/maps/api/distancematrix/json?origins=" + getLocation2().getLatitude() + "," + getLocation2().getLongitude() + "&destinations=" + even_addr + "+Israel&mode=walking&language=en-EN&key=AIzaSyAuwajpG7_lKGFWModvUIoMqn3vvr9CMyc");
+            new GetEventDis2 (EventPage.this).execute (
+                                                              "https://maps.googleapis.com/maps/api/distancematrix/json?origins=" + getLocation2 ().getLatitude () + "," + getLocation2 ().getLongitude () + "&destinations=" + even_addr + "+Israel&mode=driving&language=en-EN&key=AIzaSyAuwajpG7_lKGFWModvUIoMqn3vvr9CMyc");
+            new GetEventDis2 (EventPage.this).execute (
+                                                              "https://maps.googleapis.com/maps/api/distancematrix/json?origins=" + getLocation2 ().getLatitude () + "," + getLocation2 ().getLongitude () + "&destinations=" + even_addr + "+Israel&mode=walking&language=en-EN&key=AIzaSyAuwajpG7_lKGFWModvUIoMqn3vvr9CMyc");
         }
-
     }
-
-
 
     public void openTicketsPage(View view) {
-
-
-
-            if (!Constants.IS_PRODUCER) {
-                Intent intentHere2 = getIntent();
-
-                if(!intentHere2.getStringExtra("eventPrice").equals("FREE")) {
-                    phone = readFromFile1();
-
-                    if (phone.isEmpty()) {
-
-
-
-
-                        final Dialog dialog1 = new Dialog(EventPage.this);
-                        dialog1.setContentView(R.layout.custume_popup);
-                        dialog1.setTitle("Phone Number Required");
-                        final TextView myTextView1= (TextView) dialog1.findViewById(R.id.potextview);
-                        myTextView1.setText("We Will Send You SMS With Verify Code");
-                        Button button1 = (Button) dialog1.findViewById(R.id.button4);
-                        button1.setOnClickListener(new View.OnClickListener() {
-                            public void onClick(View v) {
-
-                                EditText edit = (EditText) dialog1.findViewById(R.id.enter_phone);
-                                String text = edit.getText().toString();
-
-
-                                verification = SinchVerification.createSmsVerification(config, text, listener0);
-                                verification.initiate();
-
-                                dialog1.dismiss();
-
-
-                            }
-                        });
-
-
-
-
-
-
-
-                        final Dialog dialog = new Dialog(EventPage.this);
-                        dialog.setContentView(R.layout.custume_popup);
-                        dialog.setTitle("Verification");
-
-
-                        final TextView myTextView= (TextView) dialog.findViewById(R.id.potextview);
-                        myTextView.setText("Enter Verify Code Sent By SMS...");;
-
-                        Button button = (Button) dialog.findViewById(R.id.button4);
-                        button.setOnClickListener(new View.OnClickListener() {
-                            public void onClick(View v) {
-                                EditText edit = (EditText) dialog.findViewById(R.id.enter_phone);
-                                String text = edit.getText().toString();
-                                String code = edit.getText().toString();
-                                verification.verify(text);
-                                tempPphone = text;
-
-                                dialog.dismiss();
-
-
-                            }
-                        });
-
-
-                        dialog.show();
-                        dialog1.show();
-
-                    } else {
-                        Bundle b = new Bundle();
-                        Intent intentBrowser = new Intent(EventPage.this, WebBrowser.class);
-                        Intent intentHere = getIntent();
-                        intentBrowser.putExtra("eventName", intentHere.getStringExtra("eventName"));
-                        intentBrowser.putExtra("eventPrice", intentHere.getStringExtra("eventPrice"));
-                        intentBrowser.putExtra("phone", phone);
-                        Log.d("m123", intentHere.getStringExtra("eventPrice"));
-                        intentBrowser.putExtras(b);
-
-
-                        Intent intentSeat = new Intent(EventPage.this, SelectSeat.class);
-                        intentSeat.putExtras(b);
-                        intentSeat.putExtra("eventPrice", intentHere.getStringExtra("eventPrice"));
-                        intentSeat.putExtra("eventName", intentHere.getStringExtra("eventName"));
-                        intentSeat.putExtra("phone", phone);
-                        intentSeat.getStringExtra("eventPrice");
-
-                        String str = intentHere.getStringExtra("eventPrice");
-                        int id = intentHere.getExtras().getInt("index");
-                        if (id % 2 != 0 || str.contains("-")) {
-                            startActivity(intentSeat);
-                        } else {
-                            startActivity(intentBrowser);
-                        }
-
-
-                /*
-                Intent intent = new Intent(EventPage.this, EventStatus.class);
-                intent.putExtra("name", getIntent().getStringExtra("eventName"));
-                intent.putExtra("phone", phone);
-                startActivity(intent);
-                */
-                    }
-                }else{
-                    Toast.makeText(this,"Event Is Free",Toast.LENGTH_LONG).show();
-                }
+        if (!Constants.IS_PRODUCER) {
+            Bundle b = new Bundle ();
+            Intent intentQr = new Intent (EventPage.this, GetQRCode.class);
+            Intent intentHere = getIntent ();
+            intentQr.putExtra ("eventName", intentHere.getStringExtra ("eventName"));
+            intentQr.putExtras (b);
+            Bundle b1 = new Bundle ();
+            Intent intentSeat = new Intent (EventPage.this, SelectSeat.class);
+            Intent intentHere1 = getIntent ();
+            intentQr.putExtra ("eventName", intentHere1.getStringExtra ("eventName"));
+            intentQr.putExtras (b1);
+            intentSeat.putExtra ("eventName", intentHere1.getStringExtra ("eventName"));
+            intentSeat.getStringExtra ("eventPrice");
+            int id = intentHere.getExtras ().getInt ("index");
+            if (id % 2 != 0) {
+                startActivity (intentSeat);
+            } else {
+                startActivity (intentQr);
+            }
+        } else {
+            Intent intent = new Intent (EventPage.this, EventStatus.class);
+            intent.putExtra ("name", getIntent ().getStringExtra ("eventName"));
+            startActivity (intent);
         }
     }
-
 
     private void loadMessagesPage() {
         List<Room> rList = new ArrayList<Room> ();
@@ -583,101 +475,6 @@ public class EventPage extends Activity implements View.OnClickListener {
                 intent.putExtra ("name", getIntent ().getStringExtra ("eventName"));
                 intent.putExtra ("create", "false");
                 startActivity (intent);
-            }
-        }
-    }
-    private String readFromFile1() {
-        String phone_number = "";
-        try {
-            InputStream inputStream = openFileInput ("verify.txt");
-            if (inputStream != null) {
-                InputStreamReader inputStreamReader = new InputStreamReader (inputStream);
-                BufferedReader bufferedReader = new BufferedReader (inputStreamReader);
-                String receiveString = "";
-                while ((receiveString = bufferedReader.readLine ()) != null) {
-                    phone_number = receiveString;
-                }
-                inputStream.close ();
-            }
-        } catch (FileNotFoundException e) {
-        } catch (IOException e) {
-        }
-        return phone_number;
-    }
-    public void smsVerify(String phone_number) {
-        Config config = SinchVerification.config().applicationKey ("b9ee3da5-0dc9-40aa-90aa-3d30320746f3").context (getApplicationContext ()).build ();
-        VerificationListener listener1 = new MyVerificationListener ();
-        Verification verification = SinchVerification.createSmsVerification (config, phone_number, listener1);
-        verification.initiate ();
-
-    }
-
-    class MyVerificationListener implements VerificationListener {
-        @Override
-        public void onInitiated() {
-
-        }
-
-        @Override
-        public void onInitiationFailed(Exception e) {
-            if (e instanceof InvalidInputException) {
-                // Incorrect number provided
-            } else if (e instanceof ServiceErrorException) {
-                // Sinch service error
-            } else {
-                // Other system error, such as UnknownHostException in case of network error
-            }
-        }
-
-        @Override
-        public void onVerified() {
-            String filename = "verify.txt";
-            String string = phone=tempPphone;
-            FileOutputStream outputStream;
-
-            try {
-                outputStream = openFileOutput(filename, Context.MODE_PRIVATE);
-                outputStream.write(string.getBytes());
-                outputStream.close();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            Bundle b = new Bundle();
-            Intent intentBrowser = new Intent(EventPage.this, WebBrowser.class);
-            Intent intentHere = getIntent();
-            intentBrowser.putExtra("eventName", intentHere.getStringExtra("eventName"));
-            intentBrowser.putExtra("eventPrice", intentHere.getStringExtra("eventPrice"));
-            intentBrowser.putExtra("phone", phone);
-            Log.d("m123", intentHere.getStringExtra("eventPrice"));
-            intentBrowser.putExtras(b);
-
-
-            Intent intentSeat = new Intent(EventPage.this, SelectSeat.class);
-            intentSeat.putExtras(b);
-            intentSeat.putExtra("eventPrice", intentHere.getStringExtra("eventPrice"));
-            intentSeat.putExtra("eventName", intentHere.getStringExtra("eventName"));
-            intentSeat.putExtra("phone", phone);
-            intentSeat.getStringExtra("eventPrice");
-
-            String str = intentHere.getStringExtra("eventPrice");
-            int id = intentHere.getExtras().getInt("index");
-            if (id % 2 != 0 || str.contains("-")) {
-                startActivity(intentSeat);
-            } else {
-                startActivity(intentBrowser);
-            }
-        }
-
-        @Override
-        public void onVerificationFailed(Exception e) {
-            if (e instanceof InvalidInputException) {
-                // Incorrect number or code provided
-                Toast.makeText (getApplicationContext (), "invalid phone number try again.", Toast.LENGTH_SHORT).show ();
-            } else if (e instanceof CodeInterceptionException) {
-                // Intercepting the verification code automatically failed, input the code manually with verify()
-            } else if (e instanceof IncorrectCodeException) {
-            } else if (e instanceof ServiceErrorException) {
-            } else {
             }
         }
     }

@@ -2,13 +2,16 @@ package com.example.events;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.content.pm.ActivityInfo;
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.text.InputType;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -33,11 +36,11 @@ import java.util.Date;
 
 public class GetQRCode extends AppCompatActivity {
     private String googleUrl="https://chart.googleapis.com/chart?chs=150x150&cht=qr&chl=";
-
+    private Button qr_down_butt;
     private ImageView qr_image;
-    private String phone;
+    private String phoneNumber;
     private String eventName="";
-
+    private EditText enterPhone;
     private String fileName;
     private TextView congrad;
     private static int codeNum=0;
@@ -47,8 +50,12 @@ public class GetQRCode extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_get_rqcode);
-
+        qr_down_butt= (Button) findViewById(R.id.qr_down_butt);
         qr_image    = (ImageView) findViewById(R.id.qr_image);
+        enterPhone=(EditText)findViewById(R.id.edit_text);
+        enterPhone.setInputType(InputType.TYPE_CLASS_PHONE);
+        enterPhone.setBackgroundColor(Color.GRAY);
+        qr_down_butt.setBackgroundColor(Color.GRAY);
         congrad=(TextView)findViewById(R.id.textView9);
         congrad.setText("Congratulations, Enjoy!!!");
         congrad.setVisibility(View.GONE);
@@ -56,18 +63,30 @@ public class GetQRCode extends AppCompatActivity {
         final Intent myIntent=getIntent();
 
         eventName=myIntent.getStringExtra("eventName");
-        phone=myIntent.getStringExtra("phone");
         Log.d("mmmm1",eventName);
         eventName=eventName.replace(" ", "");
 
         fileName="qr"+eventName+"_"+codeNum;
 
+        qr_down_butt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!enterPhone.getText().toString().isEmpty()) {
+                    DownlandTask downlandTask = new DownlandTask();
+                    downlandTask.execute(googleUrl + "972" + enterPhone.getText().toString() + eventName+""+System.currentTimeMillis());
+                    Log.d("mmmm1", googleUrl + "972" + enterPhone.getText().toString() + eventName + System.currentTimeMillis());
+                } else {
+                    Toast.makeText(getApplicationContext(), "Enter Phone Number", Toast.LENGTH_LONG).show();
+                }
+            }
+        });
 
-        DownlandTask downlandTask = new DownlandTask();
-        downlandTask.execute(googleUrl + "972" + phone + eventName + "" + System.currentTimeMillis());
-        Log.d("mmmm1", googleUrl + "972" + phone + eventName + System.currentTimeMillis());
-
-
+        enterPhone.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                enterPhone.beginBatchEdit();
+            }
+        });
 
     }
 
@@ -164,7 +183,7 @@ public class GetQRCode extends AppCompatActivity {
                             } catch (ParseException e1) {
                                 e1.printStackTrace();
                             }
-                            updateData.put("buyer_phone", Integer.parseInt(phone));
+                            updateData.put("buyer_phone", Integer.parseInt(enterPhone.getText().toString()));
                             updateData.put("purchase_date",myDate);
 
                             updateData.saveInBackground();
@@ -191,7 +210,7 @@ public class GetQRCode extends AppCompatActivity {
                                 } catch (ParseException e1) {
                                     e1.printStackTrace();
                                 }
-                                updateData.put("buyer_phone", Integer.parseInt(phone));
+                                updateData.put("buyer_phone", Integer.parseInt(enterPhone.getText().toString()));
                                 updateData.put("purchase_date",myDate);
 
                                 updateData.saveInBackground();
