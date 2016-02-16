@@ -26,6 +26,7 @@ public class SelectSeat extends AppCompatActivity {
     private String eventName;
     private ListView mylist;
     private String price;
+    private String phone;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,7 +35,7 @@ public class SelectSeat extends AppCompatActivity {
 
         Intent intentHere1 = getIntent();
         eventName=intentHere1.getStringExtra("eventName" );
-
+        phone=intentHere1.getStringExtra("phone");
         ParseQuery<ParseObject> query = ParseQuery.getQuery("EventsSeats").whereMatches("EventName",eventName).whereDoesNotExist("QR_Code");
 
         ArrayList<ParseObject>seatsList=new ArrayList<>();
@@ -130,7 +131,9 @@ public class SelectSeat extends AppCompatActivity {
             buyTicket.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent intentQr = new Intent(SelectSeat.this, GetQRCode.class);
+                    Intent intentQr = new Intent(SelectSeat.this, WebBrowser.class);
+                    intentQr.putExtra("phone", phone);
+                    intentQr.putExtra("eventPrice",temp.description);
                     intentQr.putExtra("seatNumber",temp.title);
                     intentQr.putExtra("eventName",eventName);
                     intentQr.putExtra("isChoose","yes");
