@@ -1,6 +1,8 @@
 package com.example.events;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,11 +14,20 @@ import java.util.List;
 public class MessageRoomAdapter extends BaseAdapter {
 
     List<MessageRoomBean> list = new ArrayList<MessageRoomBean> ();
+    ArrayList<Bitmap> arr=new ArrayList<>();
     Context context;
+    Boolean comeFromMessageProducer=false;
 
     public MessageRoomAdapter(Context c, List list) {
         this.context = c;
         this.list = list;
+    }
+
+    public MessageRoomAdapter(Context c, List list,ArrayList<Bitmap> arr) {
+        this.context = c;
+        this.list = list;
+        this.arr=arr;
+        comeFromMessageProducer=true;
     }
 
     @Override
@@ -49,8 +60,15 @@ public class MessageRoomAdapter extends BaseAdapter {
             holder = (MessageItemHolder) row.getTag ();
         }
         MessageRoomBean message_bean = list.get (i);
+        if(comeFromMessageProducer)
+        {
+            holder.image.setImageBitmap(arr.get(i));
+        }
+        else
+        {
+            holder.image.setImageResource (message_bean.imageId);
+        }
 
-        holder.image.setImageResource (message_bean.imageId);
         holder.body.setText (message_bean.body);
         holder.customer.setText (message_bean.getCustomer_id ());
 

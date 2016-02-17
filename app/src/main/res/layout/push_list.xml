@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="100dp"
+    android:background="@android:drawable/dialog_holo_light_frame">
+
+    <LinearLayout
+        android:id="@+id/TablePushList"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentStart="true"
+        android:background="#ffffff"
+        android:contextClickable="true"
+        android:orientation="vertical"
+        android:weightSum="200">
+
+
+        <LinearLayout
+            android:id="@+id/TablePushList2"
+            android:layout_width="fill_parent"
+            android:layout_height="0dip"
+            android:layout_weight="200"
+            android:baselineAligned="false"
+            android:contextClickable="true"
+            android:gravity="center_vertical|left"
+            android:stretchColumns="*"
+            android:transitionGroup="false"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/eventDatePushList"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:elegantTextHeight="false"
+                android:gravity="left|fill_vertical"
+                android:paddingLeft="4dp"
+                android:text="Date:"
+                android:textColor="#454545"
+                />
+
+            <TextView
+                android:id="@+id/MaessagePushList"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:gravity="left|fill_vertical"
+                android:paddingLeft="4dp"
+                android:text="Message:"
+                android:textColor="#000000"
+                android:textSize="18dp"
+                android:textStyle="bold"/>
+
+            <TextView
+                android:id="@+id/eventNamePushList"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:gravity="left|fill_vertical"
+                android:paddingLeft="4dp"
+                android:text="Event name:"
+                android:textColor="#666666"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</RelativeLayout>
+
+
+
+

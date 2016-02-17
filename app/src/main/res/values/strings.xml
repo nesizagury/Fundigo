@@ -132,4 +132,5 @@
     <string name="pref_title_vibrate">Vibrate</string>
 
     <string name="userDetailes">My Profile</string>
+    <string name="title_activity_mipo">Mipo</string>
 </resources>

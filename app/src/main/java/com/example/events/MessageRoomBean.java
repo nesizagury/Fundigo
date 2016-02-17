@@ -22,18 +22,15 @@ public class MessageRoomBean implements Serializable {
         this.customer_id = customer_id;
         this.body = body;
         this.producer_id = producer_id;
-
-
     }
 
     public int getImageId(){
         return imageId;
     }
 
-    public void setImageId(int imageId){
-
+    public void setImageId(int imageId)
+    {
         this.imageId = imageId;
-
     }
 
     public void setBody(String body)

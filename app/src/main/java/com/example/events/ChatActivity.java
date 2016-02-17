@@ -20,8 +20,8 @@ import com.parse.SaveCallback;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ChatActivity extends Activity {
-
+public class ChatActivity extends Activity
+{
     private EditText etMessage;
     private ListView lvChat;
     private ArrayList<Message> mMessages;
@@ -168,7 +168,8 @@ public class ChatActivity extends Activity {
         });
     }
 
-    private void saveToMessagesRoom() {
+    private void saveToMessagesRoom()
+    {
         Room room = new Room ();
         ParseACL parseAcl = new ParseACL ();
         parseAcl.setPublicReadAccess (true);

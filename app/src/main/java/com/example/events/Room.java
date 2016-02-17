@@ -6,9 +6,8 @@ import com.parse.ParseObject;
 /**
  * Created by מנהל on 21/12/2015.
  */@ParseClassName("Room")
-   public class Room extends ParseObject{
-
-
+   public class Room extends ParseObject
+{
 
     public void setCustomer_id(String customer_id) {
 
@@ -36,8 +35,8 @@ import com.parse.ParseObject;
     }
 
 
-    public void setConversationId(String ConversationId){
-
+    public void setConversationId(String ConversationId)
+    {
         put("ConversationId",ConversationId);
     }
 

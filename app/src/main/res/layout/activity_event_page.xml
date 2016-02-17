@@ -34,6 +34,13 @@
         android:textColor="#000000"
         android:textSize="17dp"/>
 
+    <Button
+        android:id="@+id/pushButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/linearLayoutTop"
+        android:text="Push"
+        />
 
     <LinearLayout
         android:id="@+id/linearLayoutTop"

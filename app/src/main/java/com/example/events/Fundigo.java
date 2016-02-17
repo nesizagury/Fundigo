@@ -6,6 +6,8 @@ import android.content.SharedPreferences;
 import com.facebook.FacebookSdk;
 import com.parse.Parse;
 import com.parse.ParseACL;
+import com.parse.ParseException;
+import com.parse.ParseInstallation;
 import com.parse.ParseObject;
 import com.parse.ParsePush;
 import com.parse.ParseUser;
@@ -21,6 +23,12 @@ public class Fundigo extends Application {
         ACRA.init (this);
         Parse.enableLocalDatastore (this);
         Parse.initialize (this);
+        try {
+            ParseInstallation.getCurrentInstallation().save ();
+        } catch (ParseException e) {
+            e.printStackTrace ();
+        }
+
         ParseObject.registerSubclass (Event.class);
         ParseObject.registerSubclass(com.example.events.Message.class);
         ParseObject.registerSubclass(com.example.events.Room.class);

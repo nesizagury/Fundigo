@@ -56,7 +56,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     public static EventsListAdapter eventsListAdapter;
     Button event, savedEvent, realTime;
     static Button currentCityButton;
-    ImageView search;
+    ImageView search,notification;
 
     static boolean isCustomer = false;
     static boolean isGuest = false;
@@ -88,7 +88,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate (savedInstanceState);
-        setContentView (R.layout.activity_main);
+        setContentView(R.layout.activity_main);
         list_view = (ListView) findViewById (R.id.listView);
         event = (Button) findViewById (R.id.BarEvent_button);
         savedEvent = (Button) findViewById (R.id.BarSavedEvent_button);
@@ -102,6 +102,8 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         savedEvent.setOnClickListener (this);
 
         search = (ImageView) findViewById (R.id.search);
+        notification = (ImageView) findViewById (R.id.notification_item);
+        notification.setOnClickListener(this);
         search.setOnClickListener (this);
 
         list_view.setAdapter (eventsListAdapter);
@@ -128,7 +130,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
     @Override
     protected void onResume() {
-        super.onResume ();
+        super.onResume();
         if (userChoosedCityManually) {
             filterByCity (namesCity[indexCityChossen]);
         } else if (!cityGPS.isEmpty ()) {
@@ -142,59 +144,59 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     private void uploadUserData() {
         final ArrayList<EventInfo> tempEventsList = new ArrayList<> ();
         ParseQuery<Event> query = new ParseQuery ("Event");
-        query.orderByDescending ("createdAt");
-        query.findInBackground (new FindCallback<Event> () {
+        query.orderByDescending("createdAt");
+        query.findInBackground(new FindCallback<Event>() {
             public void done(List<Event> eventParses, ParseException e) {
                 if (e == null) {
                     ParseFile imageFile;
                     byte[] data = null;
                     Bitmap bmp;
-                    for (int i = 0; i < eventParses.size (); i++) {
-                        imageFile = (ParseFile) eventParses.get (i).get ("ImageFile");
+                    for (int i = 0; i < eventParses.size(); i++) {
+                        imageFile = (ParseFile) eventParses.get(i).get("ImageFile");
                         if (imageFile != null) {
                             try {
-                                data = imageFile.getData ();
+                                data = imageFile.getData();
                             } catch (ParseException e1) {
-                                e1.printStackTrace ();
+                                e1.printStackTrace();
                             }
-                            bmp = BitmapFactory.decodeByteArray (data, 0, data.length);
+                            bmp = BitmapFactory.decodeByteArray(data, 0, data.length);
                         } else {
                             bmp = null;
                         }
-                        tempEventsList.add (new EventInfo (
-                                                                  bmp,
-                                                                  eventParses.get (i).getDate (),
-                                                                  eventParses.get (i).getName (),
-                                                                  eventParses.get (i).getTags (),
-                                                                  eventParses.get (i).getPrice (),
-                                                                  eventParses.get (i).getDescription (),
-                                                                  eventParses.get (i).getAddress (),
-                                                                  eventParses.get (i).getEventToiletService (),
-                                                                  eventParses.get (i).getEventParkingService (),
-                                                                  eventParses.get (i).getEventCapacityService (),
-                                                                  eventParses.get (i).getEventATMService (),
-                                                                  eventParses.get (i).getCity (),
-                                                                  i,
-                                                                  eventParses.get (i).getFilterName ()));
-                        tempEventsList.get (i).setProducerId (eventParses.get (i).getProducerId ());
+                        tempEventsList.add(new EventInfo(
+                                bmp,
+                                eventParses.get(i).getDate(),
+                                eventParses.get(i).getName(),
+                                eventParses.get(i).getTags(),
+                                eventParses.get(i).getPrice(),
+                                eventParses.get(i).getDescription(),
+                                eventParses.get(i).getAddress(),
+                                eventParses.get(i).getEventToiletService(),
+                                eventParses.get(i).getEventParkingService(),
+                                eventParses.get(i).getEventCapacityService(),
+                                eventParses.get(i).getEventATMService(),
+                                eventParses.get(i).getCity(),
+                                i,
+                                eventParses.get(i).getFilterName()));
+                        tempEventsList.get(i).setProducerId(eventParses.get(i).getProducerId());
                     }
-                    updateSavedEvents (tempEventsList);
-                    all_events_data.clear ();
-                    all_events_data.addAll (tempEventsList);
-                    filtered_events_data.clear ();
-                    filtered_events_data.addAll (tempEventsList);
-                    eventsListAdapter.notifyDataSetChanged ();
-                    updateDeviceLocationGPS ();
+                    updateSavedEvents(tempEventsList);
+                    all_events_data.clear();
+                    all_events_data.addAll(tempEventsList);
+                    filtered_events_data.clear();
+                    filtered_events_data.addAll(tempEventsList);
+                    eventsListAdapter.notifyDataSetChanged();
+                    updateDeviceLocationGPS();
                     if (userChoosedCityManually) {
-                        filterByCity (namesCity[indexCityChossen]);
-                    } else if (!cityGPS.isEmpty ()) {
-                        filterByCity (cityGPS);
+                        filterByCity(namesCity[indexCityChossen]);
+                    } else if (!cityGPS.isEmpty()) {
+                        filterByCity(cityGPS);
                     }
-                    if (!currentFilterName.isEmpty ()) {
-                        filterByFilterChosen (currentFilterName);
+                    if (!currentFilterName.isEmpty()) {
+                        filterByFilterChosen(currentFilterName);
                     }
                 } else {
-                    e.printStackTrace ();
+                    e.printStackTrace();
                     return;
                 }
             }
@@ -261,7 +263,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
     public static void filterByCity(String cityName) {
         ArrayList<EventInfo> tempEventsList = new ArrayList<> ();
-        if (cityName.equals ("All Cities")) {
+        if (cityName.equals("All Cities")) {
             tempEventsList.addAll (all_events_data);
         } else {
             for (int i = 0; i < all_events_data.size (); i++) {
@@ -330,15 +332,25 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     @Override
     public void onClick(View v) {
         Intent newIntent = null;
-        if (v.getId () == savedEvent.getId ()) {
+        if (v.getId () == savedEvent.getId ())
+        {
             newIntent = new Intent (this, SavedEventActivity.class);
             startActivity (newIntent);
-        } else if (v.getId () == realTime.getId ()) {
+        }
+        else if (v.getId () == realTime.getId ())
+        {
             newIntent = new Intent (this, RealTime.class);
             startActivity (newIntent);
-        } else if (v.getId () == search.getId ()) {
+        }
+        else if (v.getId () == search.getId ())
+        {
             newIntent = new Intent (this, Search.class);
             startActivity (newIntent);
+        }
+        else if(v.getId()==notification.getId())
+        {
+            newIntent=new Intent(this,MyNotification.class);
+            startActivity(newIntent);
         }
     }
 

@@ -18,6 +18,7 @@ import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -50,6 +51,7 @@ import java.util.List;
 
 public class EventPage extends Activity implements View.OnClickListener {
     ImageView save;
+    Button producerPush;
     String producer_id;
     String customer_id;
     private ImageView iv_share;
@@ -69,8 +71,8 @@ public class EventPage extends Activity implements View.OnClickListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate (savedInstanceState);
-        setContentView (R.layout.activity_event_page);
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_event_page);
 
         intent = getIntent ();
         if (getIntent ().getByteArrayExtra ("eventImage") != null) {
@@ -121,6 +123,28 @@ public class EventPage extends Activity implements View.OnClickListener {
             }
         });
         save = (ImageView) findViewById (R.id.imageEvenetPageView3);
+        producerPush=(Button)findViewById(R.id.pushButton);
+       // producerPush.setVisibility(View.INVISIBLE);
+        producerPush.setVisibility(View.VISIBLE);
+        producerPush.setOnClickListener(this);
+        if(MainActivity.producerId!=null)
+        {
+            Toast.makeText(this,"enter",Toast.LENGTH_SHORT).show();
+            boolean flag =true;
+            for(int i=0 ; i < MainActivity.all_events_data.size() && flag ; i++)
+            {
+                if(MainActivity.all_events_data.get(i).producerId.equals(MainActivity.producerId))
+                {
+                    if(MainActivity.all_events_data.get(i).getName().equals(eventName))flag=false;
+                }
+            }
+
+            if(!flag)
+            {
+                producerPush.setVisibility(View.VISIBLE);
+                producerPush.setOnClickListener(this);
+            }
+        }
         checkIfChangeColorToSaveButtton ();
         String even_addr = eventPlace;
         even_addr = even_addr.replace (",", "");
@@ -209,6 +233,11 @@ public class EventPage extends Activity implements View.OnClickListener {
                 dialog.show ();
                 TextView messageText = (TextView) dialog.findViewById (android.R.id.message);
                 messageText.setGravity (Gravity.CENTER);
+                break;
+            case R.id.pushButton:
+                Intent pushIntent=new Intent(EventPage.this,Push.class);
+                pushIntent.putExtra("id",eventName);
+                startActivity(pushIntent);
                 break;
         }
     }

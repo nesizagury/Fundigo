@@ -6,6 +6,7 @@ import android.location.Location;
 import com.parse.ParseClassName;
 import com.parse.ParseObject;
 
+
 /**
  * Created by rufflez on 8/31/14.
  */
