@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:facebook="http://schemas.android.com/apk/res-auto"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+    >
+
+    <TextView
+        android:id="@+id/textView7"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:text="Menu"
+        android:textColor="#000000"
+        android:textSize="30dp"/>
+
+    <com.facebook.login.widget.LoginButton
+        android:id="@+id/login_button11"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/textView7"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="4dp"
+        />
+
+    <com.facebook.login.widget.LoginButton
+        android:id="@+id/logout_button11"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/login_button11"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="4dp"
+        android:onClick="logOutFacebook"
+        facebook:com_facebook_login_text="Log Out"/>
+
+    <TextView
+        android:id="@+id/profileUserName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/logout_button11"
+        android:freezesText="true"
+        android:gravity="center"
+        android:text="no_user"
+        android:textSize="20sp"/>
+
+    <ImageView
+        android:id="@+id/faebook_profile"
+        android:layout_width="fill_parent"
+        android:layout_height="100dp"
+        android:layout_below="@+id/profileUserName"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="4dp"
+        android:src="@drawable/ic_gov"/>
+
+    <Button
+        android:id="@+id/button5"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/faebook_profile"
+        android:layout_marginTop="7dp"
+        android:background="#00b2ff"
+        android:onClick="sendPush"
+        android:text="Send PUSH"
+        android:textSize="20sp"/>
+
+    <Button
+        android:id="@+id/button3"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/button5"
+        android:layout_marginTop="2dp"
+        android:onClick="smsLogin"
+        android:text="Sms Verification"
+        android:textSize="20dp"/>
+
+    <Button
+        android:id="@+id/buttonUserProfile"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/button3"
+        android:onClick="getUserProfile"
+        android:text="@string/userDetailes"
+        android:textSize="20dp"
+        android:visibility="gone"/>
+
+    <TableLayout
+        android:id="@+id/profileTable"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/buttonUserProfile"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp"
+        android:visibility="gone">
+
+        <TableRow>
+
+            <TextView
+                android:layout_column="1"
+                android:padding="5dp"
+                android:text="User Name:"/>
+
+            <TextView
+                android:id="@+id/userRow"
+                android:gravity="right"
+                android:padding="5dp"/>
+        </TableRow>
+
+        <TableRow>
+
+            <TextView
+                android:layout_column="1"
+                android:padding="5dp"
+                android:text="Phone Number:"/>
+
+            <TextView
+                android:id="@+id/phoneRow"
+                android:gravity="right"
+                android:padding="5dp"/>
+        </TableRow>
+    </TableLayout>
+
+    <ImageView
+        android:id="@+id/profileImg"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_below="@id/profileTable"
+        android:layout_centerHorizontal="true"
+        android:padding="5dp"
+        />
+
+</RelativeLayout>

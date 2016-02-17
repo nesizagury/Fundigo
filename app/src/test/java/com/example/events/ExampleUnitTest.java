@@ -1,4 +1,4 @@
-package com.example.events;
+package com.example.FundigoApp;
 
 import org.junit.Test;
 

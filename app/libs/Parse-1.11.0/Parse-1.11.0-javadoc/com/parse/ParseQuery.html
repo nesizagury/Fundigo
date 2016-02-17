@@ -28,7 +28,7 @@
 <li><a href="package-summary.html">Package</a></li>
 <li class="navBarCell1Rev">Class</li>
 <li><a href="package-tree.html">Tree</a></li>
-<li><a href="../../deprecated-list.html">Deprecated</a></li>
+<li><a href="../../deprecated-eventList.html">Deprecated</a></li>
 <li><a href="../../index-all.html">Index</a></li>
 <li><a href="../../help-doc.html">Help</a></li>
 </ul>
@@ -271,20 +271,20 @@ extends <a href="http://d.android.com/reference/java/lang/Object.html?is-externa
 <tr class="altColor">
 <td class="colFirst"><code><a href="http://d.android.com/reference/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;<a href="../../com/parse/ParseQuery.html" title="type parameter in ParseQuery">T</a>&gt;</code></td>
 <td class="colLast"><code><strong><a href="../../com/parse/ParseQuery.html#find()">find</a></strong>()</code>
-<div class="block">Retrieves a list of <a href="../../com/parse/ParseObject.html" title="class in com.parse"><code>ParseObject</code></a>s that satisfy this query.</div>
+<div class="block">Retrieves a eventList of <a href="../../com/parse/ParseObject.html" title="class in com.parse"><code>ParseObject</code></a>s that satisfy this query.</div>
 </td>
 </tr>
 <tr class="rowColor">
 <td class="colFirst"><code><a href="http://boltsframework.github.io/docs/android/bolts/Task.html?is-external=true" title="class or interface in bolts">Task</a>&lt;<a href="http://d.android.com/reference/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;<a href="../../com/parse/ParseQuery.html" title="type parameter in ParseQuery">T</a>&gt;&gt;</code></td>
 <td class="colLast"><code><strong><a href="../../com/parse/ParseQuery.html#findInBackground()">findInBackground</a></strong>()</code>
-<div class="block">Retrieves a list of <a href="../../com/parse/ParseObject.html" title="class in com.parse"><code>ParseObject</code></a>s that satisfy this query from the source in a
+<div class="block">Retrieves a eventList of <a href="../../com/parse/ParseObject.html" title="class in com.parse"><code>ParseObject</code></a>s that satisfy this query from the source in a
  background thread.</div>
 </td>
 </tr>
 <tr class="altColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><strong><a href="../../com/parse/ParseQuery.html#findInBackground(com.parse.FindCallback)">findInBackground</a></strong>(<a href="../../com/parse/FindCallback.html" title="interface in com.parse">FindCallback</a>&lt;<a href="../../com/parse/ParseQuery.html" title="type parameter in ParseQuery">T</a>&gt;&nbsp;callback)</code>
-<div class="block">Retrieves a list of <a href="../../com/parse/ParseObject.html" title="class in com.parse"><code>ParseObject</code></a>s that satisfy this query from the source in a
+<div class="block">Retrieves a eventList of <a href="../../com/parse/ParseObject.html" title="class in com.parse"><code>ParseObject</code></a>s that satisfy this query from the source in a
  background thread.</div>
 </td>
 </tr>
@@ -472,7 +472,7 @@ extends <a href="http://d.android.com/reference/java/lang/Object.html?is-externa
 <td class="colLast"><code><strong><a href="../../com/parse/ParseQuery.html#whereContainedIn(java.lang.String,%20java.util.Collection)">whereContainedIn</a></strong>(<a href="http://d.android.com/reference/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;key,
                 <a href="http://d.android.com/reference/java/util/Collection.html?is-external=true" title="class or interface in java.util">Collection</a>&lt;? extends <a href="http://d.android.com/reference/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&gt;&nbsp;values)</code>
 <div class="block">Add a constraint to the query that requires a particular key's value to be contained in the
- provided list of values.</div>
+ provided eventList of values.</div>
 </td>
 </tr>
 <tr class="rowColor">
@@ -613,7 +613,7 @@ extends <a href="http://d.android.com/reference/java/lang/Object.html?is-externa
 <td class="colLast"><code><strong><a href="../../com/parse/ParseQuery.html#whereNotContainedIn(java.lang.String,%20java.util.Collection)">whereNotContainedIn</a></strong>(<a href="http://d.android.com/reference/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;key,
                    <a href="http://d.android.com/reference/java/util/Collection.html?is-external=true" title="class or interface in java.util">Collection</a>&lt;? extends <a href="http://d.android.com/reference/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&gt;&nbsp;values)</code>
 <div class="block">Add a constraint to the query that requires a particular key's value not be contained in the
- provided list of values.</div>
+ provided eventList of values.</div>
 </td>
 </tr>
 <tr class="rowColor">
@@ -729,7 +729,7 @@ extends <a href="http://d.android.com/reference/java/lang/Object.html?is-externa
 <h4>or</h4>
 <pre>public static&nbsp;&lt;T extends <a href="../../com/parse/ParseObject.html" title="class in com.parse">ParseObject</a>&gt;&nbsp;<a href="../../com/parse/ParseQuery.html" title="class in com.parse">ParseQuery</a>&lt;T&gt;&nbsp;or(<a href="http://d.android.com/reference/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;<a href="../../com/parse/ParseQuery.html" title="class in com.parse">ParseQuery</a>&lt;T&gt;&gt;&nbsp;queries)</pre>
 <div class="block">Constructs a query that is the <code>or</code> of the given queries.</div>
-<dl><dt><span class="strong">Parameters:</span></dt><dd><code>queries</code> - The list of <code>ParseQuery</code>s to 'or' together</dd>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>queries</code> - The eventList of <code>ParseQuery</code>s to 'or' together</dd>
 <dt><span class="strong">Returns:</span></dt><dd>A <code>ParseQuery</code> that is the 'or' of the passed in queries</dd></dl>
 </li>
 </ul>
@@ -789,9 +789,9 @@ public static&nbsp;<a href="../../com/parse/ParseQuery.html" title="class in com
 <h4>find</h4>
 <pre>public&nbsp;<a href="http://d.android.com/reference/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;<a href="../../com/parse/ParseQuery.html" title="type parameter in ParseQuery">T</a>&gt;&nbsp;find()
                                  throws <a href="../../com/parse/ParseException.html" title="class in com.parse">ParseException</a></pre>
-<div class="block">Retrieves a list of <a href="../../com/parse/ParseObject.html" title="class in com.parse"><code>ParseObject</code></a>s that satisfy this query.
+<div class="block">Retrieves a eventList of <a href="../../com/parse/ParseObject.html" title="class in com.parse"><code>ParseObject</code></a>s that satisfy this query.
  <p/></div>
-<dl><dt><span class="strong">Returns:</span></dt><dd>A list of all <a href="../../com/parse/ParseObject.html" title="class in com.parse"><code>ParseObject</code></a>s obeying the conditions set in this query.</dd>
+<dl><dt><span class="strong">Returns:</span></dt><dd>A eventList of all <a href="../../com/parse/ParseObject.html" title="class in com.parse"><code>ParseObject</code></a>s obeying the conditions set in this query.</dd>
 <dt><span class="strong">Throws:</span></dt>
 <dd><code><a href="../../com/parse/ParseException.html" title="class in com.parse">ParseException</a></code> - Throws a <a href="../../com/parse/ParseException.html" title="class in com.parse"><code>ParseException</code></a> if no object is found.</dd><dt><span class="strong">See Also:</span></dt><dd><a href="../../com/parse/ParseException.html#OBJECT_NOT_FOUND"><code>ParseException.OBJECT_NOT_FOUND</code></a></dd></dl>
 </li>
@@ -920,7 +920,7 @@ public static&nbsp;<a href="../../com/parse/ParseQuery.html" title="class in com
 <li class="blockList">
 <h4>findInBackground</h4>
 <pre>public&nbsp;<a href="http://boltsframework.github.io/docs/android/bolts/Task.html?is-external=true" title="class or interface in bolts">Task</a>&lt;<a href="http://d.android.com/reference/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;<a href="../../com/parse/ParseQuery.html" title="type parameter in ParseQuery">T</a>&gt;&gt;&nbsp;findInBackground()</pre>
-<div class="block">Retrieves a list of <a href="../../com/parse/ParseObject.html" title="class in com.parse"><code>ParseObject</code></a>s that satisfy this query from the source in a
+<div class="block">Retrieves a eventList of <a href="../../com/parse/ParseObject.html" title="class in com.parse"><code>ParseObject</code></a>s that satisfy this query from the source in a
  background thread.
  <p/>
  This is preferable to using <a href="../../com/parse/ParseQuery.html#find()"><code>ParseQuery.find()</code></a>, unless your code is already running in a
@@ -935,7 +935,7 @@ public static&nbsp;<a href="../../com/parse/ParseQuery.html" title="class in com
 <li class="blockList">
 <h4>findInBackground</h4>
 <pre>public&nbsp;void&nbsp;findInBackground(<a href="../../com/parse/FindCallback.html" title="interface in com.parse">FindCallback</a>&lt;<a href="../../com/parse/ParseQuery.html" title="type parameter in ParseQuery">T</a>&gt;&nbsp;callback)</pre>
-<div class="block">Retrieves a list of <a href="../../com/parse/ParseObject.html" title="class in com.parse"><code>ParseObject</code></a>s that satisfy this query from the source in a
+<div class="block">Retrieves a eventList of <a href="../../com/parse/ParseObject.html" title="class in com.parse"><code>ParseObject</code></a>s that satisfy this query from the source in a
  background thread.
  <p/>
  This is preferable to using <a href="../../com/parse/ParseQuery.html#find()"><code>ParseQuery.find()</code></a>, unless your code is already running in a
@@ -1187,7 +1187,7 @@ public static&nbsp;<a href="../../com/parse/ParseQuery.html" title="class in com
 <pre>public&nbsp;<a href="../../com/parse/ParseQuery.html" title="class in com.parse">ParseQuery</a>&lt;<a href="../../com/parse/ParseQuery.html" title="type parameter in ParseQuery">T</a>&gt;&nbsp;whereContainedIn(<a href="http://d.android.com/reference/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;key,
                              <a href="http://d.android.com/reference/java/util/Collection.html?is-external=true" title="class or interface in java.util">Collection</a>&lt;? extends <a href="http://d.android.com/reference/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&gt;&nbsp;values)</pre>
 <div class="block">Add a constraint to the query that requires a particular key's value to be contained in the
- provided list of values.</div>
+ provided eventList of values.</div>
 <dl><dt><span class="strong">Parameters:</span></dt><dd><code>key</code> - The key to check.</dd><dd><code>values</code> - The values that will match.</dd>
 <dt><span class="strong">Returns:</span></dt><dd>this, so you can chain this call.</dd></dl>
 </li>
@@ -1205,7 +1205,7 @@ public static&nbsp;<a href="../../com/parse/ParseQuery.html" title="class in com
  <p/>
  This only works on keys whose values are <a href="../../com/parse/ParseObject.html" title="class in com.parse"><code>ParseObject</code></a>s or lists of <a href="../../com/parse/ParseObject.html" title="class in com.parse"><code>ParseObject</code></a>s.
  Add a constraint to the query that requires a particular key's value to contain every one of
- the provided list of values.</div>
+ the provided eventList of values.</div>
 <dl><dt><span class="strong">Parameters:</span></dt><dd><code>key</code> - The key to check. This key's value must be an array.</dd><dd><code>values</code> - The values that will match.</dd>
 <dt><span class="strong">Returns:</span></dt><dd>this, so you can chain this call.</dd></dl>
 </li>
@@ -1281,7 +1281,7 @@ public static&nbsp;<a href="../../com/parse/ParseQuery.html" title="class in com
 <pre>public&nbsp;<a href="../../com/parse/ParseQuery.html" title="class in com.parse">ParseQuery</a>&lt;<a href="../../com/parse/ParseQuery.html" title="type parameter in ParseQuery">T</a>&gt;&nbsp;whereNotContainedIn(<a href="http://d.android.com/reference/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;key,
                                 <a href="http://d.android.com/reference/java/util/Collection.html?is-external=true" title="class or interface in java.util">Collection</a>&lt;? extends <a href="http://d.android.com/reference/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&gt;&nbsp;values)</pre>
 <div class="block">Add a constraint to the query that requires a particular key's value not be contained in the
- provided list of values.</div>
+ provided eventList of values.</div>
 <dl><dt><span class="strong">Parameters:</span></dt><dd><code>key</code> - The key to check.</dd><dd><code>values</code> - The values that will not match.</dd>
 <dt><span class="strong">Returns:</span></dt><dd>this, so you can chain this call.</dd></dl>
 </li>
@@ -1643,7 +1643,7 @@ public static&nbsp;<a href="../../com/parse/ParseQuery.html" title="class in com
 <li><a href="package-summary.html">Package</a></li>
 <li class="navBarCell1Rev">Class</li>
 <li><a href="package-tree.html">Tree</a></li>
-<li><a href="../../deprecated-list.html">Deprecated</a></li>
+<li><a href="../../deprecated-eventList.html">Deprecated</a></li>
 <li><a href="../../index-all.html">Index</a></li>
 <li><a href="../../help-doc.html">Help</a></li>
 </ul>

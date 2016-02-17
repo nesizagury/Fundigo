@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:orientation="vertical" >
+
+        <TextView
+            android:id="@+id/sendDateTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/messages_time_background"
+            android:padding="2dp"
+            android:textColor="#ffffff"
+            android:textSize="12sp"
+            android:text="11-02-216"
+            android:layout_gravity="center"
+            android:gravity="center"/>
+    </LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="5dp"
+        >
+
+        <TextView
+            android:id="@+id/textTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="#97d5ff"
+            android:clickable="true"
+            android:focusable="true"
+            android:lineSpacingExtra="0dp"
+            android:textColor="#ff000000"
+            android:textSize="15sp"
+            android:layout_alignParentEnd="true"
+            android:text="hfghfghf ghfghfgh fghfgbnb  fghnjhjhjhj hjghjghj hgjgh ghj fgbh fjrjfgn fnbfg nfgj"
+            android:padding="5dp"
+            android:gravity="left"/>
+
+        <TextView
+            android:id="@+id/sendTimeTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            android:focusable="true"
+            android:gravity="left|bottom"
+            android:textColor="#ff58616d"
+            android:textSize="10sp"
+            android:text="46453644"
+            android:layout_below="@+id/textTextView"
+            android:layout_alignParentEnd="true"
+            android:paddingLeft="5dp"
+            android:paddingBottom="5dp"/>
+
+    </RelativeLayout>
+
+</LinearLayout>

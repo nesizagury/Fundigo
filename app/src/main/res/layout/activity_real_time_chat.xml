@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="#ffffff"
-    android:orientation="vertical">
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="#ffffff"
+                android:orientation="vertical">
 
     <ListView
         android:id="@+id/lv_Chat"
@@ -13,7 +13,7 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
-        android:transcriptMode="alwaysScroll" />
+        android:transcriptMode="alwaysScroll"/>
 
     <RelativeLayout
         android:id="@+id/llSend"
@@ -34,21 +34,21 @@
             <EditText
                 android:id="@+id/et_Message"
                 android:layout_width="0dp"
-                android:layout_weight="4"
                 android:layout_height="wrap_content"
                 android:layout_alignBottom="@+id/btSend"
                 android:layout_toLeftOf="@+id/btSend"
+                android:layout_weight="4"
                 android:gravity="top"
                 android:hint="@string/message_hint"
                 android:imeOptions="actionSend"
-                android:inputType="textShortMessage" />
+                android:inputType="textShortMessage"/>
 
             <Button
                 android:id="@+id/btn_Send"
                 android:layout_width="0dp"
-                android:layout_weight="1"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
+                android:layout_weight="1"
                 android:gravity="center"
                 android:paddingRight="10dp"
                 android:text="@string/send"

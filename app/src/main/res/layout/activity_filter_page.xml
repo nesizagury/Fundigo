@@ -5,7 +5,7 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     android:paddingBottom="@dimen/activity_vertical_margin"
-    tools:context="com.example.events.FilterPage">
+    tools:context="com.example.FundigoApp.FilterPage">
 
     <GridView
         android:layout_width="match_parent"

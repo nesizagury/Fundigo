@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- From: file:/C:/CreditCardEntry-master/CreditCardEntry/res/values/ids.xml -->
+    <eat-comment/>
+    <item name="null_color" type="color">234234</item>
+    <!-- From: file:/C:/CreditCardEntry-master/CreditCardEntry/res/values/colors.xml -->
+    <eat-comment/>
+    <color name="text_helper_color">#a8a8a8</color>
+    <declare-styleable name="CreditCardForm"><attr format="boolean" name="include_exp"/><attr format="boolean" name="include_security"/><attr format="boolean" name="include_zip"/><attr format="boolean" name="include_helper"/><attr format="color" name="helper_text_color"/><attr format="color" name="text_color"/><attr format="color" name="hint_text_color"/><attr format="color" name="cursor_color"/><attr format="string" name="card_number_hint"/><attr format="reference" name="input_background"/><attr format="boolean" name="default_text_colors"/><attr format="boolean" name="animate_on_error"/></declare-styleable>
+    <!-- From: file:/C:/CreditCardEntry-master/CreditCardEntry/res/values/ids.xml -->
+    <eat-comment/>
+    <item name="cc_card" type="id">2222</item>
+    <item name="cc_ccv" type="id">4444</item>
+    <item name="cc_entry" type="id">1000</item>
+    <item name="cc_entry_internal" type="id">3000</item>
+    <item name="cc_exp" type="id">3333</item>
+    <item name="cc_form_layout" type="id">1111</item>
+    <item name="cc_zip" type="id">5555</item>
+    <item name="text_helper" type="id">2000</item>
+    <!-- From: file:/C:/CreditCardEntry-master/CreditCardEntry/res/values/strings.xml -->
+    <eat-comment/>
+    <string name="CreditCardNumberHelp"/>
+    <string name="ExpirationDateHelp">Expiration date (MM/YY)</string>
+    <string name="SecurityCodeHelp">Security code (CVV)</string>
+    <string name="ZipHelp">Zip code of billing address</string>
+    <!-- From: file:/C:/CreditCardEntry-master/CreditCardEntry/res/values/styles.xml -->
+    <eat-comment/>
+    <style name="AppBaseTheme" parent="android:Theme.Light">
+        <!--
+            Theme customizations available in newer API levels can go in
+            res/values-vXX/styles.xml, while customizations related to
+            backward-compatibility can go here.
+        -->
+    </style>
+    <style name="AppTheme" parent="AppBaseTheme">
+        <!-- All customizations that are NOT specific to a particular API-level can go here. -->
+    </style>
+</resources>

@@ -5,6 +5,15 @@
     android:layout_height="wrap_content">
 
     <ImageView
+        android:id="@+id/iv_qrscan"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_weight="1"
+        android:src="@drawable/qr_scan"
+        android:layout_below="@+id/linearLayoutTop"
+        android:layout_alignStart="@+id/scrollView" />
+
+    <ImageView
         android:id="@+id/eventPage_image"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -58,19 +67,20 @@
             android:layout_height="fill_parent"
             android:layout_marginTop="2dp"
             android:layout_weight="1"
-            android:src="@mipmap/ic_mor_information"/>
+            android:src="@mipmap/ic_mor_information"
+            android:nestedScrollingEnabled="false"/>
 
         <TextView
             android:id="@+id/eventPage_name"
             android:layout_width="0dip"
             android:layout_height="fill_parent"
             android:layout_weight="6"
-            android:gravity="center"
+            android:gravity="fill_vertical|center_horizontal"
             android:text="The Best Show in Israel"
             android:textColor="#000000"
-            android:textSize="18dp"
             android:textStyle="bold"
-            />
+            android:layout_gravity="center"
+            android:textSize="20sp"/>
 
         <ImageView
             android:id="@+id/imageEvenetPageView3"
@@ -79,7 +89,8 @@
             android:layout_marginTop="2dp"
             android:layout_weight="1"
             android:adjustViewBounds="false"
-            android:src="@mipmap/wh"/>
+            android:src="@mipmap/wh"
+            android:onClick="onClick"/>
 
         <ImageView
             android:id="@+id/imageEvenetPageView2"
@@ -105,34 +116,35 @@
             android:id="@+id/priceEventPage"
             android:layout_width="0dip"
             android:layout_height="wrap_content"
-            android:layout_gravity="fill_vertical"
             android:layout_weight="1"
-            android:background="#3F51B5"
+            android:background="#3293CD"
             android:text="15$-25$"
-            android:textColor="#ffffff"/>
+            android:onClick="editEvent"
+            android:textColor="#ffffff"
+            android:gravity="center"
+            android:textAlignment="center"/>
 
         <Button
             android:id="@+id/eventPage_tags"
             android:layout_width="0dip"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_centerHorizontal="true"
+            android:layout_height="fill_parent"
             android:layout_weight="1"
             android:background="#ffffff"
             android:text="#Food&amp;Drink #Convention"
             android:textColor="#000000"
-            android:textSize="13dp"/>
+            android:gravity="center"
+            android:textAlignment="center"/>
 
         <Button
             android:id="@+id/button"
             android:layout_width="0dip"
-            android:layout_height="wrap_content"
-            android:layout_gravity="fill_vertical"
+            android:layout_height="fill_parent"
             android:layout_weight="1"
-            android:background="#3F51B5"
+            android:background="#3293CD"
             android:onClick="openTicketsPage"
             android:text="GET TICKETS"
-            android:textColor="#ffffff"/>
+            android:textColor="#ffffff"
+            android:gravity="center"/>
     </LinearLayout>
 
     <ScrollView
@@ -150,19 +162,11 @@
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:gravity="center"
-            android:text="ALUMINIUM CHINA is Asia‘s top trading, sourcing, networking and branding platform for the complete aluminum industry chain, bringing together leading industry figures, cutting edge technologies and advanced applications. Annually held in Shanghai, the event engages the global Aluminium community with new customized matchmaking programs linking application buyers with emerging and established demands and buyers of equipment and accessories with leading suppliers."
+            android:text="ALUMINIUM CHINA is Asia‘s top trading, sourcing, networking and branding platform for the complete aluminum industry chain, bringing together leading industry figures, cutting edge technologies and advanced applications. Annually held in Shanghai, the eventParse engages the global Aluminium community with new customized matchmaking programs linking application buyers with emerging and established demands and buyers of equipment and accessories with leading suppliers."
             android:textColor="#3c3c3c"
             android:textIsSelectable="false"
             android:textSize="17sp"/>
     </ScrollView>
 
-    <Button
-        android:id="@+id/rt_chat"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/scrollView"
-        android:layout_alignParentStart="true"
-        android:onClick="openChat"
-        android:text="Real Time Chat"/>
 
 </RelativeLayout>

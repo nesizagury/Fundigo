@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    >
+<LinearLayout
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:weightSum="250"
+    android:id="@+id/autoText"
+
+    >
+    <SearchView
+        android:id="@+id/b_search"
+        android:layout_height="fill_parent"
+        android:layout_width="0dp"
+        android:layout_weight="250"
+        android:background="@color/colorAccent"
+        />
+
+
+</LinearLayout>
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/autoText"
+        android:id="@+id/linerLayout_button"
+        >
+        <Button
+            android:layout_width="100dp"
+            android:layout_height="50dp"
+            android:layout_marginStart="95dp"
+            android:text="History"
+            android:background="@color/colorPrimary"
+            android:id="@+id/b_history"
+            />
+
+        <Button
+            android:layout_width="100dp"
+            android:layout_height="50dp"
+            android:layout_marginStart="14dp"
+            android:text="Clear History"
+            android:background="@color/colorPrimary"
+            android:id="@+id/b_clear"
+            android:onClick="onClick"
+            />
+    </LinearLayout>
+    <ListView
+        android:id="@+id/listView_Search"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_below="@+id/linerLayout_button"
+        android:layout_marginLeft="4dp"
+        android:layout_marginRight="4dp"
+        android:background="#F1F1F1"
+        android:divider="#F1F1F1"
+        android:dividerHeight="0dp"
+        android:drawSelectorOnTop="false"/>
+
+</RelativeLayout>

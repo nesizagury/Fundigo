@@ -1,13 +1,138 @@
 <?xml version="1.0" encoding="utf-8"?>
-<GridView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/gridview"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:columnWidth="90dp"
-    android:numColumns="2"
-    android:verticalSpacing="10dp"
-    android:horizontalSpacing="10dp"
-    android:stretchMode="columnWidth"
-    android:gravity="center"
-    android:layout_below="@+id/toolbar"
-    />
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="200dp"
+                android:layout_height="300dp"
+                android:background="@android:drawable/dialog_holo_light_frame">
+
+    <LinearLayout
+        android:id="@+id/tableRowAll"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentStart="true"
+        android:background="#ffffff"
+        android:contextClickable="true"
+        android:orientation="vertical"
+        android:weightSum="200">
+
+        <ImageView
+            android:id="@+id/imageView_grid"
+            android:layout_width="fill_parent"
+            android:layout_height="0dip"
+            android:layout_weight="135"
+            android:background="@drawable/pic0"
+            android:scaleType="fitXY"/>
+
+        <LinearLayout
+            android:id="@+id/tableRow2"
+            android:layout_width="fill_parent"
+            android:layout_height="0dip"
+            android:layout_weight="47"
+            android:baselineAligned="false"
+            android:contextClickable="true"
+            android:gravity="center_vertical|left"
+            android:stretchColumns="*"
+            android:transitionGroup="false"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/event_date_grid"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:elegantTextHeight="false"
+                android:gravity="left|fill_vertical"
+                android:paddingLeft="4dp"
+                android:text="12/15/2016"
+                android:textColor="#454545"
+                android:textSize="12sp"/>
+
+            <TextView
+                android:id="@+id/event_name_tv_grid"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:gravity="left|fill_vertical"
+                android:paddingLeft="4dp"
+                android:text="The Commedy Show"
+                android:textColor="#000000"
+                android:textSize="15sp"
+                android:textStyle="bold"/>
+
+            <TextView
+                android:id="@+id/event_location_grid"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:gravity="left|fill_vertical"
+                android:paddingLeft="4dp"
+                android:text="Chelnov 29, Tel Aviv"
+                android:textColor="#666666"
+                android:textSize="12sp"/>
+
+        </LinearLayout>
+
+        <TableRow
+            android:id="@+id/tableRow"
+            android:layout_width="fill_parent"
+            android:layout_height="0dip"
+            android:layout_weight="18"
+            android:baselineAligned="true"
+            android:contextClickable="true"
+            android:divider="#3f3232"
+            android:gravity="center_vertical|left"
+            android:stretchColumns="*"
+            android:transitionGroup="true"
+            android:weightSum="200">
+
+            <TextView
+                android:id="@+id/tags_grid"
+                android:layout_width="0dip"
+                android:layout_height="fill_parent"
+                android:layout_marginTop="0dp"
+                android:layout_weight="110"
+                android:background="@drawable/row_order1"
+                android:gravity="center_vertical"
+                android:paddingLeft="4dp"
+                android:text="#Party #Show"
+                android:textColor="#71B7E6"
+                android:textSize="10sp"
+                android:textStyle="bold"/>
+
+            <ImageView
+                android:id="@+id/imageView2_grid"
+                android:layout_width="0dip"
+                android:layout_height="fill_parent"
+                android:layout_marginTop="0dp"
+                android:layout_weight="45"
+                android:background="@drawable/row_order1"
+                android:padding="6dp"
+                android:src="@mipmap/shh"/>
+
+            <ImageView
+                android:id="@+id/imageView3_grid"
+                android:layout_width="0dip"
+                android:layout_height="fill_parent"
+                android:layout_marginTop="0dp"
+                android:layout_weight="45"
+                android:background="@drawable/row_order1"
+                android:padding="3dp"
+                android:src="@mipmap/whh"
+                />
+        </TableRow>
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/event_price_grid"
+        android:layout_width="40dp"
+        android:layout_height="15dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentTop="true"
+        android:layout_gravity="right"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="10dp"
+        android:background="#c8e1e1e1"
+        android:gravity="center_vertical|center_horizontal"
+        android:text="15$"
+        android:textAlignment="center"
+        android:textColor="#000000"
+        android:textSize="10sp"/>
+
+</RelativeLayout>

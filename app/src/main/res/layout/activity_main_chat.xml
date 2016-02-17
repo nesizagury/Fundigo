@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical"
+                android:background="#ffffff">
+
+    <LinearLayout
+        android:id="@+id/toolbar_chat"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:weightSum="400.0"
+
+        android:layout_alignParentStart="true">
+
+        <ImageView
+            android:id="@+id/profileImage_chat"
+            android:layout_width="0dip"
+            android:layout_height="55dip"
+            android:layout_weight="50"
+            android:adjustViewBounds="false"
+            android:background="#3293CD"
+            android:clickable="true"
+            android:scaleType="fitXY"
+            android:src="@drawable/avatar"
+            />
+
+        <Button
+            android:id="@+id/ProfileName_chat"
+            android:layout_width="0dip"
+            android:layout_height="55dip"
+            android:layout_weight="310"
+            android:background="#3293CD"
+            android:text="0527959455"
+            android:textColor="#ffffff"
+            android:textSize="15sp"
+            android:gravity="center"/>
+
+        <Button
+            android:id="@+id/ProfileFacebook_chat"
+            android:layout_width="0dip"
+            android:layout_height="55dip"
+            android:layout_weight="40"
+            android:background="#3293CD"
+            android:text="FB"
+            android:textColor="#ffffff"
+            android:textSize="15sp"
+            android:onClick="oOpenFacebookIntent"/>
+
+    </LinearLayout>
+
+    <ListView
+        android:id="@+id/messageListviewChat"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/llSendChat"
+        android:layout_below="@+id/toolbar_chat"
+        android:cacheColorHint="#00000000"
+        android:divider="@null"
+        android:transcriptMode="alwaysScroll"
+        android:background="#7fd6d6d6"/>
+
+    <RelativeLayout
+        android:id="@+id/llSendChat"
+        android:layout_alignParentBottom="true"
+        android:layout_width="fill_parent"
+        android:background="#ffffff"
+        android:paddingTop="5dp"
+        android:paddingBottom="10dp"
+        android:paddingLeft="0dp"
+        android:paddingRight="0dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true">
+        <EditText
+            android:id="@+id/etMessageChat"
+            android:layout_toLeftOf="@+id/btSendChat"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="top"
+            android:hint="@string/message_hint"
+            android:inputType="textLongMessage"
+            android:imeOptions="actionSend"
+            />
+        <Button
+            android:id="@+id/btSendChat"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingRight="10dp"
+            android:layout_alignParentRight="true"
+            android:text="@string/send"
+            android:onClick="sendMessage"
+            android:textSize="18sp"
+            >
+        </Button>
+    </RelativeLayout>
+
+</RelativeLayout>
