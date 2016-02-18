@@ -545,7 +545,7 @@ public class EventPage extends Activity implements View.OnClickListener {
 
         public void editEvent(View view) {
             if (Constants.IS_PRODUCER) {
-                Intent intent = new Intent(EventPage.this, CreateEventActivity.class);
+                Intent intent = new Intent(EventPage.this, Test.class);
                 intent.putExtra("name", getIntent().getStringExtra("eventName"));
                 intent.putExtra("eventObjectId", event.getParseObjectId());
                 intent.putExtra("create", "false");
