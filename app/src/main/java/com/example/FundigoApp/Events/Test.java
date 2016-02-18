@@ -2,6 +2,7 @@ package com.example.FundigoApp.Events;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
@@ -10,6 +11,7 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -44,17 +46,14 @@ public class Test extends Activity implements View.OnClickListener {
     TextView tv_date;
     TextView tv_artist;
     TextView tv_description;
-
     EditText et_date;
     EditText et_name;
     EditText et_artist;
     EditText et_description;
-
     EditText et_price;
     EditText et_quantity;
     EditText et_address;
     EditText et_place;
-
     EditText et_capacity;
     EditText et_parking;
     EditText et_tags;
@@ -73,9 +72,6 @@ public class Test extends Activity implements View.OnClickListener {
     LinearLayout ll_artist;
     LinearLayout ll_description;
     CheckBox atmBox;
-
-    private String username;
-    private String password;
     private static final int SELECT_PICTURE = 1;
     String picturePath;
     private boolean pictureSelected;
@@ -108,9 +104,9 @@ public class Test extends Activity implements View.OnClickListener {
                 showSecondStage();
                 break;
             case R.id.btn_next1:
-                if(address_ok) {
+                if (address_ok) {
                     showThirdStage();
-                }else{
+                } else {
                     Toast.makeText(Test.this, "Please enter valid address", Toast.LENGTH_SHORT).show();
                 }
                 break;
@@ -118,9 +114,6 @@ public class Test extends Activity implements View.OnClickListener {
                 validateAddress();
                 break;
             case R.id.btn_next2:
-                dialog = new ProgressDialog(this);
-                dialog.setMessage("Uploading...");
-                dialog.show();
                 saveEvent();
                 break;
             case R.id.btn_pic:
@@ -130,7 +123,6 @@ public class Test extends Activity implements View.OnClickListener {
         }
 
     }
-
 
 
     private void uploadPic() {
@@ -168,21 +160,21 @@ public class Test extends Activity implements View.OnClickListener {
             btn_next.setVisibility(View.GONE);
             create_event2.setVisibility(View.VISIBLE);
 
-        }else{
+        } else {
             Toast.makeText(Test.this, "Please fill empty forms", Toast.LENGTH_SHORT).show();
         }
     }
 
     private void validateAddress() {
-        address =  et_address.getText().toString();
+        address = et_address.getText().toString();
         new ValidateAddress().execute(Constants.GEO_API_ADDRESS);
     }
 
-    private void showThirdStage(){
-        if(et_price.length() !=0&& et_quantity.length()!=0&& address_ok && et_place.length() !=0){
+    private void showThirdStage() {
+        if (et_price.length() != 0 && et_quantity.length() != 0 && address_ok && et_place.length() != 0) {
             create_event2.setVisibility(View.GONE);
             create_event3.setVisibility(View.VISIBLE);
-        }else{
+        } else {
             Toast.makeText(Test.this, "Please fill empty forms", Toast.LENGTH_SHORT).show();
         }
 
@@ -190,92 +182,113 @@ public class Test extends Activity implements View.OnClickListener {
 
     public void saveEvent() {
 
-        Event event = new Event ();
-        if (et_tags.getText ().length () != 0) {
-            if (getIntent ().getStringExtra ("create").equals ("false")) {
-                deleteRow ();
-                event.setSold (sold);
-                event.setIncome (income);
+        Event event = new Event();
+        if (et_tags.getText().length() != 0) {
+            if (getIntent().getStringExtra("create").equals("false")) {
+                deleteRow();
+                event.setSold(sold);
+                event.setIncome(income);
             } else {
-                event.setSold ("0");
-                event.setIncome ("0");
+                event.setSold("0");
+                event.setIncome("0");
             }
 
 
-            event.setName (et_name.getText ().toString ());
-            event.setDescription (et_description.getText ().toString ());
-            event.setPrice (et_price.getText ().toString ());
-            event.setNumOfTicketsLeft (et_quantity.getText ().toString ());
-            event.setAddress (valid_address);
+            event.setName(et_name.getText().toString());
+            event.setDescription(et_description.getText().toString());
+            event.setPrice(et_price.getText().toString());
+            event.setNumOfTicketsLeft(et_quantity.getText().toString());
+            event.setAddress(valid_address);
             event.setCity(city);
-            event.setX (lat);
-            event.setY (lng);
-            event.setTags (et_tags.getText ().toString ());
-            event.setProducerId (MainActivity.producerId);
-            event.setDate (et_date.getText ().toString ());
-            event.setPlace (et_place.getText ().toString ());
-            event.setArtist (et_artist.getText ().toString ());
-            event.setEventToiletService (et_toilet.getText ().toString ());
-            event.setEventParkingService (et_parking.getText ().toString ());
-            event.setEventCapacityService (et_capacity.getText ().toString ());
+            event.setX(lat);
+            event.setY(lng);
+            event.setTags(et_tags.getText().toString());
+            event.setProducerId(MainActivity.producerId);
+            event.setDate(et_date.getText().toString());
+            event.setPlace(et_place.getText().toString());
+            event.setArtist(et_artist.getText().toString());
+            event.setEventToiletService(et_toilet.getText().toString());
+            event.setEventParkingService(et_parking.getText().toString());
+            event.setEventCapacityService(et_capacity.getText().toString());
 
-            if (atmBox.isChecked ())
-                event.setEventATMService ("Yes");
+            if (atmBox.isChecked())
+                event.setEventATMService("Yes");
             else
-                event.setEventATMService ("No");
+                event.setEventATMService("No");
 
 
-            if (pictureSelected || tv_create.getText ().toString ().equals ("Edit Event")) {
-                pic.buildDrawingCache ();
-                Bitmap bitmap = pic.getDrawingCache ();
-                ByteArrayOutputStream stream = new ByteArrayOutputStream ();
-                bitmap.compress (Bitmap.CompressFormat.JPEG, 100, stream);
-                byte[] image = stream.toByteArray ();
-                ParseFile file = new ParseFile ("picturePath", image);
+            if (pictureSelected || tv_create.getText().toString().equals("Edit Event")) {
+                pic.buildDrawingCache();
+                Bitmap bitmap = pic.getDrawingCache();
+                ByteArrayOutputStream stream = new ByteArrayOutputStream();
+                bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
+                byte[] image = stream.toByteArray();
+                ParseFile file = new ParseFile("picturePath", image);
                 try {
-                    file.save ();
+                    file.save();
                 } catch (ParseException e) {
-                    e.printStackTrace ();
+                    e.printStackTrace();
                 }
 
 
-                event.put ("ImageFile", file);
+                event.put("ImageFile", file);
             }
 
             try {
-                event.save ();
+                event.save();
             } catch (ParseException e) {
-                e.printStackTrace ();
+                e.printStackTrace();
             }
-            Toast.makeText (getApplicationContext (), "Event has created successfully!", Toast.LENGTH_SHORT).show ();
-            dialog.dismiss();
+            Toast.makeText(getApplicationContext(), "Event has created successfully!", Toast.LENGTH_SHORT).show();
             finish();
         } else
-            Toast.makeText (getApplicationContext (), "Please fill the  empty fields", Toast.LENGTH_SHORT).show ();
+            Toast.makeText(getApplicationContext(), "Please fill the  empty fields", Toast.LENGTH_SHORT).show();
 
     }
 
     public void deleteRow() {
-        ParseQuery<ParseObject> query = ParseQuery.getQuery ("Event");
-        query.whereEqualTo ("objectId", getIntent ().getStringExtra ("eventObjectId"));
-        query.orderByDescending ("createdAt");
-        query.getFirstInBackground (new GetCallback<ParseObject>() {
+        ParseQuery<ParseObject> query = ParseQuery.getQuery("Event");
+        query.whereEqualTo("objectId", getIntent().getStringExtra("eventObjectId"));
+        query.orderByDescending("createdAt");
+        query.getFirstInBackground(new GetCallback<ParseObject>() {
             public void done(ParseObject object, ParseException e) {
                 if (e == null) {
                     try {
 
-                        object.delete ();
+                        object.delete();
                     } catch (ParseException e1) {
-                        e1.printStackTrace ();
+                        e1.printStackTrace();
                     }
-                    object.saveInBackground ();
+                    object.saveInBackground();
                 }
             }
         });
 
     }
 
+    @Override
+    public void onBackPressed() {
 
+        if (et_name.getVisibility() == View.VISIBLE) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setMessage("Are you sure you want to exit?")
+                    .setCancelable(false)
+                    .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            Test.this.finish();
+                        }
+                    })
+                    .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            dialog.cancel();
+                        }
+                    });
+            AlertDialog alert = builder.create();
+            alert.show();
+        }
+
+
+    }
 
 
     private void componentInit() {
@@ -298,7 +311,7 @@ public class Test extends Activity implements View.OnClickListener {
         et_toilet = (EditText) findViewById(R.id.et_toilet);
         btn_validate_address = (Button) findViewById(R.id.btn_validate_address);
         iv_val_add = (ImageView) findViewById(R.id.iv_val_add);
-        atmBox = (CheckBox) findViewById (R.id.checkBox);
+        atmBox = (CheckBox) findViewById(R.id.checkBox);
 
         btn_next = (Button) findViewById(R.id.btn_next);
         btn_next1 = (Button) findViewById(R.id.btn_next1);
@@ -311,30 +324,29 @@ public class Test extends Activity implements View.OnClickListener {
         btn_pic.setOnClickListener(this);
         btn_validate_address.setOnClickListener(this);
         create_event2 = (LinearLayout) findViewById(R.id.create_event2);
-        //login_second.setVisibility(View.GONE);
         create_event3 = (LinearLayout) findViewById(R.id.create_event3);
         ll_name = (LinearLayout) findViewById(R.id.ll_name);
         ll_date = (LinearLayout) findViewById(R.id.ll_date);
         ll_artist = (LinearLayout) findViewById(R.id.ll_artist);
         ll_description = (LinearLayout) findViewById(R.id.ll_description);
 
-        if (!getIntent ().getStringExtra ("create").equals ("true")) {
-            tv_create.setText ("Edit Event");
+        if (!getIntent().getStringExtra("create").equals("true")) {
+            tv_create.setText("Edit Event");
             et_name.setText("" + getIntent().getStringExtra("name"));
 
-            for (int i = 0; i < ArtistsPage.all_events.size (); i++) {
-                EventInfo event = ArtistsPage.all_events.get (i);
-                if (event.getParseObjectId ().equals (getIntent ().getStringExtra ("eventObjectId"))) {
-                    income = event.getIncome ();
-                    sold = event.getSold ();
-                    et_date.setText (event.getDate ());
-                    et_artist.setText (event.getArtist ());
-                    et_description.setText (event.getInfo ());
-                    et_price.setText (event.getPrice ());
-                    et_quantity.setText (event.getTicketsLeft ());
-                    et_address.setText (event.getPlace ());
+            for (int i = 0; i < ArtistsPage.all_events.size(); i++) {
+                EventInfo event = ArtistsPage.all_events.get(i);
+                if (event.getParseObjectId().equals(getIntent().getStringExtra("eventObjectId"))) {
+                    income = event.getIncome();
+                    sold = event.getSold();
+                    et_date.setText(event.getDate());
+                    et_artist.setText(event.getArtist());
+                    et_description.setText(event.getInfo());
+                    et_price.setText(event.getPrice());
+                    et_quantity.setText(event.getTicketsLeft());
+                    et_address.setText(event.getPlace());
                     pic.setImageBitmap(event.getImageId());
-                    et_tags.setText (event.getTags ());
+                    et_tags.setText(event.getTags());
                 }
 
             }
@@ -353,7 +365,6 @@ public class Test extends Activity implements View.OnClickListener {
             dialog.show();
         }
 
-        //address=1600+Amphitheatre+Parkway,+Mountain+View,+CA&key=YOUR_API_KEY
         // ----------------------------------------------------
         @Override
         protected String doInBackground(String... params) {
@@ -384,23 +395,26 @@ public class Test extends Activity implements View.OnClickListener {
                 Log.e(TAG, "Result is " + s);
                 gson = new Gson();
                 result = gson.fromJson(s, Result.class);
-                for(int i = 0; i<result.getResults().size();i++){
-                    valid_address = result.getResults().get(i).getFormatted_address();
-                    lat = result.getResults().get(i).getGeometry().getLocation().getLat();
-                    lng = result.getResults().get(i).getGeometry().getLocation().getLng();
-                    city = result.getResults().get(i).getAddress_components().get(2).getShort_name();
-                    if(result.getStatus().equals("OK")){
-                        address_ok = true;
-                        iv_val_add.setImageResource(R.drawable.v);
-                    }else{
-                        iv_val_add.setImageResource(R.drawable.x);
-                        Toast.makeText(Test.this, "Problem is "+result.getStatus(), Toast.LENGTH_SHORT).show();
-                    }
+                Log.e(TAG, "status " + result.getStatus());
+                if (result.getStatus().equals("OK")) {
+                    address_ok = true;
+                    iv_val_add.setImageResource(R.drawable.v);
+                    String street = result.getResults().get(0).getAddress_components().get(1).getShort_name();
+                    String number = result.getResults().get(0).getAddress_components().get(0).getShort_name();
+                    valid_address = street + "." + " , " + number;
+                    Log.e(TAG, "valid address - " + valid_address);
+                    lat = result.getResults().get(0).getGeometry().getLocation().getLat();
+                    lng = result.getResults().get(0).getGeometry().getLocation().getLng();
+                    city = result.getResults().get(0).getAddress_components().get(2).getShort_name();
+                    Log.e(TAG, "city - " + city);
 
+                } else if (result.getStatus().equals("ZERO_RESULTS")) {
+                    address_ok = false;
+                    iv_val_add.setImageResource(R.drawable.x);
+                    Toast.makeText(Test.this, "Problem is " + result.getStatus(), Toast.LENGTH_SHORT).show();
                 }
 
             }
-
 
         }
     }

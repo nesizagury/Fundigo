@@ -36,6 +36,8 @@ import com.example.FundigoApp.Tickets.GetQRCode;
 import com.example.FundigoApp.Tickets.SelectSeat;
 import com.facebook.share.model.ShareLinkContent;
 import com.facebook.share.widget.ShareDialog;
+import com.google.zxing.integration.android.IntentIntegrator;
+import com.google.zxing.integration.android.IntentResult;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
 
@@ -297,8 +299,8 @@ public class EventPage extends Activity implements View.OnClickListener {
                 messageText.setGravity(Gravity.CENTER);
                 break;
             case R.id.iv_qrscan:
-//                IntentIntegrator integrator = new IntentIntegrator(this);
-//                integrator.initiateScan();
+                IntentIntegrator integrator = new IntentIntegrator(this);
+                integrator.initiateScan();
                 break;
         }
     }
@@ -337,23 +339,23 @@ public class EventPage extends Activity implements View.OnClickListener {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
       //==============================Scaner=============================================
-//        IntentResult scan = null;
-//        if (data != null) {
-//            scan = IntentIntegrator.parseActivityResult(requestCode,
-//                    resultCode,
-//                    data);
-//        }
-//
-//        if (scan != null) {
-//            String result = scan.getContents();
-//            String objectId = result.substring(13, 23);
-//            Toast.makeText(EventPage.this, "" + scan.getFormatName() + " " + scan.getContents() + " ObjectId is " + objectId, Toast.LENGTH_LONG).show();
-//            Log.e(TAG, "result is " + scan.getFormatName() + " " + scan.getContents());
-//            Log.e(TAG, "sub " + objectId);
-//
-//        } else {
-//            Toast.makeText(EventPage.this, "Scan didn`t finish", Toast.LENGTH_SHORT).show();
-//        }
+        IntentResult scan = null;
+        if (data != null) {
+            scan = IntentIntegrator.parseActivityResult(requestCode,
+                    resultCode,
+                    data);
+        }
+
+        if (scan != null) {
+            String result = scan.getContents();
+            String objectId = result.substring(13, 23);
+            Toast.makeText(EventPage.this, "" + scan.getFormatName() + " " + scan.getContents() + " ObjectId is " + objectId, Toast.LENGTH_LONG).show();
+            Log.e(TAG, "result is " + scan.getFormatName() + " " + scan.getContents());
+            Log.e(TAG, "sub " + objectId);
+
+        } else {
+            Toast.makeText(EventPage.this, "Scan didn`t finish", Toast.LENGTH_SHORT).show();
+        }
 
         //================================================================================
 
@@ -543,7 +545,7 @@ public class EventPage extends Activity implements View.OnClickListener {
 
         public void editEvent(View view) {
             if (Constants.IS_PRODUCER) {
-                Intent intent = new Intent(EventPage.this, Test.class);
+                Intent intent = new Intent(EventPage.this, CreateEventActivity.class);
                 intent.putExtra("name", getIntent().getStringExtra("eventName"));
                 intent.putExtra("eventObjectId", event.getParseObjectId());
                 intent.putExtra("create", "false");
