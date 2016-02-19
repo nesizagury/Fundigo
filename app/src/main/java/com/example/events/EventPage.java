@@ -114,6 +114,7 @@ public class EventPage extends Activity implements View.OnClickListener {
         intent = getIntent ();
 
         LoginActivity.x = "";
+        MainActivity.deepLink_params = "";
 
             if (getIntent().getByteArrayExtra("eventImage") != null) {
                 byte[] byteArray = getIntent().getByteArrayExtra("eventImage");

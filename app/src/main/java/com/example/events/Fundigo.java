@@ -22,12 +22,8 @@ public class Fundigo extends Application {
     @Override
     public void onCreate() {
         super.onCreate ();
-
-
-
-            Branch.getInstance(this);
-
-
+        Branch.getInstance(this);
+        Branch.getAutoInstance(this);
         ACRA.init (this);
         Parse.enableLocalDatastore (this);
         Parse.initialize (this);

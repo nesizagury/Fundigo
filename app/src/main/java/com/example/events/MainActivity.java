@@ -38,6 +38,9 @@ import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseQuery;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
@@ -48,6 +51,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+
+import io.branch.referral.Branch;
+import io.branch.referral.BranchError;
 
 public class MainActivity extends AppCompatActivity implements AdapterView.OnItemClickListener, View.OnClickListener {
 
@@ -81,6 +87,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     String i = "";
     static boolean savedAcctivityRunnig = false;
     Context context;
+   static String deepLink_params = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -114,8 +121,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
 
         final ViewPager viewPager = (ViewPager) findViewById (R.id.pager);
-        final TabPagerAdapter adapter = new TabPagerAdapter
-                                                (getSupportFragmentManager (), tabLayout.getTabCount ());
+        final TabPagerAdapter adapter = new TabPagerAdapter(getSupportFragmentManager (), tabLayout.getTabCount ());
         viewPager.setAdapter(adapter);
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
         tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
@@ -146,7 +152,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
         context = this;
 
-        popup = new PopupMenu (MainActivity.this, currentCityButton);
+        popup = new PopupMenu (MainActivity.this,currentCityButton);
         currentCityButton = (Button) findViewById (R.id.city_item);
         eventsListAdapter = new EventsListAdapter (this, filtered_events_data, false);
         realTime.setOnClickListener (this);
@@ -186,70 +192,70 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         if (artist != "" && artist != null) {
             query.whereEqualTo ("artist", artist);
         }
-        query.orderByDescending ("createdAt");
-        query.findInBackground (new FindCallback<Event> () {
+        query.orderByDescending("createdAt");
+        query.findInBackground(new FindCallback<Event>() {
             public void done(List<Event> eventParse, ParseException e) {
                 if (e == null) {
                     ParseFile imageFile;
                     byte[] data = null;
                     Bitmap bmp;
-                    for (int i = 0; i < eventParse.size (); i++) {
-                        imageFile = (ParseFile) eventParse.get (i).get ("ImageFile");
+                    for (int i = 0; i < eventParse.size(); i++) {
+                        imageFile = (ParseFile) eventParse.get(i).get("ImageFile");
                         if (imageFile != null) {
                             try {
-                                data = imageFile.getData ();
+                                data = imageFile.getData();
                             } catch (ParseException e1) {
-                                e1.printStackTrace ();
+                                e1.printStackTrace();
                             }
-                            bmp = BitmapFactory.decodeByteArray (data, 0, data.length);
+                            bmp = BitmapFactory.decodeByteArray(data, 0, data.length);
                         } else {
                             bmp = null;
                         }
-                        tempEventsList.add (new EventInfo (
-                                                                  bmp,
-                                                                  eventParse.get (i).getDate (),
-                                                                  eventParse.get (i).getName (),
-                                                                  eventParse.get (i).getTags (),
-                                                                  eventParse.get (i).getPrice (),
-                                                                  eventParse.get (i).getDescription (),
-                                                                  eventParse.get (i).getAddress (),
-                                                                  eventParse.get (i).getEventToiletService (),
-                                                                  eventParse.get (i).getEventParkingService (),
-                                                                  eventParse.get (i).getEventCapacityService (),
-                                                                  eventParse.get (i).getEventATMService (),
-                                                                  eventParse.get (i).getCity (),
-                                                                  i,
-                                                                  eventParse.get (i).getFilterName ()));
-                        tempEventsList.get (i).setProducerId (eventParse.get (i).getProducerId ());
-                        if (eventParse.get (i).getX () == 0 || eventParse.get (i).getY () == 0) {
-                            Geocoder geocoder = new Geocoder (context);
+                        tempEventsList.add(new EventInfo(
+                                bmp,
+                                eventParse.get(i).getDate(),
+                                eventParse.get(i).getName(),
+                                eventParse.get(i).getTags(),
+                                eventParse.get(i).getPrice(),
+                                eventParse.get(i).getDescription(),
+                                eventParse.get(i).getAddress(),
+                                eventParse.get(i).getEventToiletService(),
+                                eventParse.get(i).getEventParkingService(),
+                                eventParse.get(i).getEventCapacityService(),
+                                eventParse.get(i).getEventATMService(),
+                                eventParse.get(i).getCity(),
+                                i,
+                                eventParse.get(i).getFilterName()));
+                        tempEventsList.get(i).setProducerId(eventParse.get(i).getProducerId());
+                        if (eventParse.get(i).getX() == 0 || eventParse.get(i).getY() == 0) {
+                            Geocoder geocoder = new Geocoder(context);
                             List<Address> addresses = null;
                             try {
-                                addresses = geocoder.getFromLocationName (eventParse.get (i).getAddress (), 1);
-                                if (addresses.size () > 0) {
-                                    double latitude = addresses.get (0).getLatitude ();
-                                    double longitude = addresses.get (0).getLongitude ();
-                                    eventParse.get (i).setX (latitude);
-                                    eventParse.get (i).setY (longitude);
+                                addresses = geocoder.getFromLocationName(eventParse.get(i).getAddress(), 1);
+                                if (addresses.size() > 0) {
+                                    double latitude = addresses.get(0).getLatitude();
+                                    double longitude = addresses.get(0).getLongitude();
+                                    eventParse.get(i).setX(latitude);
+                                    eventParse.get(i).setY(longitude);
                                     try {
-                                        eventParse.get (i).save ();
+                                        eventParse.get(i).save();
                                     } catch (ParseException e1) {
-                                        e1.printStackTrace ();
+                                        e1.printStackTrace();
                                     }
                                 }
                             } catch (IOException e1) {
-                                e1.printStackTrace ();
+                                e1.printStackTrace();
                             }
                         }
-                        tempEventsList.get (i).x = eventParse.get (i).getX ();
-                        tempEventsList.get (i).y = eventParse.get (i).getY();
-                        tempEventsList.get (i).setArtist (eventParse.get (i).getArtist ());
-                        tempEventsList.get (i).setIncome(eventParse.get(i).getIncome());
-                        tempEventsList.get (i).setSold(eventParse.get(i).getSold());
-                        tempEventsList.get (i).setTicketsLeft(eventParse.get(i).getNumOfTicketsLeft());
-                        tempEventsList.get (i).setObjectId(eventParse.get(i).getObjectId());
+                        tempEventsList.get(i).x = eventParse.get(i).getX();
+                        tempEventsList.get(i).y = eventParse.get(i).getY();
+                        tempEventsList.get(i).setArtist(eventParse.get(i).getArtist());
+                        tempEventsList.get(i).setIncome(eventParse.get(i).getIncome());
+                        tempEventsList.get(i).setSold(eventParse.get(i).getSold());
+                        tempEventsList.get(i).setTicketsLeft(eventParse.get(i).getNumOfTicketsLeft());
+                        tempEventsList.get(i).setObjectId(eventParse.get(i).getObjectId());
                     }
-                    updateSavedEvents (tempEventsList);
+                    updateSavedEvents(tempEventsList);
                     all_events_data.clear();
                     all_events_data.addAll(tempEventsList);
                     filtered_events_data.clear();
@@ -259,22 +265,21 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                     inflateCityMenu();
 
 
-                    if(!LoginActivity.x.equals("") || LoginActivity.x != "")
-                    {
+                    if (!LoginActivity.x.equals("") || LoginActivity.x != "") {
 
                         for (int i = 0; i < filtered_events_data.size(); i++) {
-                            if(LoginActivity.x.equals(filtered_events_data.get(i).getObjectId())) {
+                            if (LoginActivity.x.equals(filtered_events_data.get(i).getObjectId())) {
                                 startEventPage(i);
                                 i = filtered_events_data.size();
                             }
                         }
                     }
-                    eventsListAdapter.notifyDataSetChanged ();
-                    updateDeviceLocationGPS ();
+                    eventsListAdapter.notifyDataSetChanged();
+                    updateDeviceLocationGPS();
                     if (userChoosedCityManually) {
-                        filterByCityAndFilterName (namesCity[indexCityChossen], currentFilterName);
-                    } else if (!cityGPS.isEmpty ()) {
-                        filterByCityAndFilterName (cityGPS, currentFilterName);
+                        filterByCityAndFilterName(namesCity[indexCityChossen], currentFilterName);
+                    } else if (!cityGPS.isEmpty()) {
+                        filterByCityAndFilterName(cityGPS, currentFilterName);
                     }
                 } else {
                     e.printStackTrace();
@@ -288,36 +293,36 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     private void inflateCityMenu() {
         popup.getMenuInflater ().inflate (R.menu.popup_city, popup.getMenu ());
         loadCityNamesToPopUp ();
-        currentCityButton.setOnClickListener (new View.OnClickListener () {
+        currentCityButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //Creating the instance of PopupMenu
-                popup = new PopupMenu (MainActivity.this, currentCityButton);
+                popup = new PopupMenu(MainActivity.this, currentCityButton);
                 //Inflating the Popup using xml file
-                popup.getMenuInflater ().inflate (R.menu.popup_city, popup.getMenu ());
+                popup.getMenuInflater().inflate(R.menu.popup_city, popup.getMenu());
                 for (int i = 0; i < namesCity.length; i++) {
                     if (i == indexCityGPS && cityFoundGPS) {
-                        popup.getMenu ().getItem (i).setTitle (namesCity[i] + "(GPS)");
+                        popup.getMenu().getItem(i).setTitle(namesCity[i] + "(GPS)");
                     } else {
-                        popup.getMenu ().getItem (i).setTitle (namesCity[i]);
+                        popup.getMenu().getItem(i).setTitle(namesCity[i]);
                     }
                 }
                 //registering popup with OnMenuItemClickListener
-                popup.setOnMenuItemClickListener (new PopupMenu.OnMenuItemClickListener () {
+                popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                     public boolean onMenuItemClick(MenuItem item) {
-                        indexCityChossen = popUpIDToCityIndex.get (item.getItemId ());
-                        if (cityFoundGPS && item.getTitle ().equals (cityGPS)) {
-                            currentCityButton.setText (item.getTitle () + "(GPS)");
+                        indexCityChossen = popUpIDToCityIndex.get(item.getItemId());
+                        if (cityFoundGPS && item.getTitle().equals(cityGPS)) {
+                            currentCityButton.setText(item.getTitle() + "(GPS)");
                         } else {
-                            currentCityButton.setText (item.getTitle ());
+                            currentCityButton.setText(item.getTitle());
                         }
-                        filterByCityAndFilterName (namesCity[indexCityChossen], currentFilterName);
-                        eventsListAdapter.notifyDataSetChanged ();
+                        filterByCityAndFilterName(namesCity[indexCityChossen], currentFilterName);
+                        eventsListAdapter.notifyDataSetChanged();
                         userChoosedCityManually = true;
                         return true;
                     }
                 });
-                popup.show ();//showing popup menu
+                popup.show();//showing popup menu
             }
         });
     }
@@ -361,9 +366,9 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                 }
             }
         }
-        filtered_events_data.clear ();
-        filtered_events_data.addAll (tempEventsList);
-        eventsListAdapter.notifyDataSetChanged ();
+        filtered_events_data.clear();
+        filtered_events_data.addAll(tempEventsList);
+        eventsListAdapter.notifyDataSetChanged();
     }
 
     public void updateDeviceLocationGPS() {
@@ -404,9 +409,9 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     @Override
     public void onClick(View v) {
         Intent newIntent = null;
-        if (v.getId () == savedEvent.getId ()) {
+        if (v.getId() == savedEvent.getId()) {
             newIntent = new Intent (this, SavedEventActivity.class);
-            startActivity (newIntent);
+            startActivity(newIntent);
         } else if (v.getId () == realTime.getId ()) {
             newIntent = new Intent (this, RealTime.class);
             startActivity (newIntent);
@@ -423,7 +428,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
     public void openMenuPage(View v) {
         Intent menuPageIntent = new Intent (this, com.example.events.Menu.class);
-        startActivity (menuPageIntent);
+        startActivity(menuPageIntent);
     }
 
     @Override
@@ -575,7 +580,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         intent.putExtra ("capacity", filtered_events_data.get (i).getCapacity());
         intent.putExtra ("atm", filtered_events_data.get (i).getAtm());
         intent.putExtra ("index", filtered_events_data.get (i).getIndexInFullList());
-        intent.putExtra("i",String.valueOf(i));
+        intent.putExtra("i",filtered_events_data.get (i).getObjectId());
         intent.putExtra("artist",filtered_events_data.get(i).getArtist());
 
         b.putString ("customer_id", customer_id);
@@ -586,5 +591,46 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         intent.putExtras (b);
         startActivity (intent);
     }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+
+        Branch branch = Branch.getInstance(getApplicationContext());
+        branch.initSession(new Branch.BranchReferralInitListener() {
+            @Override
+            public void onInitFinished(JSONObject referringParams, BranchError error) {
+                if (error == null) {
+                    // params are the deep linked params associated with the link that the user clicked before showing up
+                    try {
+                        deepLink_params = referringParams.getString("objectId");
+                        for (int i = 0; i < filtered_events_data.size(); i++) {
+                            if(deepLink_params.equals(filtered_events_data.get(i).getObjectId())) {
+                                startEventPage(i);
+                                i = filtered_events_data.size();
+                            }
+                        }
+
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+
+                }
+                else
+                    Toast.makeText (getApplicationContext(), error.getMessage(), Toast.LENGTH_SHORT).show ();
+
+            }
+
+        }, this.getIntent().getData(), this);
+
+
+    }
+
+    @Override
+    public void onNewIntent(Intent intent) {
+        this.setIntent(intent);
+    }
+
 
 }
