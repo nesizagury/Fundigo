@@ -1,60 +1,47 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
-        android:id="@+id/one"
+        android:id="@+id/firstMenuItem"
         android:title=""
         />
-
     <item
-        android:id="@+id/two"
+        android:id="@+id/secondMenuItem"
         android:title=""/>
 
     <item
-        android:id="@+id/three"
+        android:id="@+id/thirdMenuItem"
         android:title=""
         />
     <item
-        android:id="@+id/four"
+        android:id="@+id/forthMenuItem"
         android:title=""
         />
     <item
-        android:id="@+id/five"
+        android:id="@+id/fifthMenuItem"
         android:title=""
         />
     <item
-        android:id="@+id/six"
+        android:id="@+id/sixthMenuItem"
         android:title=""
         />
     <item
-        android:id="@+id/seven"
+        android:id="@+id/seventhMenuItem"
         android:title=""
         />
     <item
-        android:id="@+id/eight"
+        android:id="@+id/eightMenuItem"
         android:title=""
         />
     <item
-        android:id="@+id/nine"
+        android:id="@+id/nineMenuItem"
         android:title=""
         />
     <item
-        android:id="@+id/ten"
+        android:id="@+id/tenMenuItem"
         android:title=""
         />
     <item
-        android:id="@+id/eleven"
-        android:title=""
-        />
-    <item
-        android:id="@+id/twelve"
-        android:title=""
-        />
-    <item
-        android:id="@+id/thirteen"
-        android:title=""
-        />
-    <item
-        android:id="@+id/forthteen"
+        android:id="@+id/elevenMenuItem"
         android:title=""
         />
 </menu>

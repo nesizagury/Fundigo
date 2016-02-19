@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
-import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -20,17 +19,19 @@ import android.preference.PreferenceManager;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.PopupMenu;
+import android.util.Log;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
 
+import com.example.FundigoApp.Customer.RealTime.RealTimeActivity;
 import com.example.FundigoApp.Events.CreateEventActivity;
 import com.example.FundigoApp.Events.EventInfo;
 import com.example.FundigoApp.Events.EventPage;
 import com.example.FundigoApp.Events.EventsListAdapter;
-import com.example.FundigoApp.Customer.RealTime.RealTimeActivity;
 import com.example.FundigoApp.FilterPage;
 import com.example.FundigoApp.MainActivity;
 import com.example.FundigoApp.R;
@@ -56,7 +57,7 @@ public class SavedEventActivity extends AppCompatActivity implements View.OnClic
     static Button currentCityButton;
 
     LocationManager locationManager;
-    static PopupMenu popup;
+    public PopupMenu popup; // Assaf- not static
     LocationListener locationListener;
 
     static Context context;
@@ -71,7 +72,6 @@ public class SavedEventActivity extends AppCompatActivity implements View.OnClic
         savedEvent = (Button) findViewById (R.id.BarSavedEvent_button);
         realTimeTab = (Button) findViewById (R.id.BarRealTime_button);
 
-        popup = new PopupMenu (SavedEventActivity.this, currentCityButton);
         currentCityButton = (Button) findViewById (R.id.city_item);
 
         eventsListAdapter = new EventsListAdapter (this, filteredSavedEventsList, true);
@@ -92,7 +92,13 @@ public class SavedEventActivity extends AppCompatActivity implements View.OnClic
     }
 
     private void inflateCityMenu() {
+
+        if (popup==null) {
+            popup = new PopupMenu(SavedEventActivity.this, currentCityButton);//Assaf
+        }
         popup.getMenuInflater ().inflate (R.menu.popup_city, popup.getMenu ());
+
+
         if (MainActivity.namesCity.length == 0) {
             loadCityNamesToPopUp (true);
         } else {
@@ -101,17 +107,7 @@ public class SavedEventActivity extends AppCompatActivity implements View.OnClic
         currentCityButton.setOnClickListener (new View.OnClickListener () {
             @Override
             public void onClick(View v) {
-                //Creating the instance of PopupMenu
-                popup = new PopupMenu (SavedEventActivity.this, currentCityButton);
-                //Inflating the Popup using xml file
-                popup.getMenuInflater ().inflate (R.menu.popup_city, popup.getMenu ());
-                for (int i = 0; i < MainActivity.namesCity.length; i++) {
-                    if (i == MainActivity.indexCityGPS && MainActivity.cityFoundGPS) {
-                        popup.getMenu ().getItem (i).setTitle (MainActivity.namesCity[i] + "(GPS)");
-                    } else {
-                        popup.getMenu ().getItem (i).setTitle (MainActivity.namesCity[i]);
-                    }
-                }
+
                 //registering popup with OnMenuItemClickListener
                 popup.setOnMenuItemClickListener (new PopupMenu.OnMenuItemClickListener () {
                     public boolean onMenuItemClick(MenuItem item) {
@@ -133,13 +129,31 @@ public class SavedEventActivity extends AppCompatActivity implements View.OnClic
         });
     }
 
-    private void loadCityNamesToPopUp(boolean loadCityList) {
-        if (loadCityList) {
-            Resources rsc = getResources ();
-            MainActivity.namesCity = rsc.getStringArray (R.array.popUp);
-        }
+    public boolean onPrepareOptionsMenu(Menu menu) { //Assaf- Hide the Items in Menu XML which are empty since the length of menu is less then 11
         try {
-            for (int i = 0; i < MainActivity.namesCity.length; i++) {
+            super.onPrepareOptionsMenu(menu);
+            int maxLength=11;
+            int numOfItemsToRemove = maxLength - MainActivity.namesCity.length;
+            while (numOfItemsToRemove > 0) {
+                menu.getItem(maxLength - 1).setVisible(false);
+                numOfItemsToRemove--;
+                maxLength--;
+            }
+        }
+        catch (Exception e)
+        {
+            Log.e(e.toString(), "On Prepare Method Exception");
+        }
+        return true;
+    }
+
+
+    private void loadCityNamesToPopUp(boolean loadCityList) {
+
+
+         try {
+            for (int i = 0; i < MainActivity.namesCity.length; i++)
+            {
                 if (i == MainActivity.indexCityGPS && MainActivity.cityFoundGPS) {
                     popup.getMenu ().getItem (i).setTitle (MainActivity.namesCity[i] + "(GPS)");
                 } else {
@@ -156,6 +170,11 @@ public class SavedEventActivity extends AppCompatActivity implements View.OnClic
             }
         } catch (Exception e) {
             throw e;
+        }
+
+        if (MainActivity.namesCity.length < 10) // Assaf in case number of cities is smaller then 10. remove Menu items
+        {
+            onPrepareOptionsMenu(popup.getMenu());
         }
     }
 
