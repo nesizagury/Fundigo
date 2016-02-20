@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/Fundigo-8.2.16.iml" filepath="$PROJECT_DIR$/Fundigo-8.2.16.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Fundigo-gidi_19_1_16.iml" filepath="$PROJECT_DIR$/Fundigo-gidi_19_1_16.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/smsverify/smsverify.iml" filepath="$PROJECT_DIR$/smsverify/smsverify.iml" />
     </modules>

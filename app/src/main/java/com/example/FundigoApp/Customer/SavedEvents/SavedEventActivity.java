@@ -26,11 +26,11 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
 
-import com.example.FundigoApp.Events.CreateEventActivity;
+import com.example.FundigoApp.Customer.RealTime.RealTimeActivity;
 import com.example.FundigoApp.Events.EventInfo;
 import com.example.FundigoApp.Events.EventPage;
 import com.example.FundigoApp.Events.EventsListAdapter;
-import com.example.FundigoApp.Customer.RealTime.RealTimeActivity;
+import com.example.FundigoApp.Events.Test;
 import com.example.FundigoApp.FilterPage;
 import com.example.FundigoApp.MainActivity;
 import com.example.FundigoApp.R;
@@ -361,7 +361,7 @@ public class SavedEventActivity extends AppCompatActivity implements View.OnClic
     }
 
     public void createEvent(View view) {
-        Intent intent = new Intent (SavedEventActivity.this, CreateEventActivity.class);
+        Intent intent = new Intent (SavedEventActivity.this, Test.class);
         startActivity (intent);
     }
 

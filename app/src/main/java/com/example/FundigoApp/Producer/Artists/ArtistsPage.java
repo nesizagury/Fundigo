@@ -7,6 +7,7 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,6 +15,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
+import com.example.FundigoApp.Constants;
 import com.example.FundigoApp.Events.Event;
 import com.example.FundigoApp.Events.EventInfo;
 import com.example.FundigoApp.Events.EventPage;
@@ -34,6 +36,8 @@ public class ArtistsPage extends Fragment implements AdapterView.OnItemClickList
     public static List<Artist> artist_list = new ArrayList<Artist> ();
     public static List<EventInfo> filtered_events_data = new ArrayList<EventInfo> ();
     public static List<EventInfo> all_events = new ArrayList<EventInfo> ();
+    private static final String TAG = "ArtistsPage";
+
 
     ListView lv;
     ListView lv2;
@@ -208,6 +212,13 @@ public class ArtistsPage extends Fragment implements AdapterView.OnItemClickList
 
         if (MainActivity.producerId != null) {
             b.putString ("producer_id", MainActivity.producerId);
+            if (MainActivity.producerId.equals(filtered_events_data.get (i).getProducerId())) {
+                Log.e(TAG, "true " + MainActivity.producerId + " " + filtered_events_data.get(i).getProducerId());
+                intent.putExtra(Constants.QR, true);
+            } else {
+                Log.e(TAG, "false "+ MainActivity.producerId +" "+ filtered_events_data.get (i).getProducerId());
+                intent.putExtra(Constants.QR, false);
+            }
         } else {
             b.putString ("producer_id", filtered_events_data.get (i).getProducerId ());
         }

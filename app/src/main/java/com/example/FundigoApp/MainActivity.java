@@ -30,13 +30,13 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 
+import com.example.FundigoApp.Customer.RealTime.RealTimeActivity;
 import com.example.FundigoApp.Customer.SavedEvents.SavedEventActivity;
-import com.example.FundigoApp.Events.CreateEventActivity;
 import com.example.FundigoApp.Events.Event;
 import com.example.FundigoApp.Events.EventInfo;
 import com.example.FundigoApp.Events.EventPage;
 import com.example.FundigoApp.Events.EventsListAdapter;
-import com.example.FundigoApp.Customer.RealTime.RealTimeActivity;
+import com.example.FundigoApp.Events.Test;
 import com.example.FundigoApp.Producer.TabPagerAdapter;
 import com.facebook.share.model.ShareLinkContent;
 import com.facebook.share.widget.ShareDialog;
@@ -541,7 +541,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     }
 
     public void createEvent(View view) {
-        Intent intent = new Intent (MainActivity.this, CreateEventActivity.class);
+        Intent intent = new Intent (MainActivity.this, Test.class);
         intent.putExtra ("create", "true");
         startActivity (intent);
     }

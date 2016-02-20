@@ -5,6 +5,15 @@
     android:layout_height="wrap_content">
 
     <ImageView
+        android:id="@+id/iv_qrscan"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_weight="1"
+        android:src="@drawable/qr_scan"
+        android:layout_below="@+id/linearLayoutTop"
+        android:layout_alignStart="@+id/scrollView" />
+
+    <ImageView
         android:id="@+id/eventPage_image"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
