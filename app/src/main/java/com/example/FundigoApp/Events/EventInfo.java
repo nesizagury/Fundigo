@@ -10,6 +10,7 @@ public class EventInfo implements Serializable, Parcelable {
 
     Bitmap imageId;
     String date;
+    String realDate;
     String name;
     String tags;
     String price;
@@ -35,6 +36,7 @@ public class EventInfo implements Serializable, Parcelable {
 
     public EventInfo(Bitmap imageId,
                      String date,
+                     String realDate,
                      String name,
                      String tags,
                      String price,
@@ -49,6 +51,7 @@ public class EventInfo implements Serializable, Parcelable {
                      String filterName) {
         this.imageId = imageId;
         this.date = date;
+        this.realDate = realDate;
         this.name = name;
         this.tags = tags;
         this.price = price;
@@ -77,6 +80,7 @@ public class EventInfo implements Serializable, Parcelable {
         this.capacity = data[8];
         this.atm = data[9];
         this.filterName = data[10];
+        this.realDate = data[11];
 
     }
 
@@ -89,7 +93,7 @@ public class EventInfo implements Serializable, Parcelable {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeStringArray (new String[]{
                                                    this.date, this.name, this.tags, this.price, this.info, this.place,
-                                                   this.toilet, this.parking, this.capacity, this.atm, this.filterName});
+                                                   this.toilet, this.parking, this.capacity, this.atm, this.filterName, this.realDate});
     }
 
     public static final Parcelable.Creator CREATOR = new Parcelable.Creator () {
@@ -116,6 +120,14 @@ public class EventInfo implements Serializable, Parcelable {
 
     public void setDate(String date) {
         this.date = date;
+    }
+
+    public String getRealDate() {
+        return realDate;
+    }
+
+    public void setRealDate(String realDate) {
+        this.realDate = realDate;
     }
 
     public String getName() {

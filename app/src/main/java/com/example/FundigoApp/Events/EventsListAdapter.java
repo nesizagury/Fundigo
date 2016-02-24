@@ -14,16 +14,20 @@ import com.example.FundigoApp.R;
 import com.example.FundigoApp.StaticMethods;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 public class EventsListAdapter extends BaseAdapter {
 
+    private static final String TAG = "EventsListAdapter";
     List<EventInfo> eventList = new ArrayList<EventInfo> ();
     Context context;
     private ImageView iv_share;
     Uri uri;
     boolean isSavedActivity;
     public int index;
+    private String date;
+
 
     public EventsListAdapter(Context c, List<EventInfo> eventList, boolean isSavedActivity) {
         this.context = c;
@@ -60,13 +64,103 @@ public class EventsListAdapter extends BaseAdapter {
             eventListHolder = (EventListHolder) row.getTag ();
         }
         final EventInfo event = eventList.get (i);
+        date = event.getRealDate();
+        long realDate = Long.parseLong(date);
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(realDate);
+        String dayOfWeek = null;
+        switch (calendar.get(Calendar.DAY_OF_WEEK)) {
+            case 1:
+                dayOfWeek = "SUN";
+                break;
+            case 2:
+                dayOfWeek = "MON";
+                break;
+            case 3:
+                dayOfWeek = "TUE";
+                break;
+            case 4:
+                dayOfWeek = "WED";
+                break;
+            case 5:
+                dayOfWeek = "THU";
+                break;
+            case 6:
+                dayOfWeek = "FRI";
+                break;
+            case 7:
+                dayOfWeek = "SAT";
+                break;
+        }
+        String month = null;
+        switch (calendar.get(Calendar.MONTH)) {
+            case 0:
+                month = "JAN";
+                break;
+            case 1:
+                month = "FEB";
+                break;
+            case 2:
+                month = "MAR";
+                break;
+            case 3:
+                month = "APR";
+                break;
+            case 4:
+                month = "MAY";
+                break;
+            case 5:
+                month = "JUN";
+                break;
+            case 6:
+                month = "JUL";
+                break;
+            case 7:
+                month = "AUG";
+                break;
+            case 8:
+                month = "SEP";
+                break;
+            case 9:
+                month = "OCT";
+                break;
+            case 10:
+                month = "NOV";
+                break;
+            case 11:
+                month = "DEC";
+                break;
+        }
+        int year = calendar.get(Calendar.YEAR);
+        int day = calendar.get(Calendar.DAY_OF_MONTH);
+        int hour = calendar.get(Calendar.HOUR_OF_DAY);
+        int minute = calendar.get(Calendar.MINUTE);
+        String ampm = null;
+        if (calendar.get(Calendar.AM_PM) == Calendar.AM)
+            ampm = "AM";
+        else if (calendar.get(Calendar.AM_PM) == Calendar.PM)
+            ampm = "PM";
+
+        String min;
+        if (minute < 10) {
+            min = "0" + minute;
+        } else {
+            min = "" + minute;
+        }
+//        String h;
+//        if (hour < 10) {
+//            h = "0" + hour;
+//        } else {
+//            h = "" + hour;
+//        }
+        eventListHolder.date.setText(dayOfWeek + ", " + month + " " + day + ", " + hour + ":" + min+" "+ ampm);
 
         if (isSavedActivity && !event.getIsSaved ()) {
             row.setVisibility (View.INVISIBLE);
         }
         index = i;
-        eventListHolder.image.setImageBitmap (event.imageId);
-        eventListHolder.date.setText (event.getDate ());
+        eventListHolder.image.setImageBitmap(event.imageId);
+        //eventListHolder.date.setText (event.getDate ());
         eventListHolder.name.setText (event.getName ());
         eventListHolder.tags.setText (event.getTags ());
         eventListHolder.price.setText (event.getPrice ());

@@ -88,9 +88,9 @@ public class AllEventsStats extends Fragment implements GetEventsDataCallback {
                 e.printStackTrace ();
             }
 
-            if (eventDate.after (todayDate) && !event.getPrice ().contains ("-")) {
+            if (eventDate.after (todayDate) && !event.getPrice ().contains ("-")&& !event.getPrice().equals("FREE")) {
                 StringBuilder sb = new StringBuilder (event.getPrice ());
-                sb.deleteCharAt (sb.length () - 1);
+              //  sb.deleteCharAt (sb.length () - 1);
                 int ticketsLeft = Integer.parseInt (event.getTicketsLeft ());
                 int price = Integer.parseInt (sb.toString ());
                 ticketsForsale += Integer.parseInt (event.getTicketsLeft ());

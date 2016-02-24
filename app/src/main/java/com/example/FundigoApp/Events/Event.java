@@ -6,6 +6,8 @@ import android.location.Location;
 import com.parse.ParseClassName;
 import com.parse.ParseObject;
 
+import java.util.Date;
+
 @ParseClassName("Event")
 public class Event extends ParseObject {
 
@@ -94,6 +96,13 @@ public class Event extends ParseObject {
 
     public void setProducerId(String producerId) {
         put ("producerId", producerId);
+    }
+
+    public Date getRealDate(){
+        return getDate("realDate");
+    }
+    public void setRealDate(Date date){
+        put("realDate", date);
     }
 
     public String getDate() {
