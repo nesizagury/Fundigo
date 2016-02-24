@@ -92,7 +92,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Ticket Price avg:"
+        android:text="Ticket Price avg: "
         android:id="@+id/textView15"
         android:textSize="23sp"
         android:layout_marginLeft="10dp"
@@ -127,9 +127,9 @@
         android:text="0"
         android:id="@+id/pastEventsTV"
         android:textSize="23sp"
-        android:layout_marginLeft="10dp"
+        android:layout_marginLeft="4dp"
         android:layout_alignTop="@+id/textView11"
-        android:layout_alignEnd="@+id/textView15" />
+        android:layout_toEndOf="@+id/ticketsSoldTV"/>
 
     <TextView
         android:layout_width="wrap_content"
@@ -169,7 +169,7 @@
         android:textSize="23sp"
         android:layout_marginLeft="10dp"
         android:layout_above="@+id/textView16"
-        android:layout_toEndOf="@+id/soldTV" />
+        android:layout_centerHorizontal="true"/>
 
     <TextView
         android:layout_width="wrap_content"

@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:tools="http://schemas.android.com/tools"
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+tools:context="com.example.events.MyNotification">
+
+<LinearLayout
+    android:id="@+id/toolbar_up"
+    android:layout_width="fill_parent"
+    android:layout_height="30dp"
+    android:background="#71B7E6"
+    android:orientation="horizontal"
+    android:weightSum="300.0"
+
+    >
+
+    <!--<ImageView
+        android:id="@+id/settings_item"
+        android:layout_width="0dip"
+        android:layout_height="fill_parent"
+        android:layout_weight="100"
+        android:onClick="openMenuPage"
+        android:padding="2dp"
+        android:src="@drawable/menu4"/>-->
+
+    <ImageView
+        android:id="@+id/notification_item"
+        android:layout_width="0dip"
+        android:layout_height="match_parent"
+        android:layout_weight="100"
+        android:background="#71B7E6"
+        android:padding="2dp"
+        android:src="@drawable/notification_icon"/>
+    <ImageButton
+        android:id="@+id/Message_itemPush"
+        android:layout_width="0dip"
+        android:layout_height="match_parent"
+        android:layout_weight="100"
+        android:background="#71B7E6"
+        android:padding="2dp"
+        android:src="@drawable/messenger_bubble_large_white"/>
+
+    <ImageButton
+        android:id="@+id/Mipo_Push"
+        android:layout_width="0dip"
+        android:layout_height="match_parent"
+        android:layout_weight="100"
+        android:background="#71B7E6"
+        android:padding="2dp"
+        android:src="@drawable/crowd_ldpi"/>
+
+
+    <!--<Button
+        android:id="@+id/city_item"
+        android:layout_width="0dip"
+        android:layout_height="match_parent"
+        android:layout_weight="300"
+        android:background="#71B7E6"
+        android:onClick=""
+        android:textColor="#ffffff"/>
+-->
+    <!--<ImageView
+        android:id="@+id/search"
+        android:layout_width="0dip"
+        android:layout_height="match_parent"
+        android:layout_weight="100"
+        android:actionViewClass="android.widget.SearchView"
+        android:background="#71B7E6"
+        android:padding="4dp"
+        android:src="@drawable/search_icon"/>
+-->
+    <!--     <ImageView
+             android:id="@+id/Filter"
+             android:layout_width="0dip"
+             android:layout_height="match_parent"
+             android:layout_weight="100"
+             android:background="#71B7E6"
+             android:onClick="openFilterPage"
+             android:padding="5dp"
+             android:src="@drawable/filer_icon"/>
+ -->
+</LinearLayout>
+
+<ListView
+    android:id="@+id/listViewNotification"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:layout_below="@+id/toolbar_up"
+    android:layout_marginLeft="4dp"
+    android:layout_marginRight="4dp"
+    android:background="#F1F1F1"
+    android:divider="#F1F1F1"
+    android:dividerHeight="0dp"
+    android:drawSelectorOnTop="false"
+    android:scrollingCache="false"
+    android:animationCache="false"/>
+
+
+</RelativeLayout>

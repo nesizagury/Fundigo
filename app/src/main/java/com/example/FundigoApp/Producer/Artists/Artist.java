@@ -6,12 +6,9 @@ public class Artist {
     String ticketsSold;
 
     public Artist (String name, String ticketsSold){
-
         this.name = name;
         this.ticketsSold = ticketsSold;
-
     }
-
 
     public String getName() {
         return name;

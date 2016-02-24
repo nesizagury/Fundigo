@@ -9,19 +9,20 @@ import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ListView;
 
-import com.example.FundigoApp.Constants;
+import com.example.FundigoApp.Events.EventInfo;
+import com.example.FundigoApp.GlobalVariables;
 import com.example.FundigoApp.R;
+import com.example.FundigoApp.StaticMethods;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
-import com.parse.SaveCallback;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,114 +31,164 @@ public class RealTimeChatActivity extends AppCompatActivity implements AdapterVi
 
     private EditText etMessage;
     private ListView lvChat;
-    private ArrayList<MsgRealTime> mMessages;
-    private RTCAdapter mAdapter;
+    private ArrayList<MessageChat> mMessageChats;
+    private ArrayList<MsgRealTime> mMessageRTChats;
+    private MessageAdapter mAdapter;
     private boolean mFirstLoad;
     private Handler handler = new Handler ();
     private String eventObjectId;
-    String producer_id;
-    String customer_id;
+    String current_user_id;
     private Button btnSend;
     private static String fbId;
+    Button eventName;
+    ImageView eventImage;
+    EventInfo eventInfo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate (savedInstanceState);
-        setContentView (R.layout.activity_real_time_chat);
+        setContentView (R.layout.activity_real_time_cahts);
+        eventImage = (ImageView) findViewById (R.id.profileImage_rt_chat);
+        eventName = (Button) findViewById (R.id.ProfileName_rt_chat);
+        btnSend = (Button)findViewById (R.id.btSend_rt_Chat);
+
         Intent intent = getIntent ();
-
-        producer_id = intent.getStringExtra ("producer_id");
-        customer_id = intent.getStringExtra ("customer_id");
         eventObjectId = intent.getStringExtra ("eventObjectId");
-
-        etMessage = (EditText) findViewById (R.id.et_Message);
-        lvChat = (ListView) findViewById (R.id.lv_Chat);
-        btnSend = (Button) findViewById (R.id.btn_Send);
-        setupMessagePosting ();
-        handler.postDelayed (runnable, 500);
-    }
-
-    private Runnable runnable = new Runnable () {
-        @Override
-        public void run() {
-            refreshMessages ();
-            handler.postDelayed (this, 500);
+        eventInfo = StaticMethods.getEventFromObjID (eventObjectId, GlobalVariables.ALL_EVENTS_DATA);
+        eventImage.setImageBitmap (eventInfo.getImageBitmap ());
+        eventName.setText (eventInfo.getName () + " (Real Time Chat)");
+        if (GlobalVariables.IS_CUSTOMER_REGISTERED_USER) {
+            current_user_id = GlobalVariables.CUSTOMER_PHONE_NUM;
+        } else if (GlobalVariables.IS_PRODUCER) {
+            current_user_id = GlobalVariables.PRODUCER_PARSE_OBJECT_ID;
         }
-    };
+        etMessage = (EditText) findViewById (R.id.etMessage_rt_Chat);
+        lvChat = (ListView) findViewById (R.id.messageListview_rt_Chat);
+        mMessageChats = new ArrayList<MessageChat> ();
+        mMessageRTChats = new ArrayList<MsgRealTime> ();
+        // Automatically scroll to the bottom when a data set change notification is received and only if the last item is already visible on screen. Don't scroll to the bottom otherwise.
+        lvChat.setTranscriptMode (1);
+        mFirstLoad = true;
+        mAdapter = new MessageAdapter (this, mMessageChats, true);
 
-    private void refreshMessages() {
-        receiveMessage ();
+        lvChat.setAdapter (mAdapter);
+        setupMessagePosting ();
+        handler.postDelayed (runnable, 0);
     }
 
     private void setupMessagePosting() {
-        mMessages = new ArrayList<MsgRealTime> ();
-        lvChat.setTranscriptMode (1);
-        mFirstLoad = true;
-        mAdapter = new RTCAdapter (this, customer_id, producer_id, mMessages);
-        lvChat.setAdapter (mAdapter);
         btnSend.setOnClickListener (new View.OnClickListener () {
             @Override
             public void onClick(View v) {
                 String body = etMessage.getText ().toString ();
                 SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences (RealTimeChatActivity.this);
-                String name = sp.getString (Constants.FB_NAME, null);
-                String pic_url = sp.getString (Constants.FB_PIC_URL, null);
-                String fb_id = sp.getString (Constants.FB_ID, null);
+                String name = sp.getString (GlobalVariables.FB_NAME, null);
+                String pic_url = sp.getString (GlobalVariables.FB_PIC_URL, null);
+                String fb_id = sp.getString (GlobalVariables.FB_ID, null);
                 MsgRealTime message = new MsgRealTime ();
-                if (Constants.IS_PRODUCER) {
-                    message.setUserId (producer_id);
-                    message.setCustomer (producer_id);
+                message.setUserId (current_user_id);
+                if (GlobalVariables.IS_PRODUCER) {
                     message.setIsProducer (true);
-                } else {
-                    message.setUserId (customer_id);
-                    message.setCustomer (customer_id);
+                } else if (GlobalVariables.IS_CUSTOMER_REGISTERED_USER) {
                     message.setIsProducer (false);
                 }
                 message.setBody (body);
                 message.setEventObjectId (eventObjectId);
-                message.setProducer (producer_id);
                 if (name != null && pic_url != null && fb_id != null) {
                     message.setSenderName (name);
                     message.setPicUrl (pic_url);
                     message.setFbId (fb_id);
                 }
-
-                message.saveInBackground (new SaveCallback () {
-                    @Override
-                    public void done(ParseException e) {
-                        if (e == null) {
-                            receiveMessage ();
-                        } else {
-                            e.printStackTrace ();
-                        }
-                    }
-                });
+                try {
+                    message.save ();
+                } catch (ParseException e) {
+                    e.printStackTrace ();
+                }
                 etMessage.setText ("");
+                getAllMessagesInMainThread ();
             }
         });
         lvChat.setOnItemClickListener (this);
     }
 
-    private void receiveMessage() {
+    private Runnable runnable = new Runnable () {
+        @Override
+        public void run() {
+            getAllMessagesInBackground ();
+            handler.postDelayed (this, 500);
+        }
+    };
+
+    private void getAllMessagesInMainThread() {
         ParseQuery<MsgRealTime> query = ParseQuery.getQuery (MsgRealTime.class);
-        query.setLimit (50);
+        query.whereEqualTo ("eventObjectId", eventObjectId);
+        query.orderByAscending ("createdAt");
+        List<MsgRealTime> messages = null;
+        try {
+            messages = query.find ();
+            getMessagesData (messages);
+        } catch (ParseException e) {
+            e.printStackTrace ();
+        }
+    }
+
+    private void getAllMessagesInBackground() {
+        ParseQuery<MsgRealTime> query = ParseQuery.getQuery (MsgRealTime.class);
         query.whereEqualTo ("eventObjectId", eventObjectId);
         query.orderByAscending ("createdAt");
         query.findInBackground (new FindCallback<MsgRealTime> () {
             public void done(List<MsgRealTime> messages, ParseException e) {
                 if (e == null) {
-                    mMessages.clear ();
-                    mMessages.addAll (messages);
-                    mAdapter.notifyDataSetChanged ();
-                    if (mFirstLoad) {
-                        lvChat.setSelection (mAdapter.getCount () - 1);
-                        mFirstLoad = false;
-                    }
+                    getMessagesData (messages);
                 } else {
-                    Log.d ("message", "Error: " + e.getMessage ());
+                    e.printStackTrace ();
                 }
             }
         });
+    }
+
+    private void getMessagesData(List<MsgRealTime> messages) {
+        mMessageChats.clear ();
+        mMessageRTChats.clear ();
+        mMessageRTChats.addAll (messages);
+        for (int i = 0; i < messages.size (); i++) {
+            MsgRealTime msg = messages.get (i);
+            String id = msg.getUserId ();
+            StringBuilder idStringBuilder = new StringBuilder ();
+            boolean isMe = false;
+            if (!GlobalVariables.IS_PRODUCER) {
+                if (id.equals (GlobalVariables.CUSTOMER_PHONE_NUM)) {
+                    isMe = true;
+                } else if(id.equals (eventInfo.getProducerId ())) {
+                    idStringBuilder.append ("Producer # " + id);
+                } else{
+                    idStringBuilder.append ("Customer # " + id);
+                }
+            } else {
+                if (id.equals (GlobalVariables.PRODUCER_PARSE_OBJECT_ID)) {
+                    isMe = true;
+                } else{
+                    idStringBuilder.append ("Customer # " + id);
+                }
+            }
+            mMessageChats.add (new MessageChat (
+                                                       MessageChat.MSG_TYPE_TEXT,
+                                                       MessageChat.MSG_STATE_SUCCESS,
+                                                       idStringBuilder.toString (),
+                                                       "avatar",
+                                                       "Jerry",
+                                                       "avatar",
+                                                       msg.getBody (),
+                                                       isMe,
+                                                       true,
+                                                       msg.getCreatedAt ()));
+        }
+        mAdapter.notifyDataSetChanged (); // update adapter
+        // Scroll to the bottom of the eventList on initial load
+        if (mFirstLoad) {
+            lvChat.setSelection (mAdapter.getCount () - 1);
+            mFirstLoad = false;
+        }
     }
 
     @Override
@@ -154,7 +205,7 @@ public class RealTimeChatActivity extends AppCompatActivity implements AdapterVi
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        fbId = mMessages.get (position).getFbId ();
+        fbId = mMessageRTChats.get (position).getFbId ();
         AlertDialog.Builder builder = new AlertDialog.Builder (this);
         builder.setTitle ("Visit user facebook page");
         builder.setIcon (R.mipmap.ic_mor_information);
@@ -179,7 +230,6 @@ public class RealTimeChatActivity extends AppCompatActivity implements AdapterVi
             }
         }
     };
-
 
     public Intent getOpenFacebookIntent(String userId) {
         String facebookUrl = "https://www.facebook.com/" + userId;

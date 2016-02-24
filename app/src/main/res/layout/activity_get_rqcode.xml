@@ -49,6 +49,6 @@
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
 
-        android:id="@+id/textView9"
+        android:id="@+id/congrates"
         android:layout_gravity="center_horizontal" />
 </LinearLayout>

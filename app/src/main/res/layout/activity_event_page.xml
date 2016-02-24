@@ -8,10 +8,18 @@
         android:id="@+id/iv_qrscan"
         android:layout_width="40dp"
         android:layout_height="40dp"
-        android:layout_weight="1"
-        android:src="@drawable/qr_scan"
+        android:layout_alignStart="@+id/scrollView"
         android:layout_below="@+id/linearLayoutTop"
-        android:layout_alignStart="@+id/scrollView" />
+        android:layout_weight="1"
+        android:src="@drawable/qr_scan"/>
+
+    <Button
+        android:id="@+id/pushButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Push"
+        android:layout_below="@+id/linearLayoutTop"
+        android:layout_alignParentEnd="true"/>
 
     <ImageView
         android:id="@+id/eventPage_image"
@@ -67,20 +75,20 @@
             android:layout_height="fill_parent"
             android:layout_marginTop="2dp"
             android:layout_weight="1"
-            android:src="@mipmap/ic_mor_information"
-            android:nestedScrollingEnabled="false"/>
+            android:nestedScrollingEnabled="false"
+            android:src="@mipmap/ic_mor_information"/>
 
         <TextView
             android:id="@+id/eventPage_name"
             android:layout_width="0dip"
             android:layout_height="fill_parent"
+            android:layout_gravity="center"
             android:layout_weight="6"
             android:gravity="fill_vertical|center_horizontal"
             android:text="The Best Show in Israel"
             android:textColor="#000000"
-            android:textStyle="bold"
-            android:layout_gravity="center"
-            android:textSize="20sp"/>
+            android:textSize="20sp"
+            android:textStyle="bold"/>
 
         <ImageView
             android:id="@+id/imageEvenetPageView3"
@@ -89,8 +97,8 @@
             android:layout_marginTop="2dp"
             android:layout_weight="1"
             android:adjustViewBounds="false"
-            android:src="@mipmap/wh"
-            android:onClick="onClick"/>
+            android:onClick="onClick"
+            android:src="@mipmap/wh"/>
 
         <ImageView
             android:id="@+id/imageEvenetPageView2"
@@ -118,11 +126,11 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:background="#3293CD"
-            android:text="15$-25$"
-            android:onClick="editEvent"
-            android:textColor="#ffffff"
             android:gravity="center"
-            android:textAlignment="center"/>
+            android:onClick="editEvent"
+            android:text="Edit Event"
+            android:textAlignment="center"
+            android:textColor="#ffffff"/>
 
         <Button
             android:id="@+id/eventPage_tags"
@@ -130,10 +138,10 @@
             android:layout_height="fill_parent"
             android:layout_weight="1"
             android:background="#ffffff"
-            android:text="#Food&amp;Drink #Convention"
-            android:textColor="#000000"
             android:gravity="center"
-            android:textAlignment="center"/>
+            android:text="#Food&amp;Drink #Convention"
+            android:textAlignment="center"
+            android:textColor="#000000"/>
 
         <Button
             android:id="@+id/button"
@@ -141,10 +149,10 @@
             android:layout_height="fill_parent"
             android:layout_weight="1"
             android:background="#3293CD"
+            android:gravity="center"
             android:onClick="openTicketsPage"
             android:text="GET TICKETS"
-            android:textColor="#ffffff"
-            android:gravity="center"/>
+            android:textColor="#ffffff"/>
     </LinearLayout>
 
     <ScrollView
@@ -168,5 +176,15 @@
             android:textSize="17sp"/>
     </ScrollView>
 
+    <Button
+        android:id="@+id/realTime"
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/scrollView"
+        android:layout_centerHorizontal="true"
+        android:onClick="eventOnRealtime"
+        android:text="Real Time"
+        android:visibility="invisible"/>
 
 </RelativeLayout>

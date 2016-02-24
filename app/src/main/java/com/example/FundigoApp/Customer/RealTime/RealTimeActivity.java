@@ -1,7 +1,6 @@
 package com.example.FundigoApp.Customer.RealTime;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.location.Location;
@@ -13,28 +12,30 @@ import android.widget.Button;
 import android.widget.GridView;
 import android.widget.TextView;
 
+import com.example.FundigoApp.Customer.SavedEvents.SavedEventActivity;
 import com.example.FundigoApp.Events.EventInfo;
 import com.example.FundigoApp.Events.EventPage;
 import com.example.FundigoApp.FilterPage;
+import com.example.FundigoApp.GlobalVariables;
 import com.example.FundigoApp.MainActivity;
 import com.example.FundigoApp.R;
-import com.example.FundigoApp.Customer.SavedEvents.SavedEventActivity;
+import com.example.FundigoApp.StaticMethods;
+import com.example.FundigoApp.StaticMethods.GetEventsDataCallback;
+import com.example.FundigoApp.StaticMethods.GpsICallback;
 
-import java.io.ByteArrayOutputStream;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-public class RealTimeActivity extends AppCompatActivity implements View.OnClickListener, AdapterView.OnItemClickListener {
+public class RealTimeActivity extends AppCompatActivity implements View.OnClickListener, AdapterView.OnItemClickListener, GetEventsDataCallback, GpsICallback {
 
     private GridView gridView;
     private Button Event, RealTime, SavedEvent;
     private TextView turnOnGPS;
-    public static Location loc = new Location ("");
-    public static List<EventInfo> events_data = new ArrayList<EventInfo> ();
-    public static List<EventInfo> events_data_filtered = new ArrayList<EventInfo> ();
+    private static List<EventInfo> events_sorted_by_dist_data = new ArrayList<EventInfo> ();
+    private static List<EventInfo> events_data_filtered = new ArrayList<EventInfo> ();
     EventsGridAdapter eventsGridAdapter;
 
     @Override
@@ -45,21 +46,29 @@ public class RealTimeActivity extends AppCompatActivity implements View.OnClickL
         Event = (Button) findViewById (R.id.BarEvent_button);
         RealTime = (Button) findViewById (R.id.BarRealTime_button);
         SavedEvent = (Button) findViewById (R.id.BarSavedEvent_button);
-        turnOnGPS = (TextView) findViewById (R.id.textView8);
+        turnOnGPS = (TextView) findViewById (R.id.turnOnGps);
         Event.setOnClickListener (this);
         SavedEvent.setOnClickListener (this);
         RealTime.setOnClickListener (this);
 
         RealTime.setTextColor (Color.WHITE);
-        if (MainActivity.loc == null) {
+        if (GlobalVariables.MY_LOCATION == null && !StaticMethods.isLocationEnabled (this)) {
             turnOnGps ();
         }
 
-        if (MainActivity.loc != null) {
-            loc.setLatitude (MainActivity.loc.getLatitude ());
-            loc.setLongitude (MainActivity.loc.getLongitude ());
-            events_data = getSortedListByDist ();
-            events_data_filtered.addAll (events_data);
+        if (GlobalVariables.ALL_EVENTS_DATA.size () == 0) {
+            Intent intent = new Intent (this, EventPage.class);
+            StaticMethods.uploadEventsData (this, null, this.getApplicationContext (), intent);
+        } else {
+            if (GlobalVariables.MY_LOCATION != null  && StaticMethods.isLocationEnabled (this)) {
+                events_sorted_by_dist_data = getSortedListByDist ();
+                List<EventInfo> tempFilteredList =
+                        StaticMethods.filterByFilterName (GlobalVariables.CURRENT_FILTER_NAME, events_sorted_by_dist_data);
+                events_data_filtered.clear ();
+                events_data_filtered.addAll (tempFilteredList);
+            } else {
+                StaticMethods.updateDeviceLocationGPS (this.getApplicationContext (), this);
+            }
         }
 
         gridView = (GridView) findViewById (R.id.gridview);
@@ -69,31 +78,39 @@ public class RealTimeActivity extends AppCompatActivity implements View.OnClickL
         gridView.setOnItemClickListener (this);
     }
 
+    private void turnOnGps() {
+        turnOnGPS.setVisibility (View.VISIBLE);
+    }
+
     @Override
-    public void onClick(View v) {
-        int vId = v.getId ();
-        Intent newIntent = null;
-        if (vId == Event.getId ()) {
-            newIntent = new Intent (this, MainActivity.class);
-        } else if (vId == SavedEvent.getId ()) {
-            newIntent = new Intent (this, SavedEventActivity.class);
-        }
-        if (vId != RealTime.getId ()) {
-            startActivity (newIntent);
+    public void gpsCallback() {
+        if (GlobalVariables.ALL_EVENTS_DATA.size () > 0) {
+            events_sorted_by_dist_data = getSortedListByDist ();
+            List<EventInfo> tempFilteredList =
+                    StaticMethods.filterByFilterName (GlobalVariables.CURRENT_FILTER_NAME, events_sorted_by_dist_data);
+            events_data_filtered.clear ();
+            events_data_filtered.addAll (tempFilteredList);
+            eventsGridAdapter.notifyDataSetChanged ();
         }
     }
 
-    /**
-     * Called when the user clicks the filter button
-     */
-    public void openFilterPage(View v) {
-        Intent filterPageIntent = new Intent (this, FilterPage.class);
-        startActivity (filterPageIntent);
+    @Override
+    public void eventDataCallback() {
+        if (GlobalVariables.MY_LOCATION != null) {
+            events_sorted_by_dist_data = getSortedListByDist ();
+            List<EventInfo> tempFilteredList =
+                    StaticMethods.filterByFilterName (GlobalVariables.CURRENT_FILTER_NAME, events_sorted_by_dist_data);
+            events_data_filtered.clear ();
+            events_data_filtered.addAll (tempFilteredList);
+            eventsGridAdapter.notifyDataSetChanged ();
+        } else {
+            StaticMethods.updateDeviceLocationGPS (this.getApplicationContext (), this);
+        }
     }
 
     public List<EventInfo> getSortedListByDist() {
         List<EventInfo> arr = new ArrayList<> ();
-        List<EventInfo> all_events_list = MainActivity.all_events_data;
+        List<EventInfo> all_events_list = GlobalVariables.ALL_EVENTS_DATA;
         for (int i = 0; i < all_events_list.size (); i++) {
             EventInfo event = all_events_list.get (i);
             double latitude = event.getX ();
@@ -101,7 +118,7 @@ public class RealTimeActivity extends AppCompatActivity implements View.OnClickL
             Location locationEvent = new Location ("eventPlace");
             locationEvent.setLatitude (latitude);
             locationEvent.setLongitude (longitude);
-            double distance = (double) MainActivity.loc.distanceTo (locationEvent) / 1000;
+            double distance = (double) GlobalVariables.MY_LOCATION.distanceTo (locationEvent) / 1000;
             DecimalFormat df = new DecimalFormat ("#.##");
             String dx = df.format (distance);
             distance = Double.valueOf (dx);
@@ -120,67 +137,52 @@ public class RealTimeActivity extends AppCompatActivity implements View.OnClickL
     }
 
     @Override
+    public void onClick(View v) {
+        int vId = v.getId ();
+        Intent newIntent = null;
+        if (vId == Event.getId ()) {
+            newIntent = new Intent (this, MainActivity.class);
+        } else if (vId == SavedEvent.getId ()) {
+            newIntent = new Intent (this, SavedEventActivity.class);
+        }
+        if (vId != RealTime.getId ()) {
+            startActivity (newIntent);
+        }
+    }
+
+    public void openFilterPage(View v) {
+        Intent filterPageIntent = new Intent (this, FilterPage.class);
+        startActivity (filterPageIntent);
+    }
+
+    @Override
     public void onItemClick(AdapterView<?> av, View view, int i, long l) {
         Bundle b = new Bundle ();
         Intent intent = new Intent (this, EventPage.class);
-        if (events_data_filtered.get (i).getImageId () != null) {
-            Bitmap bmp = events_data_filtered.get (i).getImageId ();
-            ByteArrayOutputStream stream = new ByteArrayOutputStream ();
-            bmp.compress (Bitmap.CompressFormat.JPEG, 100, stream);
-            byte[] byteArray = stream.toByteArray ();
-            intent.putExtra ("eventImage", byteArray);
-        } else
-            intent.putExtra ("eventImage", "");
-        intent.putExtra ("eventDate", events_data_filtered.get (i).getDate ());
-        intent.putExtra ("eventName", events_data_filtered.get (i).getName ());
-        intent.putExtra ("eventTags", events_data_filtered.get (i).getTags ());
-        intent.putExtra ("eventPrice", events_data_filtered.get (i).getPrice ());
-        intent.putExtra ("eventInfo", events_data_filtered.get (i).getInfo ());
-        intent.putExtra ("eventPlace", events_data_filtered.get (i).getPlace ());
-        intent.putExtra ("toilet", events_data_filtered.get (i).getToilet ());
-        intent.putExtra ("parking", events_data_filtered.get (i).getParking ());
-        intent.putExtra ("capacity", events_data_filtered.get (i).getCapacity ());
-        intent.putExtra ("atm", events_data_filtered.get (i).getAtm ());
-        intent.putExtra ("index", events_data_filtered.get (i).getIndexInFullList ());
-
-        b.putString ("customer_id", MainActivity.customer_id);
-        if (MainActivity.producerId != null)
-            b.putString ("producer_id", MainActivity.producerId);
-        else
-            b.putString ("producer_id", events_data_filtered.get (i).getProducerId ());
+        StaticMethods.onEventItemClick (i, events_data_filtered, intent);
         intent.putExtras (b);
         startActivity (intent);
     }
 
-    private void turnOnGps() {
-        turnOnGPS.setVisibility (View.VISIBLE);
-    }
-
     public void openMenuPage(View v) {
-        Intent menuPageIntent = new Intent (this, com.example.FundigoApp.Menu.class);
+        Intent menuPageIntent = new Intent (this, com.example.FundigoApp.Customer.CustomerMenu.Menu.class);
         startActivity (menuPageIntent);
     }
 
     @Override
     protected void onResume() {
         super.onResume ();
-        filterByFilterName (MainActivity.currentFilterName);
+        List<EventInfo> tempFilteredList =
+                StaticMethods.filterByFilterName (GlobalVariables.CURRENT_FILTER_NAME, events_sorted_by_dist_data);
+        events_data_filtered.clear ();
+        events_data_filtered.addAll (tempFilteredList);
+        eventsGridAdapter.notifyDataSetChanged ();
     }
 
-    public void filterByFilterName(String currentFilterName) {
-        ArrayList<EventInfo> tempEventsList = new ArrayList<> ();
-        if (currentFilterName.isEmpty ()) {
-            tempEventsList.addAll (events_data);
-        } else {
-            for (int i = 0; i < events_data.size (); i++) {
-                if (currentFilterName.isEmpty () ||
-                            (currentFilterName.equals (events_data.get (i).getFilterName ()))) {
-                    tempEventsList.add (events_data.get (i));
-                }
-            }
-        }
-        events_data_filtered.clear ();
-        events_data_filtered.addAll (tempEventsList);
-        eventsGridAdapter.notifyDataSetChanged ();
+    @Override
+    protected void onActivityResult(final int requestCode, final int resultCode, final Intent data) {
+        StaticMethods.onActivityResult (requestCode,
+                                               data,
+                                               this);
     }
 }

@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent"
+    android:background="#ededed">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Username    "
+        android:id="@+id/textView10"
+        android:textSize="16sp"
+        android:layout_marginBottom="46dp"
+        android:layout_alignBottom="@+id/usernameET"
+        android:layout_alignStart="@+id/usernameET"
+        android:layout_marginLeft="2dp" />
+
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Email"
+        android:id="@+id/textView19"
+        android:textSize="16sp"
+        android:layout_above="@+id/emailET"
+        android:layout_alignStart="@+id/emailET"
+        android:layout_marginBottom="6dp"
+        android:layout_marginLeft="2dp" />
+
+    <EditText
+        android:layout_width="200dp"
+        android:layout_height="40dp"
+        android:id="@+id/emailET"
+        android:background="#ffffff"
+        android:layout_above="@+id/textView10"
+        android:layout_alignStart="@+id/textView10"
+        android:layout_marginBottom="24dp" />
+
+    <EditText
+        android:layout_width="200dp"
+        android:layout_height="40dp"
+        android:id="@+id/usernameET"
+        android:layout_marginTop="240dp"
+
+        android:background="#ffffff"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Password"
+        android:id="@+id/textView20"
+        android:textSize="16sp"
+        android:layout_below="@+id/usernameET"
+        android:layout_alignStart="@+id/usernameET"
+        android:layout_marginTop="35dp"
+        android:layout_marginBottom="6dp"
+        android:layout_marginLeft="2dp" />
+
+    <EditText
+        android:layout_width="200dp"
+        android:layout_height="40dp"
+        android:id="@+id/passwordET"
+        android:background="#ffffff"
+        android:layout_below="@+id/textView20"
+        android:layout_alignStart="@+id/textView20" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Finish Reistration"
+        android:onClick="createAccount"
+        android:id="@+id/button8"
+        android:background="#71B7E6"
+        android:textColor="#ffffff"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="68dp"
+        android:textSize="13sp"
+        android:layout_alignEnd="@+id/textView21"
+        android:layout_alignStart="@+id/textView21" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Create Your Funfigo Account"
+        android:id="@+id/textView21"
+        android:layout_marginTop="40dp"
+        android:textColor="#71B7E6"
+        android:textSize="23sp"
+        android:textStyle="bold"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true" />
+</RelativeLayout>

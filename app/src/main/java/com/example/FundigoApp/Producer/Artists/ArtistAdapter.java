@@ -19,8 +19,6 @@ public class ArtistAdapter extends BaseAdapter {
     LayoutInflater inflater;
 
     public ArtistAdapter(Context c, List<Artist> artistList) {
-
-
         this.context = c;
         this.artistList = artistList;
         inflater = LayoutInflater.from(this.context);
@@ -44,7 +42,6 @@ public class ArtistAdapter extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         MyViewHolder mViewHolder;
 
-
         if (convertView == null) {
             convertView = inflater.inflate(R.layout.artist_item, parent, false);
             mViewHolder = new MyViewHolder(convertView);
@@ -57,18 +54,15 @@ public class ArtistAdapter extends BaseAdapter {
         mViewHolder.tvTitle.setText(artist.getName());
         mViewHolder.tvDesc.setText(artist.getTicketsSold() + " - Tickets sold");
 
-
         return convertView;
     }
 
     private class MyViewHolder {
         TextView tvTitle, tvDesc;
 
-
         public MyViewHolder(View item) {
-            tvTitle = (TextView) item.findViewById(R.id.eventTV);
-            tvDesc = (TextView) item.findViewById(R.id.tv);
-
+            tvTitle = (TextView) item.findViewById(R.id.artistName);
+            tvDesc = (TextView) item.findViewById(R.id.artist_tickets_sold);
         }
     }
 }

@@ -16,6 +16,19 @@
     <string name="message_hint">Say anything</string>
     <string name="send">Send</string>
 
+    <string-array name="filters">
+        <item>Sports</item>
+        <item>Travel</item>
+        <item>Drink</item>
+        <item>Business</item>
+        <item>Fashion</item>
+        <item>Education</item>
+        <item>Government</item>
+        <item>Home&amp;Lifestyle</item>
+        <item>Music</item>
+    </string-array>
+
+
     <string-array name="popUp">
         <item>All Cities</item>
         <item>Ramat Gan</item>
@@ -114,4 +127,9 @@
     <string name="pref_title_vibrate">Vibrate</string>
 
     <string name="userDetailes">My Profile</string>
+
+    <string name="updateProfile">Updating My Profile</string>
+    <string name="tickets">My Events Tickets</string>
+    <string name="title_activity_events_tickets">EventsTickets</string>
+    <string name="title_activity_mipo">Mipo</string>
 </resources>

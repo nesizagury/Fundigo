@@ -2,20 +2,23 @@ package com.example.FundigoApp;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.PopupMenu;
 import android.widget.SearchView;
-import android.widget.SimpleCursorAdapter;
 import android.widget.Toast;
 
 import com.example.FundigoApp.Events.EventInfo;
+import com.example.FundigoApp.Events.EventPage;
 import com.example.FundigoApp.Events.EventsListAdapter;
 
 import java.io.BufferedReader;
@@ -26,20 +29,18 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by benjamin on 27/01/2016.
- */
-public class Search extends AppCompatActivity implements SearchView.OnClickListener {
+public class Search extends AppCompatActivity implements SearchView.OnClickListener, AdapterView.OnItemClickListener {
     AutoCompleteTextView autoCompleteTextView;
+
     SearchView search;
     ListView listView;
     EventsListAdapter listAdpter;
     Button b_history, b_clear;
     String wordSearch;
     ArrayList<String> history = new ArrayList<> ();
-    SimpleCursorAdapter cursorAdapter;
     ArrayAdapter<String> autoStrings;
     PopupMenu historyPop;
+    List<EventInfo> eventsResultList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,12 +58,11 @@ public class Search extends AppCompatActivity implements SearchView.OnClickListe
 
         String[] auto = getResources ().getStringArray (R.array.autoComplateStrings);
         autoStrings = new ArrayAdapter<String> (this, android.R.layout.simple_list_item_1, auto);
-        List<EventInfo> list = new ArrayList<EventInfo> ();
-        listAdpter = new EventsListAdapter (this, list, false);
+        eventsResultList = new ArrayList<EventInfo> ();
+        listAdpter = new EventsListAdapter (this, eventsResultList, false);
         listView.setAdapter (listAdpter);
-        //autoCompleteTextView=(AutoCompleteTextView)findViewById(R.id.autoComplate);
-        //autoCompleteTextView.setAdapter(autoStrings);
-        //autoCompleteTextView.setThreshold(1);
+        listView.setSelector (new ColorDrawable (Color.TRANSPARENT));
+        listView.setOnItemClickListener (this);
 
         //Creating the instance of PopupMenu
         historyPop = new PopupMenu (Search.this, b_history);
@@ -94,10 +94,7 @@ public class Search extends AppCompatActivity implements SearchView.OnClickListe
                     Toast.makeText (Search.this, "Not have history", Toast.LENGTH_SHORT).show ();
                 }
             }
-        });/*
-        MatrixCursor cursor = new MatrixCursor(auto);
-        cursorAdapter =new SimpleCursorAdapter(this,android.R.layout.simple_list_item_1,cursor, new String[] { "autoComplateStrings" },new int[]{ android.R.id.text1});
-        search.setSuggestionsAdapter(cursorAdapter);*/
+        });
         search.setOnQueryTextListener (new SearchView.OnQueryTextListener () {
             @Override
             public boolean onQueryTextSubmit(String query) {
@@ -105,11 +102,11 @@ public class Search extends AppCompatActivity implements SearchView.OnClickListe
                 if (wordSearch.length () == 0) {
                     Toast.makeText (Search.this, "Input word to search", Toast.LENGTH_SHORT).show ();
                 } else {
-//                    wordSearch += "\n";
                     history.add (0, wordSearch);
                     saveHistory ();
-                    listAdpter = new EventsListAdapter (Search.this, "filter", searchInfo (wordSearch));
-                    listView.setAdapter (listAdpter);
+                    eventsResultList.clear ();
+                    eventsResultList.addAll (searchInfo (wordSearch));
+                    listAdpter.notifyDataSetChanged ();
                 }
                 return false;
             }
@@ -117,8 +114,9 @@ public class Search extends AppCompatActivity implements SearchView.OnClickListe
             @Override
             public boolean onQueryTextChange(String newText) {
                 wordSearch = newText;
-                listAdpter = new EventsListAdapter (Search.this, "filter", searchInfo (wordSearch));
-                listView.setAdapter (listAdpter);
+                eventsResultList.clear ();
+                eventsResultList.addAll (searchInfo (wordSearch));
+                listAdpter.notifyDataSetChanged ();
                 return false;
             }
         });
@@ -143,29 +141,29 @@ public class Search extends AppCompatActivity implements SearchView.OnClickListe
         boolean flag = true;
         ArrayList<EventInfo> ans = new ArrayList<> ();
         ArrayList<String> checkIfInside = new ArrayList<> ();
-        for (int i = 0; i < MainActivity.all_events_data.size (); i++) {
-            if (!checkIfInside.contains (MainActivity.all_events_data.get (i).getParseObjectId ())) {
-                if (MainActivity.all_events_data.get (i).getInfo ().toLowerCase ().contains (search.toLowerCase ())) {
-                    ans.add (MainActivity.all_events_data.get (i));
-                    checkIfInside.add (MainActivity.all_events_data.get (i).getParseObjectId ());
+        for (int i = 0; i < GlobalVariables.ALL_EVENTS_DATA.size (); i++) {
+            if (!checkIfInside.contains (GlobalVariables.ALL_EVENTS_DATA.get (i).getParseObjectId ())) {
+                if (GlobalVariables.ALL_EVENTS_DATA.get (i).getInfo ().toLowerCase ().contains (search.toLowerCase ())) {
+                    ans.add (GlobalVariables.ALL_EVENTS_DATA.get (i));
+                    checkIfInside.add (GlobalVariables.ALL_EVENTS_DATA.get (i).getParseObjectId ());
                     flag = false;
                 }
 
-                if (flag && MainActivity.all_events_data.get (i).getName ().toLowerCase ().contains (search.toLowerCase ())) {
-                    ans.add (MainActivity.all_events_data.get (i));
-                    checkIfInside.add (MainActivity.all_events_data.get (i).getParseObjectId ());
+                if (flag && GlobalVariables.ALL_EVENTS_DATA.get (i).getName ().toLowerCase ().contains (search.toLowerCase ())) {
+                    ans.add (GlobalVariables.ALL_EVENTS_DATA.get (i));
+                    checkIfInside.add (GlobalVariables.ALL_EVENTS_DATA.get (i).getParseObjectId ());
                     flag = false;
                 }
 
-                if (flag && MainActivity.all_events_data.get (i).getFilterName ().toLowerCase ().contains (search.toLowerCase ())) {
-                    ans.add (MainActivity.all_events_data.get (i));
-                    checkIfInside.add (MainActivity.all_events_data.get (i).getParseObjectId ());
+                if (flag && GlobalVariables.ALL_EVENTS_DATA.get (i).getFilterName ().toLowerCase ().contains (search.toLowerCase ())) {
+                    ans.add (GlobalVariables.ALL_EVENTS_DATA.get (i));
+                    checkIfInside.add (GlobalVariables.ALL_EVENTS_DATA.get (i).getParseObjectId ());
                     flag = false;
                 }
 
-                if (flag && MainActivity.all_events_data.get (i).getTags ().toLowerCase ().contains (search.toLowerCase ())) {
-                    ans.add (MainActivity.all_events_data.get (i));
-                    checkIfInside.add (MainActivity.all_events_data.get (i).getParseObjectId ());
+                if (flag && GlobalVariables.ALL_EVENTS_DATA.get (i).getTags ().toLowerCase ().contains (search.toLowerCase ())) {
+                    ans.add (GlobalVariables.ALL_EVENTS_DATA.get (i));
+                    checkIfInside.add (GlobalVariables.ALL_EVENTS_DATA.get (i).getParseObjectId ());
                 }
                 flag = true;
             }
@@ -198,7 +196,6 @@ public class Search extends AppCompatActivity implements SearchView.OnClickListe
     }
 
     private void saveHistory() {
-
         FileOutputStream outputStream;
         try {
             outputStream = openFileOutput ("history.txt", Context.MODE_PRIVATE);
@@ -219,4 +216,19 @@ public class Search extends AppCompatActivity implements SearchView.OnClickListe
         startActivity (new Intent (this, MainActivity.class));
     }
 
+    @Override
+    protected void onActivityResult(final int requestCode, final int resultCode, final Intent data) {
+        StaticMethods.onActivityResult (requestCode,
+                                               data,
+                                               this);
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        Bundle b = new Bundle ();
+        Intent intent = new Intent (this, EventPage.class);
+        StaticMethods.onEventItemClick (position, eventsResultList, intent);
+        intent.putExtras (b);
+        startActivity (intent);
+    }
 }

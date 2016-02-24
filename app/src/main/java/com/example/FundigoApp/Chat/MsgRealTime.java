@@ -21,22 +21,6 @@ public class MsgRealTime extends ParseObject {
         put ("body", body);
     }
 
-    public void setProducer(String producer) {
-        put ("producer", producer);
-    }
-
-    public String getProducer() {
-        return getString ("producer");
-    }
-
-    public void setCustomer(String customer) {
-        put ("customer", customer);
-    }
-
-    public String getCustomer() {
-        return getString ("customer");
-    }
-
     public String getEventObjectId() {
         return getString ("eventObjectId");
     }
@@ -45,13 +29,6 @@ public class MsgRealTime extends ParseObject {
         put ("eventObjectId", eventObjectId);
     }
 
-    public void setSenderName(String senderName) {
-        put ("senderName", senderName);
-    }
-
-    public String getSenderName() {
-        return getString ("senderName");
-    }
 
     public boolean isProducer() {
         return getBoolean ("isProducer");
@@ -75,5 +52,13 @@ public class MsgRealTime extends ParseObject {
 
     public void setPicUrl(String picUrl) {
         put ("picUrl", picUrl);
+    }
+
+    public void setSenderName(String senderName) {
+        put ("senderName", senderName);
+    }
+
+    public String getSenderName() {
+        return getString ("senderName");
     }
 }

@@ -1,67 +1,51 @@
 package com.example.FundigoApp.Chat;
 
+import android.graphics.Bitmap;
+
 import java.io.Serializable;
 
 public class MessageRoomBean implements Serializable {
-
-    int imageId;
-    String name;
-    String body;
+    Bitmap customerImage;
+    String customerImageFacebookUrl;
+    String lastMessage;
     String customer_id;
     String producer_id;
 
-
-    public MessageRoomBean(){
-
-    }
-
-    public MessageRoomBean(int imageId, String name, String body,String customer_id,String producer_id) {
-
-        this.imageId = imageId;
-        this.name = name;
+    public MessageRoomBean(String lastMessage, String customer_id, String producer_id) {
+        this.lastMessage = lastMessage;
         this.customer_id = customer_id;
-        this.body = body;
         this.producer_id = producer_id;
-
-
     }
 
-    public int getImageId(){
-        return imageId;
+    public Bitmap getCustomerImage() {
+        return customerImage;
     }
 
-    public void setImageId(int imageId){
-
-        this.imageId = imageId;
-
+    public void setCustomerImage(Bitmap customerImage) {
+        this.customerImage = customerImage;
     }
 
-    public void setBody(String body)
-    {
-        this.body = body;
+    public String getCustomerImageFacebookUrl() {
+        return customerImageFacebookUrl;
     }
 
-    public String getBody()
-    {
-        return  body;
+    public void setCustomerImageFacebookUrl(String customerImageFacebookUrl) {
+        this.customerImageFacebookUrl = customerImageFacebookUrl;
     }
 
-    public String getName() {
-        return name;
+    public String getLastMessage() {
+        return lastMessage;
     }
 
-    public void setName(String name){
-        this.name = name;
-
-
-
+    public void setLastMessage(String lastMessage) {
+        this.lastMessage = lastMessage;
     }
 
     public String getCustomer_id() {
         return customer_id;
     }
 
-    public void setCustomer_id(String id) {
+    public void setCustomer_id(String customer_id) {
         this.customer_id = customer_id;
     }
 
@@ -69,7 +53,7 @@ public class MessageRoomBean implements Serializable {
         return producer_id;
     }
 
-    public void setProducer_id(String id) {
+    public void setProducer_id(String producer_id) {
         this.producer_id = producer_id;
     }
 }

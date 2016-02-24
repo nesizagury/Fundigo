@@ -9,52 +9,57 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.example.FundigoApp.Constants;
+import com.example.FundigoApp.GlobalVariables;
 import com.example.FundigoApp.MainActivity;
 import com.example.FundigoApp.R;
+import com.example.FundigoApp.StaticMethods;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.List;
 
+import io.branch.referral.Branch;
+import io.branch.referral.BranchError;
+
 public class LoginActivity extends Activity {
+    final static String TRIAL_GUEST_PHONE = "GUEST";
+
     Button producer_loginButton;
     String producer_username;
     String producer_password;
     EditText producer_passwordET;
     EditText producer_usernameET;
     Button customer_loginButton;
-    String isGuest = "";
-    String customer_id;
+    boolean emailVerified = false;
+    public static String x = "";
+    boolean passwordVerified;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate (savedInstanceState);
         this.requestWindowFeature (Window.FEATURE_NO_TITLE);
-        setContentView (R.layout.activity_login2);
+        setContentView (R.layout.activity_login_page);
         producer_usernameET = (EditText) findViewById (R.id.username_et);
         producer_passwordET = (EditText) findViewById (R.id.password_et);
         producer_loginButton = (Button) findViewById (R.id.button_login);
         customer_loginButton = (Button) findViewById (R.id.button_customer);
 
-        customer_id = readFromFile ();
-        if (customer_id.equals ("") || customer_id == null) {
+        GlobalVariables.CUSTOMER_PHONE_NUM = StaticMethods.getCustomerPhoneNumFromFile (this);
+        if (GlobalVariables.CUSTOMER_PHONE_NUM == null || GlobalVariables.CUSTOMER_PHONE_NUM.equals ("")) {
             customer_loginButton.setText ("GUEST LOGIN");
-            isGuest = "true";
-            Constants.IS_GUEST = true;
         }
     }
 
     public void producerLogin(View v) {
         producer_username = producer_usernameET.getText ().toString ();
         producer_password = producer_passwordET.getText ().toString ();
+        passwordVerified = false;
+        emailVerified = false;
         List<ParseUser> list = new ArrayList<ParseUser> ();
         ParseQuery<ParseUser> query1 = ParseUser.getQuery ();
         try {
@@ -66,16 +71,29 @@ public class LoginActivity extends Activity {
         for (ParseUser user : list) {
             if (user.getUsername ().equals (producer_username)) {
                 exists = true;
+                if (user.get ("emailVerified") != null &&
+                            (boolean)user.get ("emailVerified") == true) {
+                    emailVerified = true;
+                }
                 break;
             }
         }
         if (exists) {
             try {
                 ParseUser.logIn (producer_username, producer_password);
-                Toast.makeText (getApplicationContext (), "Successfully Loged in as producer", Toast.LENGTH_SHORT).show ();
-                Constants.IS_PRODUCER = true;
+                if (!emailVerified) {
+                    Toast.makeText (getApplicationContext (), "verify email", Toast.LENGTH_SHORT).show ();
+                    ParseUser.logOut ();
+                    return;
+                }
+                Toast.makeText (getApplicationContext (), "Successfully Logged in as producer", Toast.LENGTH_SHORT).show ();
+                GlobalVariables.IS_PRODUCER = true;
+                GlobalVariables.IS_CUSTOMER_REGISTERED_USER = false;
+                GlobalVariables.IS_CUSTOMER_GUEST = false;
+                GlobalVariables.CUSTOMER_PHONE_NUM = null;
+                GlobalVariables.PRODUCER_PARSE_OBJECT_ID = ParseUser.getCurrentUser ().getObjectId ();
                 Intent intent = new Intent (this, MainActivity.class);
-                intent.putExtra ("producerId", producer_username);
+                GlobalVariables.ALL_EVENTS_DATA.clear ();
                 startActivity (intent);
                 finish ();
             } catch (ParseException e1) {
@@ -87,34 +105,62 @@ public class LoginActivity extends Activity {
     }
 
     public void customerLogin(View v) {
-        Toast.makeText (this, "Successfully Loged in as customer", Toast.LENGTH_SHORT).show ();
+        Toast.makeText (this, "Successfully Logged in as customer", Toast.LENGTH_SHORT).show ();
         Intent intent = new Intent (this, MainActivity.class);
-        if (isGuest.equals ("true")) {
-            intent.putExtra ("chat_id", "Guest User");
+        if (GlobalVariables.CUSTOMER_PHONE_NUM == null || GlobalVariables.CUSTOMER_PHONE_NUM.equals ("")) {
+            //at the moment we make all guest user with a trial phone num
+            //for the presentation purpose
+            //in the future guest will not be able to send msg
+            //or save tickets etc.
+            GlobalVariables.IS_CUSTOMER_REGISTERED_USER = true;//TODO
+            GlobalVariables.IS_CUSTOMER_GUEST = false;//TODO
+            GlobalVariables.CUSTOMER_PHONE_NUM = TRIAL_GUEST_PHONE;
         } else {
-            intent.putExtra ("chat_id", customer_id);
+            GlobalVariables.IS_CUSTOMER_GUEST = false;
+            GlobalVariables.IS_CUSTOMER_REGISTERED_USER = true;
         }
+        GlobalVariables.IS_PRODUCER = false;
+        GlobalVariables.PRODUCER_PARSE_OBJECT_ID = null;
+        GlobalVariables.ALL_EVENTS_DATA.clear ();
         startActivity (intent);
         finish ();
-        ;
     }
 
-    private String readFromFile() {
-        String phone_number = "";
-        try {
-            InputStream inputStream = openFileInput ("verify.txt");
-            if (inputStream != null) {
-                InputStreamReader inputStreamReader = new InputStreamReader (inputStream);
-                BufferedReader bufferedReader = new BufferedReader (inputStreamReader);
-                String receiveString = "";
-                while ((receiveString = bufferedReader.readLine ()) != null) {
-                    phone_number = receiveString;
-                }
-                inputStream.close ();
+    @Override
+    public void onStart() {
+        super.onStart ();
+
+        Branch branch = Branch.getInstance ();
+        branch.initSession (new Branch.BranchReferralInitListener () {
+            @Override
+            public void onInitFinished(JSONObject referringParams, BranchError error) {
+                if (error == null) {
+                    // params are the deep linked params associated with the link that the user clicked before showing up
+                    try {
+                        x = referringParams.getString ("objectId");
+                        Toast.makeText (getApplicationContext (), "id = " + x, Toast.LENGTH_SHORT).show ();
+
+                    } catch (JSONException e) {
+                        e.printStackTrace ();
+                    }
+
+                } else
+                    Toast.makeText (getApplicationContext (), error.getMessage (), Toast.LENGTH_SHORT).show ();
+
             }
-        } catch (FileNotFoundException e) {
-        } catch (IOException e) {
-        }
-        return phone_number;
+
+        }, this.getIntent ().getData (), this);
+
+
+    }
+
+    public void signUp(View view) {
+        Intent intent = new Intent (LoginActivity.this, SignUpActivity.class);
+        startActivity (intent);
+    }
+
+    @Override
+    public void onNewIntent(Intent intent) {
+        this.setIntent (intent);
     }
 }

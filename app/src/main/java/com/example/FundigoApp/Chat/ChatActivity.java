@@ -3,7 +3,6 @@ package com.example.FundigoApp.Chat;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
@@ -16,17 +15,15 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 
-import com.example.FundigoApp.*;
+import com.example.FundigoApp.Customer.CustomerDetails;
 import com.example.FundigoApp.Events.EventInfo;
-import com.example.FundigoApp.Verifications.Numbers;
+import com.example.FundigoApp.GlobalVariables;
+import com.example.FundigoApp.R;
+import com.example.FundigoApp.StaticMethods;
 import com.parse.FindCallback;
-import com.parse.GetCallback;
 import com.parse.ParseACL;
 import com.parse.ParseException;
-import com.parse.ParseFile;
-import com.parse.ParseObject;
 import com.parse.ParseQuery;
-import com.parse.SaveCallback;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -40,15 +37,13 @@ public class ChatActivity extends Activity {
     private com.example.FundigoApp.Chat.MessageAdapter mAdapter;
     private boolean mFirstLoad;
     private Handler handler = new Handler ();
-    boolean isSaved = false;
     String body;
-    String producer_id;
-    String customer_id;
     ImageView profileImage;
     Button profileName;
     Button profileFaceBook;
     String faceBookId;
     String eventName;
+    String customerPhone;
     EventInfo eventInfo;
 
     @Override
@@ -61,17 +56,17 @@ public class ChatActivity extends Activity {
         profileName = (Button) findViewById (R.id.ProfileName_chat);
         profileFaceBook = (Button) findViewById (R.id.ProfileFacebook_chat);
         Intent intent = getIntent ();
-        producer_id = intent.getStringExtra ("producer_id");
-        customer_id = intent.getStringExtra ("customer_id");
         int eventIndex = intent.getIntExtra ("index", 0);
-        eventInfo = com.example.FundigoApp.MainActivity.all_events_data.get (eventIndex);
+        customerPhone = intent.getStringExtra ("customer_phone");
+
+        eventInfo = GlobalVariables.ALL_EVENTS_DATA.get (eventIndex);
         eventName = eventInfo.getName ();
-        if (Constants.IS_PRODUCER) {
-            profileName.setText (customer_id);
-            getUserDetailsFromParse ();
-        } else {
+        if (GlobalVariables.IS_PRODUCER) {
+            profileName.setText (customerPhone);
+            updateUserDetailsFromParse ();
+        } else if (GlobalVariables.IS_CUSTOMER_REGISTERED_USER) {
             profileName.setText (eventName + " (Chat with Producer)");
-            setEventInfo (eventInfo.getImageId ());
+            setEventInfo (eventInfo.getImageBitmap ());
         }
         etMessage = (EditText) findViewById (R.id.etMessageChat);
         lvChat = (ListView) findViewById (R.id.messageListviewChat);
@@ -79,23 +74,64 @@ public class ChatActivity extends Activity {
         // Automatically scroll to the bottom when a data set change notification is received and only if the last item is already visible on screen. Don't scroll to the bottom otherwise.
         lvChat.setTranscriptMode (1);
         mFirstLoad = true;
-        mAdapter = new com.example.FundigoApp.Chat.MessageAdapter (this, mMessageChats);
+        mAdapter = new MessageAdapter (this, mMessageChats, false);
 
         lvChat.setAdapter (mAdapter);
         handler.postDelayed (runnable, 0);
     }
 
+    private void updateUserDetailsFromParse() {
+        CustomerDetails customerDetails = StaticMethods.getUserDetailsFromParse (customerPhone);
+        if (customerDetails.getFaceBookId () == null || customerDetails.getFaceBookId ().isEmpty ()) {
+            profileFaceBook.setText ("");
+            profileFaceBook.setClickable (false);
+        } else {
+            faceBookId = customerDetails.getFaceBookId ();
+        }
+        if (customerDetails.getPicUrl () != null && !customerDetails.getPicUrl ().isEmpty ()) {
+            Picasso.with (this).load (customerDetails.getPicUrl ()).into (profileImage);
+        } else if (customerDetails.getBmp () != null) {
+            profileImage.setImageBitmap (customerDetails.getBmp ());
+        }
+        if (customerDetails.getBmp () == null &&
+                    customerDetails.getPicUrl () == null &&
+                    customerDetails.getFaceBookId () == null) {
+            profileFaceBook.setText ("");
+            profileFaceBook.setClickable (false);
+        }
+    }
+
+    private void setEventInfo(Bitmap bitmap) {
+        profileFaceBook.setVisibility (View.GONE);
+        float hight = TypedValue.applyDimension (TypedValue.COMPLEX_UNIT_DIP, 55, getResources ().getDisplayMetrics ());
+        LinearLayout.LayoutParams params =
+                new LinearLayout.LayoutParams (
+                                                      0,
+                                                      Math.round (hight));
+        params.weight = 90.0f;
+        profileImage.setLayoutParams (params);
+        profileImage.setImageBitmap (bitmap);
+    }
+
+    private Runnable runnable = new Runnable () {
+        @Override
+        public void run() {
+            getAllMessagesFromParseInBackground (eventInfo.getProducerId (), customerPhone);
+            handler.postDelayed (this, 300);
+        }
+    };
+
     public void sendMessage(View view) {
         body = etMessage.getText ().toString ();
         Message message = new Message ();
         message.setBody (body);
-        if (com.example.FundigoApp.MainActivity.isCustomer) {
-            message.setUserId (customer_id);
+        if (GlobalVariables.IS_CUSTOMER_REGISTERED_USER) {
+            message.setUserId (customerPhone);
         } else {
-            message.setUserId (producer_id);
+            message.setUserId (eventInfo.getProducerId ());
         }
-        message.setCustomer (customer_id);
-        message.setProducer (producer_id);
+        message.setCustomer (customerPhone);
+        message.setProducer (eventInfo.getProducerId ());
         message.setEventObjectId (eventInfo.getParseObjectId ());
         try {
             message.save ();
@@ -103,14 +139,11 @@ public class ChatActivity extends Activity {
             e.printStackTrace ();
         }
         etMessage.setText ("");
-        receiveNoBackGround (producer_id, customer_id);
-
-        if (com.example.FundigoApp.MainActivity.isCustomer && !isSaved) {
-            deleteMessageRoomItem ();
-        }
+        getAllMessagesFromParseInMainThread (eventInfo.getProducerId (), customerPhone);
+        updateMessageRoomItemInBackGround (message);
     }
 
-    private void receiveMessage(String producer, final String customer) {
+    private void getAllMessagesFromParseInBackground(final String producer, final String customer) {
         ParseQuery<Message> query = ParseQuery.getQuery (Message.class);
         query.whereEqualTo ("producer", producer);
         query.whereEqualTo ("customer", customer);
@@ -120,41 +153,7 @@ public class ChatActivity extends Activity {
             public void done(List<Message> messages, ParseException e) {
                 if (e == null) {
                     if (messages.size () > mMessageChats.size ()) {
-                        mMessageChats.clear ();
-                        for (int i = 0; i < messages.size (); i++) {
-                            if (messages.get (i).getCustomer ().equals (customer)) {
-                                Message msg = messages.get (i);
-                                String id = msg.getUserId ();
-                                boolean isMe = false;
-                                if (!Constants.IS_PRODUCER) {
-                                    if (id.equals (customer_id)) {
-                                        isMe = true;
-                                    }
-                                } else {
-                                    if (id.equals (producer_id)) {
-                                        isMe = true;
-                                        id = "Prudocer # " + id;
-                                    }
-                                }
-                                mMessageChats.add (new MessageChat (
-                                                                           MessageChat.MSG_TYPE_TEXT,
-                                                                           MessageChat.MSG_STATE_SUCCESS,
-                                                                           id,
-                                                                           "avatar",
-                                                                           "Jerry",
-                                                                           "avatar",
-                                                                           msg.getBody (),
-                                                                           isMe,
-                                                                           true,
-                                                                           msg.getCreatedAt ()));
-                            }
-                        }
-                        mAdapter.notifyDataSetChanged (); // update adapter
-                        // Scroll to the bottom of the eventList on initial load
-                        if (mFirstLoad) {
-                            lvChat.setSelection (mAdapter.getCount () - 1);
-                            mFirstLoad = false;
-                        }
+                        updateMessagesList (messages);
                     }
                 } else {
                     e.printStackTrace ();
@@ -163,7 +162,7 @@ public class ChatActivity extends Activity {
         });
     }
 
-    private void receiveNoBackGround(String producer, final String customer) {
+    private void getAllMessagesFromParseInMainThread(String producer, String customer) {
         ParseQuery<Message> query = ParseQuery.getQuery (Message.class);
         query.whereEqualTo ("producer", producer);
         query.whereEqualTo ("customer", customer);
@@ -173,96 +172,92 @@ public class ChatActivity extends Activity {
         try {
             messages = query.find ();
             if (messages.size () > mMessageChats.size ()) {
-                mMessageChats.clear ();
-                for (int i = 0; i < messages.size (); i++) {
-                    if (messages.get (i).getCustomer ().equals (customer)) {
-                        Message msg = messages.get (i);
-                        String id = msg.getUserId ();
-                        boolean isMe = false;
-                        if (!Constants.IS_PRODUCER) {
-                            if (id.equals (customer_id)) {
-                                isMe = true;
-                            } else {
-                                id = "Prodouer # " + id;
-                            }
-                        } else {
-                            if (id.equals (producer_id)) {
-                                isMe = true;
-                            } else {
-                                id = "Customer  " + id;
-                            }
-                        }
-                        mMessageChats.add (new MessageChat (
-                                                                   MessageChat.MSG_TYPE_TEXT,
-                                                                   MessageChat.MSG_STATE_SUCCESS,
-                                                                   id,
-                                                                   "avatar",
-                                                                   "Jerry",
-                                                                   "avatar",
-                                                                   msg.getBody (),
-                                                                   isMe,
-                                                                   true,
-                                                                   msg.getCreatedAt ()));
-                    }
-                }
-                mAdapter.notifyDataSetChanged (); // update adapter
-                // Scroll to the bottom of the eventList on initial load
-                if (mFirstLoad) {
-                    lvChat.setSelection (mAdapter.getCount () - 1);
-                    mFirstLoad = false;
-                }
+                updateMessagesList (messages);
             }
         } catch (ParseException e) {
             e.printStackTrace ();
         }
     }
 
-    private Runnable runnable = new Runnable () {
-        @Override
-        public void run() {
-            refreshMessages ();
-            handler.postDelayed (this, 300);
-        }
-    };
-
-    private void refreshMessages() {
-        receiveMessage (producer_id, customer_id);
-    }
-
-    public void deleteMessageRoomItem() {
-        ParseQuery<ParseObject> query = ParseQuery.getQuery ("Room");
-        query.whereEqualTo ("ConversationId", customer_id + " - " + producer_id);
-        query.orderByDescending ("createdAt");
-        query.getFirstInBackground (new GetCallback<ParseObject> () {
-            public void done(ParseObject object, ParseException e) {
-                if (e == null) {
-                    try {
-                        object.delete ();
-                    } catch (ParseException e1) {
-                        e1.printStackTrace ();
-                    }
-                    object.saveInBackground ();
+    private void updateMessagesList(List<Message> messages) {
+        mMessageChats.clear ();
+        for (int i = 0; i < messages.size (); i++) {
+            Message msg = messages.get (i);
+            String id = msg.getUserId ();
+            boolean isMe = false;
+            if (!GlobalVariables.IS_PRODUCER) {
+                if (id.equals (customerPhone)) {
+                    isMe = true;
+                } else {
+                    id = "Producer # " + id;
                 }
-                saveToMessagesRoom ();
+            } else {
+                if (id.equals (eventInfo.getProducerId ())) {
+                    isMe = true;
+                } else {
+                    id = "Customer " + id;
+                }
+            }
+            mMessageChats.add (new MessageChat (
+                                                       MessageChat.MSG_TYPE_TEXT,
+                                                       MessageChat.MSG_STATE_SUCCESS,
+                                                       id,
+                                                       "avatar",
+                                                       "Jerry",
+                                                       "avatar",
+                                                       msg.getBody (),
+                                                       isMe,
+                                                       true,
+                                                       msg.getCreatedAt ()));
+        }
+        mAdapter.notifyDataSetChanged (); // update adapter
+        // Scroll to the bottom of the eventList on initial load
+        if (mFirstLoad) {
+            lvChat.setSelection (mAdapter.getCount () - 1);
+            mFirstLoad = false;
+        }
+    }
+
+    public void updateMessageRoomItemInBackGround(final Message message) {
+        String senderType = "";
+        if (GlobalVariables.IS_CUSTOMER_REGISTERED_USER) {
+            senderType = "Customer : ";
+        } else if (GlobalVariables.IS_PRODUCER) {
+            senderType = "Producer : ";
+        }
+        final String senderTypeFinal = senderType;
+        ParseQuery<Room> query = ParseQuery.getQuery ("Room");
+        query.whereEqualTo ("producer_id", eventInfo.getProducerId ());
+        query.whereEqualTo ("customer_id", customerPhone);
+        query.whereEqualTo ("eventObjId", message.getEventObjectId ());
+        query.orderByDescending ("createdAt");
+        query.findInBackground (new FindCallback<Room> () {
+            public void done(List<Room> list, ParseException e) {
+                if (e == null) {
+                    if (list.size () == 0) {
+                        Room room = new Room ();
+                        ParseACL parseACL = new ParseACL ();
+                        parseACL.setPublicWriteAccess (true);
+                        parseACL.setPublicReadAccess (true);
+                        room.setACL (parseACL);
+                        saveRoomData (room, senderTypeFinal, message);
+                    } else {
+                        Room room = list.get (0);
+                        saveRoomData (room, senderTypeFinal, message);
+                    }
+                } else {
+                    e.printStackTrace ();
+                }
             }
         });
     }
 
-    private void saveToMessagesRoom() {
-        Room room = new Room ();
-        ParseACL parseAcl = new ParseACL ();
-        parseAcl.setPublicReadAccess (true);
-        parseAcl.setPublicWriteAccess (true);
-        room.setACL (parseAcl);
-        room.setCustomer_id (customer_id);
-        room.setProducer_id (producer_id);
-        room.setConversationId (customer_id + " - " + producer_id);
-        room.saveInBackground (new SaveCallback () {
-            @Override
-            public void done(ParseException e) {
-                isSaved = true;
-            }
-        });
+    private void saveRoomData(Room room, String senderTypeFinal, Message message) {
+        room.setCustomer_id (customerPhone);
+        room.setProducer_id (eventInfo.getProducerId ());
+        room.setLastMessage (senderTypeFinal + message.getBody ());
+        room.setEventObjId (message.getEventObjectId ());
+        room.saveInBackground ();
     }
 
     @Override
@@ -277,46 +272,6 @@ public class ChatActivity extends Activity {
         handler.postDelayed (runnable, 300);
     }
 
-    private void getUserDetailsFromParse() {
-        ParseQuery<Numbers> query = ParseQuery.getQuery (Numbers.class);
-        query.whereEqualTo ("number", customer_id);
-        List<Numbers> numbers = null;
-        try {
-            numbers = query.find ();
-            if (numbers.size () > 0) {
-                Numbers number = numbers.get (0);
-                faceBookId = number.getFbId ();
-                if (faceBookId == null || faceBookId.isEmpty ()) {
-                    profileFaceBook.setText ("");
-                    profileFaceBook.setClickable (false);
-                }
-                String picUrl = number.getFbUrl ();
-                if (picUrl != null && !picUrl.isEmpty ()) {
-                    Picasso.with (this).load (picUrl).into (profileImage);
-                } else {
-                    ParseFile imageFile;
-                    byte[] data = null;
-                    Bitmap bmp;
-                    imageFile = (ParseFile) number.getImageFile ();
-                    if (imageFile != null) {
-                        try {
-                            data = imageFile.getData ();
-                        } catch (ParseException e1) {
-                            e1.printStackTrace ();
-                        }
-                        bmp = BitmapFactory.decodeByteArray (data, 0, data.length);
-                        profileImage.setImageBitmap (bmp);
-                    }
-                }
-            } else {
-                profileFaceBook.setText ("");
-                profileFaceBook.setClickable (false);
-            }
-        } catch (ParseException e) {
-            e.printStackTrace ();
-        }
-    }
-
     public void oOpenFacebookIntent(View view) {
         startActivity (getOpenFacebookIntent ());
     }
@@ -329,17 +284,5 @@ public class ChatActivity extends Activity {
         } catch (Exception e) {
             return new Intent (Intent.ACTION_VIEW, Uri.parse ("https://www.facebook.com/app_scoped_user_id/" + faceBookId));
         }
-    }
-
-    private void setEventInfo(Bitmap bitmap) {
-        profileFaceBook.setVisibility (View.GONE);
-        float hight = TypedValue.applyDimension (TypedValue.COMPLEX_UNIT_DIP, 55, getResources ().getDisplayMetrics ());
-        LinearLayout.LayoutParams params =
-                new LinearLayout.LayoutParams (
-                                                      0,
-                                                      Math.round (hight));
-        params.weight = 90.0f;
-        profileImage.setLayoutParams (params);
-        profileImage.setImageBitmap (bitmap);
     }
 }

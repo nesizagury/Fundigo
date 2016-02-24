@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:id="@+id/linearLayoutTop"
+        android:layout_width="fill_parent"
+        android:layout_height="35dp"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/eventPage_image"
+        android:orientation="horizontal"
+        android:weightSum="10.0">
+
+        <TextView
+            android:id="@+id/PushPage_Massage"
+            android:layout_width="0dip"
+            android:layout_height="fill_parent"
+            android:layout_weight="10"
+            android:gravity="center"
+            android:text="Massage"
+            android:textColor="#000000"
+            android:textSize="18dp"
+            android:textStyle="bold"
+            />
+
+
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/linearLayoutTop2"
+        android:layout_width="fill_parent"
+        android:layout_height="35dp"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/linearLayoutTop"
+        android:orientation="horizontal"
+        android:weightSum="10.0">
+
+        <TextView
+            android:id="@+id/PushPage_eventName"
+            android:layout_width="0dip"
+            android:layout_height="fill_parent"
+            android:layout_weight="10"
+            android:gravity="center"
+            android:text="Event Name:"
+            android:textColor="#000000"
+            android:textSize="18dp"
+            android:textStyle="bold"
+            />
+
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/PushPage_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/linearLayoutTop2"
+        android:layout_centerHorizontal="true"
+        android:text="Date:"
+        android:textAlignment="center"
+        android:textColor="#000000"
+        android:textSize="15dp"/>
+
+
+    <ScrollView
+        android:id="@+id/scrollView"
+        android:layout_width="360dp"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/linearLayout"
+        android:layout_below="@+id/PushPage_date"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="5dp">
+
+        <TextView
+            android:id="@+id/eventInfoEventPage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:gravity="center"
+            android:text="ALUMINIUM CHINA is Asia‘s top trading, sourcing, networking and branding platform for the complete aluminum industry chain, bringing together leading industry figures, cutting edge technologies and advanced applications. Annually held in Shanghai, the eventParse engages the global Aluminium community with new customized matchmaking programs linking application buyers with emerging and established demands and buyers of equipment and accessories with leading suppliers."
+            android:textColor="#3c3c3c"
+            android:textIsSelectable="false"
+            android:textSize="17sp"/>
+    </ScrollView>
+
+
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="fill_parent"
+        android:layout_height="60dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true"
+        android:orientation="horizontal"
+        android:weightSum="3.0">
+
+        <Button
+            android:id="@+id/Button_pushPage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/scrollView"
+            android:layout_weight="3"
+            android:text="go to event"
+            />
+    </LinearLayout>
+
+
+
+
+</RelativeLayout>

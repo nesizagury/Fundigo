@@ -25,8 +25,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.FundigoApp.Constants;
-import com.example.FundigoApp.MainActivity;
+import com.example.FundigoApp.GlobalVariables;
 import com.example.FundigoApp.R;
 import com.parse.FindCallback;
 import com.parse.GetDataCallback;
@@ -75,7 +74,7 @@ public class SmsSignUpActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate (savedInstanceState);
-        setContentView (R.layout.activity_sms_login);
+        setContentView (R.layout.activity_sms_varification);
 
         array_spinner = new String[6];
         array_spinner[0] = "050";
@@ -159,11 +158,11 @@ public class SmsSignUpActivity extends AppCompatActivity {
         }
         number.setNumber (area + phoneET.getText ().toString ());
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences (SmsSignUpActivity.this);
-        String fbId = sp.getString (Constants.FB_ID, null);
+        String fbId = sp.getString (GlobalVariables.FB_ID, null);
         if (fbId != null) {
             number.setFbId (fbId);
         }
-        String fbUrl = sp.getString (Constants.FB_PIC_URL, null);
+        String fbUrl = sp.getString (GlobalVariables.FB_PIC_URL, null);
         if (fbUrl != null) {
             number.setFbUrl (fbUrl);
         }
@@ -171,7 +170,8 @@ public class SmsSignUpActivity extends AppCompatActivity {
             number.save ();
             Toast.makeText (getApplicationContext (), "Successfully Signed up", Toast.LENGTH_SHORT).show ();
             saveToFile (area + phoneET.getText ().toString ());
-            MainActivity.customer_id = area + phoneET.getText ().toString ();
+            GlobalVariables.CUSTOMER_PHONE_NUM = area + phoneET.getText ().toString ();
+            GlobalVariables.IS_CUSTOMER_REGISTERED_USER = true;
             finish ();
         } catch (ParseException e) {
             Toast.makeText (getApplicationContext (), " Error ): ", Toast.LENGTH_SHORT).show ();
@@ -259,10 +259,13 @@ public class SmsSignUpActivity extends AppCompatActivity {
         public void onInitiationFailed(Exception e) {
             if (e instanceof InvalidInputException) {
                 // Incorrect number provided
+                e.printStackTrace ();
             } else if (e instanceof ServiceErrorException) {
                 // Sinch service error
+                e.printStackTrace ();
             } else {
                 // Other system error, such as UnknownHostException in case of network error
+                e.printStackTrace ();
             }
         }
 
@@ -282,11 +285,16 @@ public class SmsSignUpActivity extends AppCompatActivity {
             if (e instanceof InvalidInputException) {
                 // Incorrect number or code provided
                 Toast.makeText (getApplicationContext (), "invalid phone number try again.", Toast.LENGTH_SHORT).show ();
+                e.printStackTrace ();
             } else if (e instanceof CodeInterceptionException) {
                 // Intercepting the verification code automatically failed, input the code manually with verify()
+                e.printStackTrace ();
             } else if (e instanceof IncorrectCodeException) {
+                e.printStackTrace ();
             } else if (e instanceof ServiceErrorException) {
+                e.printStackTrace ();
             } else {
+                e.printStackTrace ();
             }
         }
     }

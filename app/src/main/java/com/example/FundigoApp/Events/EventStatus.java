@@ -4,7 +4,7 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.widget.TextView;
 
-import com.example.FundigoApp.Producer.Artists.ArtistsPage;
+import com.example.FundigoApp.GlobalVariables;
 import com.example.FundigoApp.R;
 
 public class EventStatus extends Activity {
@@ -27,8 +27,8 @@ public class EventStatus extends Activity {
         incomeTV = (TextView) findViewById (R.id.incomeTV);
         futureTV = (TextView) findViewById (R.id.futureTV);
 
-        for (int i = 0; i < ArtistsPage.all_events.size (); i++) {
-            EventInfo event = ArtistsPage.all_events.get (i);
+        for (int i = 0; i < GlobalVariables.ALL_EVENTS_DATA.size (); i++) {
+            EventInfo event = GlobalVariables.ALL_EVENTS_DATA.get (i);
             if (event.getParseObjectId ().equals (getIntent ().getStringExtra ("eventObjectId"))) {
                 soldTV.setText ("Tickets Sold: " + event.getSold ());
                 leftTV.setText ("Tickets Left: " + event.getTicketsLeft ());

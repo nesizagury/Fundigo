@@ -12,9 +12,6 @@ import android.widget.Toast;
 import java.io.Serializable;
 
 public class FilterPage extends AppCompatActivity implements AdapterView.OnItemClickListener, Serializable {
-    /**
-     * Variable Decleration
-     */
     Integer[] Images = {
                                R.drawable.ic_sport, R.drawable.ic_airplane,
                                R.drawable.ic_beer, R.drawable.ic_buisness,
@@ -53,12 +50,12 @@ public class FilterPage extends AppCompatActivity implements AdapterView.OnItemC
     public void onItemClick(AdapterView<?> av, View view, int i, long l) {
         if (ans == null) {
             ans = Names[i];
-            MainActivity.currentFilterName = ans;
+            GlobalVariables.CURRENT_FILTER_NAME = ans;
             view.setBackgroundColor (Color.RED);
         } else {
             if (ans.equals (Names[i])) {
                 ans = null;
-                MainActivity.currentFilterName = "";
+                GlobalVariables.CURRENT_FILTER_NAME = "";
                 view.setBackgroundColor (Color.TRANSPARENT);
             } else {
                 Toast.makeText (this, "Can Choice One Category", Toast.LENGTH_SHORT).show ();

@@ -17,12 +17,8 @@ import com.example.FundigoApp.R;
 
 import java.util.ArrayList;
 
-/**
- * Created by MAMO on 15/01/2016.
- */
 public class EventService extends Activity {
-    
-    
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate (savedInstanceState);
@@ -49,7 +45,6 @@ public class EventService extends Activity {
 
         event_service_listView = (ListView) findViewById (R.id.event_service_listView);
         event_service_listView.setAdapter (new CostumeAdapter (this, driving, walking, toilet, parking, capacity, atm, walkValue));
-        
     }
 }
 
@@ -67,7 +62,6 @@ class SignelRow {
 }
 
 class CostumeAdapter extends BaseAdapter {
-    
     Context c;
     String driving;
     String walking;

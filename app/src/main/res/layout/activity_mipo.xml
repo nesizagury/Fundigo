@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.events.MyNotification">
+
+    <LinearLayout
+        android:id="@+id/toolbar_up"
+        android:layout_width="fill_parent"
+        android:layout_height="30dp"
+        android:background="#71B7E6"
+        android:orientation="horizontal"
+        android:weightSum="300.0"
+
+        >
+
+
+        <ImageView
+            android:id="@+id/notification_Mipo"
+            android:layout_width="0dip"
+            android:layout_height="match_parent"
+            android:layout_weight="100"
+            android:background="#71B7E6"
+            android:padding="2dp"
+            android:src="@drawable/notification_icon"/>
+
+        <ImageButton
+            android:id="@+id/message_Mipo"
+            android:layout_width="0dip"
+            android:layout_height="match_parent"
+            android:layout_weight="100"
+            android:background="#71B7E6"
+            android:padding="2dp"
+            android:src="@drawable/messenger_bubble_large_white"/>
+
+        <ImageButton
+            android:id="@+id/mipo_Mipo"
+            android:layout_width="0dip"
+            android:layout_height="match_parent"
+            android:layout_weight="100"
+            android:background="#71B7E6"
+            android:padding="2dp"
+            android:src="@drawable/crowd_ldpi"/>
+
+
+    </LinearLayout>
+
+
+
+</RelativeLayout>

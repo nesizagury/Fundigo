@@ -4,28 +4,25 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
-import com.example.FundigoApp.Events.EventsStats;
-import com.example.FundigoApp.Producer.Artists.ArtistsPage;
+import com.example.FundigoApp.Producer.Artists.ProducerMainActivity;
 
 public class TabPagerAdapter extends FragmentStatePagerAdapter {
     int mNumOfTabs;
 
     public TabPagerAdapter(FragmentManager fm, int NumOfTabs) {
-        super(fm);
+        super (fm);
         this.mNumOfTabs = NumOfTabs;
     }
 
     @Override
     public Fragment getItem(int position) {
-
         switch (position) {
             case 0:
-                ArtistsPage tab1 = new ArtistsPage();
+                ProducerMainActivity tab1 = new ProducerMainActivity ();
                 return tab1;
             case 1:
-                EventsStats tab2 = new EventsStats();
+                AllEventsStats tab2 = new AllEventsStats ();
                 return tab2;
-
             default:
                 return null;
         }

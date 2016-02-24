@@ -128,7 +128,7 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:text="Turn On GPS To See RealTime Events"
-        android:id="@+id/textView8"
+        android:id="@+id/turnOnGps"
         android:textSize="20sp"
         android:layout_below="@+id/toolbar"
         android:layout_alignParentStart="true"

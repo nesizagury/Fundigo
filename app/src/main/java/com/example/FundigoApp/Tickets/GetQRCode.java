@@ -16,6 +16,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.FundigoApp.GlobalVariables;
 import com.example.FundigoApp.R;
 import com.parse.GetCallback;
 import com.parse.ParseException;
@@ -45,7 +46,6 @@ public class GetQRCode extends AppCompatActivity {
     private TextView congrad;
     private static int codeNum = 0;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate (savedInstanceState);
@@ -56,7 +56,7 @@ public class GetQRCode extends AppCompatActivity {
         enterPhone.setInputType (InputType.TYPE_CLASS_PHONE);
         enterPhone.setBackgroundColor (Color.GRAY);
         qr_down_butt.setBackgroundColor (Color.GRAY);
-        congrad = (TextView) findViewById (R.id.textView9);
+        congrad = (TextView) findViewById (R.id.congrates);
         congrad.setText ("Congratulations, Enjoy!!!");
         congrad.setVisibility (View.GONE);
 
@@ -79,14 +79,12 @@ public class GetQRCode extends AppCompatActivity {
                 }
             }
         });
-
         enterPhone.setOnClickListener (new View.OnClickListener () {
             @Override
             public void onClick(View v) {
                 enterPhone.beginBatchEdit ();
             }
         });
-
     }
 
     private class DownlandTask extends AsyncTask<String, Integer, String> {
@@ -102,7 +100,6 @@ public class GetQRCode extends AppCompatActivity {
             progressDialog.setMax (100);
             progressDialog.setProgress (0);
             progressDialog.show ();
-
         }
 
 
@@ -121,7 +118,6 @@ public class GetQRCode extends AppCompatActivity {
                     newFolder.mkdir ();
                     Log.d ("mmmm1", "mkdir");
                 }
-
                 File input_file = new File (newFolder, fileName + ".jpg");
                 InputStream inputStream = new BufferedInputStream (url.openStream (), 8192);
                 byte[] data = new byte[1024];
@@ -158,23 +154,20 @@ public class GetQRCode extends AppCompatActivity {
         protected void onPostExecute(String result) {
             progressDialog.hide ();
             congrad.setVisibility (View.VISIBLE);
-            Toast.makeText (getApplicationContext (), result, Toast.LENGTH_LONG).show ();
+            Toast.makeText (getApplicationContext (), result, Toast.LENGTH_SHORT).show ();
             String parh = "sdcard/fundigo_qr_code/" + fileName + ".jpg";
             qr_image.setImageDrawable (Drawable.createFromPath (parh));
             Intent myIntent = getIntent ();
-            String seatNumber = myIntent.getStringExtra ("seatNumber");
             String choose = myIntent.getStringExtra ("isChoose");
             String seatKey = myIntent.getStringExtra ("seatKey");
             if (choose != null) {
                 ParseQuery<ParseObject> query = ParseQuery.getQuery ("EventsSeats");
-
                 // Retrieve the object by id
                 query.getInBackground (seatKey, new GetCallback<ParseObject> () {
                     public void done(ParseObject updateData, ParseException e) {
                         if (e == null) {
                             // Now let's update it with some new data. In this case, only cheatMode and score
                             // will get sent to the Parse Cloud. playerName hasn't changed.
-                            Date myDate = new Date ();
                             ParseFile file = new ParseFile (myFile);
                             try {
                                 file.save ();
@@ -182,48 +175,43 @@ public class GetQRCode extends AppCompatActivity {
                             } catch (ParseException e1) {
                                 e1.printStackTrace ();
                             }
-                            updateData.put ("buyer_phone", Integer.parseInt (enterPhone.getText ().toString ()));
+                            String _userPhoneNumber = GlobalVariables.CUSTOMER_PHONE_NUM;
+                            if (!_userPhoneNumber.isEmpty ()) {
+                                updateData.put ("buyer_phone", _userPhoneNumber);
+                            }
+                            Date myDate = new Date ();
                             updateData.put ("purchase_date", myDate);
-
                             updateData.saveInBackground ();
+                        } else{
+                            e.printStackTrace ();
                         }
                     }
                 });
-
-
             } else {
-                ParseQuery<ParseObject> query = ParseQuery.getQuery ("EventsSeats");
-
-                // Retrieve the object by id
+                // Now let's update it with some new data. In this case, only cheatMode and score
+                // will get sent to the Parse Cloud. playerName hasn't changed.
+                EventsSeats eventsSeats = new EventsSeats ();
+                ParseFile file = new ParseFile (myFile);
                 try {
-                    query.getInBackground (query.getFirst ().getObjectId (), new GetCallback<ParseObject> () {
-                        public void done(ParseObject updateData, ParseException e) {
-                            if (e == null) {
-                                // Now let's update it with some new data. In this case, only cheatMode and score
-                                // will get sent to the Parse Cloud. playerName hasn't changed.
-                                Date myDate = new Date ();
-                                ParseFile file = new ParseFile (myFile);
-                                try {
-                                    file.save ();
-                                    updateData.put ("QR_Code", file);
-                                } catch (ParseException e1) {
-                                    e1.printStackTrace ();
-                                }
-                                updateData.put ("buyer_phone", Integer.parseInt (enterPhone.getText ().toString ()));
-                                updateData.put ("purchase_date", myDate);
-
-                                updateData.saveInBackground ();
-                            }
-                        }
-                    });
+                    file.save ();
+                    eventsSeats.put ("QR_Code", file);
+                } catch (ParseException e1) {
+                    e1.printStackTrace ();
+                }
+                String _userPhoneNumber = GlobalVariables.CUSTOMER_PHONE_NUM;
+                if (!_userPhoneNumber.isEmpty ()) {
+                    eventsSeats.put ("buyer_phone", _userPhoneNumber);
+                }
+                Date myDate = new Date ();
+                eventsSeats.put ("purchase_date", myDate);
+                eventsSeats.put ("eventObjectId", getIntent ().getStringExtra ("eventObjectId"));
+                eventsSeats.setPrice (Integer.parseInt (myIntent.getStringExtra ("eventPrice")));
+                try {
+                    eventsSeats.save ();
                 } catch (ParseException e) {
                     e.printStackTrace ();
                 }
-
             }
-
-
         }
     }
-
 }

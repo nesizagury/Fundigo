@@ -15,8 +15,9 @@
     <uses-permission android:name="android.permission.VIBRATE"/>
     <uses-permission android:name="android.permission.GET_ACCOUNTS"/>
     <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE"/>
-    <uses-feature android:name="android.hardware.camera" />
-    <uses-feature android:name="android.hardware.camera.autofocus" />
+
+    <uses-feature android:name="android.hardware.camera"/>
+    <uses-feature android:name="android.hardware.camera.autofocus"/>
 
     <permission
         android:name="com.example.FundigoApp.permission.C2D_MESSAGE"
@@ -34,17 +35,37 @@
         android:icon="@mipmap/ic_launcher"
         android:label="Fundigo"
         android:theme="@style/AppTheme">
-        <activity android:name="com.example.FundigoApp.MainActivity">
+        <activity
+            android:name=".MainActivity"
+            android:launchMode="singleTask">
+            <intent-filter>
+                <data android:scheme="event"/>
+                <action android:name="android.intent.action.VIEW"/>
+
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+            </intent-filter>
         </activity>
-        <activity android:name="com.example.FundigoApp.Events.EventPage">
+        <activity
+            android:name="com.example.FundigoApp.Events.EventPage"
+            android:launchMode="singleTask">
         </activity>
         <activity android:name=".Tickets.TicketsPage">
         </activity>
-        <activity android:name=".Tickets.GetQRCode" >
+        <activity android:name=".Tickets.GetQRCode">
         </activity>
-        <activity android:name=".Tickets.SelectSeat" >
+        <activity android:name=".Tickets.SelectSeat">
         </activity>
+        <activity android:name=".Customer.Social.DetailedNotificationPage"/>
+        <activity android:name=".Customer.Social.MyNotifications"/>
+        <activity android:name=".Producer.ProducerSendPuchActivity"/>
+        <activity android:name=".Customer.Social.CustomerMessageConversationsListActivity"/>
+        <activity android:name=".Customer.Social.Mipo"></activity>
         <activity android:name="com.example.FundigoApp.FilterPage">
+        </activity>
+        <activity android:name=".Tickets.WebBrowser">
+        </activity>
+        <activity android:name=".Tickets.Web1">
         </activity>
         <activity android:name="com.example.FundigoApp.Events.CreateEventActivity">
         </activity>
@@ -53,37 +74,50 @@
         <activity android:name=".Verifications.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
-
                 <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+            <intent-filter>
+                <data android:scheme="event"/>
+                <action android:name="android.intent.action.VIEW"/>
+
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
             </intent-filter>
         </activity>
         <activity android:name=".Customer.RealTime.RealTimeActivity">
         </activity>
-        <activity android:name="com.example.FundigoApp.Menu">
+        <activity android:name=".Customer.CustomerMenu.Menu">
+        </activity>
+        <activity android:name=".Verifications.SignUpActivity"></activity>
+        <activity android:name=".Producer.EventOnRealtime"></activity>
+        <activity android:name=".Producer.RealTimeGuestAddition"></activity>
+        <activity
+            android:name=".DeepLinkActivity"
+            android:theme="@android:style/Theme.Holo.Dialog">
         </activity>
         <activity android:name=".Customer.SavedEvents.SavedEventActivity">
         </activity>
         <activity android:name="com.example.FundigoApp.Search">
         </activity>
-        <activity android:name="com.example.FundigoApp.WebRequest"></activity>
+        <activity android:name=".Customer.CustomerMenu.CustomerProfileUpdate"/>
+        <activity android:name=".Customer.CustomerMenu.EventsTickets"></activity>
         <activity android:name=".Events.EventStatus"></activity>
-        <activity android:name="com.example.FundigoApp.Producer.Artists.ArtistStats"></activity>
+        <activity android:name=".Producer.Artists.ArtistEventsActivity"></activity>
+        <activity android:name=".Producer.Artists.ArtistStatsActivity"></activity>
         <activity
             android:name="com.example.FundigoApp.Events.EventService"
             android:theme="@style/AppTheme.PopupServiceEvent"></activity>
         <activity
-            android:name=".Chat.MessagesRoom"
+            android:name=".Chat.MessagesRoomActivity"
             />
         <activity android:name=".Chat.RealTimeChatActivity"></activity>
-        <activity android:name="com.example.FundigoApp.Events.Test">
-        </activity>
 
         <meta-data
             android:name="com.parse.APPLICATION_ID"
-            android:value="6isIF7j7q5OfuqqVhtybaftndW5WzBjxpwvpxhky" />
+            android:value="6isIF7j7q5OfuqqVhtybaftndW5WzBjxpwvpxhky"/>
         <meta-data
             android:name="com.parse.CLIENT_KEY"
-            android:value="khirvEyhidlssNiGDiBJLyEKaSYrVDjb3yyUY66U" />
+            android:value="khirvEyhidlssNiGDiBJLyEKaSYrVDjb3yyUY66U"/>
 
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
@@ -102,6 +136,7 @@
             android:name="com.example.FundigoApp.Chat.ChatActivity"
             android:label="@string/title_activity_chat"
             android:theme="@style/AppTheme"/>
+
 
         <provider
             android:name="com.facebook.FacebookContentProvider"
@@ -129,9 +164,13 @@
                 <category android:name="com.example.events"/>
             </intent-filter>
         </receiver>
+
+        <meta-data
+            android:name="io.branch.sdk.BranchKey"
+            android:value="key_live_bop3jOlEx4NaSVitfZ2zHoiaBFejkB4S"/>
         <meta-data
             android:name="com.google.android.maps.v2.API_KEY"
-            android:value="AIzaSyAO_BADR0qgh5i6oirplDXw0wCCxCZoLe8" />
+            android:value="AIzaSyAO_BADR0qgh5i6oirplDXw0wCCxCZoLe8"/>
     </application>
 
 </manifest>

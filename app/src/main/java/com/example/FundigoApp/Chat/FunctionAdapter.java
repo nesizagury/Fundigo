@@ -13,54 +13,53 @@ import com.example.FundigoApp.R;
 import java.util.List;
 
 public class FunctionAdapter extends BaseAdapter {
-	private List<Option> data;
+    private List<Option> data;
 
-	private LayoutInflater inflater;
+    private LayoutInflater inflater;
 
-	private int size = 0;
+    private int size = 0;
 
-	public FunctionAdapter(Context context, List<Option> list) {
-		this.inflater = LayoutInflater.from(context);
-		this.data = list;
-		this.size = list.size();
-	}
+    public FunctionAdapter(Context context, List<Option> list) {
+        this.inflater = LayoutInflater.from (context);
+        this.data = list;
+        this.size = list.size ();
+    }
 
-	@Override
-	public int getCount() {
-		return this.size;
-	}
+    @Override
+    public int getCount() {
+        return this.size;
+    }
 
-	@Override
-	public Object getItem(int position) {
-		return data.get(position);
-	}
+    @Override
+    public Object getItem(int position) {
+        return data.get (position);
+    }
 
-	@Override
-	public long getItemId(int position) {
-		return position;
-	}
+    @Override
+    public long getItemId(int position) {
+        return position;
+    }
 
-	@Override
-	public View getView(int position, View convertView, ViewGroup parent) {
-		Option option = data.get(position);
-		ViewHolder viewHolder = null;
-		if (convertView == null) {
-			viewHolder = new ViewHolder();
-			convertView = inflater.inflate(R.layout.function_item, null);
-			viewHolder.iconImageView 	= (ImageView) convertView.findViewById(R.id.iconImageView);
-			viewHolder.nameTextView 	= (TextView) convertView.findViewById(R.id.nameTextView);
-			convertView.setTag(viewHolder);
-		} else {
-			viewHolder = (ViewHolder) convertView.getTag();
-		}
-		viewHolder.iconImageView.setImageDrawable(option.getIconDrawable());
-		viewHolder.nameTextView.setText(option.getName());
-		return convertView;
-	}
+    @Override
+    public View getView(int position, View convertView, ViewGroup parent) {
+        Option option = data.get (position);
+        ViewHolder viewHolder = null;
+        if (convertView == null) {
+            viewHolder = new ViewHolder ();
+            convertView = inflater.inflate (R.layout.function_item, null);
+            viewHolder.iconImageView = (ImageView) convertView.findViewById (R.id.iconImageView);
+            viewHolder.nameTextView = (TextView) convertView.findViewById (R.id.nameTextView);
+            convertView.setTag (viewHolder);
+        } else {
+            viewHolder = (ViewHolder) convertView.getTag ();
+        }
+        viewHolder.iconImageView.setImageDrawable (option.getIconDrawable ());
+        viewHolder.nameTextView.setText (option.getName ());
+        return convertView;
+    }
 
-	class ViewHolder {
-
-		public ImageView 	iconImageView;
-		public TextView 	nameTextView;
-	}
+    class ViewHolder {
+        public ImageView iconImageView;
+        public TextView nameTextView;
+    }
 }

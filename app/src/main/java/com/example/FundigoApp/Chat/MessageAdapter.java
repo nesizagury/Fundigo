@@ -21,11 +21,13 @@ public class MessageAdapter extends BaseAdapter {
 
     private Context context;
     private List<MessageChat> data = null;
+    boolean isRealTime;
 
-    public MessageAdapter(Context context, List<MessageChat> list) {
+    public MessageAdapter(Context context, List<MessageChat> list, boolean isRealTime) {
         super ();
         this.context = context;
         this.data = list;
+        this.isRealTime = isRealTime;
     }
 
     @Override
@@ -53,7 +55,6 @@ public class MessageAdapter extends BaseAdapter {
         return 2;
     }
 
-
     @SuppressLint("InflateParams")
     public View getView(int position, View convertView, ViewGroup parent) {
 
@@ -71,7 +72,6 @@ public class MessageAdapter extends BaseAdapter {
             viewHolder.sendDateTextView = (TextView) convertView.findViewById (R.id.sendDateTextView);
             viewHolder.sendTimeTextView = (TextView) convertView.findViewById (R.id.sendTimeTextView);
             viewHolder.textTextView = (TextView) convertView.findViewById (R.id.textTextView);
-
 
             viewHolder.isSend = isSend;
             convertView.setTag (viewHolder);
@@ -96,6 +96,7 @@ public class MessageAdapter extends BaseAdapter {
                 }
             }
         } catch (Exception e) {
+            e.printStackTrace ();
         }
 
         switch (messageChat.getType ()) {
@@ -105,13 +106,18 @@ public class MessageAdapter extends BaseAdapter {
                 if (messageChat.getIsSend ()) {
                     LayoutParams sendTimeTextViewLayoutParams = (LayoutParams) viewHolder.sendTimeTextView.getLayoutParams ();
                     sendTimeTextViewLayoutParams.addRule (RelativeLayout.LEFT_OF, R.id.textTextView);
-                    viewHolder.sendTimeTextView.setLayoutParams (sendTimeTextViewLayoutParams);
-
-
+                    if (!isRealTime) {
+                        viewHolder.sendTimeTextView.setLayoutParams (sendTimeTextViewLayoutParams);
+                    } else {
+                        viewHolder.sendTimeTextView.setVisibility (View.INVISIBLE);
+                    }
                 } else {
                     LayoutParams sendTimeTextViewLayoutParams = (LayoutParams) viewHolder.sendTimeTextView.getLayoutParams ();
                     sendTimeTextViewLayoutParams.addRule (RelativeLayout.RIGHT_OF, R.id.textTextView);
                     viewHolder.sendTimeTextView.setLayoutParams (sendTimeTextViewLayoutParams);
+                    if (isRealTime) {
+                        viewHolder.sendTimeTextView.setText (messageChat.getFromUserName ());
+                    }
                 }
 
 
@@ -124,7 +130,6 @@ public class MessageAdapter extends BaseAdapter {
         return convertView;
     }
 
-
     public List<MessageChat> getData() {
         return data;
     }
@@ -132,7 +137,6 @@ public class MessageAdapter extends BaseAdapter {
     public void setData(List<MessageChat> data) {
         this.data = data;
     }
-
 
     public static boolean inSameDay(Date date1, Date Date2) {
         Calendar calendar = Calendar.getInstance ();
@@ -150,14 +154,10 @@ public class MessageAdapter extends BaseAdapter {
         return false;
     }
 
-
     static class ViewHolder {
         public TextView sendDateTextView;
-
         public TextView textTextView;
-
         public TextView sendTimeTextView;
-
         public boolean isSend = true;
     }
 }

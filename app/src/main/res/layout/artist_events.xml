@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Adir Miler"
+        android:id="@+id/artistNameEventsPage"
+        android:textSize="28sp"
+        android:visibility="visible"
+        android:gravity="center_horizontal"
+        android:layout_marginTop="10dp" />
+
+    <ListView
+        android:id="@+id/artistEventList"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_below="@+id/artistNameEventsPage"
+        android:layout_marginLeft="4dp"
+        android:layout_marginRight="4dp"
+        android:background="#F1F1F1"
+        android:divider="#F1F1F1"
+        android:dividerHeight="0dp"
+        android:drawSelectorOnTop="false"
+        android:scrollingCache="false"
+        android:animationCache="false"
+        />
+</RelativeLayout>
