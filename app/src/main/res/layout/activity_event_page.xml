@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content">
 
@@ -11,15 +10,15 @@
         android:layout_alignStart="@+id/scrollView"
         android:layout_below="@+id/linearLayoutTop"
         android:layout_weight="1"
-        android:src="@drawable/qr_scan"/>
+        android:src="@drawable/qr_scan" />
 
     <Button
         android:id="@+id/pushButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Push"
+        android:layout_alignParentEnd="true"
         android:layout_below="@+id/linearLayoutTop"
-        android:layout_alignParentEnd="true"/>
+        android:text="Push" />
 
     <ImageView
         android:id="@+id/eventPage_image"
@@ -27,7 +26,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:background="@mipmap/pic0"
-        android:scaleType="fitXY"/>
+        android:scaleType="fitXY" />
 
     <TextView
         android:id="@+id/eventPage_date"
@@ -38,7 +37,8 @@
         android:text="1.2.16"
         android:textAlignment="center"
         android:textColor="#000000"
-        android:textSize="15dp"/>
+        android:textSize="15dp" />
+
 
     <TextView
         android:id="@+id/eventPage_location"
@@ -49,13 +49,13 @@
         android:text="Even Gbirol 67, Tel Aviv"
         android:textAlignment="center"
         android:textColor="#000000"
-        android:textSize="17dp"/>
+        android:textSize="17dp" />
 
 
     <LinearLayout
         android:id="@+id/linearLayoutTop"
         android:layout_width="fill_parent"
-        android:layout_height="35dp"
+        android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
         android:layout_below="@+id/eventPage_image"
         android:orientation="horizontal"
@@ -67,7 +67,7 @@
             android:layout_height="fill_parent"
             android:layout_marginTop="2dp"
             android:layout_weight="1"
-            android:src="@mipmap/ic_contacting"/>
+            android:src="@mipmap/ic_contacting" />
 
         <ImageView
             android:id="@+id/imageEvenetPageView5"
@@ -76,19 +76,37 @@
             android:layout_marginTop="2dp"
             android:layout_weight="1"
             android:nestedScrollingEnabled="false"
-            android:src="@mipmap/ic_mor_information"/>
+            android:src="@mipmap/ic_mor_information" />
 
-        <TextView
-            android:id="@+id/eventPage_name"
-            android:layout_width="0dip"
-            android:layout_height="fill_parent"
-            android:layout_gravity="center"
+        <LinearLayout
+            android:layout_width="0dp"
             android:layout_weight="6"
-            android:gravity="fill_vertical|center_horizontal"
-            android:text="The Best Show in Israel"
-            android:textColor="#000000"
-            android:textSize="20sp"
-            android:textStyle="bold"/>
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/eventPage_name"
+                android:layout_width="wrap_content"
+                android:layout_height="fill_parent"
+                android:layout_gravity="center"
+                android:layout_weight="6"
+                android:gravity="fill_vertical|center_horizontal"
+                android:text="The Best Show in Israel"
+                android:textColor="#000000"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tv_artist_eventPage"
+                android:text="Artist"
+                android:layout_gravity="center"
+                android:textColor="@color/Brown"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+        </LinearLayout>
 
         <ImageView
             android:id="@+id/imageEvenetPageView3"
@@ -98,7 +116,7 @@
             android:layout_weight="1"
             android:adjustViewBounds="false"
             android:onClick="onClick"
-            android:src="@mipmap/wh"/>
+            android:src="@mipmap/wh" />
 
         <ImageView
             android:id="@+id/imageEvenetPageView2"
@@ -106,10 +124,11 @@
             android:layout_height="fill_parent"
             android:layout_marginTop="2dp"
             android:layout_weight="1"
-            android:src="@mipmap/sh"/>
+            android:src="@mipmap/sh" />
 
 
     </LinearLayout>
+
 
     <LinearLayout
         android:id="@+id/linearLayout"
@@ -130,7 +149,7 @@
             android:onClick="editEvent"
             android:text="Edit Event"
             android:textAlignment="center"
-            android:textColor="#ffffff"/>
+            android:textColor="#ffffff" />
 
         <Button
             android:id="@+id/eventPage_tags"
@@ -141,7 +160,7 @@
             android:gravity="center"
             android:text="#Food&amp;Drink #Convention"
             android:textAlignment="center"
-            android:textColor="#000000"/>
+            android:textColor="#000000" />
 
         <Button
             android:id="@+id/button"
@@ -152,7 +171,7 @@
             android:gravity="center"
             android:onClick="openTicketsPage"
             android:text="GET TICKETS"
-            android:textColor="#ffffff"/>
+            android:textColor="#ffffff" />
     </LinearLayout>
 
     <ScrollView
@@ -173,7 +192,7 @@
             android:text="ALUMINIUM CHINA is Asia‘s top trading, sourcing, networking and branding platform for the complete aluminum industry chain, bringing together leading industry figures, cutting edge technologies and advanced applications. Annually held in Shanghai, the eventParse engages the global Aluminium community with new customized matchmaking programs linking application buyers with emerging and established demands and buyers of equipment and accessories with leading suppliers."
             android:textColor="#3c3c3c"
             android:textIsSelectable="false"
-            android:textSize="17sp"/>
+            android:textSize="17sp" />
     </ScrollView>
 
     <Button
@@ -185,6 +204,6 @@
         android:layout_centerHorizontal="true"
         android:onClick="eventOnRealtime"
         android:text="Real Time"
-        android:visibility="invisible"/>
+        android:visibility="invisible" />
 
 </RelativeLayout>

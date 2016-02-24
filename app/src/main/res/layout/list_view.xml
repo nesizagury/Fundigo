@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                android:layout_width="fill_parent"
-                android:layout_height="340dp"
-                android:background="@android:drawable/dialog_holo_light_frame">
+    android:layout_width="fill_parent"
+    android:layout_height="340dp"
+    android:background="@android:drawable/dialog_holo_light_frame">
 
     <LinearLayout
         android:id="@+id/tableRowAll"
@@ -13,58 +13,68 @@
         android:background="#ffffff"
         android:contextClickable="true"
         android:orientation="vertical"
-        android:weightSum="200">
+        >
 
         <ImageView
             android:id="@+id/imageView"
             android:layout_width="fill_parent"
             android:layout_height="0dip"
-            android:layout_weight="135"
+            android:layout_weight="8"
             android:background="@drawable/pic0"
-            android:scaleType="fitXY"/>
+            android:scaleType="fitXY" />
 
         <LinearLayout
             android:id="@+id/tableRow2"
             android:layout_width="fill_parent"
             android:layout_height="0dip"
-            android:layout_weight="47"
+            android:layout_weight="4"
             android:baselineAligned="false"
             android:contextClickable="true"
             android:gravity="center_vertical|left"
+            android:orientation="vertical"
             android:stretchColumns="*"
-            android:transitionGroup="false"
-            android:orientation="vertical">
+            android:transitionGroup="false">
 
-        <TextView
-            android:id="@+id/event_date"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:elegantTextHeight="false"
-            android:gravity="left|fill_vertical"
-            android:paddingLeft="4dp"
-            android:text="12/15/2016"
-            android:textColor="#454545"
-            />
+            <TextView
+                android:id="@+id/event_date"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:elegantTextHeight="false"
+                android:gravity="left|fill_vertical"
+                android:paddingLeft="4dp"
+                android:text="12/15/2016"
+                android:textColor="#454545" />
 
-        <TextView
-            android:id="@+id/event_name_tv"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:gravity="left|fill_vertical"
-            android:paddingLeft="4dp"
-            android:text="The Commedy Show"
-            android:textColor="#000000"
-            android:textSize="18dp"
-            android:textStyle="bold"/>
+            <TextView
+                android:id="@+id/event_name_tv"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:gravity="left|fill_vertical"
+                android:paddingLeft="4dp"
+                android:text="The Commedy Show"
+                android:textColor="#000000"
+                android:textSize="15sp"
+                android:textStyle="bold" />
 
-        <TextView
-            android:id="@+id/event_location"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:gravity="left|fill_vertical"
-            android:paddingLeft="4dp"
-            android:text="Chelnov 29, Tel Aviv"
-            android:textColor="#666666"/>
+            <TextView
+                android:id="@+id/tv_artist_eventAdapter"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="left|fill_vertical"
+                android:paddingLeft="4dp"
+                android:text="Artist"
+                android:textColor="@color/Brown"
+                android:textSize="15sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/event_location"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:gravity="left|fill_vertical"
+                android:paddingLeft="4dp"
+                android:text="Chelnov 29, Tel Aviv"
+                android:textColor="#666666" />
 
         </LinearLayout>
 
@@ -72,7 +82,7 @@
             android:id="@+id/tableRow"
             android:layout_width="fill_parent"
             android:layout_height="0dip"
-            android:layout_weight="18"
+            android:layout_weight="1"
             android:baselineAligned="true"
             android:contextClickable="true"
             android:divider="#3f3232"
@@ -93,7 +103,7 @@
                 android:text="#Party #Show"
                 android:textColor="#71B7E6"
                 android:textSize="13dp"
-                android:textStyle="bold"/>
+                android:textStyle="bold" />
 
             <ImageView
                 android:id="@+id/imageView2"
@@ -103,7 +113,7 @@
                 android:layout_weight="45"
                 android:background="@drawable/row_order1"
                 android:padding="6dp"
-                android:src="@mipmap/shh"/>
+                android:src="@mipmap/shh" />
 
             <ImageView
                 android:id="@+id/imageView3"
@@ -113,8 +123,7 @@
                 android:layout_weight="45"
                 android:background="@drawable/row_order1"
                 android:padding="3dp"
-                android:src="@mipmap/whh"
-                />
+                android:src="@mipmap/whh" />
         </TableRow>
     </LinearLayout>
 
@@ -132,6 +141,6 @@
         android:text="15$"
         android:textAlignment="center"
         android:textColor="#000000"
-        android:textSize="12sp"/>
+        android:textSize="12sp" />
 
 </RelativeLayout>

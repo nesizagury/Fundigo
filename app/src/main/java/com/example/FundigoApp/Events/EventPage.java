@@ -72,6 +72,7 @@ public class EventPage extends Activity implements View.OnClickListener {
     Button producerPush;
 
     private String date;
+
     private String eventName;
     private String eventPlace;
     private Uri uri;
@@ -89,6 +90,7 @@ public class EventPage extends Activity implements View.OnClickListener {
     private String mDescription;
     String i = "";
     private ImageView ivQrScan;
+    private TextView tv_artist;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -96,6 +98,8 @@ public class EventPage extends Activity implements View.OnClickListener {
         setContentView(R.layout.activity_event_page);
         ivQrScan = (ImageView) findViewById(R.id.iv_qrscan);
         producerPush = (Button) findViewById(R.id.pushButton);
+        tv_artist = (TextView) findViewById(R.id.tv_artist_eventPage);
+        tv_artist.setVisibility(View.GONE);
         if (GlobalVariables.IS_PRODUCER) {
             ticketsStatus = (Button) findViewById(R.id.button);
             ticketsStatus.setText("Tickets Status");
@@ -124,6 +128,11 @@ public class EventPage extends Activity implements View.OnClickListener {
             bitmap = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.length);
             ImageView event_image = (ImageView) findViewById(R.id.eventPage_image);
             event_image.setImageBitmap(bitmap);
+        }
+        String artist = intent.getStringExtra("artist");
+        if(artist.length()!=0){
+            tv_artist.setText(artist);
+            tv_artist.setVisibility(View.VISIBLE);
         }
         date = intent.getStringExtra("eventDate");
         long realDate = Long.parseLong(intent.getStringExtra("realDate"));
@@ -216,7 +225,7 @@ public class EventPage extends Activity implements View.OnClickListener {
 //        }
         TextView event_date = (TextView) findViewById(R.id.eventPage_date);
         //event_date.setText(date);
-        event_date.setText(dayOfWeek + ", " + month + " " + day + ", " + hour + ":" + min+" "+ ampm);
+        event_date.setText(dayOfWeek + ", " + month + " " + day + ", " + hour + ":" + min + " " + ampm);
 
         eventName = intent.getStringExtra("eventName");
         event = GlobalVariables.ALL_EVENTS_DATA.get
@@ -234,7 +243,7 @@ public class EventPage extends Activity implements View.OnClickListener {
         }
 
         TextView event_price = (TextView) findViewById(R.id.priceEventPage);
-        event_price.setText(eventPrice+"$");
+        event_price.setText(eventPrice + "$");
 
         String eventInfo = intent.getStringExtra("eventInfo");
         TextView event_info = (TextView) findViewById(R.id.eventInfoEventPage);

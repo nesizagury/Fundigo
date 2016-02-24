@@ -70,7 +70,6 @@ public class CreateEventActivity extends Activity implements View.OnClickListene
     EditText et_capacity;
     EditText et_parking;
     EditText et_tags;
-    EditText et_toilet;
     Button btn_validate_address;
     ImageView iv_val_add;
     Button btn_next;
@@ -84,7 +83,6 @@ public class CreateEventActivity extends Activity implements View.OnClickListene
     LinearLayout ll_date;
     LinearLayout ll_artist;
     LinearLayout ll_description;
-    CheckBox atmBox;
     private static final int SELECT_PICTURE = 1;
     String picturePath;
     private boolean pictureSelected;
@@ -116,9 +114,21 @@ public class CreateEventActivity extends Activity implements View.OnClickListene
     private TextView tv_quantity;
     private TimePickerDialog timePickerDialog;
     private DatePickerDialog datePickerDialog;
-    String[] ITEMS;
-    private MaterialSpinner spinner;
+    String[] FILTERS;
+    String[] ATMS;
+    String[] TOILETS;
+    private MaterialSpinner filterSpinner;
     private String filter;
+    private MaterialSpinner atmSpinner;
+    private String atmStatus = "Unknown";
+    private MaterialSpinner toiletSpinner;
+    private MaterialSpinner handicapToiletSpinner;
+    private String numOfToilets = "Unknown";
+    private String numOfHandicapToilets = "Unknown";
+    private TextView tv_optional1;
+    private TextView tv_optional2;
+    private TextView tv_optional3;
+
 
 
     @Override
@@ -315,7 +325,7 @@ public class CreateEventActivity extends Activity implements View.OnClickListene
     }
 
     private void showSecondStage() {
-        if (et_name.length() != 0 && date.length() != 0 && et_artist.length() != 0 && et_description.length() != 0) {
+        if (et_name.length() != 0 && date.length() != 0 && et_description.length() != 0) {
             tv_create.setVisibility(View.GONE);
             ll_name.setVisibility(View.GONE);
             ll_date.setVisibility(View.GONE);
@@ -348,93 +358,88 @@ public class CreateEventActivity extends Activity implements View.OnClickListene
 
     public void saveEvent() {
         final Event event = new Event();
-        if (et_tags.getText().length() != 0) {
-            if (getIntent().getStringExtra("create").equals("false")) {
-                deleteRow();
-                event.setSold(sold);
-                event.setIncome(income);
-            } else {
-                event.setSold("0");
-                event.setIncome("0");
-            }
-            event.setName(et_name.getText().toString());
-            event.setDescription(et_description.getText().toString());
+        // if (et_tags.getText().length() != 0) {
+        if (getIntent().getStringExtra("create").equals("false")) {
+            deleteRow();
+            event.setSold(sold);
+            event.setIncome(income);
+        } else {
+            event.setSold("0");
+            event.setIncome("0");
+        }
+        event.setName(et_name.getText().toString());
+        event.setDescription(et_description.getText().toString());
 
-            if (freeEvent) {
-                event.setPrice("FREE");
-                event.setNumOfTicketsLeft("9999");
-            } else {
-                event.setNumOfTicketsLeft(et_quantity.getText().toString());
-                event.setPrice(et_price.getText().toString());
-            }
-            event.setAddress(valid_address);
-            event.setCity(city);
-            event.setX(lat);
-            event.setY(lng);
-            //===========================Setting tags the right way==============
-            StringBuilder stringBuilder = new StringBuilder();
-            if (et_tags.length() == 0) {
-                event.setTags("#" + filter);
-            } else {
-                stringBuilder.append("#" + filter);
-                String str = et_tags.getText().toString();
-                str = str.replaceAll(",", " ");
-                str = str.replaceAll("#", "");
-                String[] arr = str.split(" ");
+        if (freeEvent) {
+            event.setPrice("FREE");
+            event.setNumOfTicketsLeft("9999");
+        } else {
+            event.setNumOfTicketsLeft(et_quantity.getText().toString());
+            event.setPrice(et_price.getText().toString());
+        }
+        event.setAddress(valid_address);
+        event.setCity(city);
+        event.setX(lat);
+        event.setY(lng);
+        //===========================Setting tags the right way==============
+        StringBuilder stringBuilder = new StringBuilder();
+        if (et_tags.length() == 0) {
+            event.setTags("#" + filter);
+        } else {
+            stringBuilder.append("#" + filter);
+            String str = et_tags.getText().toString();
+            str = str.replaceAll(",", " ");
+            str = str.replaceAll("#", "");
+            String[] arr = str.split(" ");
 
-                for (String ss : arr) {
-                    if (!ss.equals(" ") && !ss.equals("")) {
-                        stringBuilder.append(" #" + ss);
-                    }
-                    Log.e(TAG, "!" + ss+"!");
+            for (String ss : arr) {
+                if (!ss.equals(" ") && !ss.equals("")) {
+                    stringBuilder.append(" #" + ss);
                 }
-                String finalString = stringBuilder.toString();
-               // finalString.replaceAll("# ","");
-                Log.e(TAG, "finalString " + finalString);
-                event.setTags(finalString);
-
+                Log.e(TAG, "!" + ss + "!");
             }
-            //===================================================================
-            event.setFilterName(filter);
-            event.setProducerId(GlobalVariables.PRODUCER_PARSE_OBJECT_ID);
-            event.setDate(date);
-            event.setPlace(et_place.getText().toString());
-            event.setArtist(et_artist.getText().toString());
-            event.setEventToiletService(et_toilet.getText().toString());
-            event.setEventParkingService(et_parking.getText().toString());
-            event.setEventCapacityService(et_capacity.getText().toString());
-            event.setRealDate(realDate);
+            String finalString = stringBuilder.toString();
+            // finalString.replaceAll("# ","");
+            Log.e(TAG, "finalString " + finalString);
+            event.setTags(finalString);
 
-            if (atmBox.isChecked())
-                event.setEventATMService("Yes");
-            else
-                event.setEventATMService("No");
-
-            if (pictureSelected || tv_create.getText().toString().equals("Edit Event")) {
-                pic.buildDrawingCache();
-                Bitmap bitmap = pic.getDrawingCache();
-                ByteArrayOutputStream stream = new ByteArrayOutputStream();
-                bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
-                byte[] image = stream.toByteArray();
-                ParseFile file = new ParseFile("picturePath", image);
-                try {
-                    file.save();
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                }
-                event.put("ImageFile", file);
-            }
-
-
+        }
+        //===================================================================
+        event.setFilterName(filter);
+        event.setProducerId(GlobalVariables.PRODUCER_PARSE_OBJECT_ID);
+        event.setDate(date);
+        event.setPlace(et_place.getText().toString());
+        event.setArtist(et_artist.getText().toString());
+        event.setEventToiletService(numOfToilets + ", Handicapped " + numOfHandicapToilets);
+        event.setEventParkingService("Up To " + et_parking.getText().toString());
+                event.setEventCapacityService("Up To " + et_capacity.getText().toString());
+                event.setRealDate(realDate);
+        event.setEventATMService(atmStatus);
+        if (pictureSelected || tv_create.getText().toString().equals("Edit Event")) {
+            pic.buildDrawingCache();
+            Bitmap bitmap = pic.getDrawingCache();
+            ByteArrayOutputStream stream = new ByteArrayOutputStream();
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
+            byte[] image = stream.toByteArray();
+            ParseFile file = new ParseFile("picturePath", image);
             try {
-                event.save();
+                file.save();
             } catch (ParseException e) {
                 e.printStackTrace();
             }
-            Toast.makeText(getApplicationContext(), "Event has created successfully!", Toast.LENGTH_SHORT).show();
-            finish();
-        } else
-            Toast.makeText(getApplicationContext(), "Please fill the  empty fields", Toast.LENGTH_SHORT).show();
+            event.put("ImageFile", file);
+        }//TODO else and put some pic(maybe random)...
+
+
+        try {
+            event.save();
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        Toast.makeText(getApplicationContext(), "Event has created successfully!", Toast.LENGTH_SHORT).show();
+        finish();
+        //  } else
+        //      Toast.makeText(getApplicationContext(), "Please fill the  empty fields", Toast.LENGTH_SHORT).show();
 
     }
 
@@ -504,10 +509,8 @@ public class CreateEventActivity extends Activity implements View.OnClickListene
         et_capacity = (EditText) findViewById(R.id.et_capacity);
         et_parking = (EditText) findViewById(R.id.et_parking);
         et_tags = (EditText) findViewById(R.id.et_tags);
-        et_toilet = (EditText) findViewById(R.id.et_toilet);
         btn_validate_address = (Button) findViewById(R.id.btn_validate_address);
         iv_val_add = (ImageView) findViewById(R.id.iv_val_add);
-        atmBox = (CheckBox) findViewById(R.id.checkBoxAtm);
         freeBox = (CheckBox) findViewById(R.id.checkBoxFree);
         tv_date_new = (TextView) findViewById(R.id.tv_date_new);
         btn_date = (Button) findViewById(R.id.btn_date);
@@ -529,14 +532,41 @@ public class CreateEventActivity extends Activity implements View.OnClickListene
         ll_date = (LinearLayout) findViewById(R.id.ll_date);
         ll_artist = (LinearLayout) findViewById(R.id.ll_artist);
         ll_description = (LinearLayout) findViewById(R.id.ll_description);
-//===============================Spinner stuff==================================
-        ITEMS = getResources().getStringArray(R.array.filters);
-        Log.e(TAG, "ITEMS ARE " + ITEMS[0]);
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, ITEMS);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinner = (MaterialSpinner) findViewById(R.id.spinner);
-        spinner.setAdapter(adapter);
-        spinner.setOnItemSelectedListener(this);
+        tv_optional1 = (TextView) findViewById(R.id.tv_optional1);
+        tv_optional2 = (TextView) findViewById(R.id.tv_optional2);
+        tv_optional3 = (TextView) findViewById(R.id.tv_optional3);
+
+//===============================Filter Spinner stuff==================================
+        FILTERS = getResources().getStringArray(R.array.filters);
+        ArrayAdapter<String> filterSpinnerAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, FILTERS);
+        filterSpinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        filterSpinner = (MaterialSpinner) findViewById(R.id.filterSpinner);
+        filterSpinner.setAdapter(filterSpinnerAdapter);
+        filterSpinner.setOnItemSelectedListener(this);
+//=============================================================================
+
+// ===============================ATM Spinner  stuff==================================
+        ATMS = getResources().getStringArray(R.array.atms);
+        ArrayAdapter<String> atmSpinnerAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, ATMS);
+        atmSpinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        atmSpinner = (MaterialSpinner) findViewById(R.id.atmSpinner);
+        atmSpinner.setAdapter(atmSpinnerAdapter);
+        atmSpinner.setOnItemSelectedListener(this);
+//==============================================================================
+// ===============================Toilet Spinner  stuff==================================
+        TOILETS = getResources().getStringArray(R.array.toilets);
+        ArrayAdapter<String> toiletSpinnerAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, TOILETS);
+        toiletSpinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        toiletSpinner = (MaterialSpinner) findViewById(R.id.toiletSpinner);
+        toiletSpinner.setAdapter(toiletSpinnerAdapter);
+        toiletSpinner.setOnItemSelectedListener(this);
+//==============================================================================
+// ===============================handicapToilet Spinner  stuff==================================
+//        ArrayAdapter<String> handicapToiletSpinnerAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, TOILETS);
+        //handicapToiletSpinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        handicapToiletSpinner = (MaterialSpinner) findViewById(R.id.handicapToiletSpinner);
+        handicapToiletSpinner.setAdapter(toiletSpinnerAdapter);
+        handicapToiletSpinner.setOnItemSelectedListener(this);
 //==============================================================================
         if (!getIntent().getStringExtra("create").equals("true")) {
             tv_create.setText("Edit Event");
@@ -596,59 +626,171 @@ public class CreateEventActivity extends Activity implements View.OnClickListene
      */
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-        et_tags.setHint("");
-        switch (position) {
-            case 0:
-                filter = ITEMS[0];
-                et_tags.setHint("Your first tag is #" + filter + " add more");
-                break;
-            case 1:
-                filter = ITEMS[1];
-                et_tags.setHint("Your first tag is #" + filter + " add more");
-                break;
-            case 2:
-                filter = ITEMS[2];
-                et_tags.setHint("Your first tag is #" + filter + " add more");
-                break;
-            case 3:
-                filter = ITEMS[3];
-                et_tags.setHint("Your first tag is #" + filter + " add more");
-                break;
-            case 4:
-                filter = ITEMS[3];
-                et_tags.setHint("Your first tag is #" + filter + " add more");
-                break;
-            case 5:
-                filter = ITEMS[3];
-                et_tags.setHint("Your first tag is #" + filter + " add more");
-                break;
-            case 6:
-                filter = ITEMS[3];
-                et_tags.setHint("Your first tag is #" + filter + " add more");
-                break;
-            case 7:
-                filter = ITEMS[3];
-                et_tags.setHint("Your first tag is #" + filter + " add more");
-                break;
-            case 8:
-                filter = ITEMS[3];
-                et_tags.setHint("Your first tag is #" + filter + " add more");
+        switch (parent.getId()) {
+            case R.id.filterSpinner:
+                et_tags.setHint("");
+                switch (position) {
+                    case 0:
+                        filter = FILTERS[0];
+                        et_tags.setHint("Your first tag is #" + filter + " add more");
+                        break;
+                    case 1:
+                        filter = FILTERS[1];
+                        et_tags.setHint("Your first tag is #" + filter + " add more");
+                        break;
+                    case 2:
+                        filter = FILTERS[2];
+                        et_tags.setHint("Your first tag is #" + filter + " add more");
+                        break;
+                    case 3:
+                        filter = FILTERS[3];
+                        et_tags.setHint("Your first tag is #" + filter + " add more");
+                        break;
+                    case 4:
+                        filter = FILTERS[3];
+                        et_tags.setHint("Your first tag is #" + filter + " add more");
+                        break;
+                    case 5:
+                        filter = FILTERS[3];
+                        et_tags.setHint("Your first tag is #" + filter + " add more");
+                        break;
+                    case 6:
+                        filter = FILTERS[3];
+                        et_tags.setHint("Your first tag is #" + filter + " add more");
+                        break;
+                    case 7:
+                        filter = FILTERS[3];
+                        et_tags.setHint("Your first tag is #" + filter + " add more");
+                        break;
+                    case 8:
+                        filter = FILTERS[3];
+                        et_tags.setHint("Your first tag is #" + filter + " add more");
+                        break;
+
+                }
+                Log.e(TAG, "filter" + filter);
                 break;
 
+            case R.id.atmSpinner:
+                switch (position) {
+                    case 0:
+                        atmStatus = ATMS[0];
+                        break;
+                    case 1:
+                        atmStatus = ATMS[1];
+                        break;
+                    case 2:
+                        atmStatus = ATMS[2];
+                        break;
+                }
+                break;
+            case R.id.toiletSpinner:
+                switch (position) {
+                    case 0:
+                        numOfToilets = TOILETS[0];
+                        break;
+                    case 1:
+                        numOfToilets = TOILETS[1];
+                        break;
+                    case 2:
+                        numOfToilets = TOILETS[2];
+                        break;
+                    case 3:
+                        numOfToilets = TOILETS[3];
+                        break;
+                    case 4:
+                        numOfToilets = TOILETS[4];
+                        break;
+                    case 5:
+                        numOfToilets = TOILETS[5];
+                        break;
+                    case 6:
+                        numOfToilets = TOILETS[6];
+                        break;
+                    case 7:
+                        numOfToilets = TOILETS[7];
+                        break;
+                    case 8:
+                        numOfToilets = TOILETS[8];
+                        break;
+                    case 9:
+                        numOfToilets = TOILETS[9];
+                        break;
+                    case 10:
+                        numOfToilets = TOILETS[10];
+                        break;
+
+                }
+                break;
+            case R.id.handicapToiletSpinner:
+ //               numOfHandicapToilets = TOILETS[position];
+                // java.lang.ArrayIndexOutOfBoundsException: length=11; index=-1
+                switch (position) {
+                    case 0:
+                        numOfHandicapToilets = TOILETS[0];
+                        break;
+                    case 1:
+                        numOfHandicapToilets = TOILETS[1];
+                        break;
+                    case 2:
+                        numOfHandicapToilets = TOILETS[2];
+                        break;
+                    case 3:
+                        numOfHandicapToilets = TOILETS[3];
+                        break;
+                    case 4:
+                        numOfHandicapToilets = TOILETS[4];
+                        break;
+                    case 5:
+                        numOfHandicapToilets = TOILETS[5];
+                        break;
+                    case 6:
+                        numOfHandicapToilets = TOILETS[6];
+                        break;
+                    case 7:
+                        numOfHandicapToilets = TOILETS[7];
+                        break;
+                    case 8:
+                        numOfHandicapToilets = TOILETS[8];
+                        break;
+                    case 9:
+                        numOfHandicapToilets = TOILETS[9];
+                        break;
+                    case 10:
+                        numOfHandicapToilets = TOILETS[10];
+                        break;
+
+                }
+                break;
         }
-        Log.e(TAG, "filter" + filter);
+
+
     }
 
 
     /**
-     * Nothing selected in the spinner
+     * Nothing selected in the Spinners
      *
      * @param parent
      */
     @Override
     public void onNothingSelected(AdapterView<?> parent) {
-        filter = null;
-        et_tags.setHint("");
+        switch (parent.getId()) {
+            case R.id.filterSpinner:
+                filter = null;
+                et_tags.setHint("");
+                break;
+            case R.id.atmSpinner:
+                atmStatus = "Unknown";
+                break;
+            case R.id.toiletSpinner:
+                numOfToilets = "Unknown";
+                break;
+            case R.id.handicapToiletSpinner:
+                numOfToilets = "Unknown";
+                break;
+        }
+
     }
 
 

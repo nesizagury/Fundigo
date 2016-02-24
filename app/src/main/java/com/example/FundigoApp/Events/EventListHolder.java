@@ -16,8 +16,10 @@ public class EventListHolder {
     TextView price;
     TextView place;
     ImageView saveEvent;
+    TextView artist;
 
     public EventListHolder(View v) {
+        artist = (TextView) v.findViewById(R.id.tv_artist_eventAdapter);
         image = (ImageView) v.findViewById (R.id.imageView);
         date = (TextView) v.findViewById (R.id.event_date);
         name = (TextView) v.findViewById (R.id.event_name_tv);

@@ -20,7 +20,7 @@ import java.util.List;
 public class EventsListAdapter extends BaseAdapter {
 
     private static final String TAG = "EventsListAdapter";
-    List<EventInfo> eventList = new ArrayList<EventInfo> ();
+    List<EventInfo> eventList = new ArrayList<EventInfo>();
     Context context;
     private ImageView iv_share;
     Uri uri;
@@ -37,12 +37,12 @@ public class EventsListAdapter extends BaseAdapter {
 
     @Override
     public int getCount() {
-        return eventList.size ();
+        return eventList.size();
     }
 
     @Override
     public Object getItem(int i) {
-        return eventList.get (i);
+        return eventList.get(i);
     }
 
     @Override
@@ -56,14 +56,14 @@ public class EventsListAdapter extends BaseAdapter {
         final EventListHolder eventListHolder;
 
         if (row == null) {
-            LayoutInflater inflator = (LayoutInflater) context.getSystemService (Context.LAYOUT_INFLATER_SERVICE);
-            row = inflator.inflate (R.layout.list_view, viewGroup, false);
-            eventListHolder = new EventListHolder (row);
-            row.setTag (eventListHolder);
+            LayoutInflater inflator = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            row = inflator.inflate(R.layout.list_view, viewGroup, false);
+            eventListHolder = new EventListHolder(row);
+            row.setTag(eventListHolder);
         } else {
-            eventListHolder = (EventListHolder) row.getTag ();
+            eventListHolder = (EventListHolder) row.getTag();
         }
-        final EventInfo event = eventList.get (i);
+        final EventInfo event = eventList.get(i);
         date = event.getRealDate();
         long realDate = Long.parseLong(date);
         Calendar calendar = Calendar.getInstance();
@@ -147,47 +147,49 @@ public class EventsListAdapter extends BaseAdapter {
         } else {
             min = "" + minute;
         }
-//        String h;
-//        if (hour < 10) {
-//            h = "0" + hour;
-//        } else {
-//            h = "" + hour;
-//        }
-        eventListHolder.date.setText(dayOfWeek + ", " + month + " " + day + ", " + hour + ":" + min+" "+ ampm);
 
-        if (isSavedActivity && !event.getIsSaved ()) {
-            row.setVisibility (View.INVISIBLE);
+        eventListHolder.date.setText(dayOfWeek + ", " + month + " " + day + ", " + hour + ":" + min + " " + ampm);
+
+        if (isSavedActivity && !event.getIsSaved()) {
+            row.setVisibility(View.INVISIBLE);
         }
         index = i;
         eventListHolder.image.setImageBitmap(event.imageId);
         //eventListHolder.date.setText (event.getDate ());
-        eventListHolder.name.setText (event.getName ());
-        eventListHolder.tags.setText (event.getTags ());
-        eventListHolder.price.setText (event.getPrice ());
-        eventListHolder.place.setText (event.getPlace ());
-        checkIfChangeColorToSaveButtton (event, eventListHolder.saveEvent);
-        eventListHolder.saveEvent.setOnClickListener (new View.OnClickListener () {
+        String artist = event.getArtist();
+        if (artist.length() != 0) {
+            eventListHolder.artist.setText(event.getArtist());
+            eventListHolder.artist.setVisibility(View.VISIBLE);
+        } else {
+            eventListHolder.artist.setVisibility(View.GONE);
+        }
+        eventListHolder.name.setText(event.getName());
+        eventListHolder.tags.setText(event.getTags());
+        eventListHolder.price.setText(event.getPrice());
+        eventListHolder.place.setText(event.getPlace());
+        checkIfChangeColorToSaveButtton(event, eventListHolder.saveEvent);
+        eventListHolder.saveEvent.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                StaticMethods.handleSaveEventClicked (event,
-                                                             eventListHolder.saveEvent,
-                                                             context,
-                                                             R.mipmap.whhsaved,
-                                                             R.mipmap.whh);
+                StaticMethods.handleSaveEventClicked(event,
+                        eventListHolder.saveEvent,
+                        context,
+                        R.mipmap.whhsaved,
+                        R.mipmap.whh);
             }
         });
 
-        iv_share = (ImageView) row.findViewById (R.id.imageView2);
-        iv_share.setOnClickListener (new View.OnClickListener () {
+        iv_share = (ImageView) row.findViewById(R.id.imageView2);
+        iv_share.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                switch (v.getId ()) {
+                switch (v.getId()) {
                     case R.id.imageView2:
-                        Intent intent = new Intent(context,DeepLinkActivity.class);
-                        intent.putExtra("name",eventListHolder.name.getText().toString());
-                        intent.putExtra("date",eventListHolder.date.getText().toString());
+                        Intent intent = new Intent(context, DeepLinkActivity.class);
+                        intent.putExtra("name", eventListHolder.name.getText().toString());
+                        intent.putExtra("date", eventListHolder.date.getText().toString());
                         intent.putExtra("place", eventListHolder.place.getText().toString());
-                        intent.putExtra("objectId", event.getParseObjectId ());
+                        intent.putExtra("objectId", event.getParseObjectId());
                         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                         context.startActivity(intent);
                         break;
@@ -198,10 +200,10 @@ public class EventsListAdapter extends BaseAdapter {
     }
 
     private void checkIfChangeColorToSaveButtton(EventInfo event, ImageView saveEvent) {
-        if (event.getIsSaved ()) {
-            saveEvent.setImageResource (R.mipmap.whhsaved);
+        if (event.getIsSaved()) {
+            saveEvent.setImageResource(R.mipmap.whhsaved);
         } else {
-            saveEvent.setImageResource (R.mipmap.whh);
+            saveEvent.setImageResource(R.mipmap.whh);
         }
     }
 }
