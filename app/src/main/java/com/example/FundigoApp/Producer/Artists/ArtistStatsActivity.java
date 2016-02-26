@@ -80,7 +80,7 @@ public class ArtistStatsActivity extends Activity implements GetEventsDataCallba
                 e.printStackTrace ();
             }
             StringBuilder sb = new StringBuilder (event.getPrice ());
-            sb.deleteCharAt (sb.length () - 1);
+         //   sb.deleteCharAt (sb.length () - 1);
             int ticketsLeft = Integer.parseInt (event.getTicketsLeft ());
             int price = Integer.parseInt (sb.toString ());
 

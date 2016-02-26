@@ -5,16 +5,16 @@ import com.parse.ParseObject;
 
 @ParseClassName("EventsSeats")
 public class EventsSeats extends ParseObject {
-    public String getPrice() {
-        return getString ("price");
+    public int getPrice() {
+        return getInt ("price");
     }
 
     public void setPrice(int price) {
         put ("price", price);
     }
 
-    public int getEventObjectId() {
-        return getInt ("eventObjectId");
+    public String getEventObjectId() {
+        return getString ("eventObjectId");
     }
 
     public void setEventObjectId(String eventObjectId) {

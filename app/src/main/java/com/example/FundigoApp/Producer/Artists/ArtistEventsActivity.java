@@ -5,6 +5,9 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.ContextMenu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -13,17 +16,25 @@ import android.widget.TextView;
 import com.example.FundigoApp.Events.EventInfo;
 import com.example.FundigoApp.Events.EventPage;
 import com.example.FundigoApp.Events.EventsListAdapter;
+import com.example.FundigoApp.MainActivity;
 import com.example.FundigoApp.R;
 import com.example.FundigoApp.StaticMethods;
+import com.parse.FindCallback;
+import com.parse.GetCallback;
+import com.parse.ParseException;
+import com.parse.ParseObject;
+import com.parse.ParseQuery;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class ArtistEventsActivity extends Activity implements AdapterView.OnItemClickListener {
+    private static final String TAG = "ArtistEventsActivity";
     private static List<EventInfo> eventsList = new ArrayList<EventInfo> ();
     ListView eventsListView;
     private static EventsListAdapter eventsListAdapter;
     TextView artistTV;
+    String eventObjectId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,24 +51,87 @@ public class ArtistEventsActivity extends Activity implements AdapterView.OnItem
         eventsListView.setAdapter (eventsListAdapter);
         eventsListView.setSelector (new ColorDrawable (Color.TRANSPARENT));
         eventsListView.setOnItemClickListener (this);
-        StaticMethods.filterEventsByArtist (artistName,
-                                                   eventsList);
-        eventsListAdapter.notifyDataSetChanged ();
+        StaticMethods.filterEventsByArtist(artistName,
+                eventsList);
+        eventsListAdapter.notifyDataSetChanged();
+        registerForContextMenu(eventsListView);
     }
 
     @Override
     public void onItemClick(AdapterView<?> av, View view, int i, long l) {
         Bundle b = new Bundle ();
         Intent intent = new Intent (this, EventPage.class);
-        StaticMethods.onEventItemClick (i, eventsList, intent);
-        intent.putExtras (b);
-        startActivity (intent);
+        StaticMethods.onEventItemClick(i, eventsList, intent);
+        intent.putExtras(b);
+        startActivity(intent);
     }
 
     @Override
     protected void onActivityResult(final int requestCode, final int resultCode, final Intent data) {
-        StaticMethods.onActivityResult (requestCode,
-                                               data,
-                                               this);
+        StaticMethods.onActivityResult(requestCode,
+                data,
+                this);
+    }
+
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+        super.onCreateContextMenu(menu, v, menuInfo);
+        getMenuInflater().inflate(R.menu.context_menu, menu);
+    }
+
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+        AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
+        int pos = info.position;
+
+        switch (item.getItemId()) {
+            case R.id.delete_event:
+               eventObjectId = eventsList.get(pos).getParseObjectId();
+                deleteEvent(eventObjectId);
+                ProducerMainActivity.artistAdapter.notifyDataSetChanged();
+                startActivity(new Intent(this, MainActivity.class));
+                return true;
+            case R.id.edit_event:
+                return true;
+            default:
+                return super.onContextItemSelected(item);
+        }
+
+
+    }
+
+    public void deleteEvent(final String objectId){
+        ParseQuery<ParseObject> query = ParseQuery.getQuery("Event");
+        query.whereEqualTo("objectId", objectId);
+        query.orderByDescending("createdAt");
+        query.getFirstInBackground(new GetCallback<ParseObject>() {
+            public void done(ParseObject object, ParseException e) {
+                if (e == null) {
+                    try {
+                        object.delete();
+                        Log.e(TAG, "Event deleted");
+                    } catch (ParseException e1) {
+                        e1.printStackTrace();
+                        Log.e(TAG, "Event not deleted "+ e1.toString());
+                    }
+                    object.saveInBackground();
+                }
+            }
+        });
+
+            ParseQuery<ParseObject> querySeats = ParseQuery.getQuery("EventsSeats");
+            querySeats.whereEqualTo("eventObjectId", objectId);
+            querySeats.findInBackground(new FindCallback<ParseObject>() {
+                @Override
+                public void done(List<ParseObject> objects, ParseException e) {
+
+                    if(objects.size()!=0){
+                        ParseObject.deleteAllInBackground(objects);
+
+                    }
+                }
+            });
+
+        finish();
     }
 }

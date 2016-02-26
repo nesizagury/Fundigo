@@ -55,9 +55,15 @@
             android:id="@+id/et_quantity"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="3"
+            android:layout_weight="1"
             android:imeActionLabel="Done"
             android:inputType="number" />
+        <Button
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:text="Price details"
+            android:id="@+id/btn_price_details"
+            android:layout_height="wrap_content" />
     </LinearLayout>
 
     <LinearLayout

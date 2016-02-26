@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:orientation="vertical">
+    android:layout_width="match_parent"
+    android:id="@+id/create_profile_layout"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
     <TextView
         android:id="@+id/tv_create"
@@ -12,21 +14,21 @@
         android:layout_margin="10dp"
         android:text="Create Event"
         android:textSize="30sp"
-        android:textStyle="bold"/>
+        android:textStyle="bold" />
 
     <include
         android:id="@+id/create_event2"
         layout="@layout/create_event2"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:visibility="gone"/>
+        android:visibility="gone" />
 
     <include
         android:id="@+id/create_event3"
         layout="@layout/create_event3"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:visibility="gone"/>
+        android:visibility="gone" />
 
     <LinearLayout
         android:id="@+id/ll_name"
@@ -41,14 +43,14 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Name:"/>
+            android:text="Name:" />
 
         <EditText
             android:id="@+id/et_name"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="3"
-            android:imeActionLabel="Done"/>
+            android:imeActionLabel="Done" />
     </LinearLayout>
 
     <LinearLayout
@@ -64,7 +66,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:inputType="date"
-            android:text="Pick a date"/>
+            android:text="Pick a date" />
 
         <TextView
             android:id="@+id/tv_date_new"
@@ -73,7 +75,7 @@
             android:layout_weight="2"
             android:gravity="center"
             android:text="Pick a date"
-            android:visibility="gone"/>
+            android:visibility="gone" />
 
     </LinearLayout>
 
@@ -90,14 +92,14 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Artist*:"/>
+            android:text="Artist*:" />
 
         <EditText
             android:id="@+id/et_artist"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="3"
-            android:imeActionLabel="Done"/>
+            android:imeActionLabel="Done" />
     </LinearLayout>
 
     <LinearLayout
@@ -112,14 +114,14 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Description:"/>
+            android:text="Description:" />
 
         <EditText
             android:id="@+id/et_description"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="2.5"
-            android:imeActionLabel="Done"/>
+            android:imeActionLabel="Done" />
     </LinearLayout>
 
     <Button
@@ -128,13 +130,14 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_margin="10dp"
-        android:text="Next"/>
+        android:text="Next" />
+
     <TextView
         android:id="@+id/tv_optional1"
-        android:layout_margin="5dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_margin="5dp"
         android:layout_weight="1"
-        android:textColor="@color/Red"
-        android:text="*Optional" />
+        android:text="*Optional"
+        android:textColor="@color/Red" />
 </LinearLayout>

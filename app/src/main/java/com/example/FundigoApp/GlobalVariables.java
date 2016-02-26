@@ -18,6 +18,13 @@ public class GlobalVariables {
     public static final String QR = "qr";
     public static final String GEO_API_ADDRESS = "https://maps.googleapis.com/maps/api/geocode/json?";
     public static final String GEO_API_KEY = "AIzaSyAO_BADR0qgh5i6oirplDXw0wCCxCZoLe8";
+    public static final String YELLOW = "yellow";
+    public static final String GREEN = "green";
+    public static final String BLUE = "blue";
+    public static final String PINK = "pink";
+    public static final String ORANGE = "orange";
+    public static final String SEATS = "seats";
+
 
     public static boolean IS_CUSTOMER_GUEST = false;
     public static boolean IS_CUSTOMER_REGISTERED_USER = false;

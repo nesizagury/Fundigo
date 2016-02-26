@@ -6,15 +6,19 @@ import android.app.ProgressDialog;
 import android.app.TimePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.graphics.Matrix;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.ParcelFileDescriptor;
+import android.preference.PreferenceManager;
 import android.provider.MediaStore;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.View;
@@ -32,8 +36,12 @@ import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.example.FundigoApp.GlobalVariables;
+import com.example.FundigoApp.Producer.Artists.ProducerMainActivity;
 import com.example.FundigoApp.R;
+import com.example.FundigoApp.Tickets.EventsSeats;
+import com.example.FundigoApp.Tickets.TicketsPriceActivity;
 import com.google.gson.Gson;
+import com.parse.FindCallback;
 import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParseFile;
@@ -48,6 +56,7 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 import fr.ganfra.materialspinner.MaterialSpinner;
 
@@ -77,6 +86,7 @@ public class CreateEventActivity extends Activity implements View.OnClickListene
     Button btn_next2;
     Button btn_pic;
     ImageView pic;
+    Button btn_price_details;
     LinearLayout create_event2;
     LinearLayout create_event3;
     LinearLayout ll_name;
@@ -128,7 +138,15 @@ public class CreateEventActivity extends Activity implements View.OnClickListene
     private TextView tv_optional1;
     private TextView tv_optional2;
     private TextView tv_optional3;
-
+    private String eventObjectId;
+    double blueIncome;
+    double pinkIncome;
+    double greenIncome;
+    double orangeIncome;
+    double yellowIncome;
+    double totalIncome;
+    private boolean seats = false;
+    private LinearLayout linearLayout;
 
 
     @Override
@@ -176,6 +194,8 @@ public class CreateEventActivity extends Activity implements View.OnClickListene
                 break;
             case R.id.btn_next2:
                 if (filter != null) {
+                    SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this);
+                    seats = sp.getBoolean(GlobalVariables.SEATS, false);
                     saveEvent();
                 } else {
                     Toast.makeText(CreateEventActivity.this, "Please choose a filter", Toast.LENGTH_SHORT).show();
@@ -190,6 +210,10 @@ public class CreateEventActivity extends Activity implements View.OnClickListene
                 int month = Calendar.getInstance().get(Calendar.MONTH);
                 datePickerDialog = new DatePickerDialog(this, listener, year, month, day);
                 datePickerDialog.show();
+                break;
+            case R.id.btn_price_details:
+                Intent intent = new Intent(this, TicketsPriceActivity.class);
+                startActivity(intent);
                 break;
         }
     }
@@ -249,7 +273,6 @@ public class CreateEventActivity extends Activity implements View.OnClickListene
                 min = "" + minute;
             }
             time = hourOfDay + ":" + min;
-            Log.e(TAG, "time " + time);
 
             Calendar cal = Calendar.getInstance();
             cal.set(Calendar.DAY_OF_MONTH, dayOfMonth);
@@ -258,7 +281,6 @@ public class CreateEventActivity extends Activity implements View.OnClickListene
             cal.set(Calendar.HOUR_OF_DAY, hourOfDay);
             cal.set(Calendar.MINUTE, minute);
             realDate = new Date(cal.getTimeInMillis());
-            Log.e(TAG, "CAL " + cal.getTimeInMillis() + " now " + System.currentTimeMillis());
 
             if (cal.getTimeInMillis() <= System.currentTimeMillis()) {
                 Toast.makeText(CreateEventActivity.this, "Are you living in the past?", Toast.LENGTH_SHORT).show();
@@ -396,11 +418,9 @@ public class CreateEventActivity extends Activity implements View.OnClickListene
                 if (!ss.equals(" ") && !ss.equals("")) {
                     stringBuilder.append(" #" + ss);
                 }
-                Log.e(TAG, "!" + ss + "!");
             }
             String finalString = stringBuilder.toString();
             // finalString.replaceAll("# ","");
-            Log.e(TAG, "finalString " + finalString);
             event.setTags(finalString);
 
         }
@@ -412,8 +432,8 @@ public class CreateEventActivity extends Activity implements View.OnClickListene
         event.setArtist(et_artist.getText().toString());
         event.setEventToiletService(numOfToilets + ", Handicapped " + numOfHandicapToilets);
         event.setEventParkingService("Up To " + et_parking.getText().toString());
-                event.setEventCapacityService("Up To " + et_capacity.getText().toString());
-                event.setRealDate(realDate);
+        event.setEventCapacityService("Up To " + et_capacity.getText().toString());
+        event.setRealDate(realDate);
         event.setEventATMService(atmStatus);
         if (pictureSelected || tv_create.getText().toString().equals("Edit Event")) {
             pic.buildDrawingCache();
@@ -433,16 +453,100 @@ public class CreateEventActivity extends Activity implements View.OnClickListene
 
         try {
             event.save();
+            if (!freeEvent) {
+                Log.e(TAG, "freeEvent " + freeEvent);
+                eventObjectId = event.getObjectId();
+                Log.e(TAG, "objectId " + eventObjectId);
+                if(seats){
+                saveTicketsPrice(eventObjectId);
+                                    //the producer did not chose colored seats
+                }else{
+                    totalIncome = Double.parseDouble(et_price.getText().toString())* Double.parseDouble(et_quantity.getText().toString());
+                }
+               // Toast.makeText(getApplicationContext(), "Event has created successfully!\n Expected income:" + totalIncome, Toast.LENGTH_SHORT).show();
+                ProducerMainActivity.artistAdapter.notifyDataSetChanged();
+                Snackbar snackbar = Snackbar
+                        .make(linearLayout, "Expected income:" + totalIncome, Snackbar.LENGTH_LONG)
+                        .setAction("UNDO", new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                            deleteEvent(eventObjectId);
+
+                            }
+                        });
+                snackbar.setActionTextColor(Color.YELLOW);
+                View snackbarView = snackbar.getView();
+                snackbarView.setBackgroundColor(Color.DKGRAY);
+                TextView textView = (TextView) snackbarView.findViewById(android.support.design.R.id.snackbar_text);
+                textView.setTextColor(Color.WHITE);
+                snackbar.show();
+
+
+            }
         } catch (ParseException e) {
             e.printStackTrace();
-        }
-        Toast.makeText(getApplicationContext(), "Event has created successfully!", Toast.LENGTH_SHORT).show();
-        finish();
-        //  } else
-        //      Toast.makeText(getApplicationContext(), "Please fill the  empty fields", Toast.LENGTH_SHORT).show();
+
 
     }
 
+
+
+    //        event.saveInBackground(new SaveCallback() {
+//            @Override
+//            public void done(ParseException e) {
+//                if (e == null) {
+//                    if(!freeEvent) {
+//                        Log.e(TAG, "freeEvent "+ freeEvent);
+//                        eventObjectId = event.getObjectId();
+//                        Log.e(TAG, "objectId "+ eventObjectId);
+//                        saveTicketsPrice(eventObjectId);
+//                    }
+//                    Toast.makeText(getApplicationContext(), "Event has created successfully!", Toast.LENGTH_SHORT).show();
+//                } else {
+//                    Toast.makeText(CreateEventActivity.this, "The event was not saved! " + e.toString(), Toast.LENGTH_SHORT).show();
+//                    Log.e(TAG, "Problem " + e.toString());
+//                }
+//            }
+//        });
+  //  finish();
+
+}
+
+
+    public void deleteEvent(final String objectId){
+        ParseQuery<ParseObject> query = ParseQuery.getQuery("Event");
+        query.whereEqualTo("objectId", objectId);
+        query.orderByDescending("createdAt");
+        query.getFirstInBackground(new GetCallback<ParseObject>() {
+            public void done(ParseObject object, ParseException e) {
+                if (e == null) {
+                    try {
+                        object.delete();
+                        Log.e(TAG, "Event deleted");
+                    } catch (ParseException e1) {
+                        e1.printStackTrace();
+                        Log.e(TAG, "Event not deleted "+ e1.toString());
+                    }
+                    object.saveInBackground();
+                }
+            }
+        });
+        if(seats){
+            ParseQuery<ParseObject> querySeats = ParseQuery.getQuery("EventsSeats");
+            querySeats.whereEqualTo("eventObjectId", objectId);
+            querySeats.findInBackground(new FindCallback<ParseObject>() {
+                @Override
+                public void done(List<ParseObject> objects, ParseException e) {
+
+                    if(objects.size()!=0){
+                        ParseObject.deleteAllInBackground(objects);
+
+                    }
+                }
+            });
+        }
+        finish();
+    }
     public void deleteRow() {
         ParseQuery<ParseObject> query = ParseQuery.getQuery("Event");
         query.whereEqualTo("objectId", getIntent().getStringExtra("eventObjectId"));
@@ -493,6 +597,7 @@ public class CreateEventActivity extends Activity implements View.OnClickListene
 
 
     private void componentInit() {
+        linearLayout = (LinearLayout) findViewById(R.id.create_profile_layout);
         tv_create = (TextView) findViewById(R.id.tv_create);
         tv_name = (TextView) findViewById(R.id.tv_name);
         tv_artist = (TextView) findViewById(R.id.tv_address);
@@ -535,6 +640,8 @@ public class CreateEventActivity extends Activity implements View.OnClickListene
         tv_optional1 = (TextView) findViewById(R.id.tv_optional1);
         tv_optional2 = (TextView) findViewById(R.id.tv_optional2);
         tv_optional3 = (TextView) findViewById(R.id.tv_optional3);
+        btn_price_details = (Button) findViewById(R.id.btn_price_details);
+        btn_price_details.setOnClickListener(this);
 
 //===============================Filter Spinner stuff==================================
         FILTERS = getResources().getStringArray(R.array.filters);
@@ -562,8 +669,6 @@ public class CreateEventActivity extends Activity implements View.OnClickListene
         toiletSpinner.setOnItemSelectedListener(this);
 //==============================================================================
 // ===============================handicapToilet Spinner  stuff==================================
-//        ArrayAdapter<String> handicapToiletSpinnerAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, TOILETS);
-        //handicapToiletSpinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         handicapToiletSpinner = (MaterialSpinner) findViewById(R.id.handicapToiletSpinner);
         handicapToiletSpinner.setAdapter(toiletSpinnerAdapter);
         handicapToiletSpinner.setOnItemSelectedListener(this);
@@ -605,12 +710,14 @@ public class CreateEventActivity extends Activity implements View.OnClickListene
                     tv_quantity.setVisibility(View.GONE);
                     tv_price.setVisibility(View.GONE);
                     et_price.setVisibility(View.GONE);
+                    btn_price_details.setVisibility(View.GONE);
                 } else {
                     freeEvent = false;
                     et_quantity.setVisibility(View.VISIBLE);
                     tv_quantity.setVisibility(View.VISIBLE);
                     tv_price.setVisibility(View.VISIBLE);
                     et_price.setVisibility(View.VISIBLE);
+                    btn_price_details.setVisibility(View.VISIBLE);
                 }
                 break;
         }
@@ -668,7 +775,6 @@ public class CreateEventActivity extends Activity implements View.OnClickListene
                         break;
 
                 }
-                Log.e(TAG, "filter" + filter);
                 break;
 
             case R.id.atmSpinner:
@@ -723,7 +829,7 @@ public class CreateEventActivity extends Activity implements View.OnClickListene
                 }
                 break;
             case R.id.handicapToiletSpinner:
- //               numOfHandicapToilets = TOILETS[position];
+                //               numOfHandicapToilets = TOILETS[position];
                 // java.lang.ArrayIndexOutOfBoundsException: length=11; index=-1
                 switch (position) {
                     case 0:
@@ -794,65 +900,198 @@ public class CreateEventActivity extends Activity implements View.OnClickListene
     }
 
 
-    class ValidateAddress extends AsyncTask<String, Void, String> {
+class ValidateAddress extends AsyncTask<String, Void, String> {
 
-        private ProgressDialog dialog;
+    private ProgressDialog dialog;
 
-        @Override
-        protected void onPreExecute() {
-            dialog = new ProgressDialog(CreateEventActivity.this);
-            dialog.setMessage("Validating...");
-            dialog.show();
-        }
-
-        // ----------------------------------------------------
-        @Override
-        protected String doInBackground(String... params) {
-            dialog.dismiss();
-            String queryString = null;
-            try {
-                queryString = "" +
-                        "&address=" + URLEncoder.encode(address, "utf-8") +
-                        "&key=" + GlobalVariables.GEO_API_KEY;
-            } catch (UnsupportedEncodingException e) {
-                e.printStackTrace();
-            }
-
-
-            return HttpHandler.get(params[0], queryString);
-        }
-
-        // ----------------------------------------------------
-        @Override
-        protected void onPostExecute(String s) {
-
-            if (s == null) {
-                Toast.makeText(CreateEventActivity.this, "Something went wrong, plese try again", Toast.LENGTH_SHORT).show();
-                iv_val_add.setImageResource(R.drawable.x);
-
-            } else {
-                gson = new Gson();
-                result = gson.fromJson(s, Result.class);
-                if (result.getStatus().equals("OK")) {
-                    address_ok = true;
-                    iv_val_add.setImageResource(R.drawable.v);
-                    String long_name = result.getResults().get(0).getAddress_components().get(1).getLong_name();
-                    String street = long_name.replaceAll("Street", "");
-                    String number = result.getResults().get(0).getAddress_components().get(0).getShort_name();
-                    lat = result.getResults().get(0).getGeometry().getLocation().getLat();
-                    lng = result.getResults().get(0).getGeometry().getLocation().getLng();
-                    city = result.getResults().get(0).getAddress_components().get(2).getShort_name();
-                    valid_address = street + number + ", " + city;
-
-                } else if (result.getStatus().equals("ZERO_RESULTS")) {
-                    address_ok = false;
-                    iv_val_add.setImageResource(R.drawable.x);
-                    Toast.makeText(CreateEventActivity.this, "Problem is " + result.getStatus(), Toast.LENGTH_SHORT).show();
-                }
-
-            }
-
-        }
+    @Override
+    protected void onPreExecute() {
+        dialog = new ProgressDialog(CreateEventActivity.this);
+        dialog.setMessage("Validating...");
+        dialog.show();
     }
+
+    // ----------------------------------------------------
+    @Override
+    protected String doInBackground(String... params) {
+        dialog.dismiss();
+        String queryString = null;
+        try {
+            queryString = "" +
+                    "&address=" + URLEncoder.encode(address, "utf-8") +
+                    "&key=" + GlobalVariables.GEO_API_KEY;
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+
+
+        return HttpHandler.get(params[0], queryString);
+    }
+
+    // ----------------------------------------------------
+    @Override
+    protected void onPostExecute(String s) {
+
+        if (s == null) {
+            Toast.makeText(CreateEventActivity.this, "Something went wrong, plese try again", Toast.LENGTH_SHORT).show();
+            iv_val_add.setImageResource(R.drawable.x);
+
+        } else {
+            gson = new Gson();
+            result = gson.fromJson(s, Result.class);
+            if (result.getStatus().equals("OK")) {
+                address_ok = true;
+                iv_val_add.setImageResource(R.drawable.v);
+                String long_name = result.getResults().get(0).getAddress_components().get(1).getLong_name();
+                String street = long_name.replaceAll("Street", "");
+                String number = result.getResults().get(0).getAddress_components().get(0).getShort_name();
+                lat = result.getResults().get(0).getGeometry().getLocation().getLat();
+                lng = result.getResults().get(0).getGeometry().getLocation().getLng();
+                city = result.getResults().get(0).getAddress_components().get(2).getShort_name();
+                valid_address = street + number + ", " + city;
+
+            } else if (result.getStatus().equals("ZERO_RESULTS")) {
+                address_ok = false;
+                iv_val_add.setImageResource(R.drawable.x);
+                Toast.makeText(CreateEventActivity.this, "Problem is " + result.getStatus(), Toast.LENGTH_SHORT).show();
+            }
+
+        }
+
+    }
+
+}
+
+
+    private void saveTicketsPrice(String eventObjectId) {
+        final SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this);
+        SharedPreferences.Editor editor = sp.edit();
+        for (int i = 1; i <= 4; i++) {
+            EventsSeats eventsSeats = new EventsSeats();
+            eventsSeats.put("price", sp.getInt(GlobalVariables.BLUE, 0));
+            eventsSeats.put("eventObjectId", eventObjectId);
+            eventsSeats.put("seatNumber", "Floor " + i);
+            try {
+                eventsSeats.save();
+                Log.e(TAG, "Blue saved");
+                blueIncome = 4*sp.getInt(GlobalVariables.BLUE, 0);
+            } catch (ParseException e) {
+                e.printStackTrace();
+                Log.e(TAG, "Blue not saved " + e.toString());
+
+            }
+        }
+        for (int i = 11; i <= 27; i++) {
+            EventsSeats eventsSeats = new EventsSeats();
+            eventsSeats.put("price", sp.getInt(GlobalVariables.ORANGE, 0));
+            eventsSeats.put("eventObjectId", eventObjectId);
+            eventsSeats.put("seatNumber", "Orange " + i);
+            try {
+                eventsSeats.save();
+                orangeIncome = 17*sp.getInt(GlobalVariables.ORANGE, 0);
+                Log.e(TAG, "Orange saved");
+            } catch (ParseException e) {
+                e.printStackTrace();
+                Log.e(TAG, "Orange not saved " + e.toString());
+
+            }
+        }
+        for (int i = 101; i <= 117; i++) {
+            EventsSeats eventsSeats = new EventsSeats();
+            eventsSeats.put("price", sp.getInt(GlobalVariables.PINK, 0));
+            eventsSeats.put("eventObjectId", eventObjectId);
+            eventsSeats.put("seatNumber", "Pink " + i);
+            try {
+                eventsSeats.save();
+                pinkIncome = 17*sp.getInt(GlobalVariables.PINK, 0);
+                Log.e(TAG, "Pink saved");
+            } catch (ParseException e) {
+                e.printStackTrace();
+                Log.e(TAG, "Pink not saved " + e.toString());
+
+            }
+        }
+        for (int i = 121; i <= 136; i++) {
+            EventsSeats eventsSeats = new EventsSeats();
+            eventsSeats.put("price", sp.getInt(GlobalVariables.PINK, 0));
+            eventsSeats.put("eventObjectId", eventObjectId);
+            eventsSeats.put("seatNumber", "Pink " + i);
+            try {
+                eventsSeats.save();
+                pinkIncome = pinkIncome + 16*sp.getInt(GlobalVariables.PINK, 0);
+                Log.e(TAG, "Pink2 saved");
+            } catch (ParseException e) {
+                e.printStackTrace();
+                Log.e(TAG, "Pink2 not saved " + e.toString());
+
+            }
+        }
+        for (int i = 201; i <= 217; i++) {
+            EventsSeats eventsSeats = new EventsSeats();
+            eventsSeats.put("price", sp.getInt(GlobalVariables.YELLOW, 0));
+            eventsSeats.put("eventObjectId", eventObjectId);
+            eventsSeats.put("seatNumber", "Yellow " + i);
+            try {
+                eventsSeats.save();
+                yellowIncome = 17*sp.getInt(GlobalVariables.YELLOW, 0);
+                Log.e(TAG, "Yellow saved");
+            } catch (ParseException e) {
+                e.printStackTrace();
+                Log.e(TAG, "Yellow not saved " + e.toString());
+
+            }
+        }
+        for (int i = 221; i <= 236; i++) {
+            EventsSeats eventsSeats = new EventsSeats();
+            eventsSeats.put("price", sp.getInt(GlobalVariables.YELLOW, 0));
+            eventsSeats.put("eventObjectId", eventObjectId);
+            eventsSeats.put("seatNumber", "Yellow " + i);
+            try {
+                eventsSeats.save();
+                yellowIncome = yellowIncome + 16*sp.getInt(GlobalVariables.YELLOW, 0);
+                Log.e(TAG, "Yellow2 saved");
+            } catch (ParseException e) {
+                e.printStackTrace();
+                Log.e(TAG, "Yellow2 not saved " + e.toString());
+
+            }
+        }
+        for (int i = 207; i <= 213; i++) {
+            EventsSeats eventsSeats = new EventsSeats();
+            eventsSeats.put("price", sp.getInt(GlobalVariables.GREEN, 0));
+            eventsSeats.put("eventObjectId", eventObjectId);
+            eventsSeats.put("seatNumber", "Green " + i);
+            try {
+                eventsSeats.save();
+                greenIncome = 7*sp.getInt(GlobalVariables.GREEN, 0);
+                Log.e(TAG, "Green saved");
+            } catch (ParseException e) {
+                e.printStackTrace();
+                Log.e(TAG, "Green not saved " + e.toString());
+
+            }
+        }
+        for (int i = 225; i <= 231; i++) {
+            EventsSeats eventsSeats = new EventsSeats();
+            eventsSeats.put("price", sp.getInt(GlobalVariables.GREEN, 0));
+            eventsSeats.put("eventObjectId", eventObjectId);
+            eventsSeats.put("seatNumber", "Green " + i);
+            try {
+                eventsSeats.save();
+                greenIncome = greenIncome + 7* sp.getInt(GlobalVariables.GREEN, 0);
+                        Log.e(TAG, "Green2 saved");
+            } catch (ParseException e) {
+                e.printStackTrace();
+                Log.e(TAG, "Green2  not saved " + e.toString());
+
+            }
+        }
+
+        totalIncome = pinkIncome+yellowIncome+greenIncome+blueIncome+orangeIncome;
+        editor.putBoolean(GlobalVariables.SEATS, false);
+        editor.apply();
+
+    }
+
 }
 

@@ -22,36 +22,39 @@ import java.util.List;
 
 public class ProducerMainActivity extends Fragment implements GetEventsDataCallback {
 
-    static List<Artist> artist_list = new ArrayList<Artist> ();
+    static List<Artist> artist_list = new ArrayList<Artist>();
     ListView artistListView;
-    ArtistAdapter artistAdapter;
+    public static ArtistAdapter artistAdapter;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View rootView = inflater.inflate (R.layout.activity_main_producer, container, false);
-        artistListView = (ListView) rootView.findViewById (R.id.artist_list_view);
-        artistAdapter = new ArtistAdapter (getActivity ().getApplicationContext (), artist_list);
-        artistListView.setAdapter (artistAdapter);
-        artistListView.setSelector (new ColorDrawable (Color.TRANSPARENT));
+        View rootView = inflater.inflate(R.layout.activity_main_producer, container, false);
+        artistListView = (ListView) rootView.findViewById(R.id.artist_list_view);
+        artistAdapter = new ArtistAdapter(getActivity().getApplicationContext(), artist_list);
+        artistListView.setAdapter(artistAdapter);
+        artistListView.setSelector(new ColorDrawable(Color.TRANSPARENT));
 
-        if (GlobalVariables.ALL_EVENTS_DATA.size () == 0) {
-            Intent intent = new Intent (this.getActivity (), EventPage.class);
-            StaticMethods.uploadEventsData (this, GlobalVariables.PRODUCER_PARSE_OBJECT_ID, this.getContext (), intent);
+        if (GlobalVariables.ALL_EVENTS_DATA.size() == 0) {
+            Intent intent = new Intent(this.getActivity(), EventPage.class);
+            StaticMethods.uploadEventsData(this, GlobalVariables.PRODUCER_PARSE_OBJECT_ID, this.getContext(), intent);
         }
-        artistListView.setOnItemClickListener (new AdapterView.OnItemClickListener () {
+        artistListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View view,
                                     int position, long id) {
-                Intent intent = new Intent (getActivity (), ArtistStatsActivity.class);
-                intent.putExtra ("artist_name", artist_list.get (position).getName ());
-                startActivity (intent);
+                Intent intent = new Intent(getActivity(), ArtistStatsActivity.class);
+                intent.putExtra("artist_name", artist_list.get(position).getName());
+                startActivity(intent);
             }
         });
+
         return rootView;
     }
 
+
+
     @Override
     public void eventDataCallback() {
-        StaticMethods.uploadArtistData (artist_list);
-        artistAdapter.notifyDataSetChanged ();
+        StaticMethods.uploadArtistData(artist_list);
+        artistAdapter.notifyDataSetChanged();
     }
 }
