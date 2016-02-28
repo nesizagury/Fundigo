@@ -49,20 +49,20 @@
         </activity>
         <activity
             android:name=".Events.EventPage"
-            android:launchMode="singleTask"></activity>
-        <activity android:name=".Tickets.TicketsPage"></activity>
-        <activity android:name=".Tickets.GetQRCode"></activity>
-        <activity android:name=".Tickets.SelectSeat"></activity>
+            android:launchMode="singleTask" />
+        <activity android:name=".Tickets.TicketsPage" />
+        <activity android:name=".Tickets.GetQRCode" />
+        <activity android:name=".Tickets.SelectSeat" />
         <activity android:name=".Customer.Social.DetailedNotificationPage" />
         <activity android:name=".Customer.Social.MyNotifications" />
         <activity android:name=".Producer.ProducerSendPuchActivity" />
         <activity android:name=".Customer.Social.CustomerMessageConversationsListActivity" />
         <activity android:name=".Customer.Social.Mipo" />
-        <activity android:name=".FilterPage"></activity>
-        <activity android:name=".Tickets.WebBrowser"></activity>
-        <activity android:name=".Tickets.Web1"></activity>
-        <activity android:name=".Events.CreateEventActivity"></activity>
-        <activity android:name=".Verifications.VerifyCard"></activity>
+        <activity android:name=".FilterPage" />
+        <activity android:name=".Tickets.WebBrowser" />
+        <activity android:name=".Tickets.Web1" />
+        <activity android:name=".Events.CreateEventActivity" />
+        <activity android:name=".Verifications.VerifyCard" />
         <activity android:name=".Verifications.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -78,16 +78,16 @@
                 <category android:name="android.intent.category.BROWSABLE" />
             </intent-filter>
         </activity>
-        <activity android:name=".Customer.RealTime.RealTimeActivity"></activity>
-        <activity android:name=".Customer.CustomerMenu.Menu"></activity>
+        <activity android:name=".Customer.RealTime.RealTimeActivity" />
+        <activity android:name=".Customer.CustomerMenu.Menu" />
         <activity android:name=".Verifications.SignUpActivity" />
         <activity android:name=".Producer.EventOnRealtime" />
         <activity android:name=".Producer.RealTimeGuestAddition" />
         <activity
             android:name=".DeepLinkActivity"
-            android:theme="@android:style/Theme.Holo.Dialog"></activity>
-        <activity android:name=".Customer.SavedEvents.SavedEventActivity"></activity>
-        <activity android:name=".Search"></activity>
+            android:theme="@android:style/Theme.Holo.Dialog" />
+        <activity android:name=".Customer.SavedEvents.SavedEventActivity" />
+        <activity android:name=".Search" />
         <activity android:name=".Customer.CustomerMenu.CustomerProfileUpdate" />
         <activity android:name=".Customer.CustomerMenu.EventsTickets" />
         <activity android:name=".Events.EventStatus" />
@@ -157,8 +157,9 @@
             android:name="com.google.android.maps.v2.API_KEY"
             android:value="AIzaSyAO_BADR0qgh5i6oirplDXw0wCCxCZoLe8" />
 
-        <activity android:name=".Tickets.TicketsPriceActivity"></activity>
-        <activity android:name=".Events.EditEventActivity"></activity>
+        <activity android:name=".Tickets.TicketsPriceActivity" />
+        <activity android:name=".Events.EditEventActivity" />
+        <activity android:name=".Events.EventDetailsActivity"></activity>
     </application>
 
 </manifest>

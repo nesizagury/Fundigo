@@ -1,5 +1,7 @@
 package com.example.FundigoApp.Tickets;
 
+import android.graphics.Bitmap;
+
 import java.util.Date;
 
 /**
@@ -11,8 +13,26 @@ public class Ticket {
     private int price;
     private Date purchase_date;
     private String seatNumber;
+    private Bitmap bitmap;
+    private String objectId;
 
     public Ticket() {
+    }
+
+    public String getObjectId() {
+        return objectId;
+    }
+
+    public void setObjectId(String objectId) {
+        this.objectId = objectId;
+    }
+
+    public Bitmap getBitmap() {
+        return bitmap;
+    }
+
+    public void setBitmap(Bitmap bitmap) {
+        this.bitmap = bitmap;
     }
 
     public Ticket(int price, String seatNumber) {

@@ -95,7 +95,7 @@ public class GetQRCode extends AppCompatActivity {
         protected void onPreExecute() {
             super.onPreExecute ();
             progressDialog = new ProgressDialog (GetQRCode.this);
-            progressDialog.setTitle ("Downland In Progress...");
+            progressDialog.setTitle ("Download In Progress...");
             progressDialog.setProgressStyle (ProgressDialog.STYLE_HORIZONTAL);
             progressDialog.setMax (100);
             progressDialog.setProgress (0);

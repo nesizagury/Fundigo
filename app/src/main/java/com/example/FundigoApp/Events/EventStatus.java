@@ -1,9 +1,11 @@
 package com.example.FundigoApp.Events;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -20,7 +22,7 @@ import com.parse.ParseQuery;
 import java.util.ArrayList;
 import java.util.List;
 
-public class EventStatus extends Activity {
+public class EventStatus extends Activity implements AdapterView.OnItemClickListener {
 
     private static final String TAG = "EventStatus";
     TextView eventNameTV;
@@ -34,6 +36,7 @@ public class EventStatus extends Activity {
     String eventObjectId;
     ImageView imageView;
     private TicketAdapter adapter;
+    final List<Ticket> list = new ArrayList<>();
 
 
     @Override
@@ -75,16 +78,16 @@ public class EventStatus extends Activity {
             }
         }
 
-
-        adapter = new TicketAdapter(this, getTickets(eventObjectId));
+        getTickets(eventObjectId);
+        adapter = new TicketAdapter(this, list);
         imageView.setVisibility(View.VISIBLE);
         lv_tickets.setAdapter(adapter);
+        lv_tickets.setOnItemClickListener(this);
 
 
     }
 
-    private List<Ticket> getTickets(String eventObjectId) {
-        final List<Ticket> list = new ArrayList<>();
+    private void getTickets(String eventObjectId) {
         list.clear();
         ParseQuery<EventsSeats> query = ParseQuery.getQuery("EventsSeats");
         query.whereEqualTo("eventObjectId", eventObjectId);
@@ -92,23 +95,35 @@ public class EventStatus extends Activity {
             @Override
             public void done(List<EventsSeats> objects, ParseException e) {
                 if (e == null) {
-                    Ticket ticket = new Ticket();
+
                     for (int i = 0; i < objects.size(); i++) {
                         Log.e(TAG, objects.get(i).getSeatNumber());
+                        Ticket ticket = new Ticket();
                         ticket.setPrice(objects.get(i).getPrice());
                         ticket.setEventObjectId(objects.get(i).getEventObjectId());
                         ticket.setSeatNumber(objects.get(i).getSeatNumber());
+                        ticket.setObjectId(objects.get(i).getObjectId());
                         list.add(ticket);
                     }
 
                     Log.e(TAG, "" + list.size());
-
+                    adapter.notifyDataSetChanged();
                 } else {
                     Log.e(TAG, "problem " + e.toString());
                 }
             }
+
         });
-        return list;
+
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        Intent intent = new Intent(this, EventDetailsActivity.class);
+        intent.putExtra(GlobalVariables.OBJECTID, list.get(position).getObjectId());
+        startActivity(intent);
+
+
     }
 
 

@@ -411,14 +411,14 @@ public class CreateEventActivity extends Activity implements View.OnClickListene
     public void saveEvent() {
         final Event event = new Event();
         // if (et_tags.getText().length() != 0) {
-        if (getIntent().getStringExtra("create").equals("false")) {
-            deleteRow();
-            event.setSold(sold);
-            event.setIncome(income);
-        } else {
-            event.setSold("0");
-            event.setIncome("0");
-        }
+//        if (getIntent().getStringExtra("create").equals("false")) {
+//            deleteRow();
+//            event.setSold(sold);
+//            event.setIncome(income);
+//        } else {
+//            event.setSold("0");
+//            event.setIncome("0");
+//        }
         event.setName(et_name.getText().toString());
         event.setDescription(et_description.getText().toString());
 
@@ -490,6 +490,7 @@ public class CreateEventActivity extends Activity implements View.OnClickListene
         }
         //  event.setIncome(String.valueOf(totalIncome));
         event.setIncome("0");
+        event.setSold("0");
         event.setFilterName(filter);
         event.setProducerId(GlobalVariables.PRODUCER_PARSE_OBJECT_ID);
         event.setDate(date);
@@ -512,7 +513,7 @@ public class CreateEventActivity extends Activity implements View.OnClickListene
         event.setEventCapacityService(eventCapacityService);
         event.setRealDate(realDate);
         event.setEventATMService(atmStatus);
-        if (pictureSelected || tv_create.getText().toString().equals("Edit Event")) {
+        if (pictureSelected ) {
             pic.buildDrawingCache();
             Bitmap bitmap = pic.getDrawingCache();
             ByteArrayOutputStream stream = new ByteArrayOutputStream();
@@ -525,7 +526,20 @@ public class CreateEventActivity extends Activity implements View.OnClickListene
                 e.printStackTrace();
             }
             event.put("ImageFile", file);
-        }//TODO else and put some pic(maybe random)...
+        }else{
+            Bitmap bitmap= BitmapFactory.decodeResource(this.getResources(),
+                    R.drawable.event);
+            ByteArrayOutputStream stream = new ByteArrayOutputStream();
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
+            byte[] image = stream.toByteArray();
+            ParseFile file = new ParseFile("picturePath", image);
+            try {
+                file.save();
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+            event.put("ImageFile", file);
+        }
 
 
         try {
@@ -758,25 +772,25 @@ public class CreateEventActivity extends Activity implements View.OnClickListene
         handicapToiletSpinner.setAdapter(toiletSpinnerAdapter);
         handicapToiletSpinner.setOnItemSelectedListener(this);
 //==============================================================================
-        if (!getIntent().getStringExtra("create").equals("true")) {
-            tv_create.setText("Edit Event");
-            et_name.setText("" + getIntent().getStringExtra("name"));
-
-            for (int i = 0; i < GlobalVariables.ALL_EVENTS_DATA.size(); i++) {
-                EventInfo event = GlobalVariables.ALL_EVENTS_DATA.get(i);
-                if (event.getParseObjectId().equals(getIntent().getStringExtra("eventObjectId"))) {
-                    income = event.getIncome();
-                    sold = event.getSold();
-                    et_artist.setText(event.getArtist());
-                    et_description.setText(event.getInfo());
-                    et_price.setText(event.getPrice());
-                    et_quantity.setText(event.getTicketsLeft());
-                    et_address.setText(event.getPlace());
-                    pic.setImageBitmap(event.getImageBitmap());
-                    et_tags.setText(event.getTags());
-                }
-            }
-        }
+//        if (!getIntent().getStringExtra("create").equals("true")) {
+//            tv_create.setText("Edit Event");
+//            et_name.setText("" + getIntent().getStringExtra("name"));
+//
+//            for (int i = 0; i < GlobalVariables.ALL_EVENTS_DATA.size(); i++) {
+//                EventInfo event = GlobalVariables.ALL_EVENTS_DATA.get(i);
+//                if (event.getParseObjectId().equals(getIntent().getStringExtra("eventObjectId"))) {
+//                    income = event.getIncome();
+//                    sold = event.getSold();
+//                    et_artist.setText(event.getArtist());
+//                    et_description.setText(event.getInfo());
+//                    et_price.setText(event.getPrice());
+//                    et_quantity.setText(event.getTicketsLeft());
+//                    et_address.setText(event.getPlace());
+//                    pic.setImageBitmap(event.getImageBitmap());
+//                    et_tags.setText(event.getTags());
+//                }
+//            }
+//        }
 
 
     }
