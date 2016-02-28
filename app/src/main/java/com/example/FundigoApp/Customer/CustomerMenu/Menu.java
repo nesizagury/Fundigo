@@ -45,7 +45,8 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
-public class Menu extends AppCompatActivity {
+public class Menu extends AppCompatActivity
+{
     LoginButton facebook_login_button;
     CallbackManager callbackManager;
     Button sms_login_button;
@@ -64,7 +65,7 @@ public class Menu extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate (savedInstanceState);
+        super.onCreate(savedInstanceState);
         setContentView (R.layout.activity_menu);
 
         context = this;
@@ -149,7 +150,7 @@ public class Menu extends AppCompatActivity {
 
     public void smsLogin(View view) {
         Intent intent = new Intent (Menu.this, SmsSignUpActivity.class);
-        startActivity (intent);
+        startActivity(intent);
     }
 
     @Override
@@ -166,7 +167,7 @@ public class Menu extends AppCompatActivity {
         tableLayout = (TableLayout) findViewById (R.id.profileTable);
         tableLayout.setVisibility (View.INVISIBLE);
         drawView = (ImageView) findViewById (R.id.profileImg);
-        drawView.setVisibility (View.INVISIBLE);
+        drawView.setVisibility(View.INVISIBLE);
     }
 
     public void getUserProfile(View view) { //get onclick event for pulling the user profile
@@ -205,7 +206,7 @@ public class Menu extends AppCompatActivity {
         uRaw.setText (currentUser);
         pRaw.setText (phoneNum);
         if (picStream != null) {// for present User Picture
-            this.ImageStreamforProfileDisplay ();
+            this.ImageStreamforProfileDisplay();
         }
     }
 
@@ -230,7 +231,7 @@ public class Menu extends AppCompatActivity {
         SimpleDateFormat sdf = new SimpleDateFormat ("dd/MM/yyyy_HH:mm:ss");
         String currentDateandTime = sdf.format (new Date ());
         ParsePush push = new ParsePush ();
-        push.setMessage ("Hey Come To See Events Near You (" + currentDateandTime + ")");
+        push.setMessage("Hey Come To See Events Near You (" + currentDateandTime + ")");
         try {
             push.send ();
         } catch (ParseException e) {
@@ -264,7 +265,7 @@ public class Menu extends AppCompatActivity {
                                          }
                                      }
                                  }
-        ).executeAsync ();
+        ).executeAsync();
     }
 
     public void logOutFacebook(View view) {
@@ -297,5 +298,10 @@ public class Menu extends AppCompatActivity {
         } catch (Exception e) {
             Log.e (e.toString (), "error in events tickets flow");
         }
+    }
+    public void saveCreditCard(View v)
+    {
+        Intent intent=new Intent(this,SaveCreditCard.class);
+        startActivity(intent);
     }
 }

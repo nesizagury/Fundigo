@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context="com.example.FundigoApp.Customer.CustomerMenu.SaveCreditCard">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:id="@+id/linerCreditCard1"
+        >
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="CreditCard info"
+            android:textSize="30dp"
+            android:gravity="center"
+            />
+    </LinearLayout>
+ <!--   <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_below="@+id/linerCreditCard1"
+        android:id="@+id/linerCreditCard2"
+        >
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Card Number"
+            />
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/saveCrditCardCardNumber"
+            />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:id="@+id/linerCreditCard3"
+        android:layout_below="@+id/linerCreditCard2"
+        >
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Moth Exp"
+            />
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/saveCrditCardMoth"
+            />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:id="@+id/linerCreditCard4"
+        android:layout_below="@+id/linerCreditCard3"
+        >
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Year Exp"
+            />
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/saveCrditCardYear"
+            />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:id="@+id/linerCreditCard5"
+        android:layout_below="@+id/linerCreditCard4"
+        >
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="CVC number"
+            />
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/saveCrditCardCVC"
+            />
+    </LinearLayout>-->
+    <com.devmarvel.creditcardentry.library.CreditCardForm
+        android:id="@+id/form_no_zip_SaveCard"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:card_number_hint="XXXX XXXX XXXX XXXX"
+        app:helper_text_color="@color/text_helper_color"
+        app:include_helper="false"
+        app:include_zip="false"
+        android:layout_centerVertical="true"
+        />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/form_no_zip_SaveCard"
+        android:layout_centerHorizontal="true"
+        android:text="Applay"
+        android:id="@+id/saveCrditCard_buttonApplay"
+        android:onClick="onClick"
+        />
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/saveCrditCard_buttonApplay"
+        android:layout_centerHorizontal="true"
+        android:text="delete Card"
+        android:id="@+id/saveCrditCard_buttonDelete"
+        android:onClick="onClick"
+        />
+</RelativeLayout>

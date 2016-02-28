@@ -158,5 +158,14 @@
         android:padding="5dp"
         />
 
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="saveCreditCard"
+        android:text="Save Crdit Card"
+        android:layout_below="@+id/profileTable"
+        />
 </RelativeLayout>
+
 </ScrollView>

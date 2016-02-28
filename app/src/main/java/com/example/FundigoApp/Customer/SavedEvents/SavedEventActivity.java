@@ -31,7 +31,8 @@ import com.example.FundigoApp.StaticMethods.GpsICallback;
 
 import java.util.ArrayList;
 
-public class SavedEventActivity extends AppCompatActivity implements View.OnClickListener, AdapterView.OnItemClickListener, GetEventsDataCallback, GpsICallback {
+public class SavedEventActivity extends AppCompatActivity implements View.OnClickListener, AdapterView.OnItemClickListener, GetEventsDataCallback, GpsICallback
+{
     static ArrayList<EventInfo> savedEventsList = new ArrayList<> ();
     static ArrayList<EventInfo> filteredSavedEventsList = new ArrayList<> ();
 

@@ -38,63 +38,62 @@ public class SelectSeat extends AppCompatActivity {
         eventObjectId = intentHere1.getStringExtra ("eventObjectId");
         phone = intentHere1.getStringExtra ("phone");
         ParseQuery<ParseObject> query = ParseQuery.getQuery ("EventsSeats").whereMatches ("eventObjectId", eventObjectId).whereDoesNotExist ("QR_Code");
-
         ArrayList<ParseObject> seatsList = new ArrayList<> ();
         try {
             List<ParseObject> commentList = query.find ();
             if(commentList.size () == 0){
                 for(int i = 1; i <= 4; i++){
                     EventsSeats eventsSeats = new EventsSeats ();
-                    eventsSeats.put("price", 200);
+                    eventsSeats.put("price", 1);
                     eventsSeats.put("eventObjectId", eventObjectId);
                     eventsSeats.put("seatNumber", "Floor " + i);
                     eventsSeats.save ();
                 }
                 for(int i = 11; i <= 27; i++){
                     EventsSeats eventsSeats = new EventsSeats ();
-                    eventsSeats.put("price", 175);
+                    eventsSeats.put("price", 1);
                     eventsSeats.put("eventObjectId", eventObjectId);
                     eventsSeats.put ("seatNumber", "Orange " + i);
                     eventsSeats.save ();
                 }
                 for(int i = 101; i <= 117; i++){
                     EventsSeats eventsSeats = new EventsSeats ();
-                    eventsSeats.put("price", 150);
+                    eventsSeats.put("price", 1);
                     eventsSeats.put("eventObjectId", eventObjectId);
                     eventsSeats.put("seatNumber", "Pink " + i);
                     eventsSeats.save ();
                 }
                 for(int i = 121; i <= 136; i++){
                     EventsSeats eventsSeats = new EventsSeats ();
-                    eventsSeats.put("price", 150);
+                    eventsSeats.put("price", 1);
                     eventsSeats.put("eventObjectId", eventObjectId);
                     eventsSeats.put("seatNumber", "Pink " + i);
                     eventsSeats.save ();
                 }
                 for(int i = 201; i <= 217; i++){
                     EventsSeats eventsSeats = new EventsSeats ();
-                    eventsSeats.put("price", 125);
+                    eventsSeats.put("price", 1);
                     eventsSeats.put("eventObjectId", eventObjectId);
                     eventsSeats.put("seatNumber", "Yellow " + i);
                     eventsSeats.save ();
                 }
                 for(int i = 221; i <= 236; i++){
                     EventsSeats eventsSeats = new EventsSeats ();
-                    eventsSeats.put("price", 125);
+                    eventsSeats.put("price", 1);
                     eventsSeats.put("eventObjectId", eventObjectId);
                     eventsSeats.put("seatNumber", "Yellow " + i);
                     eventsSeats.save ();
                 }
                 for(int i = 207; i <= 213; i++){
                     EventsSeats eventsSeats = new EventsSeats ();
-                    eventsSeats.put("price", 100);
+                    eventsSeats.put("price", 1);
                     eventsSeats.put("eventObjectId", eventObjectId);
                     eventsSeats.put("seatNumber", "Green " + i);
                     eventsSeats.save ();
                 }
                 for(int i = 225; i <= 231; i++){
                     EventsSeats eventsSeats = new EventsSeats ();
-                    eventsSeats.put("price", 100);
+                    eventsSeats.put("price", 1);
                     eventsSeats.put("eventObjectId", eventObjectId);
                     eventsSeats.put("seatNumber", "Green " + i);
                     eventsSeats.save ();
@@ -152,7 +151,7 @@ public class SelectSeat extends AppCompatActivity {
         }
 
         @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
+        public View getView(final int position, View convertView, ViewGroup parent) {
 
             LayoutInflater layoutInfla = (LayoutInflater) context.getSystemService (Context.LAYOUT_INFLATER_SERVICE);
             final View row = layoutInfla.inflate (R.layout.seat_row, parent, false);
@@ -182,8 +181,9 @@ public class SelectSeat extends AppCompatActivity {
                 @Override
                 public void onClick(View v) {
                     Intent intentQr = new Intent (SelectSeat.this, WebBrowser.class);
+                    intentQr.putExtra("objectId",seat.get(position).getObjectId());
                     intentQr.putExtra ("seatNumber", temp.title);
-                    intentQr.putExtra ("eventObjectId", eventObjectId);
+                    intentQr.putExtra ("eventObjectId", list.get(position).getSeatKey());
                     intentQr.putExtra ("isChoose", "yes");
                     intentQr.putExtra ("seatKey", temp.getSeatKey ());
                     intentQr.putExtra ("phone", phone);

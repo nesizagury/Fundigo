@@ -5,6 +5,7 @@ import android.app.Application;
 import com.example.FundigoApp.Chat.Message;
 import com.example.FundigoApp.Chat.MsgRealTime;
 import com.example.FundigoApp.Chat.Room;
+import com.example.FundigoApp.Customer.CustomerMenu.CreditCard;
 import com.example.FundigoApp.Events.Event;
 import com.example.FundigoApp.Producer.RealTimeEvent;
 import com.example.FundigoApp.Tickets.EventsSeats;
@@ -27,12 +28,12 @@ import io.branch.referral.Branch;
 public class Fundigo extends Application {
     @Override
     public void onCreate() {
-        super.onCreate ();
-        Branch.getInstance (this);
+        super.onCreate();
+        Branch.getInstance(this);
         Branch.getAutoInstance(this);
-        ACRA.init (this);
-        Parse.enableLocalDatastore (this);
-        Parse.initialize (this);
+        ACRA.init(this);
+        Parse.enableLocalDatastore(this);
+        Parse.initialize(this);
         try {
             ParseInstallation.getCurrentInstallation ().save ();
         } catch (ParseException e) {
@@ -45,6 +46,7 @@ public class Fundigo extends Application {
         ParseObject.registerSubclass (MsgRealTime.class);
         ParseObject.registerSubclass (EventsSeats.class);
         ParseObject.registerSubclass (RealTimeEvent.class);
+        ParseObject.registerSubclass (CreditCard.class);
         FacebookSdk.sdkInitialize (getApplicationContext ());
         ParseUser.enableAutomaticUser ();
         ParseACL defaultAcl = new ParseACL ();
