@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.FundigoApp" >
+    package="com.example.FundigoApp">
 
     <uses-permission android:name="android.permission.READ_SMS" />
     <uses-permission android:name="android.permission.RECEIVE_SMS" />
@@ -34,10 +34,10 @@
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="Fundigo"
-        android:theme="@style/AppTheme" >
+        android:theme="@style/AppTheme">
         <activity
             android:name=".MainActivity"
-            android:launchMode="singleTask" >
+            android:launchMode="singleTask">
             <intent-filter>
                 <data android:scheme="event" />
 
@@ -49,30 +49,21 @@
         </activity>
         <activity
             android:name=".Events.EventPage"
-            android:launchMode="singleTask" >
-        </activity>
-        <activity android:name=".Tickets.TicketsPage" >
-        </activity>
-        <activity android:name=".Tickets.GetQRCode" >
-        </activity>
-        <activity android:name=".Tickets.SelectSeat" >
-        </activity>
+            android:launchMode="singleTask"></activity>
+        <activity android:name=".Tickets.TicketsPage"></activity>
+        <activity android:name=".Tickets.GetQRCode"></activity>
+        <activity android:name=".Tickets.SelectSeat"></activity>
         <activity android:name=".Customer.Social.DetailedNotificationPage" />
         <activity android:name=".Customer.Social.MyNotifications" />
         <activity android:name=".Producer.ProducerSendPuchActivity" />
         <activity android:name=".Customer.Social.CustomerMessageConversationsListActivity" />
         <activity android:name=".Customer.Social.Mipo" />
-        <activity android:name=".FilterPage" >
-        </activity>
-        <activity android:name=".Tickets.WebBrowser" >
-        </activity>
-        <activity android:name=".Tickets.Web1" >
-        </activity>
-        <activity android:name=".Events.CreateEventActivity" >
-        </activity>
-        <activity android:name=".Verifications.VerifyCard" >
-        </activity>
-        <activity android:name=".Verifications.LoginActivity" >
+        <activity android:name=".FilterPage"></activity>
+        <activity android:name=".Tickets.WebBrowser"></activity>
+        <activity android:name=".Tickets.Web1"></activity>
+        <activity android:name=".Events.CreateEventActivity"></activity>
+        <activity android:name=".Verifications.VerifyCard"></activity>
+        <activity android:name=".Verifications.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -87,21 +78,16 @@
                 <category android:name="android.intent.category.BROWSABLE" />
             </intent-filter>
         </activity>
-        <activity android:name=".Customer.RealTime.RealTimeActivity" >
-        </activity>
-        <activity android:name=".Customer.CustomerMenu.Menu" >
-        </activity>
+        <activity android:name=".Customer.RealTime.RealTimeActivity"></activity>
+        <activity android:name=".Customer.CustomerMenu.Menu"></activity>
         <activity android:name=".Verifications.SignUpActivity" />
         <activity android:name=".Producer.EventOnRealtime" />
         <activity android:name=".Producer.RealTimeGuestAddition" />
         <activity
             android:name=".DeepLinkActivity"
-            android:theme="@android:style/Theme.Holo.Dialog" >
-        </activity>
-        <activity android:name=".Customer.SavedEvents.SavedEventActivity" >
-        </activity>
-        <activity android:name=".Search" >
-        </activity>
+            android:theme="@android:style/Theme.Holo.Dialog"></activity>
+        <activity android:name=".Customer.SavedEvents.SavedEventActivity"></activity>
+        <activity android:name=".Search"></activity>
         <activity android:name=".Customer.CustomerMenu.CustomerProfileUpdate" />
         <activity android:name=".Customer.CustomerMenu.EventsTickets" />
         <activity android:name=".Events.EventStatus" />
@@ -146,7 +132,7 @@
 
         <receiver
             android:name="com.parse.ParsePushBroadcastReceiver"
-            android:exported="false" >
+            android:exported="false">
             <intent-filter>
                 <action android:name="com.parse.push.intent.RECEIVE" />
                 <action android:name="com.parse.push.intent.DELETE" />
@@ -155,7 +141,7 @@
         </receiver>
         <receiver
             android:name="com.parse.GcmBroadcastReceiver"
-            android:permission="com.google.android.c2dm.permission.SEND" >
+            android:permission="com.google.android.c2dm.permission.SEND">
             <intent-filter>
                 <action android:name="com.google.android.c2dm.intent.RECEIVE" />
                 <action android:name="com.google.android.c2dm.intent.REGISTRATION" />
@@ -171,8 +157,8 @@
             android:name="com.google.android.maps.v2.API_KEY"
             android:value="AIzaSyAO_BADR0qgh5i6oirplDXw0wCCxCZoLe8" />
 
-        <activity android:name=".Tickets.TicketsPriceActivity" >
-        </activity>
+        <activity android:name=".Tickets.TicketsPriceActivity"></activity>
+        <activity android:name=".Events.EditEventActivity"></activity>
     </application>
 
 </manifest>

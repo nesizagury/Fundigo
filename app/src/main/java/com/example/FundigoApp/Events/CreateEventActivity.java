@@ -15,6 +15,7 @@ import android.graphics.Matrix;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.ParcelFileDescriptor;
 import android.preference.PreferenceManager;
 import android.provider.MediaStore;
@@ -54,7 +55,9 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -135,25 +138,33 @@ public class CreateEventActivity extends Activity implements View.OnClickListene
     private MaterialSpinner handicapToiletSpinner;
     private String numOfToilets = "Unknown";
     private String numOfHandicapToilets = "Unknown";
-    private TextView tv_optional1;
-    private TextView tv_optional2;
-    private TextView tv_optional3;
     private String eventObjectId;
-    double blueIncome;
-    double pinkIncome;
-    double greenIncome;
-    double orangeIncome;
-    double yellowIncome;
-    double totalIncome;
+    int blueIncome;
+    int pinkIncome;
+    int greenIncome;
+    int orangeIncome;
+    int yellowIncome;
+    int totalIncome;
     private boolean seats = false;
     private LinearLayout linearLayout;
+    private CheckBox checkBoxPrice;
+    SharedPreferences sp;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_event);
+        sp = PreferenceManager.getDefaultSharedPreferences(this);
         componentInit();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+//        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this);
+
+        seats = sp.getBoolean(GlobalVariables.SEATS, false);
     }
 
     @Override
@@ -174,7 +185,17 @@ public class CreateEventActivity extends Activity implements View.OnClickListene
                     } else {
                         Toast.makeText(CreateEventActivity.this, "Please enter valid address", Toast.LENGTH_SHORT).show();
                     }
+                }
+                Log.e(TAG, "seats " + seats);
+                if (seats) {
+                    Log.e(TAG, "seats1 " + seats);
+                    if (address_ok) {
+                        showThirdStage();
+                    } else {
+                        Toast.makeText(CreateEventActivity.this, "Please enter valid address", Toast.LENGTH_SHORT).show();
+                    }
                 } else {
+                    Log.e(TAG, "seats3 " + seats);
                     if (!validatePrice() || !validateQuantity()) {
                         Toast.makeText(CreateEventActivity.this, "Please enter valid price or quantity", Toast.LENGTH_SHORT).show();
                     } else {
@@ -194,7 +215,6 @@ public class CreateEventActivity extends Activity implements View.OnClickListene
                 break;
             case R.id.btn_next2:
                 if (filter != null) {
-                    SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this);
                     seats = sp.getBoolean(GlobalVariables.SEATS, false);
                     saveEvent();
                 } else {
@@ -370,11 +390,21 @@ public class CreateEventActivity extends Activity implements View.OnClickListene
         if (freeEvent && address_ok) {
             create_event2.setVisibility(View.GONE);
             create_event3.setVisibility(View.VISIBLE);
-        } else if (et_quantity.length() != 0 && et_price.length() != 0 && address_ok && et_place.length() != 0) {
-            create_event2.setVisibility(View.GONE);
-            create_event3.setVisibility(View.VISIBLE);
+        }
+        if (seats) {
+            if (address_ok && et_place.length() != 0) {
+                create_event2.setVisibility(View.GONE);
+                create_event3.setVisibility(View.VISIBLE);
+            } else {
+                Toast.makeText(CreateEventActivity.this, "Please fill empty forms", Toast.LENGTH_SHORT).show();
+            }
         } else {
-            Toast.makeText(CreateEventActivity.this, "Please fill empty forms", Toast.LENGTH_SHORT).show();
+            if (et_quantity.length() != 0 && et_price.length() != 0 && address_ok && et_place.length() != 0) {
+                create_event2.setVisibility(View.GONE);
+                create_event3.setVisibility(View.VISIBLE);
+            } else {
+                Toast.makeText(CreateEventActivity.this, "Please fill empty forms", Toast.LENGTH_SHORT).show();
+            }
         }
     }
 
@@ -395,6 +425,21 @@ public class CreateEventActivity extends Activity implements View.OnClickListene
         if (freeEvent) {
             event.setPrice("FREE");
             event.setNumOfTicketsLeft("9999");
+        } else {
+            event.setNumOfTicketsLeft(et_quantity.getText().toString());
+            event.setPrice(et_price.getText().toString());
+        }
+        if (seats) {
+            List<Integer> sum = new ArrayList<>();
+            sum.add(sp.getInt(GlobalVariables.ORANGE, 0));
+            sum.add(sp.getInt(GlobalVariables.PINK, 0));
+            sum.add(sp.getInt(GlobalVariables.BLUE, 0));
+            sum.add(sp.getInt(GlobalVariables.YELLOW, 0));
+            sum.add(sp.getInt(GlobalVariables.GREEN, 0));
+            int max = Collections.max(sum);
+            int min = Collections.min(sum);
+            event.setPrice("" + min + "-" + max + "");
+            event.setNumOfTicketsLeft("101");
         } else {
             event.setNumOfTicketsLeft(et_quantity.getText().toString());
             event.setPrice(et_price.getText().toString());
@@ -425,14 +470,46 @@ public class CreateEventActivity extends Activity implements View.OnClickListene
 
         }
         //===================================================================
+        if (seats) {
+            blueIncome = 4 * sp.getInt(GlobalVariables.BLUE, 0);
+            orangeIncome = 17 * sp.getInt(GlobalVariables.ORANGE, 0);
+            pinkIncome = 17 * sp.getInt(GlobalVariables.PINK, 0);
+            pinkIncome = pinkIncome + 16 * sp.getInt(GlobalVariables.PINK, 0);
+            yellowIncome = 17 * sp.getInt(GlobalVariables.YELLOW, 0);
+            yellowIncome = yellowIncome + 16 * sp.getInt(GlobalVariables.YELLOW, 0);
+            greenIncome = 7 * sp.getInt(GlobalVariables.GREEN, 0);
+            greenIncome = greenIncome + 7 * sp.getInt(GlobalVariables.GREEN, 0);
+            totalIncome = pinkIncome + yellowIncome + greenIncome + blueIncome + orangeIncome;
+
+        } else {
+            if (!freeEvent) {
+                totalIncome = Integer.parseInt(et_price.getText().toString()) * Integer.parseInt(et_quantity.getText().toString());
+            } else {
+                totalIncome = 0;
+            }
+        }
+        //  event.setIncome(String.valueOf(totalIncome));
+        event.setIncome("0");
         event.setFilterName(filter);
         event.setProducerId(GlobalVariables.PRODUCER_PARSE_OBJECT_ID);
         event.setDate(date);
         event.setPlace(et_place.getText().toString());
         event.setArtist(et_artist.getText().toString());
         event.setEventToiletService(numOfToilets + ", Handicapped " + numOfHandicapToilets);
-        event.setEventParkingService("Up To " + et_parking.getText().toString());
-        event.setEventCapacityService("Up To " + et_capacity.getText().toString());
+        String eventParkingService;
+        if (et_parking.getText().toString().equals("")) {
+            eventParkingService = "Unknown";
+        } else {
+            eventParkingService = "Up To " + et_parking.getText().toString();
+        }
+        event.setEventParkingService(eventParkingService);
+        String eventCapacityService;
+        if (et_capacity.getText().toString().equals("")) {
+            eventCapacityService = "Unknown";
+        } else {
+            eventCapacityService = "Up To " + et_capacity.getText().toString();
+        }
+        event.setEventCapacityService(eventCapacityService);
         event.setRealDate(realDate);
         event.setEventATMService(atmStatus);
         if (pictureSelected || tv_create.getText().toString().equals("Edit Event")) {
@@ -453,24 +530,25 @@ public class CreateEventActivity extends Activity implements View.OnClickListene
 
         try {
             event.save();
+            totalIncome = 0;
             if (!freeEvent) {
                 Log.e(TAG, "freeEvent " + freeEvent);
                 eventObjectId = event.getObjectId();
                 Log.e(TAG, "objectId " + eventObjectId);
-                if(seats){
-                saveTicketsPrice(eventObjectId);
-                                    //the producer did not chose colored seats
-                }else{
-                    totalIncome = Double.parseDouble(et_price.getText().toString())* Double.parseDouble(et_quantity.getText().toString());
+                if (seats) {
+                    saveTicketsPrice(eventObjectId);
+                    //the producer did not chose colored seats
+                } else {
+                    totalIncome = Integer.parseInt(et_price.getText().toString()) * Integer.parseInt(et_quantity.getText().toString());
                 }
-               // Toast.makeText(getApplicationContext(), "Event has created successfully!\n Expected income:" + totalIncome, Toast.LENGTH_SHORT).show();
+                // Toast.makeText(getApplicationContext(), "Event has created successfully!\n Expected income:" + totalIncome, Toast.LENGTH_SHORT).show();
                 ProducerMainActivity.artistAdapter.notifyDataSetChanged();
                 Snackbar snackbar = Snackbar
                         .make(linearLayout, "Expected income:" + totalIncome, Snackbar.LENGTH_LONG)
                         .setAction("UNDO", new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {
-                            deleteEvent(eventObjectId);
+                                deleteEvent(eventObjectId);
 
                             }
                         });
@@ -480,6 +558,13 @@ public class CreateEventActivity extends Activity implements View.OnClickListene
                 TextView textView = (TextView) snackbarView.findViewById(android.support.design.R.id.snackbar_text);
                 textView.setTextColor(Color.WHITE);
                 snackbar.show();
+                new Handler().postDelayed(new Runnable() {
+
+                    @Override
+                    public void run() {
+                        finish();
+                    }
+                }, 3000);
 
 
             }
@@ -487,33 +572,15 @@ public class CreateEventActivity extends Activity implements View.OnClickListene
             e.printStackTrace();
 
 
+        }
+
+
+        //  finish();
+
     }
 
 
-
-    //        event.saveInBackground(new SaveCallback() {
-//            @Override
-//            public void done(ParseException e) {
-//                if (e == null) {
-//                    if(!freeEvent) {
-//                        Log.e(TAG, "freeEvent "+ freeEvent);
-//                        eventObjectId = event.getObjectId();
-//                        Log.e(TAG, "objectId "+ eventObjectId);
-//                        saveTicketsPrice(eventObjectId);
-//                    }
-//                    Toast.makeText(getApplicationContext(), "Event has created successfully!", Toast.LENGTH_SHORT).show();
-//                } else {
-//                    Toast.makeText(CreateEventActivity.this, "The event was not saved! " + e.toString(), Toast.LENGTH_SHORT).show();
-//                    Log.e(TAG, "Problem " + e.toString());
-//                }
-//            }
-//        });
-  //  finish();
-
-}
-
-
-    public void deleteEvent(final String objectId){
+    public void deleteEvent(final String objectId) {
         ParseQuery<ParseObject> query = ParseQuery.getQuery("Event");
         query.whereEqualTo("objectId", objectId);
         query.orderByDescending("createdAt");
@@ -525,28 +592,47 @@ public class CreateEventActivity extends Activity implements View.OnClickListene
                         Log.e(TAG, "Event deleted");
                     } catch (ParseException e1) {
                         e1.printStackTrace();
-                        Log.e(TAG, "Event not deleted "+ e1.toString());
+                        Log.e(TAG, "Event not deleted " + e1.toString());
                     }
                     object.saveInBackground();
                 }
             }
         });
-        if(seats){
+        if (seats) {
             ParseQuery<ParseObject> querySeats = ParseQuery.getQuery("EventsSeats");
             querySeats.whereEqualTo("eventObjectId", objectId);
             querySeats.findInBackground(new FindCallback<ParseObject>() {
                 @Override
                 public void done(List<ParseObject> objects, ParseException e) {
 
-                    if(objects.size()!=0){
+                    if (objects.size() != 0) {
                         ParseObject.deleteAllInBackground(objects);
 
                     }
                 }
             });
+            //query and delete again because there is one last ticket left
+            ParseQuery<ParseObject> querySeats1 = ParseQuery.getQuery("EventsSeats");
+            querySeats1.whereEqualTo("eventObjectId", objectId);
+            querySeats1.getFirstInBackground(new GetCallback<ParseObject>() {
+                public void done(ParseObject object, ParseException e) {
+                    if (e == null) {
+                        try {
+
+                            object.delete();
+                        } catch (ParseException e1) {
+                            e1.printStackTrace();
+                        }
+                    } else {
+                        Log.e(TAG, "" + e.toString());
+                    }
+                }
+            });
+            //===================================================================
         }
         finish();
     }
+
     public void deleteRow() {
         ParseQuery<ParseObject> query = ParseQuery.getQuery("Event");
         query.whereEqualTo("objectId", getIntent().getStringExtra("eventObjectId"));
@@ -617,6 +703,7 @@ public class CreateEventActivity extends Activity implements View.OnClickListene
         btn_validate_address = (Button) findViewById(R.id.btn_validate_address);
         iv_val_add = (ImageView) findViewById(R.id.iv_val_add);
         freeBox = (CheckBox) findViewById(R.id.checkBoxFree);
+        checkBoxPrice = (CheckBox) findViewById(R.id.checkBoxPrice);
         tv_date_new = (TextView) findViewById(R.id.tv_date_new);
         btn_date = (Button) findViewById(R.id.btn_date);
         btn_next = (Button) findViewById(R.id.btn_next);
@@ -631,15 +718,13 @@ public class CreateEventActivity extends Activity implements View.OnClickListene
         btn_validate_address.setOnClickListener(this);
         btn_date.setOnClickListener(this);
         freeBox.setOnCheckedChangeListener(this);
+        checkBoxPrice.setOnCheckedChangeListener(this);
         create_event2 = (LinearLayout) findViewById(R.id.create_event2);
         create_event3 = (LinearLayout) findViewById(R.id.create_event3);
         ll_name = (LinearLayout) findViewById(R.id.ll_name);
         ll_date = (LinearLayout) findViewById(R.id.ll_date);
         ll_artist = (LinearLayout) findViewById(R.id.ll_artist);
         ll_description = (LinearLayout) findViewById(R.id.ll_description);
-        tv_optional1 = (TextView) findViewById(R.id.tv_optional1);
-        tv_optional2 = (TextView) findViewById(R.id.tv_optional2);
-        tv_optional3 = (TextView) findViewById(R.id.tv_optional3);
         btn_price_details = (Button) findViewById(R.id.btn_price_details);
         btn_price_details.setOnClickListener(this);
 
@@ -692,6 +777,8 @@ public class CreateEventActivity extends Activity implements View.OnClickListene
                 }
             }
         }
+
+
     }
 
     /**
@@ -702,6 +789,8 @@ public class CreateEventActivity extends Activity implements View.OnClickListene
      */
     @Override
     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+//        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this);
+        SharedPreferences.Editor editor = sp.edit();
         switch (buttonView.getId()) {
             case R.id.checkBoxFree:
                 if (isChecked) {
@@ -717,8 +806,30 @@ public class CreateEventActivity extends Activity implements View.OnClickListene
                     tv_quantity.setVisibility(View.VISIBLE);
                     tv_price.setVisibility(View.VISIBLE);
                     et_price.setVisibility(View.VISIBLE);
-                    btn_price_details.setVisibility(View.VISIBLE);
+                    if (!checkBoxPrice.isChecked()) {
+                        btn_price_details.setVisibility(View.VISIBLE);
+                    }
                 }
+                break;
+            case R.id.checkBoxPrice:
+                if (isChecked) {
+                    et_quantity.setVisibility(View.GONE);
+                    tv_quantity.setVisibility(View.GONE);
+                    tv_price.setVisibility(View.GONE);
+                    et_price.setVisibility(View.GONE);
+                    btn_price_details.setVisibility(View.VISIBLE);
+                    editor.putBoolean(GlobalVariables.SEATS, true);
+                    editor.apply();
+                } else {
+                    et_quantity.setVisibility(View.VISIBLE);
+                    tv_quantity.setVisibility(View.VISIBLE);
+                    tv_price.setVisibility(View.VISIBLE);
+                    et_price.setVisibility(View.VISIBLE);
+                    btn_price_details.setVisibility(View.GONE);
+                    editor.putBoolean(GlobalVariables.SEATS, false);
+                    editor.apply();
+                }
+
                 break;
         }
     }
@@ -900,67 +1011,70 @@ public class CreateEventActivity extends Activity implements View.OnClickListene
     }
 
 
-class ValidateAddress extends AsyncTask<String, Void, String> {
+    class ValidateAddress extends AsyncTask<String, Void, String> {
 
-    private ProgressDialog dialog;
+        private ProgressDialog dialog;
 
-    @Override
-    protected void onPreExecute() {
-        dialog = new ProgressDialog(CreateEventActivity.this);
-        dialog.setMessage("Validating...");
-        dialog.show();
-    }
-
-    // ----------------------------------------------------
-    @Override
-    protected String doInBackground(String... params) {
-        dialog.dismiss();
-        String queryString = null;
-        try {
-            queryString = "" +
-                    "&address=" + URLEncoder.encode(address, "utf-8") +
-                    "&key=" + GlobalVariables.GEO_API_KEY;
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
+        @Override
+        protected void onPreExecute() {
+            dialog = new ProgressDialog(CreateEventActivity.this);
+            dialog.setMessage("Validating...");
+            dialog.show();
         }
 
+        // ----------------------------------------------------
+        @Override
+        protected String doInBackground(String... params) {
+            dialog.dismiss();
+            String queryString = null;
+            try {
+                queryString = "" +
+                        "&address=" + URLEncoder.encode(address, "utf-8") +
+                        "&key=" + GlobalVariables.GEO_API_KEY;
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+            }
 
-        return HttpHandler.get(params[0], queryString);
-    }
 
-    // ----------------------------------------------------
-    @Override
-    protected void onPostExecute(String s) {
+            return HttpHandler.get(params[0], queryString);
+        }
 
-        if (s == null) {
-            Toast.makeText(CreateEventActivity.this, "Something went wrong, plese try again", Toast.LENGTH_SHORT).show();
-            iv_val_add.setImageResource(R.drawable.x);
+        // ----------------------------------------------------
+        @Override
+        protected void onPostExecute(String s) {
 
-        } else {
-            gson = new Gson();
-            result = gson.fromJson(s, Result.class);
-            if (result.getStatus().equals("OK")) {
-                address_ok = true;
-                iv_val_add.setImageResource(R.drawable.v);
-                String long_name = result.getResults().get(0).getAddress_components().get(1).getLong_name();
-                String street = long_name.replaceAll("Street", "");
-                String number = result.getResults().get(0).getAddress_components().get(0).getShort_name();
-                lat = result.getResults().get(0).getGeometry().getLocation().getLat();
-                lng = result.getResults().get(0).getGeometry().getLocation().getLng();
-                city = result.getResults().get(0).getAddress_components().get(2).getShort_name();
-                valid_address = street + number + ", " + city;
-
-            } else if (result.getStatus().equals("ZERO_RESULTS")) {
-                address_ok = false;
+            if (s == null) {
+                Toast.makeText(CreateEventActivity.this, "Something went wrong, plese try again", Toast.LENGTH_SHORT).show();
                 iv_val_add.setImageResource(R.drawable.x);
-                Toast.makeText(CreateEventActivity.this, "Problem is " + result.getStatus(), Toast.LENGTH_SHORT).show();
+                iv_val_add.setVisibility(View.VISIBLE);
+
+            } else {
+                gson = new Gson();
+                result = gson.fromJson(s, Result.class);
+                if (result.getStatus().equals("OK")) {
+                    address_ok = true;
+                    iv_val_add.setImageResource(R.drawable.v);
+                    iv_val_add.setVisibility(View.VISIBLE);
+                    String long_name = result.getResults().get(0).getAddress_components().get(1).getLong_name();
+                    String street = long_name.replaceAll("Street", "");
+                    String number = result.getResults().get(0).getAddress_components().get(0).getShort_name();
+                    lat = result.getResults().get(0).getGeometry().getLocation().getLat();
+                    lng = result.getResults().get(0).getGeometry().getLocation().getLng();
+                    city = result.getResults().get(0).getAddress_components().get(2).getShort_name();
+                    valid_address = street + number + ", " + city;
+
+                } else if (result.getStatus().equals("ZERO_RESULTS")) {
+                    address_ok = false;
+                    iv_val_add.setImageResource(R.drawable.x);
+                    iv_val_add.setVisibility(View.VISIBLE);
+                    Toast.makeText(CreateEventActivity.this, "Problem is " + result.getStatus(), Toast.LENGTH_SHORT).show();
+                }
+
             }
 
         }
 
     }
-
-}
 
 
     private void saveTicketsPrice(String eventObjectId) {
@@ -974,7 +1088,7 @@ class ValidateAddress extends AsyncTask<String, Void, String> {
             try {
                 eventsSeats.save();
                 Log.e(TAG, "Blue saved");
-                blueIncome = 4*sp.getInt(GlobalVariables.BLUE, 0);
+                blueIncome = 4 * sp.getInt(GlobalVariables.BLUE, 0);
             } catch (ParseException e) {
                 e.printStackTrace();
                 Log.e(TAG, "Blue not saved " + e.toString());
@@ -988,7 +1102,7 @@ class ValidateAddress extends AsyncTask<String, Void, String> {
             eventsSeats.put("seatNumber", "Orange " + i);
             try {
                 eventsSeats.save();
-                orangeIncome = 17*sp.getInt(GlobalVariables.ORANGE, 0);
+                orangeIncome = 17 * sp.getInt(GlobalVariables.ORANGE, 0);
                 Log.e(TAG, "Orange saved");
             } catch (ParseException e) {
                 e.printStackTrace();
@@ -1003,7 +1117,7 @@ class ValidateAddress extends AsyncTask<String, Void, String> {
             eventsSeats.put("seatNumber", "Pink " + i);
             try {
                 eventsSeats.save();
-                pinkIncome = 17*sp.getInt(GlobalVariables.PINK, 0);
+                pinkIncome = 17 * sp.getInt(GlobalVariables.PINK, 0);
                 Log.e(TAG, "Pink saved");
             } catch (ParseException e) {
                 e.printStackTrace();
@@ -1018,7 +1132,7 @@ class ValidateAddress extends AsyncTask<String, Void, String> {
             eventsSeats.put("seatNumber", "Pink " + i);
             try {
                 eventsSeats.save();
-                pinkIncome = pinkIncome + 16*sp.getInt(GlobalVariables.PINK, 0);
+                pinkIncome = pinkIncome + 16 * sp.getInt(GlobalVariables.PINK, 0);
                 Log.e(TAG, "Pink2 saved");
             } catch (ParseException e) {
                 e.printStackTrace();
@@ -1033,7 +1147,7 @@ class ValidateAddress extends AsyncTask<String, Void, String> {
             eventsSeats.put("seatNumber", "Yellow " + i);
             try {
                 eventsSeats.save();
-                yellowIncome = 17*sp.getInt(GlobalVariables.YELLOW, 0);
+                yellowIncome = 17 * sp.getInt(GlobalVariables.YELLOW, 0);
                 Log.e(TAG, "Yellow saved");
             } catch (ParseException e) {
                 e.printStackTrace();
@@ -1048,7 +1162,7 @@ class ValidateAddress extends AsyncTask<String, Void, String> {
             eventsSeats.put("seatNumber", "Yellow " + i);
             try {
                 eventsSeats.save();
-                yellowIncome = yellowIncome + 16*sp.getInt(GlobalVariables.YELLOW, 0);
+                yellowIncome = yellowIncome + 16 * sp.getInt(GlobalVariables.YELLOW, 0);
                 Log.e(TAG, "Yellow2 saved");
             } catch (ParseException e) {
                 e.printStackTrace();
@@ -1063,7 +1177,7 @@ class ValidateAddress extends AsyncTask<String, Void, String> {
             eventsSeats.put("seatNumber", "Green " + i);
             try {
                 eventsSeats.save();
-                greenIncome = 7*sp.getInt(GlobalVariables.GREEN, 0);
+                greenIncome = 7 * sp.getInt(GlobalVariables.GREEN, 0);
                 Log.e(TAG, "Green saved");
             } catch (ParseException e) {
                 e.printStackTrace();
@@ -1078,8 +1192,8 @@ class ValidateAddress extends AsyncTask<String, Void, String> {
             eventsSeats.put("seatNumber", "Green " + i);
             try {
                 eventsSeats.save();
-                greenIncome = greenIncome + 7* sp.getInt(GlobalVariables.GREEN, 0);
-                        Log.e(TAG, "Green2 saved");
+                greenIncome = greenIncome + 7 * sp.getInt(GlobalVariables.GREEN, 0);
+                Log.e(TAG, "Green2 saved");
             } catch (ParseException e) {
                 e.printStackTrace();
                 Log.e(TAG, "Green2  not saved " + e.toString());
@@ -1087,9 +1201,10 @@ class ValidateAddress extends AsyncTask<String, Void, String> {
             }
         }
 
-        totalIncome = pinkIncome+yellowIncome+greenIncome+blueIncome+orangeIncome;
+        totalIncome = pinkIncome + yellowIncome + greenIncome + blueIncome + orangeIncome;
         editor.putBoolean(GlobalVariables.SEATS, false);
         editor.apply();
+
 
     }
 

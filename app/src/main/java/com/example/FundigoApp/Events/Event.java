@@ -116,6 +116,9 @@ public class Event extends ParseObject {
     public void setPlace(String place) {
         put ("place", place);
     }
+    public String getPlace(){
+        return getString("place");
+    }
 
     public void setBitmap(Bitmap b) {
         this.b = b;

@@ -43,7 +43,7 @@ public class EventsGridAdapter extends BaseAdapter {
 
     @Override
     public int getCount() {
-        return eventList.size ();
+        return eventList.size();
     }
 
     @Override
@@ -71,11 +71,16 @@ public class EventsGridAdapter extends BaseAdapter {
         }
         final EventInfo event = eventList.get (i);
 
-        eventGridHolder.image.setImageBitmap (event.getImageBitmap ());
-        eventGridHolder.date.setText (event.getDate ());
-        eventGridHolder.name.setText (event.getName ());
-        eventGridHolder.tags.setText (event.getTags ());
-        eventGridHolder.price.setText (event.getPrice ());
+        eventGridHolder.image.setImageBitmap(event.getImageBitmap());
+        eventGridHolder.date.setText (event.getDate());
+        eventGridHolder.name.setText (event.getName());
+        eventGridHolder.tags.setText (event.getTags());
+        if(event.getPrice().equals("FREE")){
+            eventGridHolder.price.setText("FREE");
+        }else{
+            eventGridHolder.price.setText (event.getPrice ()+"$");
+        }
+
         eventGridHolder.place.setText (event.getDist () + " km away" );
         checkIfChangeColorToSaveButtton (event, eventGridHolder.saveEvent);
         eventGridHolder.saveEvent.setOnClickListener (new View.OnClickListener () {

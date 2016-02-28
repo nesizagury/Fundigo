@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="60dp"
+    android:orientation="horizontal">
+    <TextView
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:text="Yellow 231"
+        android:textSize="20sp"
+        android:layout_margin="10dp"
+        android:layout_gravity="center"
+        android:id="@+id/ticketItem_tv_ticket"
+        android:layout_height="wrap_content" />
+    <!--<TextView-->
+        <!--android:layout_width="0dp"-->
+        <!--android:layout_weight="1"-->
+        <!--android:textSize="20sp"-->
+        <!--android:id="@+id/ticketItem_tv_seatNumber"-->
+        <!--android:layout_gravity="center"-->
+        <!--android:text="Yellow 231"-->
+        <!--android:layout_margin="10dp"-->
+        <!--android:layout_height="wrap_content" />-->
+    <TextView
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:textSize="20sp"
+        android:id="@+id/ticketItem_tv_price"
+        android:layout_gravity="center"
+        android:text="300$"
+        android:layout_margin="10dp"
+        android:layout_height="wrap_content" />
+
+</LinearLayout>

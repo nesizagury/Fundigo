@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
 
@@ -26,15 +26,16 @@
             android:layout_weight="2"
             android:imeActionLabel="Done"
             android:inputType="number" />
+
         <CheckBox
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="wrap_content"
-            android:text="FREE"
             android:id="@+id/checkBoxFree"
-            android:checked="false"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
             android:layout_above="@+id/yET"
-            android:layout_toEndOf="@+id/tagsET" />
+            android:layout_toEndOf="@+id/tagsET"
+            android:layout_weight="1"
+            android:checked="false"
+            android:text="FREE" />
     </LinearLayout>
 
 
@@ -58,12 +59,22 @@
             android:layout_weight="1"
             android:imeActionLabel="Done"
             android:inputType="number" />
-        <Button
+
+        <CheckBox
+            android:id="@+id/checkBoxPrice"
             android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:checked="false"
+            android:text="Price details" />
+
+        <Button
+            android:id="@+id/btn_price_details"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="Price details"
-            android:id="@+id/btn_price_details"
-            android:layout_height="wrap_content" />
+            android:visibility="gone" />
     </LinearLayout>
 
     <LinearLayout
@@ -101,8 +112,8 @@
             android:layout_margin="10dp"
             android:layout_weight="1"
             android:gravity="center"
-            android:textSize="10sp"
-            android:text="Validate Address" />
+            android:text="Validate Address"
+            android:textSize="10sp" />
 
         <ImageView
             android:id="@+id/iv_val_add"
@@ -128,10 +139,10 @@
         <EditText
             android:id="@+id/et_place"
             android:layout_width="0dp"
-            android:singleLine="true"
             android:layout_height="wrap_content"
             android:layout_weight="3"
-            android:imeActionLabel="Done" />
+            android:imeActionLabel="Done"
+            android:singleLine="true" />
     </LinearLayout>
 
     <fr.ganfra.materialspinner.MaterialSpinner
@@ -151,6 +162,7 @@
         app:ms_hintColor="@color/DarkRed"
         app:ms_multiline="false"
         app:ms_thickness="2dp" />
+
     <fr.ganfra.materialspinner.MaterialSpinner
         android:id="@+id/toiletSpinner"
         android:layout_width="fill_parent"
@@ -168,6 +180,7 @@
         app:ms_hintColor="@color/DarkRed"
         app:ms_multiline="false"
         app:ms_thickness="2dp" />
+
     <fr.ganfra.materialspinner.MaterialSpinner
         android:id="@+id/handicapToiletSpinner"
         android:layout_width="fill_parent"
@@ -188,27 +201,20 @@
 
     <LinearLayout
         android:layout_width="wrap_content"
-        android:layout_gravity="center"
-        android:orientation="horizontal"
-        android:layout_height="wrap_content">
-
-
-    <Button
-        android:id="@+id/btn_next1"
-        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_margin="10dp"
-        android:text="Next" />
-    <TextView
-        android:id="@+id/tv_optional2"
-        android:layout_margin="5dp"
-        android:layout_gravity="center"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:textColor="@color/Red"
-        android:text="*Optional" />
+        android:orientation="horizontal">
+
+
+        <Button
+            android:id="@+id/btn_next1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_margin="10dp"
+            android:text="Next" />
+
+
     </LinearLayout>
 
 </LinearLayout>

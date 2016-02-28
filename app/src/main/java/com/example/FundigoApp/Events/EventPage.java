@@ -217,14 +217,8 @@ public class EventPage extends Activity implements View.OnClickListener {
         } else {
             min = "" + minute;
         }
-//        String h;
-//        if (hour < 10) {
-//            h = "0" + hour;
-//        } else {
-//            h = "" + hour;
-//        }
+
         TextView event_date = (TextView) findViewById(R.id.eventPage_date);
-        //event_date.setText(date);
         event_date.setText(dayOfWeek + ", " + month + " " + day + ", " + hour + ":" + min + " " + ampm);
 
         eventName = intent.getStringExtra("eventName");
@@ -243,7 +237,12 @@ public class EventPage extends Activity implements View.OnClickListener {
         }
 
         TextView event_price = (TextView) findViewById(R.id.priceEventPage);
-        event_price.setText(eventPrice + "$");
+        if(eventPrice.equals("FREE")){
+            event_price.setText(eventPrice);
+        }else{
+            event_price.setText(eventPrice + "$");
+
+        }
 
         String eventInfo = intent.getStringExtra("eventInfo");
         TextView event_info = (TextView) findViewById(R.id.eventInfoEventPage);

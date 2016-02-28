@@ -24,6 +24,7 @@ public class GlobalVariables {
     public static final String PINK = "pink";
     public static final String ORANGE = "orange";
     public static final String SEATS = "seats";
+    public static final String OBJECTID = "objectId";
 
 
     public static boolean IS_CUSTOMER_GUEST = false;
