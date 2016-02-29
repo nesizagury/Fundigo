@@ -24,7 +24,6 @@ public class GlobalVariables {
     public static boolean IS_PRODUCER = false;
     public static String CUSTOMER_PHONE_NUM = null;
     public static String PRODUCER_PARSE_OBJECT_ID = null;
-
     public static List<EventInfo> ALL_EVENTS_DATA = new ArrayList<EventInfo> ();
     public static String CITY_GPS = null;
     public static Location MY_LOCATION = null;

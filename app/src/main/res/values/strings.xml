@@ -119,4 +119,5 @@
     <string name="tickets">My Events Tickets</string>
     <string name="title_activity_events_tickets">EventsTickets</string>
     <string name="title_activity_mipo">Mipo</string>
+    <string name="ticketLinkEvent"><a href="">Press the link to view the event</a></string>/>
 </resources>

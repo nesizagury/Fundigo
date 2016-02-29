@@ -102,6 +102,7 @@ public class StaticMethods {
                                                                   eventParse.get (i).getEventATMService (),
                                                                   eventParse.get (i).getCity (),
                                                                   i,
+                                                                  eventParse.get(i).getFbUrl(),  //assaf added
                                                                   eventParse.get (i).getFilterName ()));
                         tempEventsList.get (i).setProducerId (eventParse.get (i).getProducerId ());
                         tempEventsList.get (i).setX (eventParse.get (i).getX ());
@@ -302,6 +303,7 @@ public class StaticMethods {
             e.printStackTrace ();
         }
         return phone_number;
+
     }
 
     public static void filterListsAndUpdateListAdapter(List<EventInfo> eventsListToFilter,
@@ -449,6 +451,7 @@ public class StaticMethods {
         intent.putExtra ("index", eventsList.get (positionViewItem).getIndexInFullList ());
         intent.putExtra("i",String.valueOf (positionViewItem));
         intent.putExtra("artist",eventsList.get(positionViewItem).getArtist());
+        intent.putExtra("fbUrl",eventsList.get(positionViewItem).getFbUrl());//Assaf added FBUrl
     }
 
     public static void onActivityResult(final int requestCode, final Intent data, Activity activity) {

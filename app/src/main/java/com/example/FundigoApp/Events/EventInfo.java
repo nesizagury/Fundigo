@@ -32,6 +32,8 @@ public class EventInfo implements Serializable, Parcelable {
     String income;
     String TicketsLeft;
     String parseObjectId;
+    String fbUrl;
+
 
     public EventInfo(Bitmap imageId,
                      String date,
@@ -46,6 +48,7 @@ public class EventInfo implements Serializable, Parcelable {
                      String atm,
                      String city,
                      int indexInFullList,
+                     String fbUrl, // Assaf added
                      String filterName) {
         this.imageId = imageId;
         this.date = date;
@@ -61,6 +64,7 @@ public class EventInfo implements Serializable, Parcelable {
         this.city = city;
         this.indexInFullList = indexInFullList;
         this.filterName = filterName;
+        this.fbUrl = fbUrl;
     }
 
     public EventInfo(Parcel in) {
@@ -77,7 +81,6 @@ public class EventInfo implements Serializable, Parcelable {
         this.capacity = data[8];
         this.atm = data[9];
         this.filterName = data[10];
-
     }
 
     @Override
@@ -89,7 +92,9 @@ public class EventInfo implements Serializable, Parcelable {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeStringArray (new String[]{
                                                    this.date, this.name, this.tags, this.price, this.info, this.place,
-                                                   this.toilet, this.parking, this.capacity, this.atm, this.filterName});
+                                                   this.toilet, this.parking, this.capacity, this.atm, this.filterName
+
+        });
     }
 
     public static final Parcelable.Creator CREATOR = new Parcelable.Creator () {
@@ -284,5 +289,9 @@ public class EventInfo implements Serializable, Parcelable {
 
     public void setParseObjectId(String parseObjectId) {
         this.parseObjectId = parseObjectId;
+    }
+    public String getFbUrl () // Assaf added. return FB URL is Event Info
+    {
+        return this.fbUrl;
     }
 }

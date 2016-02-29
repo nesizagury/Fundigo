@@ -187,4 +187,8 @@ public class Event extends ParseObject {
                        getString ("Price") + "$" + "\n" +
                        getString ("NumOfTicketsLeft");
     }
+
+    public String getFbUrl () { // Assaf added. link saved in Parse for link to Even FB page
+        return getString("FaceBookUrl");
+    }
 }

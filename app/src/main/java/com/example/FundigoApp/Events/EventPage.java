@@ -12,9 +12,9 @@ import android.location.LocationManager;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Environment;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AlertDialog;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
@@ -33,6 +33,7 @@ import com.example.FundigoApp.StaticMethods;
 import com.example.FundigoApp.Tickets.GetQRCode;
 import com.example.FundigoApp.Tickets.SelectSeat;
 import com.example.FundigoApp.Verifications.LoginActivity;
+import com.example.FundigoApp.Verifications.SmsSignUpActivity;
 import com.google.android.gms.appindexing.Action;
 import com.google.android.gms.appindexing.AppIndex;
 import com.google.android.gms.appindexing.Thing;
@@ -44,9 +45,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
@@ -87,6 +85,7 @@ public class EventPage extends Activity implements View.OnClickListener {
     private String mDescription;
     String i = "";
     private ImageView ivQrScan;
+    private String faceBookUrl;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -127,6 +126,7 @@ public class EventPage extends Activity implements View.OnClickListener {
         TextView event_date = (TextView) findViewById (R.id.eventPage_date);
         event_date.setText (date);
         eventName = intent.getStringExtra ("eventName");
+        faceBookUrl = intent.getStringExtra("fbUrl");//Assaf : get link from the Intent
         event = GlobalVariables.ALL_EVENTS_DATA.get
                                                         (intent.getIntExtra ("index", 0));
         i = getIntent ().getStringExtra ("i");
@@ -252,37 +252,58 @@ public class EventPage extends Activity implements View.OnClickListener {
 
                             }
                         })
-
                         .setNegativeButton ("Share Web Page", new DialogInterface.OnClickListener () {
                             public void onClick(DialogInterface dialog, int id) {
-                                try {
-                                    Bitmap largeIcon = BitmapFactory.decodeResource (getResources (), R.mipmap.pic0);
-                                    ByteArrayOutputStream bytes = new ByteArrayOutputStream ();
-                                    largeIcon.compress (Bitmap.CompressFormat.JPEG, 40, bytes);
-                                    File f = new File (Environment.getExternalStorageDirectory () + File.separator + "test.jpg");
-                                    f.createNewFile ();
-                                    FileOutputStream fo = new FileOutputStream (f);
-                                    fo.write (bytes.toByteArray ());
-                                    fo.close ();
-                                } catch (IOException e) {
-                                    e.printStackTrace ();
-                                }
-                                Intent intent = new Intent (Intent.ACTION_SEND);
-                                intent.setType ("image/jpeg");
-                                intent.putExtra (Intent.EXTRA_TEXT, "I`m going to " + eventName +
-                                                                            "\n" + "C u there at " + date + " !" +
-                                                                            "\n" + "At " + eventPlace +
-                                                                            "\n" + "http://eventpageURL.com/here");
-                                String imagePath = Environment.getExternalStorageDirectory () + File.separator + "test.jpg";
-                                File imageFileToShare = new File (imagePath);
-                                uri = Uri.fromFile (imageFileToShare);
-                                intent.putExtra (Intent.EXTRA_STREAM, uri);
+                                Intent webIntent;
 
-                                Intent intentPick = new Intent ();
-                                intentPick.setAction (Intent.ACTION_PICK_ACTIVITY);
-                                intentPick.putExtra (Intent.EXTRA_TITLE, "Launch using");
-                                intentPick.putExtra (Intent.EXTRA_INTENT, intent);
-                                startActivityForResult (intentPick, GlobalVariables.REQUEST_CODE_MY_PICK);
+                                if (faceBookUrl != "" && faceBookUrl != null) {
+                                    try {
+                                        getPackageManager().getPackageInfo("com.facebook.katana", 0);
+                                        webIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("fb://facewebmodal/f?href=" + faceBookUrl));
+                                        startActivity(webIntent);
+                                    } catch (Exception e) {
+                                        Log.e(e.toString(), "Open link to FaceBook App is fail, sending to Browser");
+                                        try {
+                                            webIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(faceBookUrl));
+                                            startActivity(webIntent);
+                                        }
+                                        catch (Exception e1)
+                                        {
+                                            Log.e(e1.toString(), "Open link to FaceBook Browser is fail");
+                                        }            }
+                                } else
+                                    Toast.makeText(EventPage.this, "No FaceBook Page to Present", Toast.LENGTH_SHORT).show();
+
+
+                                //Assaf added Comment of previosi code function
+
+//                                    Bitmap largeIcon = BitmapFactory.decodeResource (getResources (), R.mipmap.pic0);
+//                                    ByteArrayOutputStream bytes = new ByteArrayOutputStream ();
+//                                    largeIcon.compress (Bitmap.CompressFormat.JPEG, 40, bytes);
+//                                    File f = new File (Environment.getExternalStorageDirectory () + File.separator + "test.jpg");
+//                                    f.createNewFile ();
+//                                    FileOutputStream fo = new FileOutputStream (f);
+//                                    fo.write (bytes.toByteArray ());
+//                                    fo.close ();
+  //                             } catch (IOException e) {
+    //                                e.printStackTrace ();
+      //                          }
+//                                Intent intent = new Intent (Intent.ACTION_SEND);
+//                                intent.setType ("image/jpeg");
+//                                intent.putExtra (Intent.EXTRA_TEXT, "I`m going to " + eventName +
+//                                                                            "\n" + "C u there at " + date + " !" +
+//                                                                            "\n" + "At " + eventPlace +
+//                                                                            "\n" + "http://eventpageURL.com/here");
+//                                String imagePath = Environment.getExternalStorageDirectory () + File.separator + "test.jpg";
+//                                File imageFileToShare = new File (imagePath);
+//                                uri = Uri.fromFile (imageFileToShare);
+//                                intent.putExtra (Intent.EXTRA_STREAM, uri);
+//
+//                                Intent intentPick = new Intent ();
+//                                intentPick.setAction (Intent.ACTION_PICK_ACTIVITY);
+//                                intentPick.putExtra (Intent.EXTRA_TITLE, "Launch using");
+//                                intentPick.putExtra (Intent.EXTRA_INTENT, intent);
+//                                startActivityForResult (intentPick, GlobalVariables.REQUEST_CODE_MY_PICK);
                             }
                         })
                         .setCancelable (true);
@@ -302,7 +323,7 @@ public class EventPage extends Activity implements View.OnClickListener {
                     builder2.setPositiveButton ("See Customers' Massages", listener);
                 }
                 builder2.setNegativeButton ("Real Time Chat", listener);
-                builder2.setNeutralButton ("Cancel...", listener);
+                builder2.setNeutralButton ("Cancel", listener);
                 AlertDialog dialog = builder2.create ();
                 dialog.show ();
                 TextView messageText = (TextView) dialog.findViewById (android.R.id.message);
@@ -326,7 +347,7 @@ public class EventPage extends Activity implements View.OnClickListener {
             Intent intentToSend;
             switch (which) {
                 case DialogInterface.BUTTON_POSITIVE:
-                    if (GlobalVariables.IS_CUSTOMER_REGISTERED_USER) {
+                    if (GlobalVariables.IS_CUSTOMER_REGISTERED_USER && !GlobalVariables.CUSTOMER_PHONE_NUM.equals("GUEST")) {
                         intentToSend = new Intent (EventPage.this, ChatActivity.class);
                         intentToSend.putExtra ("index", intent.getIntExtra ("index", 0));
                         intentToSend.putExtra ("customer_phone", GlobalVariables.CUSTOMER_PHONE_NUM);
@@ -334,12 +355,18 @@ public class EventPage extends Activity implements View.OnClickListener {
                     } else if (GlobalVariables.IS_PRODUCER) {
                         loadMessagesPageProducer ();
                     }
+                    else if(GlobalVariables.CUSTOMER_PHONE_NUM.equals("GUEST"))
+                        dialogForGuestToRegister(); // Assaf added - in case of Guest
                     break;
                 case DialogInterface.BUTTON_NEGATIVE:
-                    intentToSend = new Intent (EventPage.this, RealTimeChatActivity.class);
-                    intentToSend.putExtra ("eventName", eventName);
-                    intentToSend.putExtra ("eventObjectId", event.getParseObjectId ());
-                    startActivity (intentToSend);
+                    if(!GlobalVariables.CUSTOMER_PHONE_NUM.equals("GUEST")) { //Assaf added.use chat only for registered customer
+                        intentToSend = new Intent(EventPage.this, RealTimeChatActivity.class);
+                        intentToSend.putExtra("eventName", eventName);
+                        intentToSend.putExtra("eventObjectId", event.getParseObjectId());
+                        startActivity(intentToSend);
+                    }
+                    else if(GlobalVariables.CUSTOMER_PHONE_NUM.equals("GUEST"))
+                        dialogForGuestToRegister(); // Assaf added - in case of Guest
                     break;
                 case DialogInterface.BUTTON_NEUTRAL:
                     dialog.dismiss ();
@@ -563,4 +590,29 @@ public class EventPage extends Activity implements View.OnClickListener {
             startActivity (intent);
         }
     }
-}
+
+    public boolean dialogForGuestToRegister()
+    {
+       //Assaf:show dialog in case  Guest want to Chat
+        final AlertDialog.Builder builder = new AlertDialog.Builder (this);
+        builder.setMessage ("In order to Chat or Send Message you have to pass Registration First")
+                .setCancelable (true)
+                .setNeutralButton("Register by SMS", new DialogInterface.OnClickListener () {
+                    public void onClick(DialogInterface dialog, int id) {
+
+                        Intent smsRegister = new Intent(EventPage.this,SmsSignUpActivity.class);
+                        startActivity(smsRegister);
+                    }
+                });
+
+        builder.setPositiveButton("Cancel", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                dialog.cancel();
+            }
+        });
+        AlertDialog smsAlert = builder.create();
+        smsAlert.show();
+        return true;
+    }
+    }
+

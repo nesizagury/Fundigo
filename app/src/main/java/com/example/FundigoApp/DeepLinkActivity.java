@@ -2,20 +2,11 @@ package com.example.FundigoApp;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
-import android.preference.PreferenceManager;
+import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
-
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
 
 import io.branch.indexing.BranchUniversalObject;
 import io.branch.referral.Branch;
@@ -27,12 +18,13 @@ import io.branch.referral.util.ShareSheetStyle;
 public class DeepLinkActivity extends Activity {
     String index;
     static final int REQUEST_CODE_MY_PICK = 1;
+    Intent in=null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate (savedInstanceState);
-        setContentView (R.layout.activity_deeplink);
-        Intent in = getIntent ();
+        setContentView(R.layout.activity_deeplink);
+        in = getIntent ();
     }
 
 
@@ -92,40 +84,63 @@ public class DeepLinkActivity extends Activity {
 
     public void WebPage(View v) {
 
-        try {
-            Bitmap largeIcon = BitmapFactory.decodeResource (getResources (), R.mipmap.pic0);
-            ByteArrayOutputStream bytes = new ByteArrayOutputStream ();
-            largeIcon.compress (Bitmap.CompressFormat.JPEG, 40, bytes);
-            File f = new File (Environment.getExternalStorageDirectory () + File.separator + "test.jpg");
-            f.createNewFile ();
-            FileOutputStream fo = new FileOutputStream (f);
-            fo.write (bytes.toByteArray ());
-            fo.close ();
-        } catch (IOException e) {
-            e.printStackTrace ();
-        }
-        Intent intent = new Intent (Intent.ACTION_SEND);
-        intent.setType ("image/jpeg");
-        intent.putExtra (Intent.EXTRA_TEXT, "I`m going to " + getIntent ().getStringExtra ("name") +
-                                                    "\n" + "C u there at " + getIntent ().getStringExtra ("place") + " !" +
-                                                    "\n" + "At " + getIntent ().getStringExtra ("date") +
-                                                    "\n" + "http://eventpageURL.com/here");
-        String imagePath = Environment.getExternalStorageDirectory () + File.separator + "test.jpg";
-        File imageFileToShare = new File (imagePath);
-        Uri uri = Uri.fromFile (imageFileToShare);
-        intent.putExtra (Intent.EXTRA_STREAM, uri);
-        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences (getApplicationContext ());
-        SharedPreferences.Editor editor = sp.edit ();
-        editor.putString ("name", getIntent ().getStringExtra ("name"));
-        editor.putString ("date", getIntent ().getStringExtra ("date"));
-        editor.putString ("place", getIntent ().getStringExtra ("place"));
-        editor.apply ();
-        Intent intentPick = new Intent ();
-        intentPick.setAction (Intent.ACTION_PICK_ACTIVITY);
-        intentPick.putExtra (Intent.EXTRA_TITLE, "Launch using");
-        intentPick.putExtra (Intent.EXTRA_INTENT, intent);
-        //startActivityForResult(intentPick, REQUEST_CODE_MY_PICK);
-        startActivity (intentPick.createChooser (intent, "Share With:"));
-        finish ();
+        String faceBookUrl = in.getStringExtra("fbUrl");
+        Intent webIntent;
+
+        if (faceBookUrl != "" && faceBookUrl != null) {
+            try {
+                getPackageManager().getPackageInfo("com.facebook.katana", 0);
+                webIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("fb://facewebmodal/f?href=" + faceBookUrl));
+                startActivity(webIntent);
+            } catch (Exception e) {
+                Log.e(e.toString(), "Open link to FaceBook App is fail, sending to Browser");
+                try {
+                    webIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(faceBookUrl));
+                    startActivity(webIntent);
+                }
+                catch (Exception e1)
+                {
+                    Log.e(e1.toString(), "Open link to FaceBook Browser is fail");
+                }            }
+        } else
+            Toast.makeText(v.getContext(), "No FaceBook Page to Present", Toast.LENGTH_SHORT).show();
+
+
+        //Assaf remarked
+//        try {
+//            Bitmap largeIcon = BitmapFactory.decodeResource (getResources (), R.mipmap.pic0);
+//            ByteArrayOutputStream bytes = new ByteArrayOutputStream ();
+//            largeIcon.compress (Bitmap.CompressFormat.JPEG, 40, bytes);
+//            File f = new File (Environment.getExternalStorageDirectory () + File.separator + "test.jpg");
+//            f.createNewFile ();
+//            FileOutputStream fo = new FileOutputStream (f);
+//            fo.write (bytes.toByteArray ());
+//            fo.close ();
+//        } catch (IOException e) {
+//            e.printStackTrace ();
+//        }
+//        Intent intent = new Intent (Intent.ACTION_SEND);
+//        intent.setType ("image/jpeg");
+//        intent.putExtra (Intent.EXTRA_TEXT, "I`m going to " + getIntent ().getStringExtra ("name") +
+//                                                    "\n" + "C u there at " + getIntent ().getStringExtra ("place") + " !" +
+//                                                    "\n" + "At " + getIntent ().getStringExtra ("date") +
+//                                                    "\n" + "http://eventpageURL.com/here");
+//        String imagePath = Environment.getExternalStorageDirectory () + File.separator + "test.jpg";
+//        File imageFileToShare = new File (imagePath);
+//        Uri uri = Uri.fromFile (imageFileToShare);
+//        intent.putExtra (Intent.EXTRA_STREAM, uri);
+//        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences (getApplicationContext ());
+//        SharedPreferences.Editor editor = sp.edit ();
+//        editor.putString ("name", getIntent ().getStringExtra ("name"));
+//        editor.putString ("date", getIntent ().getStringExtra ("date"));
+//        editor.putString ("place", getIntent ().getStringExtra ("place"));
+//        editor.apply ();
+//        Intent intentPick = new Intent ();
+//        intentPick.setAction (Intent.ACTION_PICK_ACTIVITY);
+//        intentPick.putExtra (Intent.EXTRA_TITLE, "Launch using");
+//        intentPick.putExtra (Intent.EXTRA_INTENT, intent);
+//        //startActivityForResult(intentPick, REQUEST_CODE_MY_PICK);
+//        startActivity (intentPick.createChooser (intent, "Share With:"));
+//        finish ();
     }
 }

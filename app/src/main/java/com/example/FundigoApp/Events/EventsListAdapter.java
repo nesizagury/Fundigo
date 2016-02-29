@@ -94,6 +94,7 @@ public class EventsListAdapter extends BaseAdapter {
                         intent.putExtra("date",eventListHolder.date.getText().toString());
                         intent.putExtra("place", eventListHolder.place.getText().toString());
                         intent.putExtra("objectId", event.getParseObjectId ());
+                        intent.putExtra("fbUrl",event.getFbUrl());//Assaf : url link to facebook
                         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                         context.startActivity(intent);
                         break;

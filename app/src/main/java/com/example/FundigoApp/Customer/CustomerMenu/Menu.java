@@ -1,11 +1,13 @@
 package com.example.FundigoApp.Customer.CustomerMenu;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -61,11 +63,12 @@ public class Menu extends AppCompatActivity {
     Context context;
     Button user_profile_update_button;
     Button user_evnets_tickets_button;
+    private String number;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate (savedInstanceState);
-        setContentView (R.layout.activity_menu);
+        setContentView(R.layout.activity_menu);
 
         context = this;
         facebook_login_button = (LoginButton) findViewById (R.id.login_button11);
@@ -76,13 +79,13 @@ public class Menu extends AppCompatActivity {
         user_profile_update_button = (Button) findViewById (R.id.buttonUserProfileUpdate);
         user_evnets_tickets_button = (Button) findViewById (R.id.eventsTicketsButton);
         facebook_logout_button = (LoginButton) findViewById (R.id.logout_button11);
-        String number = GlobalVariables.CUSTOMER_PHONE_NUM;
+        number = GlobalVariables.CUSTOMER_PHONE_NUM;
         if (!number.equals ("GUEST")) {
-            sms_login_button.setText ("You logged in as " + number);
-            sms_login_button.setOnClickListener (null);
+            sms_login_button.setText("You logged in as " + number);
+            sms_login_button.setOnClickListener(null);
             user_profile_button.setVisibility (View.VISIBLE);//if already registered then button is visible
             user_profile_update_button.setVisibility (View.VISIBLE);
-            user_evnets_tickets_button.setVisibility (View.VISIBLE);
+            //user_evnets_tickets_button.setVisibility (View.VISIBLE); Assaf changed. Visible in any case
         }
         final AccessToken accessToken = AccessToken.getCurrentAccessToken ();
         if (accessToken != null) {
@@ -290,12 +293,37 @@ public class Menu extends AppCompatActivity {
         }
     }
 
-    public void EventsTicketsDisplay(View v) {
-        try {
-            Intent I = new Intent (this, EventsTickets.class);
-            startActivity (I);
-        } catch (Exception e) {
-            Log.e (e.toString (), "error in events tickets flow");
+    public void EventsTicketsDisplay(View v) { //Assaf: open tickets for Registered user. for Guest present a Dialog box
+
+        if (!number.equals ("GUEST")) {
+            try {
+                Intent I = new Intent(this, EventsTickets.class);
+                startActivity(I);
+            } catch (Exception e) {
+                Log.e(e.toString(), "error in events tickets flow");
+            }
+           }
+            else if (number.equals("GUEST"))//Assaf:show dialog in case  Guest want to see Tickets page. Tickets not saved for Guest
+            {
+                final AlertDialog.Builder builder = new AlertDialog.Builder (this);
+                builder.setMessage ("In Order To Save And View Tickets that Purchased You Have To Pass Registration First")
+                        .setCancelable (true)
+                        .setNeutralButton("Register by SMS", new DialogInterface.OnClickListener () {
+                            public void onClick(DialogInterface dialog, int id) {
+
+                               Intent smsRegister = new Intent(Menu.this,SmsSignUpActivity.class);
+                               startActivity(smsRegister);
+                            }
+                        });
+
+                        builder.setPositiveButton("Cancel", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                dialog.cancel();
+                            }
+                        });
+                        AlertDialog smsAlert = builder.create();
+                        smsAlert.show();
+            }
         }
     }
-}
+

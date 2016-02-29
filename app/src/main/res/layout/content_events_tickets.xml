@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    android:layout_alignParentTop="true"
+    android:orientation="horizontal"
+    android:padding="5dp"
+    tools:context="com.example.events.EventsTickets">
+    <TextView
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:padding="10dp"
+    android:text=""
+    android:id="@+id/eventName"
+        android:layout_alignTop="@+id/ticketName"
+        android:layout_alignEnd="@+id/eventNameTitle" />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_marginLeft="3dp"
+        android:padding="10dp"
+        android:layout_height="wrap_content"
+        android:text=""
+        android:id="@+id/ticketName"
+        android:layout_alignTop="@+id/price"
+        android:layout_alignStart="@+id/seatNameTitle" />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_marginLeft="3dp"
+        android:padding="10dp"
+        android:layout_height="wrap_content"
+        android:text=""
+        android:id="@+id/eventDate"
+        android:layout_marginTop="52dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignStart="@+id/eventDateTitle" />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_marginLeft="3dp"
+        android:padding="10dp"
+        android:layout_height="wrap_content"
+        android:text=""
+        android:id="@+id/price"
+        android:layout_alignTop="@+id/eventDate"
+        android:layout_alignStart="@+id/priceTitle" />
+      <Button
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="more detailes"
+        android:id="@+id/moreDetailesButton"
+        android:layout_below="@+id/ticketName"
+        android:onClick="onClickButton"
+        android:layout_alignParentEnd="true" />
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Event Name"
+        android:id="@+id/eventNameTitle"
+        android:padding="5dp"
+        android:layout_marginLeft="5dp"
+        android:layout_above="@+id/eventName"
+        android:layout_alignParentStart="true" />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Seat Name"
+        android:id="@+id/seatNameTitle"
+        android:padding="5dp"
+        android:layout_marginLeft="5dp"
+        android:layout_above="@+id/ticketName"
+        android:layout_toEndOf="@+id/eventName" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Price"
+        android:id="@+id/priceTitle"
+        android:padding="5dp"
+        android:layout_marginLeft="5dp"
+        android:layout_above="@+id/price"
+        android:layout_toStartOf="@+id/moreDetailesButton" />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Event Date"
+        android:id="@+id/eventDateTitle"
+        android:padding="5dp"
+        android:layout_marginLeft="5dp"
+        android:layout_alignTop="@+id/priceTitle"
+        android:layout_alignStart="@+id/moreDetailesButton" />
+</RelativeLayout>
