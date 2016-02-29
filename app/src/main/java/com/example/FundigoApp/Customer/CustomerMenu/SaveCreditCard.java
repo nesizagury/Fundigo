@@ -198,9 +198,9 @@ public class SaveCreditCard extends AppCompatActivity implements View.OnClickLis
                                         if(GlobalVariables.CUSTOMER_PHONE_NUM==null)parseObject.put("IdCostumer","0");
                                         else parseObject.put("IdCostumer", GlobalVariables.CUSTOMER_PHONE_NUM);
                                         parseObject.put("number", token.getCard().getNumber());
-                                        parseObject.put("moth",00);
-                                        parseObject.put("year",00);
-                                        parseObject.put("cvc","XXX");
+                                        parseObject.put("month",00);
+                                        parseObject.put("year", 00);
+                                        parseObject.put("cvc", "XXX");
                                         parseObject.save();
                                     }
                                     catch (ParseException e)
