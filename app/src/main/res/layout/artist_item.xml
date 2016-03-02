@@ -7,7 +7,6 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="ghty568u56 hjghj "
         android:id="@+id/artistName"
         android:textSize="25sp"
         android:layout_marginLeft="5dp"
@@ -19,7 +18,6 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="ytjghjghj g fgh fhyu fghjgfj"
         android:id="@+id/artist_tickets_sold"
         android:textSize="17sp"
         android:textColor="#000000"

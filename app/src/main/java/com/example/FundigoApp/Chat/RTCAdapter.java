@@ -45,7 +45,7 @@ public class RTCAdapter extends ArrayAdapter<MsgRealTime> {
             holder.userId.setText (message.getUserId ());
             if (message.isProducer ()) {
                 holder.body.setTypeface (null, Typeface.BOLD);
-                holder.userId.setText ("Producer: " + message.getUserId ());
+                holder.userId.setText (R.string.producer + message.getUserId ());
             }
         } else{
             holder.userId.setVisibility (View.GONE);

@@ -12,6 +12,17 @@ import android.widget.Toast;
 import java.io.Serializable;
 
 public class FilterPage extends AppCompatActivity implements AdapterView.OnItemClickListener, Serializable {
+
+    String sports;
+    String travel;
+    String drinks;
+    String business;
+    String fashion;
+    String education;
+    String government;
+    String home_lifeStyle;
+    String music;
+    String[] num;
     Integer[] Images = {
                                R.drawable.ic_sport, R.drawable.ic_airplane,
                                R.drawable.ic_beer, R.drawable.ic_buisness,
@@ -19,22 +30,28 @@ public class FilterPage extends AppCompatActivity implements AdapterView.OnItemC
                                R.drawable.ic_gov, R.drawable.ic_home,
                                R.drawable.ic_music
     };
-    private final String[] Names = {
-                                           "Sports", "Travel",
-                                           "Drink", "Business",
-                                           "Fashion", "Education",
-                                           "Government", "Home & LifeStyle",
-                                           "Music"
-    };
+    private String[] Names={};
 
     private static String ans;
     GridView gridView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate (savedInstanceState);
-        setContentView (R.layout.activity_filter_page);
-        setTitle ("FilterPage");
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_filter_page);
+        sports=getApplicationContext().getString(R.string.sports);
+        travel=getApplicationContext().getString(R.string.travel);
+        drinks=getApplicationContext().getString(R.string.drinks);
+        business=getApplicationContext().getString(R.string.business);
+        fashion=getApplicationContext().getString(R.string.fashion);
+        education=getApplicationContext().getString(R.string.education);
+        government=getApplicationContext().getString(R.string.government);
+        home_lifeStyle=getApplicationContext().getString(R.string.home_lifeStyle);
+        music=getApplicationContext().getString(R.string. music);
+
+        num= new String[]{sports, travel, drinks, business, fashion, education, government, home_lifeStyle, music};
+        Names=new String[]{sports, travel, drinks, business, fashion, education, government, home_lifeStyle, music};
+        setTitle (getApplicationContext().getString(R.string.filter_page));
 
         /** Create the Custom Grid View*/
         FilterImageAdapter adapter = new FilterImageAdapter (FilterPage.this, Names, Images);
@@ -58,7 +75,7 @@ public class FilterPage extends AppCompatActivity implements AdapterView.OnItemC
                 GlobalVariables.CURRENT_FILTER_NAME = "";
                 view.setBackgroundColor (Color.TRANSPARENT);
             } else {
-                Toast.makeText (this, "Can Choice One Category", Toast.LENGTH_SHORT).show ();
+                Toast.makeText (this, R.string.can_choice_one_category, Toast.LENGTH_SHORT).show ();
             }
         }
     }

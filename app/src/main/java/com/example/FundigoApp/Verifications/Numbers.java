@@ -5,6 +5,7 @@ import com.parse.ParseFile;
 import com.parse.ParseObject;
 
 import java.io.File;
+import java.util.List;
 
 @ParseClassName("Numbers")
 public class Numbers extends ParseObject {
@@ -12,8 +13,12 @@ public class Numbers extends ParseObject {
         put ("name", name);
     }
 
+    public void setCanels(String chanel) {
+        add("Chanels", chanel);
+    }
+
     public void setNumber(String number) {
-        put ("number", number);
+        put("number", number);
     }
 
     public void setPhoto(File image) {
@@ -23,6 +28,15 @@ public class Numbers extends ParseObject {
     public ParseFile getImageFile() {
         return getParseFile ("ImageFile");
     }
+
+    public List<String> getChanels() {
+        return getList("Chanels");
+    }
+
+    public void addChanels(String str) {
+        add("Chanels", str);
+    }
+
 
     public void setFbId(String fbId) {
         put ("fbId", fbId);

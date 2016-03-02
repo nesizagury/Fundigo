@@ -6,7 +6,7 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="40dp"
-        android:text="Phone Number:"
+        android:text="@string/phone_number"
         android:id="@+id/phoneTV"
         android:textSize="25sp"
         android:gravity="center"
@@ -38,7 +38,7 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="40dp"
-        android:text="Username:"
+        android:text="@string/user_name"
         android:id="@+id/usernameTV"
         android:textSize="25sp"
         android:gravity="center"
@@ -59,7 +59,7 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="40dp"
-        android:text="Insert Image"
+        android:text="@string/insert_image"
         android:id="@+id/imageTV"
         android:textSize="25sp"
         android:gravity="center"
@@ -70,7 +70,7 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Signup"
+        android:text="@string/signup"
         android:id="@+id/button2"
         android:onClick="Signup"
         android:layout_alignParentBottom="true"
@@ -81,7 +81,7 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Upload"
+        android:text="@string/upload"
         android:id="@+id/upload_button"
         android:onClick="imageUpload"
         android:visibility="invisible"
@@ -100,7 +100,7 @@
     <TextView
         android:layout_width="80dp"
         android:layout_height="25dp"
-        android:text="(optional)"
+        android:text="@string/optional"
         android:id="@+id/optionalTV"
         android:layout_below="@+id/imageV"
         android:layout_centerHorizontal="true"
@@ -112,7 +112,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Dear user, since it&apos;s your first use of purchasing tickets through the app - You must pass a sample and short registration."
+        android:text="@string/your_first_use"
         android:id="@+id/explanationTV"
         android:layout_alignTop="@+id/imageV"
         android:layout_alignBottom="@+id/imageV"

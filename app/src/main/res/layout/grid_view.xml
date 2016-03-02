@@ -52,7 +52,7 @@
                 android:layout_height="wrap_content"
                 android:gravity="left|fill_vertical"
                 android:paddingLeft="4dp"
-                android:text="The Commedy Show"
+                android:text="@string/the_commedy_show"
                 android:textColor="#000000"
                 android:textSize="15sp"
                 android:textStyle="bold"/>
@@ -91,7 +91,7 @@
                 android:background="@drawable/row_order1"
                 android:gravity="center_vertical"
                 android:paddingLeft="4dp"
-                android:text="#Party #Show"
+                android:text="@string/party_show"
                 android:textColor="#71B7E6"
                 android:textSize="10sp"
                 android:textStyle="bold"/>

@@ -3,6 +3,7 @@ package com.example.FundigoApp.Events;
 import android.graphics.Bitmap;
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.util.Log;
 
 import java.io.Serializable;
 
@@ -279,10 +280,12 @@ public class EventInfo implements Serializable, Parcelable {
     }
 
     public String getParseObjectId() {
+        Log.d("m1234","get: "+ parseObjectId);
         return parseObjectId;
     }
 
     public void setParseObjectId(String parseObjectId) {
+
         this.parseObjectId = parseObjectId;
     }
 }

@@ -17,7 +17,7 @@
         android:id="@+id/pushButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Push"
+        android:text=""
         android:layout_below="@+id/linearLayoutTop"
         android:layout_alignParentEnd="true"/>
 
@@ -33,7 +33,7 @@
         android:id="@+id/eventPage_date"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/linearLayoutTop"
+        android:layout_below="@+id/pushButton"
         android:layout_centerHorizontal="true"
         android:text="1.2.16"
         android:textAlignment="center"
@@ -49,6 +49,7 @@
         android:text="Even Gbirol 67, Tel Aviv"
         android:textAlignment="center"
         android:textColor="#000000"
+
         android:textSize="17dp"/>
 
 
@@ -85,7 +86,7 @@
             android:layout_gravity="center"
             android:layout_weight="6"
             android:gravity="fill_vertical|center_horizontal"
-            android:text="The Best Show in Israel"
+
             android:textColor="#000000"
             android:textSize="20sp"
             android:textStyle="bold"/>
@@ -126,20 +127,19 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:background="#3293CD"
-            android:gravity="center"
+
             android:onClick="editEvent"
-            android:text="Edit Event"
+            android:text="@string/edit_event"
             android:textAlignment="center"
             android:textColor="#ffffff"/>
-
         <Button
             android:id="@+id/eventPage_tags"
             android:layout_width="0dip"
             android:layout_height="fill_parent"
             android:layout_weight="1"
             android:background="#ffffff"
-            android:gravity="center"
-            android:text="#Food&amp;Drink #Convention"
+            android:gravity="center_vertical"
+            android:text="@string/food_drink_convention"
             android:textAlignment="center"
             android:textColor="#000000"/>
 
@@ -149,10 +149,13 @@
             android:layout_height="fill_parent"
             android:layout_weight="1"
             android:background="#3293CD"
-            android:gravity="center"
+
             android:onClick="openTicketsPage"
-            android:text="GET TICKETS"
+            android:text="@string/get_tickets"
             android:textColor="#ffffff"/>
+
+
+
     </LinearLayout>
 
     <ScrollView
@@ -162,7 +165,8 @@
         android:layout_above="@+id/linearLayout"
         android:layout_below="@+id/eventPage_location"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="5dp">
+        android:layout_marginTop="5dp"
+        android:fillViewport="false">
 
         <TextView
             android:id="@+id/eventInfoEventPage"
@@ -170,7 +174,6 @@
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:gravity="center"
-            android:text="ALUMINIUM CHINA is Asia‘s top trading, sourcing, networking and branding platform for the complete aluminum industry chain, bringing together leading industry figures, cutting edge technologies and advanced applications. Annually held in Shanghai, the eventParse engages the global Aluminium community with new customized matchmaking programs linking application buyers with emerging and established demands and buyers of equipment and accessories with leading suppliers."
             android:textColor="#3c3c3c"
             android:textIsSelectable="false"
             android:textSize="17sp"/>
@@ -184,7 +187,7 @@
         android:layout_alignBottom="@+id/scrollView"
         android:layout_centerHorizontal="true"
         android:onClick="eventOnRealtime"
-        android:text="Real Time"
+        android:text="@string/real_time"
         android:visibility="invisible"/>
 
 </RelativeLayout>

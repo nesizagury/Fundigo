@@ -6,7 +6,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="All Events Stats"
+        android:text="@string/all_events_stats"
         android:id="@+id/textView17"
         android:layout_gravity="center_horizontal"
         android:textSize="20sp"
@@ -15,7 +15,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="New Text"
+        android:text="@string/new_text"
         android:id="@+id/soldTV"
         android:textSize="20sp"
         android:layout_marginLeft="8dp"
@@ -24,7 +24,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="New Text"
+        android:text="@string/new_text"
         android:id="@+id/soldAvgTV"
         android:textSize="20sp"
         android:layout_marginLeft="8dp"
@@ -33,7 +33,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="New Text"
+        android:text="@string/new_text"
         android:id="@+id/soFarSumTV"
         android:textSize="20sp"
         android:layout_marginLeft="8dp"
@@ -42,7 +42,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="New Text"
+        android:text="@string/new_text"
         android:id="@+id/ticketFeeAvgTV"
         android:textSize="20sp"
         android:layout_marginLeft="8dp"
@@ -51,7 +51,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="New Text"
+        android:text="@string/new_text"
         android:id="@+id/ticketsForSaleTV"
         android:textSize="20sp"
         android:layout_marginLeft="8dp"
@@ -60,7 +60,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="New Text"
+        android:text="@string/new_text"
         android:id="@+id/forSaleValueTV"
         android:textSize="20sp"
         android:layout_marginLeft="8dp"
@@ -69,7 +69,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="New Text"
+        android:text="@string/new_text"
         android:id="@+id/eventSumTV"
         android:textSize="20sp"
         android:layout_marginLeft="8dp"
@@ -78,7 +78,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="New Text"
+        android:text="@string/new_text"
         android:id="@+id/sumArtistTV"
         android:textSize="20sp"
         android:layout_marginLeft="8dp"

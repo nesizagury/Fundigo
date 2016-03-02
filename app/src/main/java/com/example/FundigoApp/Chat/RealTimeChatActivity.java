@@ -46,17 +46,17 @@ public class RealTimeChatActivity extends AppCompatActivity implements AdapterVi
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate (savedInstanceState);
+        super.onCreate(savedInstanceState);
         setContentView (R.layout.activity_real_time_cahts);
         eventImage = (ImageView) findViewById (R.id.profileImage_rt_chat);
         eventName = (Button) findViewById (R.id.ProfileName_rt_chat);
         btnSend = (Button)findViewById (R.id.btSend_rt_Chat);
 
         Intent intent = getIntent ();
-        eventObjectId = intent.getStringExtra ("eventObjectId");
+        eventObjectId = intent.getStringExtra("eventObjectId");
         eventInfo = StaticMethods.getEventFromObjID (eventObjectId, GlobalVariables.ALL_EVENTS_DATA);
-        eventImage.setImageBitmap (eventInfo.getImageBitmap ());
-        eventName.setText (eventInfo.getName () + " (Real Time Chat)");
+        eventImage.setImageBitmap(eventInfo.getImageBitmap());
+        eventName.setText (eventInfo.getName () + R.string.real_time_chat);
         if (GlobalVariables.IS_CUSTOMER_REGISTERED_USER) {
             current_user_id = GlobalVariables.CUSTOMER_PHONE_NUM;
         } else if (GlobalVariables.IS_PRODUCER) {
@@ -207,10 +207,10 @@ public class RealTimeChatActivity extends AppCompatActivity implements AdapterVi
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         fbId = mMessageRTChats.get (position).getFbId ();
         AlertDialog.Builder builder = new AlertDialog.Builder (this);
-        builder.setTitle ("Visit user facebook page");
-        builder.setIcon (R.mipmap.ic_mor_information);
-        builder.setPositiveButton ("Go!", listener);
-        builder.setNegativeButton ("Cancel...", listener);
+        builder.setTitle (R.string.visit_user_facebook);
+        builder.setIcon(R.mipmap.ic_mor_information);
+        builder.setPositiveButton(R.string.go, listener);
+        builder.setNegativeButton(R.string.cancel,listener);
 
         AlertDialog dialog = builder.create ();
         dialog.show ();

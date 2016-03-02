@@ -25,11 +25,14 @@ public class EventOnRealtime extends Activity {
     String event_date;
     static String sumGuest = "";
     boolean eventDay = false;
+    String gust_entered;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate (savedInstanceState);
+        super.onCreate(savedInstanceState);
         setContentView (R.layout.activity_event_on_realtime);
+
+        gust_entered= String.valueOf(R.string.gust_entered);
         eventNameTV = (TextView) findViewById (R.id.eventTV);
         enteredTV = (TextView) findViewById (R.id.sumGuestTV);
         event_name = getIntent ().getStringExtra ("eventName");
@@ -64,7 +67,7 @@ public class EventOnRealtime extends Activity {
         if (eventDate.getDate () == todayDate.getDate () && eventDate.getMonth () == todayDate.getMonth ()) {
             for (int i = 0; i < events.size (); i++) {
                 if (events.get (i).getEventName ().equals (event_name)) {
-                    enteredTV.setText ("Guest's Entered: " + events.get (i).getGuestIn ());
+                    enteredTV.setText (gust_entered + events.get (i).getGuestIn ());
                     sumGuest = events.get (i).getGuestIn ();
                     eventDay = true;
                 }
@@ -84,6 +87,6 @@ public class EventOnRealtime extends Activity {
     @Override
     protected void onResume() {
         super.onResume ();
-        enteredTV.setText ("Guest's Entered: " + sumGuest);
+        enteredTV.setText (gust_entered + sumGuest);
     }
 }

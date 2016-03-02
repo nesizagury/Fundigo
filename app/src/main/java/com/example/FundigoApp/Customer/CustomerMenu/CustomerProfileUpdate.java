@@ -71,14 +71,14 @@ public class CustomerProfileUpdate extends AppCompatActivity {
                     Log.e ("Exception catch", e.toString ());
                 }
             } else {
-                Toast.makeText (getApplicationContext (), "User may not Registered or not Exist", Toast.LENGTH_SHORT).show ();
+                Toast.makeText (getApplicationContext (), R.string.user_may_not_registered_or_not_exist, Toast.LENGTH_SHORT).show ();
             }
             if (!customer.isEmpty ())
-                Toast.makeText (getApplicationContext (), "User updated and now it is: " + customer, Toast.LENGTH_SHORT).show ();
+                Toast.makeText (getApplicationContext (), R.string.user_updated_and_now_it_is + customer, Toast.LENGTH_SHORT).show ();
             else
-                Toast.makeText (getApplicationContext (), "Picture updated", Toast.LENGTH_SHORT).show ();
+                Toast.makeText (getApplicationContext (), R.string.picture_updated, Toast.LENGTH_SHORT).show ();
         } else
-            Toast.makeText (getApplicationContext (), "Nothing Selected to Update", Toast.LENGTH_SHORT).show ();
+            Toast.makeText (getApplicationContext (), R.string.nothing_selected_to_update, Toast.LENGTH_SHORT).show ();
     }
 
     public void imageUpload(View view) {

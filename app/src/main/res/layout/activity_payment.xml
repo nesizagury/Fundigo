@@ -19,7 +19,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="New Text"
+        android:text="@string/new_text"
         android:id="@+id/event_name_tv"
         android:layout_marginTop="132dp"
         android:textSize="25sp"
@@ -29,7 +29,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Price:"
+        android:text="@string/price"
         android:layout_marginTop="46dp"
         android:textSize="25sp"
         android:id="@+id/textView6"
@@ -39,7 +39,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="New Text"
+        android:text="@string/new_text"
         android:id="@+id/price_tv"
         android:textSize="25sp"
         android:layout_marginStart="46dp"
@@ -49,7 +49,7 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="New Button"
+
         android:id="@+id/button5"
         android:onClick="pay"
         android:layout_marginTop="54dp"

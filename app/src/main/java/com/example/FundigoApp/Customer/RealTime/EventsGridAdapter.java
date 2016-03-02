@@ -72,74 +72,74 @@ public class EventsGridAdapter extends BaseAdapter {
         final EventInfo event = eventList.get (i);
 
         eventGridHolder.image.setImageBitmap (event.getImageBitmap ());
-        eventGridHolder.date.setText (event.getDate ());
-        eventGridHolder.name.setText (event.getName ());
-        eventGridHolder.tags.setText (event.getTags ());
-        eventGridHolder.price.setText (event.getPrice ());
-        eventGridHolder.place.setText (event.getDist () + " km away" );
-        checkIfChangeColorToSaveButtton (event, eventGridHolder.saveEvent);
+        eventGridHolder.date.setText(event.getDate());
+        eventGridHolder.name.setText (event.getName());
+        eventGridHolder.tags.setText (event.getTags());
+        eventGridHolder.price.setText (event.getPrice());
+        eventGridHolder.place.setText (event.getDist () + ""+R.string.km_away );
+        checkIfChangeColorToSaveButtton(event, eventGridHolder.saveEvent);
         eventGridHolder.saveEvent.setOnClickListener (new View.OnClickListener () {
             @Override
             public void onClick(View v) {
                 final String eventObjId = event.getParseObjectId ();
                 if (event.getIsSaved ()) {
                     event.setIsSaved (false);
-                    eventGridHolder.saveEvent.setImageResource (R.mipmap.whh);
-                    Toast.makeText (context, "You unSaved this event", Toast.LENGTH_SHORT).show ();
-                    AsyncTask.execute (new Runnable () {
+                    eventGridHolder.saveEvent.setImageResource(R.mipmap.whh);
+                    Toast.makeText (context, R.string.you_unsaved_this_event, Toast.LENGTH_SHORT).show ();
+                    AsyncTask.execute(new Runnable() {
                         @Override
                         public void run() {
                             try {
-                                InputStream inputStream = context.getApplicationContext ().openFileInput ("saves");
-                                context.getApplicationContext ().deleteFile ("temp");
-                                OutputStream outputStreamTemp = context.getApplicationContext ().openFileOutput ("temp", Context.MODE_PRIVATE);
-                                BufferedReader bufferedReader = new BufferedReader (new InputStreamReader (inputStream));
-                                BufferedWriter bufferedWriter = new BufferedWriter (new OutputStreamWriter (outputStreamTemp));
+                                InputStream inputStream = context.getApplicationContext().openFileInput("saves");
+                                context.getApplicationContext().deleteFile("temp");
+                                OutputStream outputStreamTemp = context.getApplicationContext().openFileOutput("temp", Context.MODE_PRIVATE);
+                                BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
+                                BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(outputStreamTemp));
                                 String lineToRemove = eventObjId;
                                 String currentLine;
-                                while ((currentLine = bufferedReader.readLine ()) != null) {
+                                while ((currentLine = bufferedReader.readLine()) != null) {
                                     // trim newline when comparing with lineToRemove
-                                    String trimmedLine = currentLine.trim ();
-                                    if (trimmedLine.equals (lineToRemove)) continue;
+                                    String trimmedLine = currentLine.trim();
+                                    if (trimmedLine.equals(lineToRemove)) continue;
                                     else {
-                                        bufferedWriter.write (currentLine);
-                                        bufferedWriter.write (System.getProperty ("line.separator"));
+                                        bufferedWriter.write(currentLine);
+                                        bufferedWriter.write(System.getProperty("line.separator"));
                                     }
                                 }
-                                bufferedReader.close ();
-                                bufferedWriter.close ();
-                                inputStream = context.getApplicationContext ().openFileInput ("temp");
-                                context.getApplicationContext ().deleteFile ("saves");
-                                outputStreamTemp = context.getApplicationContext ().openFileOutput ("saves", Context.MODE_PRIVATE);
-                                bufferedReader = new BufferedReader (new InputStreamReader (inputStream));
-                                bufferedWriter = new BufferedWriter (new OutputStreamWriter (outputStreamTemp));
-                                while ((currentLine = bufferedReader.readLine ()) != null) {
-                                    bufferedWriter.write (currentLine);
-                                    bufferedWriter.write (System.getProperty ("line.separator"));
+                                bufferedReader.close();
+                                bufferedWriter.close();
+                                inputStream = context.getApplicationContext().openFileInput("temp");
+                                context.getApplicationContext().deleteFile("saves");
+                                outputStreamTemp = context.getApplicationContext().openFileOutput("saves", Context.MODE_PRIVATE);
+                                bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
+                                bufferedWriter = new BufferedWriter(new OutputStreamWriter(outputStreamTemp));
+                                while ((currentLine = bufferedReader.readLine()) != null) {
+                                    bufferedWriter.write(currentLine);
+                                    bufferedWriter.write(System.getProperty("line.separator"));
                                 }
-                                bufferedReader.close ();
-                                bufferedWriter.close ();
+                                bufferedReader.close();
+                                bufferedWriter.close();
                             } catch (FileNotFoundException e) {
-                                e.printStackTrace ();
+                                e.printStackTrace();
                             } catch (IOException e) {
-                                e.printStackTrace ();
+                                e.printStackTrace();
                             }
                         }
                     });
                 } else {
                     event.setIsSaved (true);
-                    eventGridHolder.saveEvent.setImageResource (R.mipmap.whhsaved);
-                    Toast.makeText (context, "You Saved this event", Toast.LENGTH_SHORT).show ();
-                    AsyncTask.execute (new Runnable () {
+                    eventGridHolder.saveEvent.setImageResource(R.mipmap.whhsaved);
+                    Toast.makeText (context, R.string.you_saved_this_event, Toast.LENGTH_SHORT).show ();
+                    AsyncTask.execute(new Runnable() {
                         @Override
                         public void run() {
                             try {
-                                OutputStream outputStream = context.getApplicationContext ().openFileOutput ("saves", Context.MODE_APPEND + Context.MODE_PRIVATE);
-                                outputStream.write (eventObjId.getBytes ());
-                                outputStream.write (System.getProperty ("line.separator").getBytes ());
-                                outputStream.close ();
+                                OutputStream outputStream = context.getApplicationContext().openFileOutput("saves", Context.MODE_APPEND + Context.MODE_PRIVATE);
+                                outputStream.write(eventObjId.getBytes());
+                                outputStream.write(System.getProperty("line.separator").getBytes());
+                                outputStream.close();
                             } catch (IOException e) {
-                                e.printStackTrace ();
+                                e.printStackTrace();
                             }
                         }
                     });

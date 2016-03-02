@@ -78,7 +78,7 @@ public class Menu extends AppCompatActivity {
         facebook_logout_button = (LoginButton) findViewById (R.id.logout_button11);
         String number = GlobalVariables.CUSTOMER_PHONE_NUM;
         if (!number.equals ("GUEST")) {
-            sms_login_button.setText ("You logged in as " + number);
+            sms_login_button.setText (this.getString(R.string.you_logged_in_as) + number);
             sms_login_button.setOnClickListener (null);
             user_profile_button.setVisibility (View.VISIBLE);//if already registered then button is visible
             user_profile_update_button.setVisibility (View.VISIBLE);
@@ -129,13 +129,13 @@ public class Menu extends AppCompatActivity {
 
             @Override
             public void onCancel() {
-                Toast.makeText (context, "Canceled logging facebook", Toast.LENGTH_SHORT).show ();
+                Toast.makeText (context, R.string.canceled_logging_facebook, Toast.LENGTH_SHORT).show ();
 
             }
 
             @Override
             public void onError(FacebookException exception) {
-                Toast.makeText (context, "Error logging facebook", Toast.LENGTH_SHORT).show ();
+                Toast.makeText (context, R.string.error_logging_facebook, Toast.LENGTH_SHORT).show ();
                 exception.printStackTrace ();
             }
         });
@@ -157,8 +157,8 @@ public class Menu extends AppCompatActivity {
         super.onResume ();
         String number = GlobalVariables.CUSTOMER_PHONE_NUM;
         if (!number.equals ("GUEST")) {
-            sms_login_button.setText ("You logged in as " + number);
-            sms_login_button.setOnClickListener (null);
+            sms_login_button.setText (this.getString(R.string.you_logged_in_as) + number);
+            sms_login_button.setOnClickListener(null);
             user_profile_button.setVisibility (View.VISIBLE);
             user_profile_update_button.setVisibility (View.VISIBLE);
             user_evnets_tickets_button.setVisibility (View.VISIBLE);
@@ -192,7 +192,7 @@ public class Menu extends AppCompatActivity {
             this.UserProfileDisplay ();
         } else {
             //throw new Exception("Error Occured in getUserProfile method. User is not Exist or Null");
-            Toast.makeText (getApplicationContext (), "User may not Registered or not Exist", Toast.LENGTH_SHORT).show ();
+            Toast.makeText (getApplicationContext (), R.string.user_may_not_registered_or_not_exist, Toast.LENGTH_SHORT).show ();
         }
     }
 
@@ -230,7 +230,7 @@ public class Menu extends AppCompatActivity {
         SimpleDateFormat sdf = new SimpleDateFormat ("dd/MM/yyyy_HH:mm:ss");
         String currentDateandTime = sdf.format (new Date ());
         ParsePush push = new ParsePush ();
-        push.setMessage ("Hey Come To See Events Near You (" + currentDateandTime + ")");
+        push.setMessage (this.getString(R.string.hey_come_to_see_events_near_you)+"(" + currentDateandTime + ")");
         try {
             push.send ();
         } catch (ParseException e) {
@@ -272,7 +272,7 @@ public class Menu extends AppCompatActivity {
             @Override
             public void onCompleted(GraphResponse graphResponse) {
                 LoginManager.getInstance ().logOut ();
-                Toast.makeText (context, "Loged Out of facebook", Toast.LENGTH_SHORT).show ();
+                Toast.makeText(context, R.string.loged_out_of_facebook, Toast.LENGTH_SHORT).show ();
                 facebook_login_button.setVisibility (View.VISIBLE);
                 facebook_logout_button.setVisibility (View.GONE);
                 profileFacebookPictureView.setVisibility (View.GONE);

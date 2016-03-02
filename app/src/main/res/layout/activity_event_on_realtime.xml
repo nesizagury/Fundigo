@@ -6,7 +6,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Mipo Party Real Time"
+        android:text="@string/mipo_party_real_time"
         android:id="@+id/eventTV"
         android:textColor="#480101"
         android:layout_marginTop="96dp"
@@ -18,7 +18,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Gust&apos;s Entered: "
+        android:text="@string/gust_entered"
         android:id="@+id/sumGuestTV"
         android:textSize="20sp"
         android:textColor="#480101"
@@ -29,7 +29,7 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="QR - Scanner"
+        android:text="@string/qr_scanner"
         android:onClick="addGuest"
         android:id="@+id/scannerButton"
         android:layout_centerVertical="true"

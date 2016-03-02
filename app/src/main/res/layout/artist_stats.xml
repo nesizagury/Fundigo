@@ -6,7 +6,7 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Adir Miler"
+        android:text="@string/adir_miler"
         android:id="@+id/eventTV"
         android:textSize="28sp"
         android:visibility="visible"
@@ -16,7 +16,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Sum Income:"
+        android:text="@string/sum_income"
         android:id="@+id/ticketsSoldTV"
         android:textSize="23sp"
         android:layout_below="@+id/eventTV"
@@ -37,7 +37,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Sum Tickets:"
+        android:text="@string/sum_tickets"
         android:id="@+id/ticketsLeftTV"
         android:textSize="23sp"
         android:layout_marginLeft="10dp"
@@ -48,7 +48,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Past Events:"
+        android:text="@string/past_events"
         android:id="@+id/textView11"
         android:textSize="23sp"
         android:layout_marginLeft="10dp"
@@ -59,7 +59,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Upcoming Events:"
+        android:text="@string/upcoming_events"
         android:id="@+id/textView12"
         android:textSize="23sp"
         android:layout_marginLeft="10dp"
@@ -70,7 +70,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="all Tickets:"
+        android:text="@string/all_tickets"
         android:id="@+id/textView13"
         android:textSize="23sp"
         android:layout_marginLeft="10dp"
@@ -81,7 +81,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="All Tickets Value:"
+        android:text="@string/all_tickets_value"
         android:id="@+id/textView14"
         android:textSize="23sp"
         android:layout_marginLeft="10dp"
@@ -92,7 +92,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Ticket Price avg: "
+        android:text="@string/ticket_price_avg"
         android:id="@+id/textView15"
         android:textSize="23sp"
         android:layout_marginLeft="10dp"
@@ -103,7 +103,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Upcoming Tickets Price avg:"
+        android:text="@string/upcoming_tickets_price_avg"
         android:id="@+id/textView16"
         android:textSize="23sp"
         android:layout_marginLeft="10dp"
@@ -184,7 +184,7 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Events"
+        android:text="@string/events"
         android:id="@+id/button6"
         android:onClick="goToEvents"
         android:layout_below="@+id/textView16"

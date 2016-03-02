@@ -16,7 +16,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Price:" />
+            android:text="@string/price" />
 
         <EditText
             android:id="@+id/et_price"
@@ -38,7 +38,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Quantity:" />
+            android:text="@string/quantity" />
 
         <EditText
             android:id="@+id/et_quantity"
@@ -60,14 +60,14 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Address:" />
+            android:text="@string/address" />
 
         <EditText
             android:id="@+id/et_address"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="3"
-            android:hint="Ibn Gabirol st. 23, Tel-Aviv"
+            android:hint="@string/ibn_gabirol_tel_aviv"
             android:imeActionLabel="Done" />
     </LinearLayout>
 
@@ -85,7 +85,7 @@
             android:layout_margin="10dp"
             android:layout_weight="1"
             android:gravity="center"
-            android:text="Validate Address" />
+            android:text="@string/validate_address" />
 
         <ImageView
             android:id="@+id/iv_val_add"
@@ -106,7 +106,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Place:" />
+            android:text="@string/place" />
 
         <EditText
             android:id="@+id/et_place"
@@ -124,6 +124,6 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_margin="10dp"
-        android:text="Next" />
+        android:text="@string/next" />
 
 </LinearLayout>

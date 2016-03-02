@@ -44,6 +44,7 @@ import com.parse.ParseQuery;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.ByteArrayOutputStream;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
@@ -88,29 +89,30 @@ public class StaticMethods {
                         } else {
                             bmp = null;
                         }
-                        tempEventsList.add (new EventInfo (
-                                                                  bmp,
-                                                                  eventParse.get (i).getDate (),
-                                                                  eventParse.get (i).getName (),
-                                                                  eventParse.get (i).getTags (),
-                                                                  eventParse.get (i).getPrice (),
-                                                                  eventParse.get (i).getDescription (),
-                                                                  eventParse.get (i).getAddress (),
-                                                                  eventParse.get (i).getEventToiletService (),
-                                                                  eventParse.get (i).getEventParkingService (),
-                                                                  eventParse.get (i).getEventCapacityService (),
-                                                                  eventParse.get (i).getEventATMService (),
-                                                                  eventParse.get (i).getCity (),
-                                                                  i,
-                                                                  eventParse.get (i).getFilterName ()));
-                        tempEventsList.get (i).setProducerId (eventParse.get (i).getProducerId ());
-                        tempEventsList.get (i).setX (eventParse.get (i).getX ());
-                        tempEventsList.get (i).setY (eventParse.get (i).getY ());
-                        tempEventsList.get (i).setArtist (eventParse.get (i).getArtist ());
-                        tempEventsList.get (i).setIncome (eventParse.get (i).getIncome ());
-                        tempEventsList.get (i).setSold (eventParse.get (i).getSold ());
-                        tempEventsList.get (i).setTicketsLeft (eventParse.get (i).getNumOfTicketsLeft ());
-                        tempEventsList.get (i).setParseObjectId (eventParse.get (i).getObjectId ());
+                        tempEventsList.add(new EventInfo(
+                                bmp,
+                                eventParse.get(i).getDate(),
+                                eventParse.get(i).getName(),
+                                eventParse.get(i).getTags(),
+                                eventParse.get(i).getPrice(),
+                                eventParse.get(i).getDescription(),
+                                eventParse.get(i).getAddress(),
+                                eventParse.get(i).getEventToiletService(),
+                                eventParse.get(i).getEventParkingService(),
+                                eventParse.get(i).getEventCapacityService(),
+                                eventParse.get(i).getEventATMService(),
+                                eventParse.get(i).getCity(),
+                                i,
+                                eventParse.get(i).getFilterName()));
+                        tempEventsList.get (i).setProducerId(eventParse.get(i).getProducerId());
+                        tempEventsList.get (i).setX(eventParse.get(i).getX());
+                        tempEventsList.get (i).setY(eventParse.get(i).getY());
+                        tempEventsList.get (i).setArtist(eventParse.get(i).getArtist());
+                        tempEventsList.get (i).setIncome(eventParse.get(i).getIncome());
+                        tempEventsList.get (i).setSold(eventParse.get(i).getSold());
+                        tempEventsList.get (i).setTicketsLeft(eventParse.get(i).getNumOfTicketsLeft());
+                        tempEventsList.get (i).setParseObjectId(eventParse.get(i).getObjectId());
+
                     }
                     updateSavedEvents (tempEventsList, context);
                     GlobalVariables.ALL_EVENTS_DATA.clear ();
@@ -122,12 +124,12 @@ public class StaticMethods {
                     {
                         for (int i = 0; i < GlobalVariables.ALL_EVENTS_DATA.size(); i++) {
                             if(LoginActivity.x.equals(GlobalVariables.ALL_EVENTS_DATA.get(i).getParseObjectId ())) {
-                                ic.eventDataCallback ();
+                                ic.eventDataCallback();
                                 Bundle b = new Bundle ();
-                                onEventItemClick (i, GlobalVariables.ALL_EVENTS_DATA, intent);
-                                intent.putExtras (b);
-                                context.startActivity (intent);
-                                Toast.makeText(context.getApplicationContext(), "found", Toast.LENGTH_SHORT).show();
+                                onEventItemClick(i, GlobalVariables.ALL_EVENTS_DATA, intent);
+                                intent.putExtras(b);
+                                context.startActivity(intent);
+                                Toast.makeText(context.getApplicationContext(), R.string.found, Toast.LENGTH_SHORT).show();
                                 return;
                             }
                         }
@@ -159,7 +161,12 @@ public class StaticMethods {
 
     private static void updateSavedEvents(List<EventInfo> eventsList, Context context) {
         try {
-            InputStream inputStream = context.openFileInput ("saves");
+            InputStream inputStream;
+            if(context.openFileInput ("saves")!=null){
+                inputStream = context.openFileInput ("saves");
+            }else{
+                inputStream=new FileInputStream("saves");
+            }
             if (inputStream != null) {
                 InputStreamReader inputStreamReader = new InputStreamReader (inputStream);
                 BufferedReader bufferedReader = new BufferedReader (inputStreamReader);
@@ -483,7 +490,7 @@ public class StaticMethods {
         if (event.getIsSaved ()) {
             event.setIsSaved (false);
             save.setImageResource (unsavedImageId);
-            Toast.makeText (context, "You unSaved this event", Toast.LENGTH_SHORT).show ();
+            Toast.makeText (context, R.string.you_unsaved_this_event, Toast.LENGTH_SHORT).show ();
             AsyncTask.execute (new Runnable () {
                 @Override
                 public void run() {
@@ -528,7 +535,7 @@ public class StaticMethods {
         } else {
             event.setIsSaved (true);
             save.setImageResource (savedImageId);
-            Toast.makeText (context, "You Saved this event", Toast.LENGTH_SHORT).show ();
+            Toast.makeText (context, R.string.you_saved_this_event, Toast.LENGTH_SHORT).show ();
             AsyncTask.execute (new Runnable () {
                 @Override
                 public void run() {

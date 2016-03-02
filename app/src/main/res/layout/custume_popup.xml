@@ -34,7 +34,7 @@
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="OK"
+            android:text="@string/ok"
             android:textColor="#3293CD"
             android:id="@+id/button4"
             android:layout_alignParentTop="true"

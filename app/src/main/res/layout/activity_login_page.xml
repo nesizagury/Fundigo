@@ -12,7 +12,7 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="35dp"
-        android:text="User Name:"
+        android:text="@string/user_name"
         android:id="@+id/textView"
         android:textSize="20sp"
         android:layout_marginTop="20dp"
@@ -29,7 +29,7 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="35dp"
-        android:text="Password:"
+        android:text="@string/password"
         android:id="@+id/textView2"
         android:textSize="20sp"
         android:layout_below="@+id/username_et"
@@ -45,7 +45,7 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="LOGIN"
+        android:text="@string/login"
         android:onClick="producerLogin"
         android:id="@+id/button_login"
         android:layout_below="@+id/password_et"
@@ -55,7 +55,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Producer Login:"
+        android:text="@string/producer_login"
         android:id="@+id/textView3"
         android:textSize="20sp"
         android:textStyle="bold"
@@ -65,7 +65,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Customer Login:"
+        android:text="@string/customer_log_in"
         android:id="@+id/textView4"
         android:textSize="20sp"
         android:textStyle="bold"
@@ -76,7 +76,7 @@
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="LOGIN"
+        android:text="@string/login"
         android:onClick="customerLogin"
         android:id="@+id/button_customer"
         android:layout_below="@+id/textView4"
@@ -86,7 +86,7 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Create New Producer"
+        android:text="@string/create_new_producer"
         android:onClick="signUp"
         android:id="@+id/singUpButton"
         android:layout_below="@+id/password_et"

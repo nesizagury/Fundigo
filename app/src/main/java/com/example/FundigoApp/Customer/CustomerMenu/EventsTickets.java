@@ -38,7 +38,7 @@ public class EventsTickets extends AppCompatActivity {
             ListAdapter _adapter = new EventsListAdapter (EventsTickets.this, my_tickets_events_list, false);
             listT.setAdapter (_adapter);
         } else
-            Toast.makeText (getApplicationContext (), "No Tickets to Display", Toast.LENGTH_SHORT).show ();
+            Toast.makeText (getApplicationContext (), R.string.no_tickets_to_display, Toast.LENGTH_SHORT).show ();
 
         final Intent intent = new Intent (this, EventPage.class); // When click on one of the events that in the list, it will be presented
         listT.setOnItemClickListener (new AdapterView.OnItemClickListener () {

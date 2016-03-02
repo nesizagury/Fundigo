@@ -124,9 +124,9 @@ public class SelectSeat extends AppCompatActivity {
             for (int i = 0; i < seat.size (); i++) {
                 String price;
                 if (seat.get (i).get ("price") == null || seat.get (i).get ("price") == "") {
-                    price = "Free";
+                    price = ""+R.string.free;
                 } else {
-                    price = seat.get (i).get ("price").toString () + "$";
+                    price = seat.get (i).get ("price").toString () + getApplicationContext().getString(R.string.money);
                 }
                 list.add (new SeatRow (seat.get (i).getString ("seatNumber"), price, images, seat.get (i).getObjectId ()));
 
@@ -160,8 +160,8 @@ public class SelectSeat extends AppCompatActivity {
             TextView description = (TextView) row.findViewById (R.id.textView8);
             ImageView image = (ImageView) row.findViewById (R.id.imageView6);
             Button buyTicket = (Button) row.findViewById (R.id.button3);
-            buyTicket.setText ("Buy Ticket");
-            buyTicket.setVisibility (View.GONE);
+            buyTicket.setText (R.string.buy_ticket);
+            buyTicket.setVisibility(View.GONE);
 
             row.setOnClickListener (new View.OnClickListener () {
                 @Override
@@ -176,7 +176,7 @@ public class SelectSeat extends AppCompatActivity {
             });
             final SeatRow temp = list.get (position);
             title.setText (temp.title);
-            description.setText ("Price: " + temp.description);
+            description.setText (getApplicationContext().getString(R.string.price) +" "+ temp.description);
             image.setImageResource (temp.image);
             buyTicket.setOnClickListener (new View.OnClickListener () {
                 @Override

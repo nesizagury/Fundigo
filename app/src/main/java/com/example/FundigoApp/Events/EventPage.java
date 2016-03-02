@@ -15,6 +15,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AlertDialog;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
@@ -33,12 +34,18 @@ import com.example.FundigoApp.StaticMethods;
 import com.example.FundigoApp.Tickets.GetQRCode;
 import com.example.FundigoApp.Tickets.SelectSeat;
 import com.example.FundigoApp.Verifications.LoginActivity;
+import com.example.FundigoApp.Verifications.Numbers;
 import com.google.android.gms.appindexing.Action;
 import com.google.android.gms.appindexing.AppIndex;
 import com.google.android.gms.appindexing.Thing;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
+import com.parse.FindCallback;
+import com.parse.ParseException;
+import com.parse.ParseInstallation;
+import com.parse.ParsePush;
+import com.parse.ParseQuery;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -52,6 +59,8 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.List;
+import java.util.Locale;
 
 import io.branch.indexing.BranchUniversalObject;
 import io.branch.referral.Branch;
@@ -68,7 +77,7 @@ public class EventPage extends Activity implements View.OnClickListener {
     Intent intent;
     Button editEvent;
     Button producerPush;
-
+    private static Boolean mpush=false;
     private String date;
     private String eventName;
     private String eventPlace;
@@ -80,6 +89,7 @@ public class EventPage extends Activity implements View.OnClickListener {
     Bitmap bitmap;
     EventInfo event;
     Button realTimeButton;
+    Button pushButton;
     String x;
     private GoogleApiClient mClient;
     private Uri mUrl;
@@ -87,26 +97,67 @@ public class EventPage extends Activity implements View.OnClickListener {
     private String mDescription;
     String i = "";
     private ImageView ivQrScan;
+    String evObjId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate (savedInstanceState);
-        setContentView (R.layout.activity_event_page);
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_event_page);
         ivQrScan = (ImageView) findViewById (R.id.iv_qrscan);
         producerPush = (Button) findViewById (R.id.pushButton);
+        producerPush.setOnClickListener(this);
+
+        ParseQuery<Event> query1 = ParseQuery.getQuery("Event");
+        query1.whereEqualTo("date", getIntent().getStringExtra("eventDate"));
+        query1.whereEqualTo("Name", getIntent().getStringExtra("eventName"));
+        query1.whereEqualTo("Price", getIntent().getStringExtra("eventPrice"));
+        query1.whereEqualTo("address", getIntent().getStringExtra("eventPlace"));
+        query1.findInBackground(new FindCallback<Event>() {
+            @Override
+            public void done(List<Event> objects, ParseException e) {
+                if (e == null) {
+                    evObjId = objects.get(0).getObjectId();
+                    if (GlobalVariables.IS_CUSTOMER_REGISTERED_USER){
+                        if(GlobalVariables.userChanels.indexOf(evObjId)==-1){
+                            producerPush.setText(getApplicationContext().getString(R.string.get_push));
+                        }else{
+                            producerPush.setText(getApplicationContext().getString(R.string.cancel_push));
+                        }
+
+                    }
+                }
+            }
+
+        });
+
+       // evObjId=event.getParseObjectId();//GlobalVariables.ALL_EVENTS_DATA.get(getIntent().getIntExtra("index",0)).getParseObjectId();
+
         if (GlobalVariables.IS_PRODUCER) {
             ticketsStatus = (Button) findViewById (R.id.button);
-            ticketsStatus.setText ("Tickets Status");
+            ticketsStatus.setText (this.getString(R.string.tickets_status));
             editEvent = (Button) findViewById (R.id.priceEventPage);
-            editEvent.setText ("Edit Event");
+            editEvent.setText (this.getString(R.string.edit_event));
             realTimeButton = (Button) findViewById (R.id.realTime);
-            realTimeButton.setVisibility (View.VISIBLE);
-            ivQrScan.setOnClickListener (this);
-            producerPush.setVisibility (View.VISIBLE);
-            producerPush.setOnClickListener (this);
-        } else {
+            realTimeButton.setVisibility(View.VISIBLE);
+            ivQrScan.setOnClickListener(this);
+            producerPush.setText(getApplicationContext().getString(R.string.send_push));
+
+        }
+        if(GlobalVariables.IS_CUSTOMER_REGISTERED_USER){
+            ivQrScan.setVisibility(View.GONE);
+            Log.d("m1234", "GlobalVariables.userChanels " + GlobalVariables.userChanels);
+            Log.d("m1234", "evObjId " + evObjId);
+            if(GlobalVariables.userChanels.indexOf(evObjId)!=-1){
+
+                producerPush.setText(getApplicationContext().getString(R.string.cancel_push));
+            }else {
+                producerPush.setText(getApplicationContext().getString(R.string.get_push));
+            }
+        }
+
+        if(GlobalVariables.IS_CUSTOMER_GUEST){
             ivQrScan.setVisibility (View.GONE);
-            producerPush.setVisibility (View.GONE);
+            producerPush.setVisibility(View.GONE);
         }
 
         mClient = new GoogleApiClient.Builder (this).addApi (AppIndex.API).build ();
@@ -177,6 +228,8 @@ public class EventPage extends Activity implements View.OnClickListener {
         even_addr = even_addr.replace (",", "");
         even_addr = even_addr.replace (" ", "+");
         if (GlobalVariables.MY_LOCATION != null && StaticMethods.isLocationEnabled (this)) {
+            String language = Locale.getDefault().getLanguage();
+            Log.d("m12345",Locale.getDefault().getLanguage());
             new GetEventDis2 (EventPage.this).execute (
                                                               "https://maps.googleapis.com/maps/api/distancematrix/json?origins=" +
                                                                       getLocation2 ().getLatitude () +
@@ -184,7 +237,7 @@ public class EventPage extends Activity implements View.OnClickListener {
                                                                       getLocation2 ().getLongitude () +
                                                                       "&destinations=" +
                                                                       even_addr +
-                                                                      "+Israel&mode=driving&language=en-EN&key=AIzaSyAuwajpG7_lKGFWModvUIoMqn3vvr9CMyc");
+                                                                      "+Israel&mode=driving&language="+language +"&key=AIzaSyAuwajpG7_lKGFWModvUIoMqn3vvr9CMyc");
             new GetEventDis2 (EventPage.this).execute (
                                                               "https://maps.googleapis.com/maps/api/distancematrix/json?origins=" +
                                                                       getLocation2 ().getLatitude () +
@@ -192,14 +245,14 @@ public class EventPage extends Activity implements View.OnClickListener {
                                                                       getLocation2 ().getLongitude () +
                                                                       "&destinations=" +
                                                                       even_addr +
-                                                                      "+Israel&mode=walking&language=en-EN&key=AIzaSyAuwajpG7_lKGFWModvUIoMqn3vvr9CMyc");
+                                                                      "+Israel&mode=walking&language="+language +"&key=AIzaSyAuwajpG7_lKGFWModvUIoMqn3vvr9CMyc");
         }
     }
 
     public void openTicketsPage(View view) {
         if (!GlobalVariables.IS_PRODUCER) {
             if (event.getPrice ().equals ("FREE")) {
-                Toast.makeText (this, "Event Is Free", Toast.LENGTH_LONG).show ();
+                Toast.makeText (this, this.getString(R.string.event_is_free), Toast.LENGTH_LONG).show();
             } else {
                 int id = event.getIndexInFullList ();
                 String eventPrice = event.getPrice ();
@@ -207,20 +260,22 @@ public class EventPage extends Activity implements View.OnClickListener {
                     Bundle b = new Bundle ();
                     Intent intentSeat = new Intent (EventPage.this, SelectSeat.class);
                     intentSeat.putExtras (b);
-                    intentSeat.putExtra ("eventPrice", event.getPrice ());
-                    intentSeat.putExtra ("eventName", event.getName ());
+                    intentSeat.putExtra("eventPrice", event.getPrice());
+                    intentSeat.putExtra ("eventName", event.getName());
                     intentSeat.putExtra ("phone", GlobalVariables.CUSTOMER_PHONE_NUM);
-                    intentSeat.getStringExtra ("eventPrice");
-                    intentSeat.putExtra ("eventObjectId", event.getParseObjectId ());
-                    startActivity (intentSeat);
+                    intentSeat.getStringExtra("eventPrice");
+                    intentSeat.putExtra("eventObjectId", event.getParseObjectId());
+                    Log.d("m12345","SelectSeat");
+                    startActivity(intentSeat);
                 } else {
                     Bundle b = new Bundle ();
                     Intent intentQR = new Intent (EventPage.this, GetQRCode.class);
                     intentQR.putExtra ("eventName", event.getName ());
-                    intentQR.putExtra ("eventPrice", event.getPrice ().replace ("$","").replace (" ",""));
+                    intentQR.putExtra ("eventPrice", event.getPrice ().replace ("$","").replace(" ", ""));
                     intentQR.putExtra ("phone", GlobalVariables.CUSTOMER_PHONE_NUM);
                     intentQR.putExtra ("eventObjectId", event.getParseObjectId ());
-                    intentQR.putExtras (b);
+                    intentQR.putExtras(b);
+                    Log.d("m12345", "SelectSeat");
                     startActivity (intentQR);
                 }
             }
@@ -243,49 +298,49 @@ public class EventPage extends Activity implements View.OnClickListener {
         switch (v.getId ()) {
             case R.id.imageEvenetPageView2:
                 AlertDialog.Builder builder = new AlertDialog.Builder (this);
-                builder.setMessage ("Share:")
+                builder.setMessage (this.getString(R.string.share))
                         .setCancelable (false)
-                        .setPositiveButton ("Share App Page", new DialogInterface.OnClickListener () {
+                        .setPositiveButton(this.getString(R.string.share_app_page), new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
 
-                                shareDeepLink ();
+                                shareDeepLink();
 
                             }
                         })
 
-                        .setNegativeButton ("Share Web Page", new DialogInterface.OnClickListener () {
+                        .setNegativeButton(this.getString(R.string.share_web_page), new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
                                 try {
-                                    Bitmap largeIcon = BitmapFactory.decodeResource (getResources (), R.mipmap.pic0);
-                                    ByteArrayOutputStream bytes = new ByteArrayOutputStream ();
-                                    largeIcon.compress (Bitmap.CompressFormat.JPEG, 40, bytes);
-                                    File f = new File (Environment.getExternalStorageDirectory () + File.separator + "test.jpg");
-                                    f.createNewFile ();
-                                    FileOutputStream fo = new FileOutputStream (f);
-                                    fo.write (bytes.toByteArray ());
-                                    fo.close ();
+                                    Bitmap largeIcon = BitmapFactory.decodeResource(getResources(), R.mipmap.pic0);
+                                    ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+                                    largeIcon.compress(Bitmap.CompressFormat.JPEG, 40, bytes);
+                                    File f = new File(Environment.getExternalStorageDirectory() + File.separator + "test.jpg");
+                                    f.createNewFile();
+                                    FileOutputStream fo = new FileOutputStream(f);
+                                    fo.write(bytes.toByteArray());
+                                    fo.close();
                                 } catch (IOException e) {
-                                    e.printStackTrace ();
+                                    e.printStackTrace();
                                 }
-                                Intent intent = new Intent (Intent.ACTION_SEND);
-                                intent.setType ("image/jpeg");
-                                intent.putExtra (Intent.EXTRA_TEXT, "I`m going to " + eventName +
-                                                                            "\n" + "C u there at " + date + " !" +
-                                                                            "\n" + "At " + eventPlace +
-                                                                            "\n" + "http://eventpageURL.com/here");
-                                String imagePath = Environment.getExternalStorageDirectory () + File.separator + "test.jpg";
-                                File imageFileToShare = new File (imagePath);
-                                uri = Uri.fromFile (imageFileToShare);
-                                intent.putExtra (Intent.EXTRA_STREAM, uri);
+                                Intent intent = new Intent(Intent.ACTION_SEND);
+                                intent.setType("image/jpeg");
+                                intent.putExtra(Intent.EXTRA_TEXT, "I`m going to " + eventName +
+                                        "\n" + "C u there at " + date + " !" +
+                                        "\n" + "At " + eventPlace +
+                                        "\n" + "http://eventpageURL.com/here");
+                                String imagePath = Environment.getExternalStorageDirectory() + File.separator + "test.jpg";
+                                File imageFileToShare = new File(imagePath);
+                                uri = Uri.fromFile(imageFileToShare);
+                                intent.putExtra(Intent.EXTRA_STREAM, uri);
 
-                                Intent intentPick = new Intent ();
-                                intentPick.setAction (Intent.ACTION_PICK_ACTIVITY);
-                                intentPick.putExtra (Intent.EXTRA_TITLE, "Launch using");
-                                intentPick.putExtra (Intent.EXTRA_INTENT, intent);
-                                startActivityForResult (intentPick, GlobalVariables.REQUEST_CODE_MY_PICK);
+                                Intent intentPick = new Intent();
+                                intentPick.setAction(Intent.ACTION_PICK_ACTIVITY);
+                                intentPick.putExtra(Intent.EXTRA_TITLE, "Launch using");
+                                intentPick.putExtra(Intent.EXTRA_INTENT, intent);
+                                startActivityForResult(intentPick, GlobalVariables.REQUEST_CODE_MY_PICK);
                             }
                         })
-                        .setCancelable (true);
+                                .setCancelable (true);
                 AlertDialog alert = builder.create ();
                 alert.show ();
                 break;
@@ -294,25 +349,81 @@ public class EventPage extends Activity implements View.OnClickListener {
                 break;
             case R.id.imageEvenetPageView5:
                 AlertDialog.Builder builder2 = new AlertDialog.Builder (this);
-                builder2.setTitle ("You can get more info\nabout the event!");
-                builder2.setMessage ("How do you want to do it?");
+                builder2.setTitle(this.getString(R.string.you_can_get_more_info_about_the_event));
+                builder2.setMessage(this.getString(R.string.how_do_you_want_to_do_it));
                 if (!GlobalVariables.IS_PRODUCER) {
-                    builder2.setPositiveButton ("Send message to producer", listener);
+                    builder2.setPositiveButton(this.getString(R.string.Send_message_to_producer), listener);
                 } else {
-                    builder2.setPositiveButton ("See Customers' Massages", listener);
+                    builder2.setPositiveButton (this.getString(R.string.see_customers_massages), listener);
                 }
-                builder2.setNegativeButton ("Real Time Chat", listener);
-                builder2.setNeutralButton ("Cancel...", listener);
+                builder2.setNegativeButton (this.getString(R.string.real_time_chat), listener);
+                builder2.setNeutralButton(this.getString( R.string.cancel), listener);
                 AlertDialog dialog = builder2.create ();
                 dialog.show ();
                 TextView messageText = (TextView) dialog.findViewById (android.R.id.message);
                 messageText.setGravity (Gravity.CENTER);
                 break;
             case R.id.pushButton:
-                Intent pushIntent = new Intent (EventPage.this, ProducerSendPuchActivity.class);
-                pushIntent.putExtra ("id", event.getParseObjectId ());
-                startActivity (pushIntent);
+                if (GlobalVariables.IS_PRODUCER) {
+                    Intent pushIntent = new Intent(EventPage.this, ProducerSendPuchActivity.class);
+                    pushIntent.putExtra("id", event.getParseObjectId());
+                    startActivity(pushIntent);
+                    break;
+                }
+                if(GlobalVariables.IS_CUSTOMER_REGISTERED_USER && GlobalVariables.CUSTOMER_PHONE_NUM!=null && GlobalVariables.CUSTOMER_PHONE_NUM!="GUEST"){
+                    if(GlobalVariables.userChanels.indexOf(evObjId)!=-1){
+                        producerPush.setText(getApplicationContext().getString(R.string.get_push));
+                        ParseInstallation installation = ParseInstallation.getCurrentInstallation();
+                        ParsePush.unsubscribeInBackground(evObjId);
+                        installation.saveInBackground();
+                        GlobalVariables.userChanels.remove(evObjId);
+                        ParseQuery<Numbers> query = ParseQuery.getQuery("Numbers");
+                        query.whereEqualTo("number", GlobalVariables.CUSTOMER_PHONE_NUM);
+                        //query.selectKeys(Arrays.asList("playerName", "score"));
+
+                        query.findInBackground(new FindCallback<Numbers>() {
+                            @Override
+                            public void done(List<Numbers> objects, ParseException e) {
+                                if(e==null) {
+                                    objects.get(0).removeAll("Chanels", objects.get(0).getChanels());
+                                    objects.get(0).saveInBackground();
+
+                                    objects.get(0).addAllUnique("Chanels", GlobalVariables.userChanels);
+                                    objects.get(0).saveInBackground();
+                                }
+                            }
+
+                        });
+
+                    }else {
+                        producerPush.setText(getApplicationContext().getString(R.string.cancel_push));
+                        ParseInstallation installation = ParseInstallation.getCurrentInstallation();
+                        ParsePush.subscribeInBackground(evObjId);
+                        installation.saveInBackground();
+                        GlobalVariables.userChanels.add(evObjId);
+
+                        ParseQuery<Numbers> query = ParseQuery.getQuery ("Numbers");
+                        query.whereEqualTo("number", GlobalVariables.CUSTOMER_PHONE_NUM);
+                        query.findInBackground(new FindCallback<Numbers>() {
+                            @Override
+                            public void done(List<Numbers> objects, ParseException e) {
+                                if(e==null) {
+                                    if(objects.get(0).getChanels()!=null) {
+                                        objects.get(0).getChanels().removeAll((objects.get(0).getChanels()));
+                                        objects.get(0).saveInBackground();
+                                    }
+                                    objects.get(0).addAllUnique("Chanels",GlobalVariables.userChanels);
+                                    objects.get(0).saveInBackground();
+                                }else{
+
+                                }
+                            }
+
+                        });
+                    }
+                }
                 break;
+
             case R.id.iv_qrscan:
                 IntentIntegrator integrator = new IntentIntegrator (this);
                 integrator.initiateScan ();
@@ -362,7 +473,7 @@ public class EventPage extends Activity implements View.OnClickListener {
             Toast.makeText (EventPage.this, "" + scan.getFormatName () + " " + scan.getContents () + " ObjectId is " + objectId, Toast.LENGTH_LONG).show ();
 
         } else {
-            Toast.makeText (EventPage.this, "Scan didn`t finish", Toast.LENGTH_SHORT).show ();
+            Toast.makeText (EventPage.this, R.string.scan_didnt_finish, Toast.LENGTH_SHORT).show ();
         }
         if (data != null && requestCode == GlobalVariables.REQUEST_CODE_MY_PICK) {
             StaticMethods.onActivityResult (requestCode,
@@ -383,7 +494,8 @@ public class EventPage extends Activity implements View.OnClickListener {
     }
 
     public void handleSaveEventClicked(int index) {
-        EventInfo event = GlobalVariables.ALL_EVENTS_DATA.get (index);
+        EventInfo event = GlobalVariables.ALL_EVENTS_DATA.get(index);
+        Log.d("m1234","handleSave  "+GlobalVariables.ALL_EVENTS_DATA.get(index).getParseObjectId());
         StaticMethods.handleSaveEventClicked (event,
                                                      saveButton,
                                                      this.getApplicationContext (),
@@ -498,8 +610,8 @@ public class EventPage extends Activity implements View.OnClickListener {
         BranchUniversalObject branchUniversalObject = new BranchUniversalObject ()
                                                               .setCanonicalIdentifier ("item/1234")
                                                               .setTitle ("My Content Title")
-                                                              .setContentDescription ("My Content Description")
-                                                              .setContentIndexingMode (BranchUniversalObject.CONTENT_INDEX_MODE.PUBLIC)
+                                                              .setContentDescription(this.getString(R.string.my_content_description))
+                                                              .setContentIndexingMode(BranchUniversalObject.CONTENT_INDEX_MODE.PUBLIC)
                                                               .addContentMetadata ("i", i);
 
         io.branch.referral.util.LinkProperties linkProperties = new LinkProperties ()

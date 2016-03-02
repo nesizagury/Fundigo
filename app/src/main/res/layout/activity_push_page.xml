@@ -19,7 +19,7 @@
             android:layout_height="fill_parent"
             android:layout_weight="10"
             android:gravity="center"
-            android:text="Massage"
+            android:text="@string/massage"
             android:textColor="#000000"
             android:textSize="18dp"
             android:textStyle="bold"
@@ -42,7 +42,7 @@
             android:layout_height="fill_parent"
             android:layout_weight="10"
             android:gravity="center"
-            android:text="Event Name:"
+            android:text="@string/event_name"
             android:textColor="#000000"
             android:textSize="18dp"
             android:textStyle="bold"
@@ -57,7 +57,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/linearLayoutTop2"
         android:layout_centerHorizontal="true"
-        android:text="Date:"
+        android:text="@string/date"
         android:textAlignment="center"
         android:textColor="#000000"
         android:textSize="15dp"/>
@@ -100,7 +100,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/scrollView"
             android:layout_weight="3"
-            android:text="go to event"
+            android:text="@string/go_to_event"
             />
     </LinearLayout>
 

@@ -32,7 +32,7 @@
             android:layout_width="100dp"
             android:layout_height="50dp"
             android:layout_marginStart="95dp"
-            android:text="History"
+            android:text="@string/history"
             android:background="@color/colorPrimary"
             android:id="@+id/b_history"
             />
@@ -41,7 +41,7 @@
             android:layout_width="100dp"
             android:layout_height="50dp"
             android:layout_marginStart="14dp"
-            android:text="Clear History"
+            android:text="@string/clear_history"
             android:background="@color/colorPrimary"
             android:id="@+id/b_clear"
             android:onClick="onClick"

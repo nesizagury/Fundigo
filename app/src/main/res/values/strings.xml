@@ -10,6 +10,7 @@
     <string name="title_activity_login">LoginActivity</string>
     <string name="title_activity_purchase">PurchaseActivity</string>
     <string name="title_activity_facebook_login">FacebookLogin</string>
+    <string name="login">LOGIN</string>
 
     <string name="profile_me">My Profile Pic</string>
     <string name="profile_other">Other profile pic</string>
@@ -46,7 +47,7 @@
         <item>Sport</item>
         <item>Helth</item>
         <item>Food</item>
-        <item>Drings</item>
+        <item>tickets_solds</item>
         <item>Event</item>
         <item>StendUp</item>
         <item>Music</item>
@@ -119,4 +120,205 @@
     <string name="tickets">My Events Tickets</string>
     <string name="title_activity_events_tickets">EventsTickets</string>
     <string name="title_activity_mipo">Mipo</string>
+
+
+
+
+    <string name="create_event">Create Event</string>
+    <string name="name">Name:</string>
+    <string name="pick_date">Pick a date</string>
+    <string name="artist">Artis</string>
+    <string name="description">Description</string>
+    <string name="next">Next</string>
+    <string name="user_name">User Name:</string>
+    <string name="select_picture">Select Picture:</string>
+
+    <string name="image_upload">Image Upload</string>
+    <string name="submit">Submit</string>
+    <string name="what_to_share">What would you like to share?</string>
+    <string name="app_pafw">App Page</string>
+    <string name="web_page">Web Page:</string>
+    <string name="mipo_party_real_time">Mipo Party Real Time</string>
+    <string name="gust_entered">Gust\'s Entered:</string>
+    <string name="qr_scanner">QR - Scanner</string>
+    <string name="push">Push:</string>
+    v
+    <string name="edit_event">Edit Event</string>
+    <string name="food_drink_convention">#Food Drink #Convention</string>vv
+    v
+    <string name="get_tickets">GET TICKETS</string>
+    <string name="real_time">Real Time</string>
+    <string name="events_stats">Events Stats</string>
+    <string name="list_of_my_events_and_tickets">List of My Events and Tickets</string>
+    <string name="enter_phone_number_hear">Enter Phone Number Hear</string>
+    <string name="start_downlaod">Start Downlaod</string>
+    <string name="add">Add</string>
+    <string name="create_new_producer">Create New Producer</string>
+    <string name="events">Events:</string>
+    <string name="saved_events">Saved Events</string>
+    <string name="fb">FB</string>
+    <string name="menu">Menu</string>
+    <string name="no_user">No User</string>
+    <string name="Send_push">Send PUSH</string>
+    <string name="sms_verification">Sms Verification</string>
+    <string name="phone_number">Phone Number:</string>
+    <string name="price">Price:</string>
+    <string name="new_text">New Text</string>
+    <string name="massage">Massage</string>
+    <string name="event_name">Event Name</string>
+    <string name="date">Date</string>
+    <string name="go_to_event">Go To Event</string>
+    <string name="fundigo">FUNDIGO</string>
+    <string name="turn_on_gps_to_see_real_time_events">Turn On GPS To See Real Time Events</string>
+    <string name="big_fassion_event_real_time_chat">Big Fassion Event - Real Time Chat</string>
+    <string name="history">History</string>
+    <string name="clear_history">Clear History</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="finish_reistration">Finish Reistration</string>
+    <string name="create_your_fundigo_account">Create Your Funfigo Account</string>
+    <string name="insert_image">Insert Image</string>
+    <string name="signup">Signup</string>
+    <string name="upload">Upload</string>
+    <string name="optional">(optional)</string>
+    <string name="your_first_use">Dear user, since it\'s your first use of purchasing tickets through the app - You must pass a sample and short registration.</string>
+    <string name="adir_miler">Adir Miler</string>
+    <string name="sum_income">Sum Income:</string>
+    <string name="sum_tickets">Sum Tickets:</string>
+    <string name="past_events">Past Events:</string>
+    <string name="upcoming_events">Upcoming Events:</string>
+    <string name="all_tickets">All Tickets:</string>
+    <string name="all_tickets_value">All Tickets Value:</string>
+    <string name="ticket_price_avg">Ticket Price avg: </string>
+    <string name="upcoming_tickets_price_avg">Upcoming Tickets Price avg:</string>
+    <string name="quantity">Quantity:</string>
+    <string name="address">Address:</string>
+    <string name="ibn_gabirol_tel_aviv">Ibn Gabirol st. 23, Tel-Aviv"</string>
+    <string name="validate_address">Validate Address</string>
+    <string name="place">Place:</string>
+    <string name="hall_capacity">Hall Capacity:</string>
+    <string name="parking">Parking:</string>
+    <string name="tags">Tags:</string>
+    <string name="toilet">Toilet:</string>
+    <string name="atm">ATM</string>
+    <string name="finish">Finish</string>
+    <string name="ok">OK</string>
+    <string name="all_events_stats">All Events Stats</string>
+    <string name="xxxx">xxxx</string>
+    <string name="the_commedy_show">The Commedy Show</string>
+    <string name="party_show">#Party #Show</string>
+    <string name="input_message">input message</string>
+    <string name="user_id">USER ID</string>
+    <string name="chat_with_producer">Chat with Producer</string>
+    <string name="customer">Customer : </string>
+    <string name="producer">Producer :</string>
+    <string name="real_time_chat">Real Time Chat</string>
+    <string name="visit_user_facebook">Visit user facebook page</string>
+    <string name="go">Go!</string>
+    <string name="cancel">Cancel...</string>
+    <string name="user_may_not_registered_or_not_exist">User may not Registered or not Exist</string>
+    <string name="user_updated_and_now_it_is">User updated and now it is: </string>
+    <string name="picture_updated">Picture updated</string>
+    <string name="nothing_selected_to_update">Nothing Selected to Update</string>
+    <string name="no_tickets_to_display">No Tickets To Display</string>
+    <string name="you_logged_in_as">You logged in as </string>
+    <string name="canceled_logging_facebook">Canceled logging facebook</string>
+    <string name="error_logging_facebook">Error logging facebook</string>
+    <string name="hey_come_to_see_events_near_you">Hey Come To See Events Near You </string>
+    <string name="loged_out_of_facebook">Loged Out of facebook</string>
+    <string name="km_away">km away</string>
+    <string name="you_unsaved_this_event">You unSaved this event</string>
+    <string name="you_saved_this_event">You Saved this event</string>
+    <string name="please_enter_valid_address">Please enter valid address</string>
+    <string name="please_fill_empty_forms">Please fill empty forms</string>
+    <string name="event_has_created_successfully">Event has created successfully!</string>
+    <string name="please_fill_empty_fields">"Please Fill The  Empty Fields</string>
+    <string name="are_you_sure_you_want_to_exit">Are you sure you want to exit?</string>
+    <string name="validating">Validating...</string>
+    <string name="something_went_wrong_plese_try_again">Something went wrong, plese try again</string>
+    <string name="problem_is">Problem is </string>
+    <string name="tickets_status">Tickets Status</string>
+    <string name="event_is_free">Event Is Free</string>
+    <string name="share">Share:</string>
+    <string name="share_app_page">Share App Page</string>
+    <string name="share_web_page">Share Web Page</string>
+    <string name="you_can_get_more_info_about_the_event">You can get more info
+                        about the event!</string>
+    <string name="how_do_you_want_to_do_it">How do you want to do it?</string>
+    <string name="Send_message_to_producer">Send message to producer</string>
+    <string name="see_customers_massages">See Customers\' Massages</string>
+    <string name="scan_didnt_finish">Scan didn`t finish</string>
+    <string name="my_content_title">My Content Title</string>
+
+
+    <string name="my_content_description">My Content Description</string>
+    <string name="tickets_sold">Tickets Sold</string>
+    <string name="tickets_left">Tickets Left</string>
+    <string name="future_income">Future Income</string>
+    <string name="sales_avg">Sales Avg</string>
+    <string name="so_far_income">So Far Income</string>
+    <string name="tickets_for_sale"> Tickets For Sale:  </string>
+    <string name="mum_of_events">Num Of Events: </string>
+    <string name="num_of_artists">Num Of Artists: </string>
+    <string name="tickets_fee_average_is_15">Tickets fee average is: 15%</string>
+    <string name="saved">Saved!</string>
+    <string name="congratulations_enjoy">Congratulations, Enjoy!!!</string>
+    <string name="enter_phone_number">Enter Phone Number</string>
+    <string name="downland_in_progress">Downland In Progress...</string>
+    <string name="downlaod_complete">Downlaod Complete...</string>
+    <string name="free">Free</string>
+    <string name="buy_ticket">Buy Ticket</string>
+    <string name="card_valid_and_complete">Card valid and complete</string>
+    <string name="enjoy_yout_ticket">Enjoy Yout Ticket!</string>
+    <string name="guest_login">GUEST LOGIN</string>
+    <string name="verify_email">Verify Email</string>
+    <string name="successfully_logged_in_as_producer">Successfully Logged in as producer</string>
+    <string name="wrong_password_try_again">Wrong Password, try again :)</string>
+    <string name="this_user_does_not_exist_try_again">This user does not exist, try again :)</string>
+    <string name="successfully_logged_in_as_customer">Successfully Logged in as customer</string>
+    <string name="account_created_successfully_verification_mail">Account Created Successfully!
+        Verification mail sent to your mailbox
+        please verify your account and log in.</string>
+    <string name="successfully_signed_up">"Successfully Signed Up</string>
+    <string name="invalid_phone_number_try_again">Invalid Phone Number Try Again.</string>
+    <string name="sports">Sports</string>
+    <string name="travel">Travel</string>
+    <string name="drinks">Drinks</string>
+    <string name="business">Business</string>
+    <string name="fashion">Fashion</string>
+    <string name="education">Education</string>
+    <string name="government">Government</string>
+    <string name="home_lifeStyle">Home and LifeStyle</string>
+    <string name="music">Music</string>
+    <string name="filter_page">Filter Page</string>
+    <string name="can_choice_one_category">Can Choice One Category</string>
+    <string name="stats">Stats</string>
+    <string name="not_have_history">Not have history</string>
+    <string name="input_word_to_search">Input word to search</string>
+    <string name="found">Found</string>
+    <string name="producer_login">Producer Login:</string>
+    <string name="customer_log_in">Customer Login:</string>
+    <string name="money">\$</string>
+
+
+
+    <string name="cancel_push">Cancel Push</string>
+    <string name="get_push">Get Push</string>
+    <string name="send_push">Send Push</string>
+
 </resources>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

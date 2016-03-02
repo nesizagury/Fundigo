@@ -91,7 +91,7 @@ public class Search extends AppCompatActivity implements SearchView.OnClickListe
 
                     historyPop.show ();//showing popup menu
                 } else {
-                    Toast.makeText (Search.this, "Not have history", Toast.LENGTH_SHORT).show ();
+                    Toast.makeText (Search.this,R.string.not_have_history, Toast.LENGTH_SHORT).show ();
                 }
             }
         });
@@ -100,7 +100,7 @@ public class Search extends AppCompatActivity implements SearchView.OnClickListe
             public boolean onQueryTextSubmit(String query) {
                 wordSearch = search.getQuery ().toString ();
                 if (wordSearch.length () == 0) {
-                    Toast.makeText (Search.this, "Input word to search", Toast.LENGTH_SHORT).show ();
+                    Toast.makeText (Search.this, R.string.input_word_to_search, Toast.LENGTH_SHORT).show ();
                 } else {
                     history.add (0, wordSearch);
                     saveHistory ();

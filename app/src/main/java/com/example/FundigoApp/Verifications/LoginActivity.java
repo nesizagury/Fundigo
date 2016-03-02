@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.example.FundigoApp.GlobalVariables;
@@ -22,6 +23,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import io.branch.referral.Branch;
 import io.branch.referral.BranchError;
@@ -38,20 +40,25 @@ public class LoginActivity extends Activity {
     boolean emailVerified = false;
     public static String x = "";
     boolean passwordVerified;
+    Spinner spinr;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate (savedInstanceState);
-        this.requestWindowFeature (Window.FEATURE_NO_TITLE);
-        setContentView (R.layout.activity_login_page);
+        super.onCreate(savedInstanceState);
+        this.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        setContentView(R.layout.activity_login_page);
+
         producer_usernameET = (EditText) findViewById (R.id.username_et);
         producer_passwordET = (EditText) findViewById (R.id.password_et);
         producer_loginButton = (Button) findViewById (R.id.button_login);
         customer_loginButton = (Button) findViewById (R.id.button_customer);
-
+        spinr=(Spinner)findViewById(R.id.spinner);
+        if(Locale.getDefault().getDisplayLanguage().equals("iw")){
+        }
         GlobalVariables.CUSTOMER_PHONE_NUM = StaticMethods.getCustomerPhoneNumFromFile (this);
         if (GlobalVariables.CUSTOMER_PHONE_NUM == null || GlobalVariables.CUSTOMER_PHONE_NUM.equals ("")) {
-            customer_loginButton.setText ("GUEST LOGIN");
+            customer_loginButton.setText (R.string.guest_login);
+            GlobalVariables.IS_CUSTOMER_GUEST=true;
         }
     }
 
@@ -80,13 +87,13 @@ public class LoginActivity extends Activity {
         }
         if (exists) {
             try {
-                ParseUser.logIn (producer_username, producer_password);
+                ParseUser.logIn(producer_username, producer_password);
                 if (!emailVerified) {
-                    Toast.makeText (getApplicationContext (), "verify email", Toast.LENGTH_SHORT).show ();
+                    Toast.makeText (getApplicationContext (), R.string.verify_email, Toast.LENGTH_SHORT).show ();
                     ParseUser.logOut ();
                     return;
                 }
-                Toast.makeText (getApplicationContext (), "Successfully Logged in as producer", Toast.LENGTH_SHORT).show ();
+                Toast.makeText (getApplicationContext (), R.string.successfully_logged_in_as_producer, Toast.LENGTH_SHORT).show ();
                 GlobalVariables.IS_PRODUCER = true;
                 GlobalVariables.IS_CUSTOMER_REGISTERED_USER = false;
                 GlobalVariables.IS_CUSTOMER_GUEST = false;
@@ -97,23 +104,23 @@ public class LoginActivity extends Activity {
                 startActivity (intent);
                 finish ();
             } catch (ParseException e1) {
-                Toast.makeText (getApplicationContext (), "Wrong Password, try again :)", Toast.LENGTH_SHORT).show ();
+                Toast.makeText (getApplicationContext (), R.string.wrong_password_try_again, Toast.LENGTH_SHORT).show ();
             }
         } else {
-            Toast.makeText (getApplicationContext (), "This user does not exist, try again :)", Toast.LENGTH_SHORT).show ();
+            Toast.makeText (getApplicationContext (), R.string.this_user_does_not_exist_try_again, Toast.LENGTH_SHORT).show ();
         }
     }
 
     public void customerLogin(View v) {
-        Toast.makeText (this, "Successfully Logged in as customer", Toast.LENGTH_SHORT).show ();
+        Toast.makeText (this, R.string.successfully_logged_in_as_customer, Toast.LENGTH_SHORT).show ();
         Intent intent = new Intent (this, MainActivity.class);
         if (GlobalVariables.CUSTOMER_PHONE_NUM == null || GlobalVariables.CUSTOMER_PHONE_NUM.equals ("")) {
             //at the moment we make all guest user with a trial phone num
             //for the presentation purpose
             //in the future guest will not be able to send msg
             //or save tickets etc.
-            GlobalVariables.IS_CUSTOMER_REGISTERED_USER = true;//TODO
-            GlobalVariables.IS_CUSTOMER_GUEST = false;//TODO
+            GlobalVariables.IS_CUSTOMER_REGISTERED_USER = false;//TODO
+            GlobalVariables.IS_CUSTOMER_GUEST = true;//TODO
             GlobalVariables.CUSTOMER_PHONE_NUM = TRIAL_GUEST_PHONE;
         } else {
             GlobalVariables.IS_CUSTOMER_GUEST = false;

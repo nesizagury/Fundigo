@@ -39,4 +39,5 @@ public class GlobalVariables {
     public static HashMap<Integer, Integer> popUpIDToCityIndex = new HashMap<Integer, Integer> ();
     public static int indexCityChosen = 0;
     public static String deepLink_params = "";
+    public static ArrayList<String> userChanels=new ArrayList<>();
 }

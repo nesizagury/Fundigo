@@ -10,7 +10,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_margin="10dp"
-        android:text="Create Event"
+        android:text="@string/create_event"
         android:textSize="30sp"
         android:textStyle="bold"/>
 
@@ -41,7 +41,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Name:"/>
+            android:text="@string/name"/>
 
         <EditText
             android:id="@+id/et_name"
@@ -64,7 +64,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:inputType="date"
-            android:text="Pick a date"/>
+            android:text="@string/pick_date"/>
 
         <TextView
             android:id="@+id/tv_date_new"
@@ -72,7 +72,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="2"
             android:gravity="center"
-            android:text="Pick a date"
+            android:text="@string/pick_date"
             android:visibility="gone"/>
 
     </LinearLayout>
@@ -90,7 +90,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Artist:"/>
+            android:text="@string/artist"/>
 
         <EditText
             android:id="@+id/et_artist"
@@ -112,7 +112,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Description:"/>
+            android:text="@string/description"/>
 
         <EditText
             android:id="@+id/et_description"
@@ -128,6 +128,6 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_margin="10dp"
-        android:text="Next"/>
+        android:text="@string/next"/>
 
 </LinearLayout>

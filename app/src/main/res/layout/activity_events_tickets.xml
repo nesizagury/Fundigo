@@ -23,7 +23,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="List of My Events and Tickets"
+        android:text="@string/list_of_my_events_and_tickets"
         android:textSize="20dp"
         android:id="@+id/textView10"
         android:layout_alignParentTop="true"

@@ -19,6 +19,7 @@ public class TabPagerAdapter extends FragmentStatePagerAdapter {
         switch (position) {
             case 0:
                 ProducerMainActivity tab1 = new ProducerMainActivity ();
+
                 return tab1;
             case 1:
                 AllEventsStats tab2 = new AllEventsStats ();

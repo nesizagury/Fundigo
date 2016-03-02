@@ -17,10 +17,12 @@ public class ArtistAdapter extends BaseAdapter {
     List<Artist> artistList = new ArrayList<Artist>();
     Context context;
     LayoutInflater inflater;
+    String tickets_sold;
 
     public ArtistAdapter(Context c, List<Artist> artistList) {
         this.context = c;
         this.artistList = artistList;
+        tickets_sold=context.getString(R.string.tickets_sold);
         inflater = LayoutInflater.from(this.context);
     }
 
@@ -52,7 +54,7 @@ public class ArtistAdapter extends BaseAdapter {
 
         Artist artist = (Artist) getItem(position);
         mViewHolder.tvTitle.setText(artist.getName());
-        mViewHolder.tvDesc.setText(artist.getTicketsSold() + " - Tickets sold");
+        mViewHolder.tvDesc.setText(tickets_sold + " - "+ artist.getTicketsSold() );
 
         return convertView;
     }

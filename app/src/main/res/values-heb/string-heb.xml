@@ -1,0 +1,302 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="login">התחבר</string>
+
+
+    <string name="filterPageName">סנן</string>
+
+    <string name="facebook_app_id">815026728619467</string>
+
+
+
+    <string name="profile_me">תמונת הפרופיל שלי</string>
+    <string name="profile_other">תמונת פרופיל אחרת</string>
+    <string name="message_hint">תגיד משהו</string>
+    <string name="send">שלח</string>
+
+    <string-array name="popUp">
+        <item>כל הערים</item>
+        <item>רמת-גן</item>
+        <item>טבריה</item>
+        <item>הרצליה</item>
+        <item>באר-שבע</item>
+        <item>קרית מוצקין</item>
+        <item>בני ברק</item>
+        <item>אריאל</item>
+        <item>נהריה</item>
+        <item>רחובות</item>
+        <item>תל אביב-יפו</item>
+        <item>ירושלים</item>
+        <item>עפולה</item>
+        <item>פתח תקווה</item>
+    </string-array>
+
+    <string-array name="eventServiceTitles">
+        <item>נסיעה</item>
+        <item>הליכה</item>
+        <item>שירותים</item>
+        <item>חניה</item>
+        <item>מושבים</item>
+        <item>כספומט</item>
+    </string-array>
+
+    <string-array name="autoComplateStrings">
+        <item>ספורט</item>
+        <item>בריאות</item>
+        <item>אוכל</item>
+        <item>שתייה</item>
+        <item>אירוע</item>
+        <item>סטנדאפ</item>
+        <item>מוסיקה</item>
+        <item>מסיבה</item>
+        <item>חברתי</item>
+        <item>מקצועי</item>
+    </string-array>
+
+
+
+    <string name="pref_header_general">כללי</string>
+
+    <string name="pref_title_social_recommendations">אפשר הצעות חברתיות</string>
+    <string name="pref_description_social_recommendations">הצעות חברים לפי היסטוריית הודעות</string>
+
+    <string name="pref_title_display_name">הצג שם</string>
+    <string name="pref_default_display_name">פלוני אלמוני</string>
+
+    <string name="pref_title_add_friends_to_messages">הוסף חברים לשיחה</string>
+    <string-array name="pref_example_list_titles">
+        <item>תמיד</item>
+        <item>כשמתאפשר</item>
+        <item>אף פעם</item>
+    </string-array>
+    <string-array name="pref_example_list_values">
+        <item>1</item>
+        <item>0</item>
+        <item>-1</item>
+    </string-array>
+
+    <!-- Example settings for Data & Sync -->
+    <string name="pref_header_data_sync">מידע &amp; sync</string>
+
+    <string name="pref_title_sync_frequency">קבץ סכון</string>
+    <string-array name="pref_sync_frequency_titles">
+        <item>15 דקות</item>
+        <item>30 דקות</item>
+        <item>שעה</item>
+        <item>3 שעות</item>
+        <item>6 שעות</item>
+        <item>אף פעם</item>
+    </string-array>
+    <string-array name="pref_sync_frequency_values">
+        <item>15</item>
+        <item>30</item>
+        <item>60</item>
+        <item>180</item>
+        <item>360</item>
+        <item>-1</item>
+    </string-array>
+
+    <string name="pref_title_system_sync_settings">הגדרות סכרון</string>
+
+    <!-- Example settings for Notifications -->
+    <string name="pref_header_notifications">התראות</string>
+
+    <string name="pref_title_new_message_notifications">התראה חדשה</string>
+
+    <string name="pref_title_ringtone">ריגנטון</string>
+    <string name="pref_ringtone_silent">שקט</string>
+
+    <string name="pref_title_vibrate">רטט</string>
+
+    <string name="userDetailes">הפרופיל שלי</string>
+
+    <string name="updateProfile">עדכן את הפרופיל שלי</string>
+    <string name="tickets">כרטיסי האירועים שלי</string>
+    <string name="title_activity_events_tickets">EventsTickets</string>
+    <string name="title_activity_mipo">Mipo</string>
+
+
+
+
+
+    <string name="create_event">צור אירוע</string>
+    <string name="name">שם:</string>
+    <string name="pick_date">בחר תאריך</string>
+    <string name="artist">אמנים</string>
+    <string name="description">תיאור</string>
+    <string name="next">הבא</string>
+    <string name="user_name">שם משתמש:</string>
+    <string name="select_picture">בחר תמונה:</string>
+
+    <string name="image_upload">העלה תמונה</string>
+    <string name="submit">טען</string>
+    <string name="what_to_share">מה תרצה לשתף?</string>
+    <string name="app_pafw">דף רפליקציה</string>
+    <string name="web_page">עמוד אינטרנט:</string>
+    <string name="mipo_party_real_time">מסיבות מיפו בזמן אמת</string>
+    <string name="gust_entered">אורח רשום:</string>
+    <string name="qr_scanner">סורק QR</string>
+    <string name="push">התראות:</string>
+    v
+    <string name="edit_event">ערוך אירוע</string>
+    <string name="food_drink_convention">#אוכל #שתייה #שיחות</string>vv
+    v
+    <string name="get_tickets">קנה כרטיס</string>
+    <string name="real_time">זמן אמת</string>
+    <string name="events_stats">מצב אירוע</string>
+    <string name="list_of_my_events_and_tickets">רשימת הכרטיסים והאירועים</string>
+    <string name="enter_phone_number_hear">הכנס מספר טלפון כאן</string>
+    <string name="start_downlaod">התחל הורדה</string>
+    <string name="add">אפליקציה</string>
+    <string name="create_new_producer">צור מפיק חדש</string>
+    <string name="events">אירועים</string>
+    <string name="saved_events">אירועים שמורים</string>
+    <string name="fb">פייסבוק</string>
+    <string name="menu">תפריט</string>
+    <string name="no_user">אין משתמש</string>
+    <string name="Send_push">שלח התראות</string>
+    <string name="sms_verification">וידוא בהודעה</string>
+    <string name="phone_number">מספר טלפון:</string>
+    <string name="price">מחיר</string>
+    <string name="new_text">טקסט חדש</string>
+    <string name="massage">הודעה</string>
+    <string name="event_name">שם האירוע</string>
+    <string name="date">תאריך</string>
+    <string name="go_to_event">לך לאירוע</string>
+    <string name="fundigo">פנדיגו</string>
+    <string name="turn_on_gps_to_see_real_time_events">ההפעל GPS כדי לראות אירועים בזמן אמת</string>
+    <string name="big_fassion_event_real_time_chat">Big Fassion Event - Real Time Chat</string>
+    <string name="history">היסטוריה</string>
+    <string name="clear_history">נקה היסטוריה</string>
+    <string name="email">דאימייל</string>
+    <string name="password">סיסמה</string>
+    <string name="finish_reistration">הרשמה הסתיימה</string>
+    <string name="create_your_fundigo_account">צור חשבון בפנדיגו</string>
+    <string name="insert_image">הכנס תמונה</string>
+    <string name="signup">בירשם</string>
+    <string name="upload">העלה</string>
+    <string name="optional">(אופציונלי)</string>
+    <string name="your_first_use">משתמש יקר, מאחר וזאת הפעם הראשונה שאתה רוכש כרטיס דרך האפליקציה- עליך לעבור תהליך הרשמה קצר.</string>
+    <string name="adir_miler">אדיר מילר</string>
+    <string name="sum_income">סכום הכנסות:</string>
+    <string name="sum_tickets">סכום כרטיסים</string>
+    <string name="past_events">אירועים שעברו:</string>
+    <string name="upcoming_events">אירועים עתידיים::</string>
+    <string name="all_tickets">כל הכרטיסים</string>
+    <string name="all_tickets_value">ערך כל הכרטיסים</string>
+    <string name="ticket_price_avg">ממחיר ממוצע כרטיס: </string>
+    <string name="upcoming_tickets_price_avg">מיר ממוצע אירועים עתידיים</string>
+    <string name="quantity">כמות:</string>
+    <string name="address">כתובת:</string>
+    <string name="ibn_gabirol_tel_aviv">אבן גבירול תל אביב"</string>
+    <string name="validate_address">אמת כתובת</string>
+    <string name="place">מקום: </string>
+    <string name="hall_capacity">תכולת אולם: </string>
+    <string name="parking">חניה: </string>
+    <string name="tags">טגיות</string>
+    <string name="toilet">שירותים: </string>
+    <string name="atm">כספומט</string>
+    <string name="finish">סיים</string>
+    <string name="ok">אישור</string>
+    <string name="all_events_stats">מצב כל האירועים</string>
+    <string name="xxxx">xxxx</string>
+    <string name="the_commedy_show">The Commedy Show</string>
+    <string name="party_show">#Party #Show</string>
+    <string name="input_message">הכנס הודעה</string>
+    <string name="user_id">מזהה משתמש</string>
+    <string name="chat_with_producer">פנה למפיק האירוע</string>
+    <string name="customer">לקוח: </string>
+    <string name="producer">מפיק: </string>
+    <string name="real_time_chat">שיחות בזמן אמת</string>
+    <string name="visit_user_facebook">בקר בעמוד הפייסבוק של המשתמש</string>
+    <string name="go">לך</string>
+    <string name="cancel">בטל..</string>
+    <string name="user_may_not_registered_or_not_exist">משתמש אנינו רושום או אינו קיים</string>
+    <string name="user_updated_and_now_it_is">משתמש עודכן וכעת הוא:  </string>
+    <string name="picture_updated">העלה תמונה</string>
+    <string name="nothing_selected_to_update">לא נבחר דבר לעדכון</string>
+    <string name="no_tickets_to_display">אין כרטיסים להצגה</string>
+    <string name="you_logged_in_as">מחובר כ- </string>
+    <string name="canceled_logging_facebook">בוטלה הרשמה דרך פייסבוק</string>
+    <string name="error_logging_facebook">שגיעה בהתחברות לפייסבוק</string>
+    <string name="hey_come_to_see_events_near_you">בוא לראות אירועים לידך</string>
+    <string name="loged_out_of_facebook">התנתק מפייסבוק</string>
+    <string name="km_away">ק\"מ</string>
+    <string name="you_unsaved_this_event">אירוע אינו שמומר</string>
+    <string name="you_saved_this_event">אירוע שמור</string>
+    <string name="please_enter_valid_address">הכנס כתובת נכונה בבקשה</string>
+    <string name="please_fill_empty_forms">מלא נתונים חסרים</string>
+    <string name="event_has_created_successfully">אירוע נוצר בהצלחה!</string>
+    <string name="please_fill_empty_fields">"מלא שדות חסרים</string>
+    <string name="are_you_sure_you_want_to_exit">האם אתה בטוח שברצונך לצאת?</string>
+    <string name="validating">מבדא...</string>
+    <string name="something_went_wrong_plese_try_again">משהוא השתבש נסה שוב</string>
+    <string name="problem_is">הבעיה היא </string>
+    <string name="tickets_status">מצב כרטיסים</string>
+    <string name="event_is_free">אירוע חינמי</string>
+    <string name="share">שתף:</string>
+    <string name="share_app_page">שתף עמוד אפליקצה</string>
+    <string name="share_web_page">שתף עמוד אינטרנט</string>
+    <string name="you_can_get_more_info_about_the_event">אתה יכול לקבל עוד מידע
+    על האירוע</string>
+    <string name="how_do_you_want_to_do_it">איך תרצה לעשות זאת</string>
+    <string name="Send_message_to_producer">שלח הודעה למפיק</string>
+    <string name="see_customers_massages">ראה הודעות לקוח</string>
+    <string name="scan_didnt_finish">סריקה לא הסתיימה</string>
+    <string name="my_content_title">כותרת התוכן שלי</string>
+
+
+    <string name="my_content_description">תיאור התוכן שלי</string>
+    <string name="tickets_sold">כרטיסים שנמכרו: </string>
+    <string name="tickets_left">כרטיסים שנותרו: </string>
+    <string name="future_income">הכנסות עתדיות: </string>
+    <string name="sales_avg">ממוצע מכירות: </string>
+    <string name="so_far_income">הכנסות עד עכשיו: </string>
+    <string name="tickets_for_sale">כרטיסים למכירה: </string>
+    <string name="mum_of_events">מספר כרטיסים:</string>
+    <string name="num_of_artists">מספר אמנים</string>
+    <string name="tickets_fee_average_is_15">מממוצע עמלות 15%</string>
+    <string name="saved">נשמר!</string>
+    <string name="congratulations_enjoy">בירכותנו תהנה!!</string>
+    <string name="enter_phone_number">הכנס מספר טלפון</string>
+    <string name="downland_in_progress">בהורדה..</string>
+    <string name="downlaod_complete">הורדה הושלמה.</string>
+    <string name="free">חינם</string>
+    <string name="buy_ticket">קנה כרטיס</string>
+    <string name="card_valid_and_complete">כרטיס קיים ומושלם</string>
+    <string name="enjoy_yout_ticket">תהנה מהכרטיסים שלך</string>
+    <string name="guest_login">כניסת אורח</string>
+    <string name="verify_email">ודא אימייל</string>
+    <string name="successfully_logged_in_as_producer">התחבר בהצלחה כמפיק</string>
+    <string name="wrong_password_try_again">סיסמה לא נכונ, נסה שוב :)</string>
+    <string name="this_user_does_not_exist_try_again">משתמש זה אינו קיים, נסה שוב :)</string>
+    <string name="successfully_logged_in_as_customer">התחבר בהצלחה כלקוח</string>
+    <string name="account_created_successfully_verification_mail">חשבון נוצר בהצלחה!
+        אימייל אימות נשלך לתיבת הדואר הנכנס שלך
+        אנא ודא אימייל והתחבר </string>
+    <string name="successfully_signed_up">"נרשם בהצלחה</string>
+    <string name="invalid_phone_number_try_again">מספר טלפון לא קיים נסה שוב</string>
+    <string name="sports">ספורט</string>
+    <string name="travel">טיולים</string>
+    <string name="drinks">שתייה</string>
+    <string name="business">עסקים</string>
+    <string name="fashion">אופנה</string>
+    <string name="education">השכלה</string>
+    <string name="government">מדינה</string>
+    <string name="home_lifeStyle">בית וסגנון חיים</string>
+    <string name="music">מוסיקה</string>
+    <string name="filter_page">סנן עמודים</string>
+    <string name="can_choice_one_category">אפשר לבחור קטגוריה אחת</string>
+    <string name="stats">מצב</string>
+    <string name="not_have_history">אין היסטוריה</string>
+    <string name="input_word_to_search">הכנס מילה לחיפוש</string>
+    <string name="found">נמצא</string>
+    <string name="producer_login">התחברות מפיק</string>
+    <string name="customer_log_in">התחברות לקוח:</string>
+    <string name="money">ש\"ח</string>
+
+    <string name="cancel_push">בטל התראות</string>
+    <string name="get_push">קבל התראות</string>
+    <string name="sen_push">שלח התראות</string>
+
+</resources>

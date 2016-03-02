@@ -19,10 +19,12 @@
     <uses-feature android:name="android.hardware.camera"/>
     <uses-feature android:name="android.hardware.camera.autofocus"/>
 
-    <permission
+    <permission android:protectionLevel="signature"
         android:name="com.example.FundigoApp.permission.C2D_MESSAGE"
-        android:protectionLevel="signature"/>
+        />
     <uses-permission android:name="com.example.events.permission.C2D_MESSAGE"/>
+
+
 
     <uses-feature android:name="android.hardware.camera"/>
     <uses-feature android:name="android.hardware.camera.autofocus"/>
@@ -30,11 +32,13 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
 
     <application
+        android:supportsRtl="true"
         android:name="com.example.FundigoApp.Fundigo"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="Fundigo"
         android:theme="@style/AppTheme">
+
         <activity
             android:name=".MainActivity"
             android:launchMode="singleTask">

@@ -18,7 +18,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Hall capacity:" />
+            android:text="@string/hall_capacity" />
 
         <EditText
             android:id="@+id/et_capacity"
@@ -40,7 +40,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Parking:" />
+            android:text="@string/parking" />
 
         <EditText
             android:id="@+id/et_parking"
@@ -65,7 +65,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Tags:" />
+            android:text="@string/tags" />
 
         <EditText
             android:id="@+id/et_tags"
@@ -87,7 +87,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Toilet:" />
+            android:text="@string/toilet" />
 
         <EditText
             android:id="@+id/et_toilet"
@@ -100,7 +100,7 @@
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="wrap_content"
-            android:text="ATM"
+            android:text="@string/atm"
             android:id="@+id/checkBox"
             android:checked="false"
             android:layout_above="@+id/yET"
@@ -113,7 +113,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_margin="10dp"
-        android:text="Upload picture" />
+        android:text="@string/image_upload" />
 
     <ImageView
         android:layout_width="150dp"
@@ -129,6 +129,6 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_margin="10dp"
-        android:text="Finish" />
+        android:text="@string/finish" />
 
 </LinearLayout>

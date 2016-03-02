@@ -36,6 +36,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import io.branch.referral.Branch;
 import io.branch.referral.BranchError;
@@ -48,26 +49,37 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     Button event, savedEvent, realTime;
     static Button currentCityButton;
     ImageView search, notification;
+    String artist;
+    String stats;
 
     static PopupMenu popup;
     Context context;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate (savedInstanceState);
+        super.onCreate(savedInstanceState);
         if (GlobalVariables.IS_CUSTOMER_GUEST || GlobalVariables.IS_CUSTOMER_REGISTERED_USER) {
             createCustomerMainPage ();
         } else if (GlobalVariables.IS_PRODUCER) {
             createProducerMainPage ();
         }
+
+
     }
 
     public void createProducerMainPage() {
         setContentView (R.layout.producer_avtivity_main);
 
         TabLayout tabLayout = (TabLayout) findViewById (R.id.tab_layout);
-        tabLayout.addTab (tabLayout.newTab ().setText ("Artists"));
-        tabLayout.addTab (tabLayout.newTab ().setText ("Stats"));
+        String lng =Locale.getDefault().getDisplayLanguage();
+        Log.d("m1234",lng);
+        if(lng.equals("עברית")) {
+            tabLayout.addTab(tabLayout.newTab().setText("אמנים"));
+            tabLayout.addTab(tabLayout.newTab().setText("מידע"));
+        }else{
+            tabLayout.addTab(tabLayout.newTab().setText("Artist"));
+            tabLayout.addTab(tabLayout.newTab().setText("State"));
+        }
         tabLayout.setTabGravity (TabLayout.GRAVITY_FILL);
 
         final ViewPager viewPager = (ViewPager) findViewById (R.id.pager);
@@ -335,6 +347,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         Intent intent = new Intent (this, EventPage.class);
         StaticMethods.onEventItemClick (i, filtered_events_data, intent);
         intent.putExtras (b);
+        intent.putExtra("index",i);
         startActivity (intent);
     }
 
@@ -361,7 +374,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                 if (error == null) {
                     // params are the deep linked params associated with the link that the user clicked before showing up
                     try {
-                        GlobalVariables.deepLink_params = referringParams.getString ("objectId");
+                       GlobalVariables.deepLink_params = referringParams.getString ("objectId");
                         for (int i = 0; i < filtered_events_data.size (); i++) {
                             if (GlobalVariables.deepLink_params.equals (filtered_events_data.get (i).getParseObjectId ())) {
                                 Intent intent = new Intent (context, EventPage.class);

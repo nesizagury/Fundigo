@@ -31,7 +31,7 @@
             android:layout_height="55dip"
             android:layout_weight="300"
             android:background="#3293CD"
-            android:text="Big Fassion Event - Real Time Chat"
+            android:text="@string/big_fassion_event_real_time_chat"
             android:textColor="#ffffff"
             android:textSize="15sp"
             android:gravity="center"/>

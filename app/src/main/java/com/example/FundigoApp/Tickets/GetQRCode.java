@@ -49,15 +49,15 @@ public class GetQRCode extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate (savedInstanceState);
-        setContentView (R.layout.activity_get_rqcode);
+        setContentView(R.layout.activity_get_rqcode);
         qr_down_butt = (Button) findViewById (R.id.qr_down_butt);
         qr_image = (ImageView) findViewById (R.id.qr_image);
         enterPhone = (EditText) findViewById (R.id.edit_text);
         enterPhone.setInputType (InputType.TYPE_CLASS_PHONE);
-        enterPhone.setBackgroundColor (Color.GRAY);
+        enterPhone.setBackgroundColor(Color.GRAY);
         qr_down_butt.setBackgroundColor (Color.GRAY);
         congrad = (TextView) findViewById (R.id.congrates);
-        congrad.setText ("Congratulations, Enjoy!!!");
+        congrad.setText (R.string.congratulations_enjoy);
         congrad.setVisibility (View.GONE);
 
         final Intent myIntent = getIntent ();
@@ -75,7 +75,7 @@ public class GetQRCode extends AppCompatActivity {
                     downlandTask.execute (googleUrl + "972" + enterPhone.getText ().toString () + eventObjectId + "" + System.currentTimeMillis ());
                     Log.d ("mmmm1", googleUrl + "972" + enterPhone.getText ().toString () + eventObjectId + System.currentTimeMillis ());
                 } else {
-                    Toast.makeText (getApplicationContext (), "Enter Phone Number", Toast.LENGTH_LONG).show ();
+                    Toast.makeText (getApplicationContext (), R.string.enter_phone_number, Toast.LENGTH_LONG).show();
                 }
             }
         });
@@ -95,8 +95,8 @@ public class GetQRCode extends AppCompatActivity {
         protected void onPreExecute() {
             super.onPreExecute ();
             progressDialog = new ProgressDialog (GetQRCode.this);
-            progressDialog.setTitle ("Downland In Progress...");
-            progressDialog.setProgressStyle (ProgressDialog.STYLE_HORIZONTAL);
+            progressDialog.setTitle (R.string.downland_in_progress);
+            progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
             progressDialog.setMax (100);
             progressDialog.setProgress (0);
             progressDialog.show ();
@@ -142,7 +142,7 @@ public class GetQRCode extends AppCompatActivity {
                 e.printStackTrace ();
             }
 
-            return "Downlaod Complete...";
+            return ""+R.string.downlaod_complete;
         }
 
         @Override

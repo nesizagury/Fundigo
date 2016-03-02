@@ -46,7 +46,7 @@ public class VerifyCard extends AppCompatActivity {
     CardValidCallback cardValidCallback = new CardValidCallback () {
         @Override
         public void cardValid(CreditCard card) {
-            Toast.makeText (VerifyCard.this, "Card valid and complete", Toast.LENGTH_SHORT).show ();
+            Toast.makeText (VerifyCard.this, R.string.card_valid_and_complete, Toast.LENGTH_SHORT).show ();
             ParseQuery<Event> query = new ParseQuery<Event> ("Event");
             query.whereEqualTo ("eventObjectId", eventObjectId);
             List<Event> list = null;
@@ -56,7 +56,7 @@ public class VerifyCard extends AppCompatActivity {
                 int tickets = Integer.parseInt (eventParse.getNumOfTicketsLeft ());
                 int t = tickets - 1;
                 String left = Integer.toString (t);
-                Toast.makeText (VerifyCard.this, "Enjoy Yout Ticket!", Toast.LENGTH_LONG).show ();
+                Toast.makeText (VerifyCard.this, R.string.enjoy_yout_ticket, Toast.LENGTH_LONG).show ();
                 eventParse.put ("NumOfTicketsLeft", left);
                 try {
                     eventParse.save ();

@@ -65,8 +65,8 @@ public class ChatActivity extends Activity {
             profileName.setText (customerPhone);
             updateUserDetailsFromParse ();
         } else if (GlobalVariables.IS_CUSTOMER_REGISTERED_USER) {
-            profileName.setText (eventName + " (Chat with Producer)");
-            setEventInfo (eventInfo.getImageBitmap ());
+            profileName.setText (eventName +  R.string.chat_with_producer);
+            setEventInfo(eventInfo.getImageBitmap());
         }
         etMessage = (EditText) findViewById (R.id.etMessageChat);
         lvChat = (ListView) findViewById (R.id.messageListviewChat);
@@ -221,9 +221,9 @@ public class ChatActivity extends Activity {
     public void updateMessageRoomItemInBackGround(final Message message) {
         String senderType = "";
         if (GlobalVariables.IS_CUSTOMER_REGISTERED_USER) {
-            senderType = "Customer : ";
+            senderType = String.valueOf(R.string.customer);
         } else if (GlobalVariables.IS_PRODUCER) {
-            senderType = "Producer : ";
+            senderType = String.valueOf(R.string.producer);
         }
         final String senderTypeFinal = senderType;
         ParseQuery<Room> query = ParseQuery.getQuery ("Room");

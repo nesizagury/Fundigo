@@ -44,7 +44,7 @@ public class TicketsPage extends AppCompatActivity {
         @Override
         public void cardValid(CreditCard card) {
             makePurchase ();
-            Toast.makeText (TicketsPage.this, "Card valid and complete", Toast.LENGTH_SHORT).show ();
+            Toast.makeText (TicketsPage.this, R.string.card_valid_and_complete, Toast.LENGTH_SHORT).show ();
         }
     };
 
@@ -66,8 +66,8 @@ public class TicketsPage extends AppCompatActivity {
             int tickets = Integer.parseInt (event.getNumOfTicketsLeft ());
             int t = tickets - 1;
             String left = Integer.toString (t);
-            Toast.makeText (TicketsPage.this, "Enjoy Yout Ticket!", Toast.LENGTH_LONG).show ();
-            event.put ("NumOfTicketsLeft", left);
+            Toast.makeText (TicketsPage.this, R.string.enjoy_yout_ticket, Toast.LENGTH_LONG).show ();
+            event.put("NumOfTicketsLeft", left);
             event.save ();
         } catch (Exception e1) {
             e1.printStackTrace ();

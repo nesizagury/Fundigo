@@ -30,14 +30,14 @@ public class EventStatus extends Activity {
         for (int i = 0; i < GlobalVariables.ALL_EVENTS_DATA.size (); i++) {
             EventInfo event = GlobalVariables.ALL_EVENTS_DATA.get (i);
             if (event.getParseObjectId ().equals (getIntent ().getStringExtra ("eventObjectId"))) {
-                soldTV.setText ("Tickets Sold: " + event.getSold ());
-                leftTV.setText ("Tickets Left: " + event.getTicketsLeft ());
-                incomeTV.setText ("Sum Income: " + event.getIncome ());
+                soldTV.setText (R.string.tickets_sold + event.getSold ());
+                leftTV.setText (R.string.tickets_left + event.getTicketsLeft ());
+                incomeTV.setText (R.string.sum_income + event.getIncome ());
                 StringBuilder sb = new StringBuilder (event.getPrice ());
                 sb.deleteCharAt (sb.length () - 1);
                 int ticketsLeft = Integer.parseInt (event.getTicketsLeft ());
                 int price = Integer.parseInt (sb.toString ());
-                futureTV.setText ("Future Income: " + (price * ticketsLeft));
+                futureTV.setText (R.string.future_income + (price * ticketsLeft));
                 break;
             }
         }

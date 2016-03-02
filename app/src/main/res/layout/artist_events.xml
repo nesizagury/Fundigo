@@ -6,7 +6,7 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Adir Miler"
+        android:text="@string/adir_miler"
         android:id="@+id/artistNameEventsPage"
         android:textSize="28sp"
         android:visibility="visible"

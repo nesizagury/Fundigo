@@ -14,8 +14,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-
-        android:text="Enter Phone Number Hear"/>
+        android:text="@string/enter_phone_number_hear"/>
 
     <EditText
         android:layout_width="match_parent"
@@ -31,7 +30,7 @@
     <Button
         android:layout_width="180dp"
         android:layout_height="wrap_content"
-        android:text="Start Downlaod"
+        android:text="@string/start_downlaod"
         android:id="@+id/qr_down_butt"
         android:gravity="center"
         android:layout_gravity="center_horizontal" />

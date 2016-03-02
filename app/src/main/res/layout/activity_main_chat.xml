@@ -32,7 +32,6 @@
             android:layout_height="55dip"
             android:layout_weight="310"
             android:background="#3293CD"
-            android:text="0527959455"
             android:textColor="#ffffff"
             android:textSize="15sp"
             android:gravity="center"/>
@@ -43,7 +42,7 @@
             android:layout_height="55dip"
             android:layout_weight="40"
             android:background="#3293CD"
-            android:text="FB"
+            android:text="@string/fb"
             android:textColor="#ffffff"
             android:textSize="15sp"
             android:onClick="oOpenFacebookIntent"/>

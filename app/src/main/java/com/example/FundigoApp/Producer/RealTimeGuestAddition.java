@@ -62,7 +62,7 @@ public class RealTimeGuestAddition extends Activity {
             public void done(ParseException e) {
 
                 if(e == null) {
-                    Toast.makeText(getApplicationContext(), "Saved!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), R.string.saved, Toast.LENGTH_SHORT).show();
                     finish();
                 }
 

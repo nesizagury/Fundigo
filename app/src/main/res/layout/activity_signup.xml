@@ -6,7 +6,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Username    "
+        android:text="@string/user_name"
         android:id="@+id/textView10"
         android:textSize="16sp"
         android:layout_marginBottom="46dp"
@@ -19,7 +19,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Email"
+        android:text="@string/email"
         android:id="@+id/textView19"
         android:textSize="16sp"
         android:layout_above="@+id/emailET"
@@ -49,7 +49,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Password"
+        android:text="@string/password"
         android:id="@+id/textView20"
         android:textSize="16sp"
         android:layout_below="@+id/usernameET"
@@ -69,7 +69,7 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Finish Reistration"
+        android:text="@string/finish_reistration"
         android:onClick="createAccount"
         android:id="@+id/button8"
         android:background="#71B7E6"
@@ -83,7 +83,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Create Your Funfigo Account"
+        android:text="@string/create_your_fundigo_account"
         android:id="@+id/textView21"
         android:layout_marginTop="40dp"
         android:textColor="#71B7E6"

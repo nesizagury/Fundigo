@@ -83,7 +83,7 @@
             android:layout_weight="130"
             android:background="#3293CD"
             android:gravity="center"
-            android:text="Events"
+            android:text="@string/events"
             android:textColor="#ffffff"
             android:textSize="15sp"
             />
@@ -101,7 +101,7 @@
             android:layout_weight="130"
             android:background="#1277AB"
             android:gravity="center"
-            android:text="SavedEvents"
+            android:text="@string/saved_events"
             android:textColor="#ffffff"
             android:textSize="15sp"
             />
@@ -119,7 +119,7 @@
             android:layout_weight="130"
             android:background="#3293CD"
             android:gravity="center"
-            android:text="Real-Time"
+            android:text="@string/real_time"
             android:textColor="#ffffff"
             android:textSize="15sp"
             />

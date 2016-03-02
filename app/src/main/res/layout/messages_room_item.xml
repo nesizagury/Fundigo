@@ -15,7 +15,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="30dp"
-        android:text="New Text"
+        android:text="@string/new_text"
         android:id="@+id/message_item_nameTV"
         android:layout_alignParentTop="true"
         android:layout_toEndOf="@+id/message_itemIV"
@@ -27,7 +27,7 @@
     <TextView
         android:layout_width="260dp"
         android:layout_height="wrap_content"
-        android:text="New Text"
+        android:text="@string/new_text"
         android:id="@+id/message_item_bodyTV"
         android:layout_below="@+id/message_item_nameTV"
         android:layout_toEndOf="@+id/message_itemIV"

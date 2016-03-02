@@ -48,9 +48,9 @@ public void createAccount(View view){
             if (e == null) {
 
                 AlertDialog.Builder builder = new AlertDialog.Builder(SignUpActivity.this);
-                builder.setMessage("Account Created Successfully!\n Verification mail sent to your mailbox \n please verify your account and log in.")
+                builder.setMessage(R.string.account_created_successfully_verification_mail)
                         .setCancelable(false)
-                        .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                        .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
 
                              finish();
@@ -62,7 +62,7 @@ public void createAccount(View view){
                 AlertDialog alert = builder.create();
                 alert.show();
 
-                Toast.makeText(getApplicationContext(), "Successfully Signed Up", Toast.LENGTH_SHORT).show ();
+                Toast.makeText(getApplicationContext(), R.string.successfully_signed_up, Toast.LENGTH_SHORT).show ();
             } else {
                 Toast.makeText (getApplicationContext(), "error = " + e.getMessage(), Toast.LENGTH_SHORT).show ();
 

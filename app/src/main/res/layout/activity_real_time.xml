@@ -36,7 +36,7 @@
             android:layout_height="match_parent"
             android:layout_width="0dip"
             android:layout_weight="300"
-            android:text="FUNDIGO"
+            android:text="@string/fundigo"
             android:background="#71B7E6"
             android:textColor="#ffffff"
             android:textSize="17sp"
@@ -81,7 +81,7 @@
             android:layout_weight="130"
             android:background="#3293CD"
             android:gravity="center"
-            android:text="Events"
+            android:text="@string/events"
             android:textColor="#ffffff"
             android:textSize="15sp"
             />
@@ -99,7 +99,7 @@
             android:layout_weight="130"
             android:background="#3293CD"
             android:gravity="center"
-            android:text="SavedEvents"
+            android:text="@string/saved_events"
             android:textColor="#ffffff"
             android:textSize="15sp"
             />
@@ -117,7 +117,7 @@
             android:layout_weight="130"
             android:background="#1277AB"
             android:gravity="center"
-            android:text="Real-Time"
+            android:text="@string/real_time"
             android:textColor="#ffffff"
             android:textSize="15sp"
             />
@@ -127,7 +127,7 @@
     <TextView
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:text="Turn On GPS To See RealTime Events"
+        android:text="@string/turn_on_gps_to_see_real_time_events"
         android:id="@+id/turnOnGps"
         android:textSize="20sp"
         android:layout_below="@+id/toolbar"

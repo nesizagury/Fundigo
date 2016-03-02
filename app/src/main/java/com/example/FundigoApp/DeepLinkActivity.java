@@ -39,8 +39,8 @@ public class DeepLinkActivity extends Activity {
     public void AppPage(View v) {
         BranchUniversalObject branchUniversalObject = new BranchUniversalObject ()
                                                               .setCanonicalIdentifier ("item/1234")
-                                                              .setTitle ("My Content Title")
-                                                              .setContentDescription ("My Content Description")
+                                                              .setTitle (""+R.string.my_content_title)
+                                                              .setContentDescription (""+R.string.my_content_description)
                                                               .setContentIndexingMode (BranchUniversalObject.CONTENT_INDEX_MODE.PUBLIC)
                                                               .addContentMetadata ("objectId", getIntent ().getStringExtra ("objectId"));
 

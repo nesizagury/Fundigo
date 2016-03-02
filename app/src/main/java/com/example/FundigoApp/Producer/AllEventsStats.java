@@ -34,10 +34,27 @@ public class AllEventsStats extends Fragment implements GetEventsDataCallback {
     TextView forSaleValue;
     TextView eventSum;
     TextView sumArtist;
-
+    String tickets_sold;
+    String sales_avg;
+    String so_far_income;
+    String tickets_for_sale;
+    String all_tickets_value;
+    String mum_of_events;
+    String num_of_artists;
+    String tickets_fee_average_is_15;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate (R.layout.events_stats, container, false);
+
+
+        tickets_sold= this.getString(R.string.tickets_sold);
+        sales_avg= this.getString(R.string.sales_avg);
+        so_far_income= this.getString(R.string.so_far_income);
+        tickets_for_sale= this.getString(R.string.tickets_for_sale);
+        all_tickets_value= this.getString(R.string.all_tickets_value);
+        mum_of_events= this.getString(R.string.mum_of_events);
+        num_of_artists= this.getString(R.string.num_of_artists);
+        tickets_fee_average_is_15= this.getString(R.string.tickets_fee_average_is_15);
 
         sumTickets = (TextView) rootView.findViewById (R.id.soldTV);
         soldAvg = (TextView) rootView.findViewById (R.id.soldAvgTV);
@@ -91,22 +108,28 @@ public class AllEventsStats extends Fragment implements GetEventsDataCallback {
             if (eventDate.after (todayDate) && !event.getPrice ().contains ("-")) {
                 StringBuilder sb = new StringBuilder (event.getPrice ());
                 sb.deleteCharAt (sb.length () - 1);
-                int ticketsLeft = Integer.parseInt (event.getTicketsLeft ());
-                int price = Integer.parseInt (sb.toString ());
+                int ticketsLeft = Integer.parseInt(event.getTicketsLeft());
+                int price;
+                if(event.getPrice ().equals("FREE")){
+                    price=0;
+                }else {
+                    price = Integer.parseInt (sb.toString ());
+                }
+
                 ticketsForsale += Integer.parseInt (event.getTicketsLeft ());
                 forSaleIntValue += (price * ticketsLeft);
             }
         }
 
-        sumTickets.setText ("Tickets Sold: " + ticketsSold);
+        sumTickets.setText (tickets_sold + ticketsSold);
         if (tickets != 0 && ticketsSold != 0)
-            soldAvg.setText ("Sales Avg: " + (ticketsSold / tickets) * 100);
-        soFarSum.setText ("So Far Income: " + soFarIntSum);
-        ticketsForSale.setText ("Tickets For Sale: " + ticketsForsale);
-        forSaleValue.setText ("All Tickets Value: " + forSaleIntValue);
-        eventSum.setText ("Num Of Events: " + GlobalVariables.ALL_EVENTS_DATA.size ());
-        sumArtist.setText ("Num Of Artists: " + (artist_list.size () - 1));
-        ticketFeeAvg.setText ("Tickets fee average is: 15%");
+            soldAvg.setText (sales_avg + (ticketsSold / tickets) * 100);
+        soFarSum.setText (so_far_income + soFarIntSum);
+        ticketsForSale.setText (tickets_for_sale + ticketsForsale);
+        forSaleValue.setText (all_tickets_value + forSaleIntValue);
+        eventSum.setText (mum_of_events + GlobalVariables.ALL_EVENTS_DATA.size ());
+        sumArtist.setText (num_of_artists + (artist_list.size () - 1));
+        ticketFeeAvg.setText (tickets_fee_average_is_15);
     }
 
     @Override

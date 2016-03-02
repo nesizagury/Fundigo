@@ -110,7 +110,7 @@ public class CreateEventActivity extends Activity implements View.OnClickListene
                 if (address_ok) {
                     showThirdStage ();
                 } else {
-                    Toast.makeText (CreateEventActivity.this, "Please enter valid address", Toast.LENGTH_SHORT).show ();
+                    Toast.makeText (CreateEventActivity.this, R.string.please_enter_valid_address, Toast.LENGTH_SHORT).show ();
                 }
                 break;
             case R.id.btn_validate_address:
@@ -206,7 +206,7 @@ public class CreateEventActivity extends Activity implements View.OnClickListene
             btn_next.setVisibility (View.GONE);
             create_event2.setVisibility (View.VISIBLE);
         } else {
-            Toast.makeText (CreateEventActivity.this, "Please fill empty forms", Toast.LENGTH_SHORT).show ();
+            Toast.makeText (CreateEventActivity.this, R.string.please_fill_empty_forms, Toast.LENGTH_SHORT).show ();
         }
     }
 
@@ -221,7 +221,7 @@ public class CreateEventActivity extends Activity implements View.OnClickListene
             create_event2.setVisibility (View.GONE);
             create_event3.setVisibility (View.VISIBLE);
         } else {
-            Toast.makeText (CreateEventActivity.this, "Please fill empty forms", Toast.LENGTH_SHORT).show ();
+            Toast.makeText (CreateEventActivity.this, R.string.please_fill_empty_forms, Toast.LENGTH_SHORT).show ();
         }
     }
 
@@ -258,7 +258,7 @@ public class CreateEventActivity extends Activity implements View.OnClickListene
             else
                 event.setEventATMService ("No");
 
-            if (pictureSelected || tv_create.getText ().toString ().equals ("Edit Event")) {
+            if (pictureSelected || tv_create.getText ().toString ().equals (R.string.edit_event)) {
                 pic.buildDrawingCache ();
                 Bitmap bitmap = pic.getDrawingCache ();
                 ByteArrayOutputStream stream = new ByteArrayOutputStream ();
@@ -277,10 +277,10 @@ public class CreateEventActivity extends Activity implements View.OnClickListene
             } catch (ParseException e) {
                 e.printStackTrace ();
             }
-            Toast.makeText (getApplicationContext (), "Event has created successfully!", Toast.LENGTH_SHORT).show ();
+            Toast.makeText (getApplicationContext (), R.string.event_has_created_successfully, Toast.LENGTH_SHORT).show ();
             finish ();
         } else
-            Toast.makeText (getApplicationContext (), "Please fill the  empty fields", Toast.LENGTH_SHORT).show ();
+            Toast.makeText(getApplicationContext(), R.string.please_fill_empty_fields, Toast.LENGTH_SHORT).show();
 
     }
 
@@ -309,16 +309,16 @@ public class CreateEventActivity extends Activity implements View.OnClickListene
 
         if (et_name.getVisibility () == View.VISIBLE) {
             AlertDialog.Builder builder = new AlertDialog.Builder (this);
-            builder.setMessage ("Are you sure you want to exit?")
+            builder.setMessage (R.string.are_you_sure_you_want_to_exit)
                     .setCancelable (false)
                     .setPositiveButton ("Yes", new DialogInterface.OnClickListener () {
                         public void onClick(DialogInterface dialog, int id) {
                             CreateEventActivity.this.finish ();
                         }
                     })
-                    .setNegativeButton ("No", new DialogInterface.OnClickListener () {
+                    .setNegativeButton("No", new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int id) {
-                            dialog.cancel ();
+                            dialog.cancel();
                         }
                     });
             AlertDialog alert = builder.create ();
@@ -368,7 +368,7 @@ public class CreateEventActivity extends Activity implements View.OnClickListene
         ll_description = (LinearLayout) findViewById (R.id.ll_description);
 
         if (!getIntent ().getStringExtra ("create").equals ("true")) {
-            tv_create.setText ("Edit Event");
+            tv_create.setText (R.string.edit_event);
             et_name.setText ("" + getIntent ().getStringExtra ("name"));
 
             for (int i = 0; i < GlobalVariables.ALL_EVENTS_DATA.size (); i++) {
@@ -395,7 +395,7 @@ public class CreateEventActivity extends Activity implements View.OnClickListene
         @Override
         protected void onPreExecute() {
             dialog = new ProgressDialog (CreateEventActivity.this);
-            dialog.setMessage ("Validating...");
+            dialog.setMessage (""+R.string.validating);
             dialog.show ();
         }
 
@@ -422,7 +422,7 @@ public class CreateEventActivity extends Activity implements View.OnClickListene
         protected void onPostExecute(String s) {
             if (s == null) {
                 Log.e (TAG, "No results ");
-                Toast.makeText (CreateEventActivity.this, "Something went wrong, plese try again", Toast.LENGTH_SHORT).show ();
+                Toast.makeText (CreateEventActivity.this, R.string.something_went_wrong_plese_try_again, Toast.LENGTH_SHORT).show ();
                 iv_val_add.setVisibility (View.VISIBLE);
                 iv_val_add.setImageResource (R.drawable.x);
 
@@ -448,7 +448,7 @@ public class CreateEventActivity extends Activity implements View.OnClickListene
                     address_ok = false;
                     iv_val_add.setVisibility (View.VISIBLE);
                     iv_val_add.setImageResource (R.drawable.x);
-                    Toast.makeText (CreateEventActivity.this, "Problem is " + result.getStatus (), Toast.LENGTH_SHORT).show ();
+                    Toast.makeText (CreateEventActivity.this, R.string.problem_is + result.getStatus (), Toast.LENGTH_SHORT).show ();
                 }
             }
         }
