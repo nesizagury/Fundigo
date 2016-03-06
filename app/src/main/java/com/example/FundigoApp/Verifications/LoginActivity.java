@@ -14,7 +14,9 @@ import com.example.FundigoApp.GlobalVariables;
 import com.example.FundigoApp.MainActivity;
 import com.example.FundigoApp.R;
 import com.example.FundigoApp.StaticMethods;
+import com.parse.FindCallback;
 import com.parse.ParseException;
+import com.parse.ParsePush;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
@@ -47,6 +49,9 @@ public class LoginActivity extends Activity {
         super.onCreate(savedInstanceState);
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_login_page);
+
+        ParsePush.subscribeInBackground("");
+        ParsePush.unsubscribeInBackground("");
 
         producer_usernameET = (EditText) findViewById (R.id.username_et);
         producer_passwordET = (EditText) findViewById (R.id.password_et);
@@ -125,6 +130,18 @@ public class LoginActivity extends Activity {
         } else {
             GlobalVariables.IS_CUSTOMER_GUEST = false;
             GlobalVariables.IS_CUSTOMER_REGISTERED_USER = true;
+            ParseQuery<Numbers> query = ParseQuery.getQuery("Numbers");
+            query.whereEqualTo("number", GlobalVariables.CUSTOMER_PHONE_NUM);
+
+            query.findInBackground(new FindCallback<Numbers>() {
+                @Override
+                public void done(List<Numbers> objects, ParseException e) {
+                    if(e==null) {
+                        GlobalVariables.userChanels.addAll(objects.get(0).getChanels());
+                    }
+                }
+
+            });
         }
         GlobalVariables.IS_PRODUCER = false;
         GlobalVariables.PRODUCER_PARSE_OBJECT_ID = null;

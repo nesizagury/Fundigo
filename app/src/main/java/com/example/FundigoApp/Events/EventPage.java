@@ -374,7 +374,7 @@ public class EventPage extends Activity implements View.OnClickListener {
                     if(GlobalVariables.userChanels.indexOf(evObjId)!=-1){
                         producerPush.setText(getApplicationContext().getString(R.string.get_push));
                         ParseInstallation installation = ParseInstallation.getCurrentInstallation();
-                        ParsePush.unsubscribeInBackground(evObjId);
+                        ParsePush.unsubscribeInBackground("a"+evObjId);
                         installation.saveInBackground();
                         GlobalVariables.userChanels.remove(evObjId);
                         ParseQuery<Numbers> query = ParseQuery.getQuery("Numbers");
@@ -398,7 +398,7 @@ public class EventPage extends Activity implements View.OnClickListener {
                     }else {
                         producerPush.setText(getApplicationContext().getString(R.string.cancel_push));
                         ParseInstallation installation = ParseInstallation.getCurrentInstallation();
-                        ParsePush.subscribeInBackground(evObjId);
+                        ParsePush.subscribeInBackground("a"+evObjId);
                         installation.saveInBackground();
                         GlobalVariables.userChanels.add(evObjId);
 

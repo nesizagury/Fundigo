@@ -76,9 +76,10 @@ public class CityMenu {
         Collections.sort (totalCityList, new Comparator<HashMap<String, String>> () {
             @Override
             public int compare(HashMap<String, String> lhs, HashMap<String, String> rhs) {
-                if (Double.valueOf (lhs.get ("distance")) > Double.valueOf (rhs.get ("distance")))
+
+                if (Double.valueOf (lhs.get ("distance").replace(",",".")) > Double.valueOf (rhs.get ("distance").replace(",",".")))
                     return 1;
-                if (Double.valueOf (lhs.get ("distance")) < Double.valueOf (rhs.get ("distance")))
+                if (Double.valueOf (lhs.get ("distance").replace(",",".")) < Double.valueOf (rhs.get ("distance").replace(",",".")))
                     return -1;
                 else
                     return 0;

@@ -62,13 +62,13 @@
         android:layout_alignParentEnd="true">
         <EditText
             android:id="@+id/etMessage_rt_Chat"
+            android:layout_toLeftOf="@+id/btSend_rt_Chat"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="top"
             android:hint="@string/message_hint"
             android:inputType="textLongMessage"
-            android:imeOptions="actionSend"
-            android:layout_toStartOf="@+id/btSend_rt_Chat"/>
+            android:imeOptions="actionSend" />
         <Button
             android:id="@+id/btSend_rt_Chat"
             android:layout_width="wrap_content"

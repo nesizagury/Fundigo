@@ -36,7 +36,7 @@ import com.parse.GetDataCallback;
 import com.parse.ParseACL;
 import com.parse.ParseException;
 import com.parse.ParseFile;
-import com.parse.ParseInstallation;
+import com.parse.ParsePush;
 import com.parse.ParseQuery;
 import com.sinch.verification.CodeInterceptionException;
 import com.sinch.verification.Config;
@@ -55,7 +55,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
-import java.util.Collection;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
@@ -135,26 +135,28 @@ public class SmsSignUpActivity extends AppCompatActivity {
             }
         });
 
-        usernameTE.setOnEditorActionListener (new TextView.OnEditorActionListener () {
+        usernameTE.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                if ((event != null && (event.getKeyCode () == KeyEvent.KEYCODE_ENTER)) || (actionId == EditorInfo.IME_ACTION_DONE)) {
-                    usernameTE.setVisibility (View.INVISIBLE);
-                    usernameTV.setVisibility (View.INVISIBLE);
-                    imageV = (ImageView) findViewById (R.id.imageV);
-                    imageV.setVisibility (View.VISIBLE);
-                    upload_button = (Button) findViewById (R.id.upload_button);
-                    upload_button.setVisibility (View.VISIBLE);
-                    signup = (Button) findViewById (R.id.button2);
-                    signup.setVisibility (View.VISIBLE);
-                    optionalTV = (TextView) findViewById (R.id.optionalTV);
-                    optionalTV.setVisibility (View.VISIBLE);
+                if ((event != null && (event.getKeyCode() == KeyEvent.KEYCODE_ENTER)) || (actionId == EditorInfo.IME_ACTION_DONE)) {
+                    usernameTE.setVisibility(View.INVISIBLE);
+                    usernameTV.setVisibility(View.INVISIBLE);
+                    imageV = (ImageView) findViewById(R.id.imageV);
+                    imageV.setVisibility(View.VISIBLE);
+                    upload_button = (Button) findViewById(R.id.upload_button);
+                    upload_button.setVisibility(View.VISIBLE);
+                    signup = (Button) findViewById(R.id.button2);
+                    signup.setVisibility(View.VISIBLE);
+                    optionalTV = (TextView) findViewById(R.id.optionalTV);
+                    optionalTV.setVisibility(View.VISIBLE);
                 }
                 return false;
             }
         });
+
     }
 
     public void Signup(View view) throws JSONException {
+
         username = usernameTE.getText ().toString ();
         Numbers number;
         if (previousDataFound != null) {
@@ -162,15 +164,22 @@ public class SmsSignUpActivity extends AppCompatActivity {
             GlobalVariables.CUSTOMER_PHONE_NUM=previousDataFound.getNumber();
 
             GlobalVariables.userChanels.addAll(number.getChanels());
-            Log.d("m1234",""+number.getChanels());
+            Log.d("m1234", "" + number.getChanels());
+            ArrayList<String> arrayList=new ArrayList<>();
+
 
 
             if(!GlobalVariables.userChanels.isEmpty()){
-                Log.d("m1234","not empty");
-                ParseInstallation installation = ParseInstallation.getCurrentInstallation();
-                installation.addAll("Channels", (Collection<?>) GlobalVariables.userChanels);
-                installation.saveInBackground();
+                Log.d("m1234", "not empty");
+                for(int i=0;i<GlobalVariables.userChanels.size();i++){
+                    ParsePush.subscribeInBackground("a"+GlobalVariables.userChanels.get(i));
+
+                }
+
+
             }
+
+
 
         } else {
             number = new Numbers ();
@@ -358,97 +367,6 @@ public class SmsSignUpActivity extends AppCompatActivity {
     }
 
     private void getUserPreviousDetails(String user_number) {
-        /*
-        final Map<String, Object> map = new HashMap<>();
-        map.put("user_number", user_number);
-        map.put("usernameTE",usernameTE.getText().toString());
-        map.put("installationId",ParseInstallation.getCurrentInstallation().getInstallationId());
-        Log.d("installation", ParseInstallation.getCurrentInstallation().getInstallationId());
-
-        ParseCloud.callFunctionInBackground("CreateNewUser", map, new FunctionCallback() {
-
-
-            @Override
-            public void done(Object o, Throwable throwable) {
-
-            }
-
-            @Override
-            public void done(Object object, ParseException e) {
-                if (e == null) {
-                    previousDataFound = (Numbers) object;
-                    Log.d("m1234",previousDataFound.getNumber());
-                    if (usernameTE.getText().toString().isEmpty() && previousDataFound.getName()!=null) {
-                        usernameTE.setText(previousDataFound.getName());
-                        usernameTE.setSelection(usernameTE.getText().length());
-                    }
-                    if(usernameTE.getText().toString().isEmpty() && previousDataFound.getName()==null){
-
-                    }
-                    if (!image_selected && previousDataFound.getImageFile()!=null) {
-                        ParseFile imageFile = (ParseFile) previousDataFound.getImageFile();
-                        if (imageFile != null) {
-                            image_selected = true;
-                            Bitmap bitmap = BitmapFactory.decodeFile(imageFile.getUrl());
-                            imageV.setImageBitmap(bitmap);
-
-                        }
-
-                    }
-                    ParseInstallation installation = ParseInstallation.getCurrentInstallation();
-                    if(previousDataFound.getChanels()!=null) {
-                        installation.addAllUnique("channels", previousDataFound.getChanels());
-                    }
-                    installation.saveInBackground();
-
-
-                    Log.d("m123456", ""+previousDataFound.getNumber());
-                    Log.d("m123456", "Successfully call parse cloud function");
-                } else {
-                    Log.d("m123456", "can't call parse cloud function");
-                }
-            }
-
-
-/*
-            @Override
-            public void done(Numbers object, ParseException e) {
-                if (e == null) {
-                    previousDataFound = (Numbers)object;
-                    Log.d("m1234",previousDataFound.getNumber());
-                    if (usernameTE.getText().toString().isEmpty() && previousDataFound.getName()!=null) {
-                        usernameTE.setText(previousDataFound.getName());
-                        usernameTE.setSelection(usernameTE.getText().length());
-                    }
-                    if(usernameTE.getText().toString().isEmpty() && previousDataFound.getName()==null){
-
-                    }
-                    if (!image_selected && previousDataFound.getImageFile()!=null) {
-                        ParseFile imageFile = (ParseFile) previousDataFound.getImageFile();
-                        if (imageFile != null) {
-                            image_selected = true;
-                            Bitmap bitmap = BitmapFactory.decodeFile(imageFile.getUrl());
-                            imageV.setImageBitmap(bitmap);
-
-                        }
-
-                    }
-                    ParseInstallation installation = ParseInstallation.getCurrentInstallation();
-                   if(previousDataFound.getChanels()!=null) {
-                       installation.addAllUnique("channels", previousDataFound.getChanels());
-                   }
-                    installation.saveInBackground();
-
-
-                    Log.d("m123456", ""+previousDataFound.getNumber());
-                    Log.d("m123456", "Successfully call parse cloud function");
-                } else {
-                    Log.d("m123456", "can't call parse cloud function");
-                }
-            }
-
-        });
-*/
 
         ParseQuery<Numbers> query = ParseQuery.getQuery ("Numbers");
         query.whereEqualTo ("number", user_number);

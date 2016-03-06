@@ -72,18 +72,23 @@ public class ArtistStatsActivity extends Activity implements GetEventsDataCallba
         StaticMethods.filterEventsByArtist (artistName,
                                                    eventsList);
         for (int i = 0; i < eventsList.size (); i++) {
-            EventInfo event = eventsList.get (i);
+            EventInfo event = eventsList.get(i);
             eventDate = null;
             try {
-                eventDate = dateFormat.parse (event.getDate ());
+                eventDate = dateFormat.parse(event.getDate());
             } catch (ParseException e) {
-                e.printStackTrace ();
+                e.printStackTrace();
             }
-            StringBuilder sb = new StringBuilder (event.getPrice ());
-            sb.deleteCharAt (sb.length () - 1);
-            int ticketsLeft = Integer.parseInt (event.getTicketsLeft ());
-            int price = Integer.parseInt (sb.toString ());
+            StringBuilder sb = new StringBuilder(event.getPrice());
+            sb.deleteCharAt(sb.length() - 1);
+            int ticketsLeft = Integer.parseInt(event.getTicketsLeft());
 
+            int price;
+            if(!sb.toString().startsWith("F")){
+                price=Integer.parseInt(sb.toString());
+            }else{
+                price=0;
+            }
             if (eventDate.before (todayDate)) {
                 pastEvents++;
                 ticketAvg += price;
