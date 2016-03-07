@@ -30,6 +30,7 @@ dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     compile 'com.astuetz:pagerslidingtabstrip:1.0.1'
     testCompile 'junit:junit:4.12'
+    compile 'com.nostra13.universalimageloader:universal-image-loader:1.9.5'
     compile 'com.android.support:appcompat-v7:23.1.1'
     compile 'com.parse.bolts:bolts-android:1.+'
     compile 'com.parse:parse-android:1.+'

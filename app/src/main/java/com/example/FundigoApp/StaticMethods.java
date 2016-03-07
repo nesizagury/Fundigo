@@ -19,6 +19,7 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.ParcelFileDescriptor;
 import android.preference.PreferenceManager;
 import android.provider.MediaStore;
@@ -26,11 +27,13 @@ import android.provider.Settings;
 import android.provider.Settings.SettingNotFoundException;
 import android.support.v4.app.ActivityCompat;
 import android.text.TextUtils;
+import android.util.Log;
 import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.example.FundigoApp.Customer.CustomerDetails;
 import com.example.FundigoApp.Customer.SavedEvents.SavedEventActivity;
+import com.example.FundigoApp.Customer.Social.MipoProfile;
 import com.example.FundigoApp.Events.Event;
 import com.example.FundigoApp.Events.EventInfo;
 import com.example.FundigoApp.Events.EventsListAdapter;
@@ -47,7 +50,10 @@ import com.parse.ParseQuery;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.ByteArrayOutputStream;
+import java.io.DataInputStream;
+import java.io.File;
 import java.io.FileDescriptor;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
@@ -288,24 +294,34 @@ public class StaticMethods {
     }
 
     public static String getCustomerPhoneNumFromFile(Context context) {
-        String phone_number = "";
+        String number = "";
+        String myData = "";
         try {
-            InputStream inputStream = context.openFileInput ("verify.txt");
-            if (inputStream != null) {
-                InputStreamReader inputStreamReader = new InputStreamReader (inputStream);
-                BufferedReader bufferedReader = new BufferedReader (inputStreamReader);
-                String receiveString = "";
-                while ((receiveString = bufferedReader.readLine ()) != null) {
-                    phone_number = receiveString;
-                }
-                inputStream.close ();
+            File myExternalFile = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), "verify.txt");
+            FileInputStream fis = new FileInputStream(myExternalFile);
+            DataInputStream in = new DataInputStream(fis);
+            BufferedReader br =
+                    new BufferedReader(new InputStreamReader(in));
+            String strLine;
+            while ((strLine = br.readLine()) != null) {
+                myData = myData + strLine;
             }
-        } catch (FileNotFoundException e) {
-            e.printStackTrace ();
+            in.close();
         } catch (IOException e) {
-            e.printStackTrace ();
+            e.printStackTrace();
         }
-        return phone_number;
+
+        if(myData != null) {
+            if(myData.contains("isFundigo")) {
+                String[] parts = myData.split(" ");
+                 number = parts[0];
+            }
+            else
+            number = myData;
+
+        }
+
+        return number;
     }
 
     public static void filterListsAndUpdateListAdapter(List<EventInfo> eventsListToFilter,
@@ -374,12 +390,12 @@ public class StaticMethods {
         String picUrl = null;
         String customerName = null;
         Bitmap customerImage = null;
-        ParseQuery<Numbers> query = ParseQuery.getQuery (Numbers.class);
+        ParseQuery<MipoProfile> query = ParseQuery.getQuery (MipoProfile.class);
         query.whereEqualTo ("number", customerPhoneNum);
-        List<Numbers> numbers = null;
+        List<MipoProfile> profile = null;
         try {
-            numbers = query.find ();
-            return getUserDetails (numbers);
+            profile = query.find ();
+            return getUserDetails (profile);
         } catch (ParseException e) {
             e.printStackTrace ();
         }
@@ -387,19 +403,19 @@ public class StaticMethods {
         return new CustomerDetails (faceBookId, picUrl, customerImage, customerName);
     }
 
-    public static CustomerDetails getUserDetails(List<Numbers> numbers) {
+    public static CustomerDetails getUserDetails(List<MipoProfile> profiles) {
         String faceBookId = null;
         String customerPicFacebookUrl = null;
         Bitmap customerImage = null;
         String customerName = null;
-        if (numbers.size () > 0) {
-            Numbers number = numbers.get (0);
-            faceBookId = number.getFbId ();
-            customerPicFacebookUrl = number.getFbUrl ();
-            customerName = number.getName ();
+        if (profiles.size () > 0) {
+            MipoProfile profile = profiles.get (0);
+            faceBookId = profile.getFbId ();
+            customerPicFacebookUrl = profile.getFbUrl ();
+            customerName = profile.getName ();
             ParseFile imageFile;
             byte[] data = null;
-            imageFile = (ParseFile) number.getImageFile ();
+            imageFile = (ParseFile) profile.getPic();
             if (imageFile != null) {
                 try {
                     data = imageFile.getData ();

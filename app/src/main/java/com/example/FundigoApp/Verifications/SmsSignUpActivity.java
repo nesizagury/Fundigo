@@ -5,10 +5,13 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.CompressFormat;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.os.Environment;
 import android.preference.PreferenceManager;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
@@ -21,14 +24,18 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.FundigoApp.Customer.CustomerDetails;
+import com.example.FundigoApp.Customer.Social.MipoProfile;
 import com.example.FundigoApp.GlobalVariables;
 import com.example.FundigoApp.R;
 import com.example.FundigoApp.StaticMethods;
 import com.parse.FindCallback;
+import com.parse.GetDataCallback;
 import com.parse.ParseACL;
 import com.parse.ParseException;
 import com.parse.ParseFile;
+import com.parse.ParseGeoPoint;
 import com.parse.ParseQuery;
+import com.parse.ParseUser;
 import com.sinch.verification.CodeInterceptionException;
 import com.sinch.verification.Config;
 import com.sinch.verification.IncorrectCodeException;
@@ -39,10 +46,13 @@ import com.sinch.verification.Verification;
 import com.sinch.verification.VerificationListener;
 
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
+import java.util.Date;
 import java.util.List;
 
 public class SmsSignUpActivity extends AppCompatActivity {
@@ -61,7 +71,9 @@ public class SmsSignUpActivity extends AppCompatActivity {
     TextView optionalTV;
     TextView expTV;
     boolean image_selected = false;
-    Numbers previousDataFound = null;
+    MipoProfile previousDataFound = null;
+    ParseUser user;
+    Bitmap bmp;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -95,8 +107,15 @@ public class SmsSignUpActivity extends AppCompatActivity {
                     area = s.getSelectedItem ().toString ();
                     username = usernameTE.getText ().toString ();
                     phone_number_to_verify = getNumber (phoneET.getText ().toString (), area);
-                    getUserPreviousDetails (area + phoneET.getText ().toString ());
-                    smsVerify (phone_number_to_verify);
+                    getUserPreviousDetails(area + phoneET.getText().toString());
+                    usernameTV.setVisibility (View.VISIBLE);
+                    usernameTE.setVisibility (View.VISIBLE);
+                    phoneET.setVisibility (View.INVISIBLE);
+                    phoneTV.setVisibility (View.INVISIBLE);
+                    expTV = (TextView) findViewById (R.id.explanationTV);
+                    expTV.setVisibility (View.INVISIBLE);
+                    s.setVisibility(View.INVISIBLE);
+                   // smsVerify(phone_number_to_verify);
                 }
                 return false;
             }
@@ -123,18 +142,26 @@ public class SmsSignUpActivity extends AppCompatActivity {
 
     public void Signup(View view) {
         username = usernameTE.getText ().toString ();
-        Numbers number;
+        MipoProfile profile;
         if (previousDataFound != null) {
-            number = previousDataFound;
+            profile = previousDataFound;
+            ParseUser.logOut();
+            try {
+                ParseUser.logIn (area + phoneET.getText ().toString (), area + phoneET.getText ().toString ());
+            } catch (ParseException e) {
+                e.printStackTrace ();
+            }
         } else {
-            number = new Numbers ();
+            profile = new MipoProfile ();
+            profile.setNumber (area + phoneET.getText ().toString ());
+            profile.setUser (user);
         }
-        number.setName (username);
+         profile.setName(username);
+         profile.setLastSeen (new Date());
         if (image_selected) {
             customerImageView.buildDrawingCache ();
-            Bitmap bitmap = customerImageView.getDrawingCache ();
             ByteArrayOutputStream stream = new ByteArrayOutputStream ();
-            bitmap.compress (CompressFormat.JPEG, 100, stream);
+            bmp.compress (CompressFormat.JPEG, 100, stream);
             byte[] image = stream.toByteArray ();
             ParseFile file = new ParseFile ("picturePath", image);
             try {
@@ -142,31 +169,25 @@ public class SmsSignUpActivity extends AppCompatActivity {
             } catch (ParseException e) {
                 e.printStackTrace ();
             }
-            ParseACL parseAcl = new ParseACL ();
-            parseAcl.setPublicReadAccess (true);
-            parseAcl.setPublicWriteAccess (true);
-            number.setACL (parseAcl);
-            number.put ("ImageFile", file);
-        }
-        number.setNumber (area + phoneET.getText ().toString ());
-        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences (SmsSignUpActivity.this);
-        String fbId = sp.getString (GlobalVariables.FB_ID, null);
-        if (fbId != null) {
-            number.setFbId (fbId);
-        }
-        String fbUrl = sp.getString (GlobalVariables.FB_PIC_URL, null);
-        if (fbUrl != null) {
-            number.setFbUrl (fbUrl);
+
+            profile.put("pic", file);
+
         }
         try {
-            number.save ();
-            Toast.makeText (getApplicationContext (), "Successfully Signed up", Toast.LENGTH_SHORT).show ();
+            ParseACL parseAcl = new ParseACL ();
+            parseAcl.setPublicReadAccess(true);
+            parseAcl.setPublicWriteAccess(true);
+            profile.setACL(parseAcl);
+            ParseGeoPoint parseGeoPoint = new ParseGeoPoint (31.8971205,
+                    34.8136008);
+            profile.setLocation(parseGeoPoint);
+            profile.save();
+            GlobalVariables.CUSTOMER_PHONE_NUM = area + phoneET.getText ().toString ();;
+            Toast.makeText (getApplicationContext (), "Successfully Signed Up", Toast.LENGTH_SHORT).show();
             saveToFile (area + phoneET.getText ().toString ());
-            GlobalVariables.CUSTOMER_PHONE_NUM = area + phoneET.getText ().toString ();
-            GlobalVariables.IS_CUSTOMER_REGISTERED_USER = true;
+            // MainPageActivity.downloadProfilesDataInBackGround ();
             finish ();
         } catch (ParseException e) {
-            Toast.makeText (getApplicationContext (), " Error ): ", Toast.LENGTH_SHORT).show ();
             e.printStackTrace ();
         }
     }
@@ -204,8 +225,9 @@ public class SmsSignUpActivity extends AppCompatActivity {
 
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == GlobalVariables.SELECT_PICTURE && resultCode == RESULT_OK && null != data) {
-            Bitmap image = StaticMethods.getImageFromDevice (data, this);
+            Bitmap image = StaticMethods.getImageFromDevice(data, this);
             customerImageView.setImageBitmap (image);
+            bmp = image;
             image_selected = true;
         }
     }
@@ -268,40 +290,62 @@ public class SmsSignUpActivity extends AppCompatActivity {
     }
 
     void saveToFile(String phone_number) {
-        OutputStreamWriter outputStreamWriter = null;
-        try {
-            outputStreamWriter = new OutputStreamWriter (this.openFileOutput ("verify.txt", Context.MODE_MULTI_PROCESS));
-        } catch (FileNotFoundException e) {
-            e.printStackTrace ();
-        }
-        PrintWriter writer = new PrintWriter (outputStreamWriter);
-        writer.println (phone_number);
-
-        try {
-            outputStreamWriter.close ();
-        } catch (IOException e) {
-            e.printStackTrace ();
-        }
+        phone_number = phone_number + " isFundigo";
+        File myExternalFile = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), "verify.txt");        try{
+        FileOutputStream fos = new FileOutputStream(myExternalFile);
+        fos.write(phone_number.getBytes());
+        fos.close();
+            Log.e("number",phone_number);
+    } catch (IOException e) {
+        e.printStackTrace();
     }
 
-    private void getUserPreviousDetails(String user_number) {
-        ParseQuery<Numbers> query = ParseQuery.getQuery (Numbers.class);
+    }
+
+    private void getUserPreviousDetails(final String user_number) {
+        ParseQuery<MipoProfile> query = ParseQuery.getQuery ("Profile");
         query.whereEqualTo ("number", user_number);
-        query.findInBackground (new FindCallback<Numbers> () {
-            public void done(List<Numbers> numbers, ParseException e) {
+        query.findInBackground (new FindCallback<MipoProfile> () {
+            public void done(List<MipoProfile> profiles, ParseException e) {
                 if (e == null) {
-                    if (numbers.size () > 0) {
-                        CustomerDetails customerDetails = StaticMethods.getUserDetails (numbers);
+
+                    if (profiles.size () > 0) {
+                        previousDataFound = profiles.get (0);
                         if (usernameTE.getText ().toString ().isEmpty ()) {
-                            usernameTE.setText (customerDetails.getCustomerName () + "");
+                            usernameTE.setText (profiles.get (0).get ("name") + "");
                             usernameTE.setSelection (usernameTE.getText ().length ());
                         }
+
                         if (!image_selected) {
-                            Bitmap customerImage = customerDetails.getCustomerImage ();
-                            if (customerImage != null) {
-                                image_selected = true;
-                                customerImageView.setImageBitmap (customerImage);
+                            ParseFile imageFile = (ParseFile) profiles.get (0).get ("pic");
+                            if (imageFile != null) {
+                                imageFile.getDataInBackground (new GetDataCallback() {
+                                    public void done(byte[] data, ParseException e) {
+                                        if (e == null) {
+                                            image_selected = true;
+                                            bmp = BitmapFactory
+                                                    .decodeByteArray(
+                                                            data, 0,
+                                                            data.length);
+                                            customerImageView.setImageBitmap (bmp);
+                                        } else {
+                                            e.printStackTrace ();
+                                        }
+                                    }
+                                });
                             }
+                        }
+                    }
+                    else
+                    {
+                        ParseUser.logOut();
+                        user = new ParseUser();
+                        user.setUsername (user_number);
+                        user.setPassword (user_number);
+                        try {
+                            user.signUp ();
+                        } catch (ParseException e1) {
+                            e1.printStackTrace ();
                         }
                     }
                 } else {

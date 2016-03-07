@@ -5,6 +5,7 @@ import android.app.Application;
 import com.example.FundigoApp.Chat.Message;
 import com.example.FundigoApp.Chat.MsgRealTime;
 import com.example.FundigoApp.Chat.Room;
+import com.example.FundigoApp.Customer.Social.MipoProfile;
 import com.example.FundigoApp.Events.Event;
 import com.example.FundigoApp.Producer.RealTimeEvent;
 import com.example.FundigoApp.Tickets.EventsSeats;
@@ -44,6 +45,7 @@ public class Fundigo extends Application {
         ParseObject.registerSubclass (Numbers.class);
         ParseObject.registerSubclass (MsgRealTime.class);
         ParseObject.registerSubclass (EventsSeats.class);
+        ParseObject.registerSubclass (MipoProfile.class);
         ParseObject.registerSubclass (RealTimeEvent.class);
         FacebookSdk.sdkInitialize (getApplicationContext ());
         ParseUser.enableAutomaticUser ();

@@ -45,7 +45,7 @@ public class CustomerProfileUpdate extends AppCompatActivity {
             String _userPhoneNumber = GlobalVariables.CUSTOMER_PHONE_NUM;
             if (!_userPhoneNumber.isEmpty ()) {
                 try {
-                    ParseQuery<ParseObject> query = ParseQuery.getQuery ("Numbers");
+                    ParseQuery<ParseObject> query = ParseQuery.getQuery ("MipoProfile");
                     query.whereEqualTo ("number", _userPhoneNumber);
                     list = query.find ();
                     for (ParseObject obj : list) {
@@ -53,7 +53,7 @@ public class CustomerProfileUpdate extends AppCompatActivity {
                         if (IMAGE_SELECTED) {
                             imageToUpdate = imageUpdate ();
                             ParseFile picFile = new ParseFile (imageToUpdate);
-                            obj.put ("ImageFile", picFile);
+                            obj.put ("pic", picFile);
                         }
                         obj.save ();
                         finish ();
