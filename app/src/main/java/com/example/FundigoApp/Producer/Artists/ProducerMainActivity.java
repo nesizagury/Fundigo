@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ImageView;
 import android.widget.ListView;
 
 import com.example.FundigoApp.Events.EventPageActivity;
@@ -25,6 +26,7 @@ public class ProducerMainActivity extends Fragment implements GetEventsDataCallb
     static List<Artist> artist_list = new ArrayList<Artist> ();
     ListView artistListView;
     public static ArtistAdapter artistAdapter;
+    private ImageView qr_scan_icon;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -32,7 +34,15 @@ public class ProducerMainActivity extends Fragment implements GetEventsDataCallb
         artistListView = (ListView) rootView.findViewById (R.id.artist_list_view);
         artistAdapter = new ArtistAdapter (getActivity ().getApplicationContext (), artist_list);
         artistListView.setAdapter (artistAdapter);
-        artistListView.setSelector (new ColorDrawable (Color.TRANSPARENT));
+        artistListView.setSelector(new ColorDrawable(Color.TRANSPARENT));
+        qr_scan_icon =(ImageView)rootView.findViewById(R.id.qr_scan_produ);
+        qr_scan_icon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent =new Intent(getContext(),QR_producer.class);
+                startActivity(intent);
+            }
+        });
 
         if (GlobalVariables.ALL_EVENTS_DATA.size () == 0) {
             Intent intent = new Intent (this.getActivity (), EventPageActivity.class);

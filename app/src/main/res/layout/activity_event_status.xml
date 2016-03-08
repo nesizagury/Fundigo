@@ -52,11 +52,22 @@
             android:textSize="23sp"/>
 
         <TextView
-            android:id="@+id/soldTicketPriceAvgTV"
+            android:id="@+id/numberGuestsEnterTV"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
             android:layout_below="@+id/numberTicketsSoldTV"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="15dp"
+            android:text="Number Guests Enterd"
+            android:textSize="23sp"/>
+
+        <TextView
+            android:id="@+id/soldTicketPriceAvgTV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/numberGuestsEnterTV"
             android:layout_marginLeft="10dp"
             android:layout_marginTop="15dp"
             android:text="Sold Ticket Price avg"
@@ -99,13 +110,12 @@
             android:id="@+id/numberTicketsSold"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_above="@+id/soldTicketPriceAvgTV"
             android:layout_marginLeft="10dp"
-            android:layout_marginStart="26dp"
-            android:layout_toEndOf="@+id/soldTicketPriceAvg"
             android:text="0"
             android:textColor="#000000"
-            android:textSize="23sp"/>
+            android:textSize="23sp"
+            android:layout_above="@+id/numberGuestsEnterTV"
+            android:layout_alignStart="@+id/soldTicketPriceAvg" />
 
         <TextView
             android:id="@+id/soldTicketPriceAvg"
@@ -151,6 +161,17 @@
             android:text="0"
             android:textColor="#000000"
             android:textSize="23sp"/>
+
+        <TextView
+            android:id="@+id/enter_gusst_value"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:text="0"
+            android:textColor="#000000"
+            android:textSize="23sp"
+            android:layout_above="@+id/soldTicketPriceAvgTV"
+            android:layout_alignStart="@+id/soldTicketPriceAvg" />
 
         <ImageView
             android:id="@+id/iv_arena"

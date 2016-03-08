@@ -80,14 +80,14 @@ public class EventPageActivity extends Activity implements View.OnClickListener 
     EventInfo eventInfo;
     Button realTimeButton;
     String i = "";
-    private ImageView ivQrScan;
+
+
     private String faceBookUrl;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate (savedInstanceState);
         setContentView (R.layout.activity_event_page);
-        ivQrScan = (ImageView) findViewById (R.id.iv_qrscan);
         producerPush = (Button) findViewById (R.id.pushButton);
         getTicketsButton = (Button) findViewById (R.id.button);
 
@@ -113,11 +113,9 @@ public class EventPageActivity extends Activity implements View.OnClickListener 
             }
             realTimeButton = (Button) findViewById (R.id.realTime);
             realTimeButton.setVisibility (View.VISIBLE);
-            ivQrScan.setOnClickListener (this);
             producerPush.setVisibility (View.VISIBLE);
             producerPush.setOnClickListener (this);
         } else {
-            ivQrScan.setVisibility (View.GONE);
             producerPush.setVisibility (View.GONE);
             if (eventInfo.isFutureEvent () && !eventInfo.getPrice ().equals ("FREE")) {
                 checkIfTicketsLeft ();
@@ -311,10 +309,7 @@ public class EventPageActivity extends Activity implements View.OnClickListener 
                 pushIntent.putExtra ("id", eventInfo.getParseObjectId ());
                 startActivity (pushIntent);
                 break;
-            case R.id.iv_qrscan:
-                IntentIntegrator integrator = new IntentIntegrator (this);
-                integrator.initiateScan ();
-                break;
+
         }
     }
 

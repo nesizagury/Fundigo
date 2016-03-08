@@ -615,7 +615,7 @@ public class StaticMethods {
     }
 
     private static String getEventDateAsString(Date eventDate) {
-        long time = eventDate.getTime ();
+        long time = eventDate.getTime();
         Calendar calendar = Calendar.getInstance ();
         calendar.setTimeInMillis (time);
         String dayOfWeek = null;

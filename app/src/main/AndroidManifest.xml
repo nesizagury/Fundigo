@@ -1,182 +1,188 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest
-    package="com.example.FundigoApp"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.example.FundigoApp" >
 
-    <uses-permission android:name="android.permission.READ_SMS"/>
-    <uses-permission android:name="android.permission.RECEIVE_SMS"/>
-    <uses-permission android:name="android.permission.INTERNET"/>
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
-    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
-    <uses-permission android:name="android.permission.CAMERA"/>
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
-    <uses-permission android:name="android.permission.WAKE_LOCK"/>
-    <uses-permission android:name="android.permission.VIBRATE"/>
-    <uses-permission android:name="android.permission.GET_ACCOUNTS"/>
-    <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE"/>
+    <uses-permission android:name="android.permission.READ_SMS" />
+    <uses-permission android:name="android.permission.RECEIVE_SMS" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
+    <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
 
-    <uses-feature android:name="android.hardware.camera"/>
-    <uses-feature android:name="android.hardware.camera.autofocus"/>
+    <uses-feature android:name="android.hardware.camera" />
+    <uses-feature android:name="android.hardware.camera.autofocus" />
 
     <permission
         android:name="com.example.FundigoApp.permission.C2D_MESSAGE"
-        android:protectionLevel="signature"/>
-    <uses-permission android:name="com.example.events.permission.C2D_MESSAGE"/>
+        android:protectionLevel="signature" />
 
-    <uses-feature android:name="android.hardware.camera"/>
-    <uses-feature android:name="android.hardware.camera.autofocus"/>
+    <uses-permission android:name="com.example.events.permission.C2D_MESSAGE" />
 
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-feature android:name="android.hardware.camera" />
+    <uses-feature android:name="android.hardware.camera.autofocus" />
+
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
-        android:name="com.example.FundigoApp.Fundigo"
+        android:name=".Fundigo"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="Fundigo"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme" >
         <activity
             android:name=".MainActivity"
-            android:launchMode="singleTask">
+            android:launchMode="singleTask" >
             <intent-filter>
-                <data android:scheme="event"/>
-                <action android:name="android.intent.action.VIEW"/>
+                <data android:scheme="event" />
 
-                <category android:name="android.intent.category.DEFAULT"/>
-                <category android:name="android.intent.category.BROWSABLE"/>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
             </intent-filter>
         </activity>
         <activity
             android:name=".Events.EventPageActivity"
-            android:launchMode="singleTask">
+            android:launchMode="singleTask" >
         </activity>
-        <activity android:name=".Tickets.GetTicketQRCodeActivity">
+        <activity android:name=".Tickets.GetTicketQRCodeActivity" >
         </activity>
-        <activity android:name=".Tickets.SelectSeatActivity">
+        <activity android:name=".Tickets.SelectSeatActivity" >
         </activity>
-        <activity android:name=".Customer.Social.DetailedNotificationActivity"/>
-        <activity android:name=".Customer.Social.MyNotificationsActivity"/>
-        <activity android:name=".Producer.ProducerSendPuchActivity"/>
-        <activity android:name=".Customer.Social.CustomerMessageConversationsListActivity"/>
-        <activity android:name=".Customer.Social.MipoActivity"></activity>
-        <activity android:name=".FilterPageActivity">
+        <activity android:name=".Customer.Social.DetailedNotificationActivity" />
+        <activity android:name=".Customer.Social.MyNotificationsActivity" />
+        <activity android:name=".Producer.ProducerSendPuchActivity" />
+        <activity android:name=".Customer.Social.CustomerMessageConversationsListActivity" />
+        <activity android:name=".Customer.Social.MipoActivity" />
+        <activity android:name=".FilterPageActivity" >
         </activity>
-        <activity android:name=".Tickets.WebBrowserActivity">
+        <activity android:name=".Tickets.WebBrowserActivity" >
         </activity>
-        <activity android:name=".Tickets.Web1Activity">
+        <activity android:name=".Tickets.Web1Activity" >
         </activity>
-        <activity android:name="com.example.FundigoApp.Events.CreateEventActivity">
+        <activity android:name=".Events.CreateEventActivity" >
         </activity>
-        <activity android:name=".Customer.CustomerMenu.SaveCreditCard"/>
-        <activity android:name=".Verifications.LoginActivity">
+        <activity android:name=".Customer.CustomerMenu.SaveCreditCard" />
+        <activity android:name=".Verifications.LoginActivity" >
             <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
-                <category android:name="android.intent.category.LAUNCHER"/>
-            </intent-filter>
-            <intent-filter>
-                <data android:scheme="event"/>
-                <action android:name="android.intent.action.VIEW"/>
+                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.DEFAULT"/>
-                <category android:name="android.intent.category.BROWSABLE"/>
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+            <intent-filter>
+                <data android:scheme="event" />
+
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
             </intent-filter>
         </activity>
-        <activity android:name=".Customer.RealTime.RealTimeActivity">
+        <activity android:name=".Customer.RealTime.RealTimeActivity" >
         </activity>
-        <activity android:name=".Customer.CustomerMenu.MenuActivity">
+        <activity android:name=".Customer.CustomerMenu.MenuActivity" >
         </activity>
-        <activity android:name=".Verifications.CreateNewProducerActivity"></activity>
-        <activity android:name=".Producer.EventOnRealtimeActivity"></activity>
-        <activity android:name=".Producer.RealTimeGuestAdditionActivity"></activity>
+        <activity android:name=".Verifications.CreateNewProducerActivity" />
+        <activity android:name=".Producer.EventOnRealtimeActivity" />
+        <activity android:name=".Producer.RealTimeGuestAdditionActivity" />
         <activity
             android:name=".DeepLinkActivity"
-            android:theme="@android:style/Theme.Holo.Dialog">
+            android:theme="@android:style/Theme.Holo.Dialog" >
         </activity>
-        <activity android:name=".Customer.SavedEvents.SavedEventActivity">
+        <activity android:name=".Customer.SavedEvents.SavedEventActivity" >
         </activity>
-        <activity android:name=".Customer.CustomerMenu.CustomerTicketsMoreDetailesActivity"></activity>
-        <activity android:name=".SearchActivity">
+        <activity android:name=".Customer.CustomerMenu.CustomerTicketsMoreDetailesActivity" />
+        <activity android:name=".SearchActivity" >
         </activity>
         <activity android:name=".Tickets.TicketsPriceActivity" />
-        <activity android:name=".Customer.CustomerMenu.CustomerProfileUpdate"/>
-        <activity android:name=".Customer.CustomerMenu.MyEventsTicketsActivity"></activity>
-        <activity android:name=".Events.EventStatusActivity"></activity>
-        <activity android:name=".Producer.Artists.ArtistEventsActivity"></activity>
-        <activity android:name=".Producer.Artists.ArtistStatsActivity"></activity>
+        <activity android:name=".Customer.CustomerMenu.CustomerProfileUpdate" />
+        <activity android:name=".Customer.CustomerMenu.MyEventsTicketsActivity" />
+        <activity android:name=".Events.EventStatusActivity" />
+        <activity android:name=".Producer.Artists.ArtistEventsActivity" />
+        <activity android:name=".Producer.Artists.ArtistStatsActivity" />
         <activity android:name=".Events.EditEventActivity" />
-        <activity android:name=".Events.EventDetailsActivity"></activity>
+        <activity android:name=".Events.EventDetailsActivity" />
         <activity
             android:name=".Events.EventServiceActivity"
-            android:theme="@style/AppTheme.PopupServiceEvent"></activity>
-        <activity
-            android:name=".Chat.MessagesRoomActivity"
-            />
-        <activity android:name=".Chat.RealTimeChatActivity"></activity>
+            android:theme="@style/AppTheme.PopupServiceEvent" />
+        <activity android:name=".Chat.MessagesRoomActivity" />
+        <activity android:name=".Chat.RealTimeChatActivity" />
 
         <meta-data
             android:name="com.parse.APPLICATION_ID"
-            android:value="zHbkCgWz7FPRNK0E3mnB7HwRgEuKalaqnADvr8qK"/>
+            android:value="zHbkCgWz7FPRNK0E3mnB7HwRgEuKalaqnADvr8qK" />
         <meta-data
             android:name="com.parse.CLIENT_KEY"
-            android:value="KOerUm6IRSMz4gPOqNAsNVn0QsCHVWC0SIWI3tle"/>
-
+            android:value="KOerUm6IRSMz4gPOqNAsNVn0QsCHVWC0SIWI3tle" />
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
-            android:value="@string/facebook_app_id"/>
+            android:value="@string/facebook_app_id" />
 
         <activity
             android:name=".Verifications.SmsSignUpActivity"
             android:label="@string/title_activity_login"
-            android:theme="@style/AppTheme"/>
+            android:theme="@style/AppTheme" />
         <activity
             android:name="com.facebook.FacebookActivity"
             android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
             android:label="@string/app_name"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar"/>
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
         <activity
-            android:name="com.example.FundigoApp.Chat.ChatActivity"
+            android:name=".Chat.ChatActivity"
             android:label="@string/title_activity_chat"
-            android:theme="@style/AppTheme"/>
-
+            android:theme="@style/AppTheme" />
 
         <provider
             android:name="com.facebook.FacebookContentProvider"
             android:authorities="com.facebook.app.FacebookContentProvider815026728619467"
-            android:exported="true"/>
+            android:exported="true" />
 
-        <service android:name="com.parse.PushService"/>
+        <service android:name="com.parse.PushService" />
 
         <receiver
             android:name="com.parse.ParsePushBroadcastReceiver"
-            android:exported="false">
+            android:exported="false" >
             <intent-filter>
-                <action android:name="com.parse.push.intent.RECEIVE"/>
-                <action android:name="com.parse.push.intent.DELETE"/>
-                <action android:name="com.parse.push.intent.OPEN"/>
+                <action android:name="com.parse.push.intent.RECEIVE" />
+                <action android:name="com.parse.push.intent.DELETE" />
+                <action android:name="com.parse.push.intent.OPEN" />
             </intent-filter>
         </receiver>
         <receiver
             android:name="com.parse.GcmBroadcastReceiver"
-            android:permission="com.google.android.c2dm.permission.SEND">
+            android:permission="com.google.android.c2dm.permission.SEND" >
             <intent-filter>
-                <action android:name="com.google.android.c2dm.intent.RECEIVE"/>
-                <action android:name="com.google.android.c2dm.intent.REGISTRATION"/>
+                <action android:name="com.google.android.c2dm.intent.RECEIVE" />
+                <action android:name="com.google.android.c2dm.intent.REGISTRATION" />
 
-                <category android:name="com.example.events"/>
+                <category android:name="com.example.events" />
             </intent-filter>
         </receiver>
 
         <meta-data
             android:name="io.branch.sdk.BranchKey"
-            android:value="key_live_bop3jOlEx4NaSVitfZ2zHoiaBFejkB4S"/>
+            android:value="key_live_bop3jOlEx4NaSVitfZ2zHoiaBFejkB4S" />
         <meta-data
             android:name="com.google.android.maps.v2.API_KEY"
-            android:value="AIzaSyAO_BADR0qgh5i6oirplDXw0wCCxCZoLe8"/>
-        <!-- ATTENTION: This was auto-generated to add Google Play services to your project for
-             App Indexing.  See https://g.co/AppIndexing/AndroidStudio for more information. -->
+            android:value="AIzaSyAO_BADR0qgh5i6oirplDXw0wCCxCZoLe8" />
+        <!--
+             ATTENTION: This was auto-generated to add Google Play services to your project for
+             App Indexing.  See https://g.co/AppIndexing/AndroidStudio for more information.
+        -->
         <meta-data
             android:name="com.google.android.gms.version"
-            android:value="@integer/google_play_services_version"/>
+            android:value="@integer/google_play_services_version" />
+
+        <activity android:name=".Producer.Artists.qr_producer" >
+        </activity>
+        <activity android:name=".Producer.Artists.QR_producer" >
+        </activity>
     </application>
 
 </manifest>

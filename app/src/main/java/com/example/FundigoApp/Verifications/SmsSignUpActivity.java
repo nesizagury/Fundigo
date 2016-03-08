@@ -94,9 +94,11 @@ public class SmsSignUpActivity extends AppCompatActivity {
                             (actionId == EditorInfo.IME_ACTION_DONE)) {
                     area = s.getSelectedItem ().toString ();
                     username = usernameTE.getText ().toString ();
-                    phone_number_to_verify = getNumber (phoneET.getText ().toString (), area);
+                    phone_number_to_verify = getNumber(phoneET.getText().toString(), area);
                     getUserPreviousDetails (area + phoneET.getText ().toString ());
-                    smsVerify (phone_number_to_verify);
+                   // smsVerify (phone_number_to_verify);
+                    usernameTV.setVisibility (View.VISIBLE);
+                    usernameTE.setVisibility(View.VISIBLE);
                 }
                 return false;
             }
@@ -115,6 +117,8 @@ public class SmsSignUpActivity extends AppCompatActivity {
                     signup.setVisibility (View.VISIBLE);
                     optionalTV = (TextView) findViewById (R.id.optionalTV);
                     optionalTV.setVisibility (View.VISIBLE);
+
+
                 }
                 return false;
             }

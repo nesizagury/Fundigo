@@ -164,4 +164,29 @@
 
     </string-array>
 
+    <string name="scan_customer_qr">Scan Customer QR Code</string>
+    <string name="start_scan">Start Scan QR Code</string>
+    <string name="yes">Yse</string>
+    <string name="no">No</string>
+    <string name="purchase_date">Purchase Date</string>
+    <string name="customer_phone">Customer Phone</string>
+    <string name="seat_number">Seat Number</string>
+    <string name="price">Price</string>
+    <string name="confirmation_code">Confirmation Code</string>
+    <string name="buyer_first_name">Buyer First Name</string>
+    <string name="buyer_last_name">Buyer Last Name</string>
+    <string name="order_id">Order Id</string>
+    <string name="amount">Amount</string>
+    <string name="email">Email</string>
+    <string name="buyer_phone">Buyer Phone</string>
+    <string name="response_code">Response Code</string>
+    <string name="customer_enter">Customer Enter</string>
+    <string name="sold">Sold</string>
+    <string name="custme_enter">Mark That Customer Enter</string>
+
+
+
+
+
+
 </resources>

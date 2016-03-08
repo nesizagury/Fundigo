@@ -35,6 +35,11 @@ public class EventStatusActivity extends Activity implements AdapterView.OnItemC
     TextView numOfTicketsUpcomingTV;
     TextView upcomingTicketsPriceAvgTv;
 
+    TextView numberGuestsEnterTV;
+    int numberFoGust;
+    TextView enter_gusst_value;
+
+
     ListView lv_tickets;
     TextView tv_price;
     TextView tv_ticket;
@@ -52,9 +57,10 @@ public class EventStatusActivity extends Activity implements AdapterView.OnItemC
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate (savedInstanceState);
-        setContentView (R.layout.activity_event_status);
-
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_event_status);
+        numberGuestsEnterTV=(TextView)findViewById(R.id.numberGuestsEnterTV);
+        enter_gusst_value=(TextView)findViewById(R.id.enter_gusst_value);
         eventNameTV = (TextView) findViewById (R.id.eventNameTV);
         eventNameTV.setText ("" + getIntent ().getStringExtra ("name"));
 
@@ -120,6 +126,9 @@ public class EventStatusActivity extends Activity implements AdapterView.OnItemC
         int thisEventSoldTicketsNum = 0;
         List<EventsSeats> eventsSeatsList = eventInfo.getEventsSeatsList ();
         for (EventsSeats eventsSeat : eventsSeatsList) {
+            if(eventsSeat.getBoolean("CustomerEnter")){
+                numberFoGust++;
+            }
             if (!eventsSeat.getIsSold () && eventInfo.isStadium () && eventInfo.isFutureEvent ()) {
                 sumIncomeUpcoming += eventsSeat.getPrice ();
                 numTicketsUpcoming++;
@@ -129,6 +138,8 @@ public class EventStatusActivity extends Activity implements AdapterView.OnItemC
                 sumIncomeSold += eventsSeat.getPrice ();
             }
         }
+
+        enter_gusst_value.setText(numberFoGust+"/"+(numTicketsSold-numberFoGust));
         if (eventInfo.isFutureEvent () && !eventInfo.isStadium () && !eventInfo.getPrice ().equals ("FREE")) {
             int thisEventNumTicketsUpcoming = eventInfo.getNumOfTickets () - thisEventSoldTicketsNum;
             numTicketsUpcoming += thisEventNumTicketsUpcoming;
