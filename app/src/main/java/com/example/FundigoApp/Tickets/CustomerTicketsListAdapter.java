@@ -21,7 +21,7 @@ public class CustomerTicketsListAdapter extends ArrayAdapter<EventsSeatsInfo> {
     public View getView(int position, View convertView, ViewGroup parent) {
 
         try {
-            convertView = LayoutInflater.from (getContext ()).inflate (R.layout.content_events_tickets, parent, false);
+            convertView = LayoutInflater.from (getContext ()).inflate (R.layout.activity_customer_tickets_list_item, parent, false);
             EventsSeatsInfo eventsSeatsInfo = (EventsSeatsInfo) getItem (position);
 
             if (eventsSeatsInfo != null) {
@@ -32,14 +32,17 @@ public class CustomerTicketsListAdapter extends ArrayAdapter<EventsSeatsInfo> {
                 TextView price = (TextView) convertView.findViewById (R.id.price);
                 Button listViewButton = (Button) convertView.findViewById (R.id.moreDetailesButton);
                 Button eventEndedButton = (Button) convertView.findViewById (R.id.eventEnded);
+                TextView purchaseDate = (TextView) convertView.findViewById (R.id.purchaseDate);
+
 
                 String priceString = String.valueOf (eventsSeatsInfo.getPrice ());
                 eventName.setText (eventsSeatsInfo.getEventInfo ().getName ());
                 eventDate.setText (eventsSeatsInfo.getEventInfo ().getDateAsString ());
+                purchaseDate.setText(eventsSeatsInfo.getPurchaseDate().toString().substring(0,20));
                 price.setText (priceString);
                 listViewButton.setTag (position);
+                String seatName = eventsSeatsInfo.getTicketName ();
 
-                String seatName = eventsSeatsInfo.getTicketName (); // for a case that No Seat Same , just regular Ticket
                 if (seatName == null || seatName.isEmpty ()) {
                     ticketNameBody.setVisibility (View.INVISIBLE);
                     ticketNameTitle.setVisibility (View.INVISIBLE);

@@ -39,6 +39,11 @@ import com.example.FundigoApp.Producer.Artists.Artist;
 import com.example.FundigoApp.Verifications.Numbers;
 import com.facebook.share.model.ShareLinkContent;
 import com.facebook.share.widget.ShareDialog;
+import com.nostra13.universalimageloader.cache.memory.impl.WeakMemoryCache;
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
+import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseFile;
@@ -80,23 +85,11 @@ public class StaticMethods {
         query.findInBackground (new FindCallback<Event> () {
             public void done(List<Event> eventParse, ParseException e) {
                 if (e == null) {
-                    ParseFile imageFile;
-                    byte[] data = null;
-                    Bitmap bmp;
+
                     for (int i = 0; i < eventParse.size (); i++) {
-                        imageFile = (ParseFile) eventParse.get (i).get ("ImageFile");
-                        if (imageFile != null) {
-                            try {
-                                data = imageFile.getData ();
-                            } catch (ParseException e1) {
-                                e1.printStackTrace ();
-                            }
-                            bmp = BitmapFactory.decodeByteArray (data, 0, data.length);
-                        } else {
-                            bmp = null;
-                        }
+
                         Event event = eventParse.get (i);
-                        tempEventsList.add (new EventInfo (bmp,
+                        tempEventsList.add (new EventInfo (event.getPic().getUrl(),
                                                                   event.getRealDate (),
                                                                   getEventDateAsString (event.getRealDate ()),
                                                                   event.getName (),
@@ -364,7 +357,7 @@ public class StaticMethods {
         } else {
             for (int i = 0; i < eventsListToFilter.size (); i++) {
                 String cityEvent = eventsListToFilter.get (i).getCity ();
-                if (cityName.equals ("All Cities") || (cityEvent != null && cityEvent.equals (cityName))) {
+                if (cityName.equals("All Cities") || (cityEvent != null && cityEvent.equals (cityName))) {
                     if (currentFilterName.isEmpty () ||
                                 (currentFilterName.equals (eventsListToFilter.get (i).getFilterName ()))) {
                         tempEventsList.add (eventsListToFilter.get (i));
@@ -379,7 +372,7 @@ public class StaticMethods {
         String faceBookId = null;
         String picUrl = null;
         String customerName = null;
-        Bitmap customerImage = null;
+        String customerImage = null;
         ParseQuery<Numbers> query = ParseQuery.getQuery (Numbers.class);
         query.whereEqualTo ("number", customerPhoneNum);
         List<Numbers> numbers = null;
@@ -396,24 +389,14 @@ public class StaticMethods {
     public static CustomerDetails getUserDetails(List<Numbers> numbers) {
         String faceBookId = null;
         String customerPicFacebookUrl = null;
-        Bitmap customerImage = null;
+        String customerImage = null;
         String customerName = null;
         if (numbers.size () > 0) {
             Numbers number = numbers.get (0);
             faceBookId = number.getFbId ();
             customerPicFacebookUrl = number.getFbUrl ();
             customerName = number.getName ();
-            ParseFile imageFile;
-            byte[] data = null;
-            imageFile = (ParseFile) number.getImageFile ();
-            if (imageFile != null) {
-                try {
-                    data = imageFile.getData ();
-                } catch (ParseException e1) {
-                    e1.printStackTrace ();
-                }
-                customerImage = BitmapFactory.decodeByteArray (data, 0, data.length);
-            }
+           customerImage = number.getImageFile().getUrl();
         }
         return new CustomerDetails (faceBookId, customerPicFacebookUrl, customerImage, customerName);
     }
@@ -443,21 +426,13 @@ public class StaticMethods {
                 artist_list.add (new Artist (eventInfo.getArtist ()));
             }
         }
-        artist_list.add (new Artist (GlobalVariables.No_Artist_Events));
+        artist_list.add(new Artist(GlobalVariables.No_Artist_Events));
     }
 
     public static void onEventItemClick(int positionViewItem,
                                         List<EventInfo> eventsList,
                                         Intent intent) {
-        if (eventsList.get (positionViewItem).getImageBitmap () != null) {
-            Bitmap bmp = eventsList.get (positionViewItem).getImageBitmap ();
-            ByteArrayOutputStream stream = new ByteArrayOutputStream ();
-            bmp.compress (Bitmap.CompressFormat.JPEG, 100, stream);
-            byte[] byteArray = stream.toByteArray ();
-            intent.putExtra ("eventImage", byteArray);
-        } else {
-            intent.putExtra ("eventImage", "");
-        }
+
         intent.putExtra ("eventDate", eventsList.get (positionViewItem).getDate ());
         intent.putExtra ("eventName", eventsList.get (positionViewItem).getName ());
         intent.putExtra ("eventTags", eventsList.get (positionViewItem).getTags ());
@@ -603,7 +578,7 @@ public class StaticMethods {
     private static int getOrientation(Uri selectedImage, Context context) {
         int orientation = 0;
         final String[] projection = new String[]{MediaStore.Images.Media.ORIENTATION};
-        final Cursor cursor = context.getContentResolver ().query (selectedImage, projection, null, null, null);
+        final Cursor cursor = context.getContentResolver ().query(selectedImage, projection, null, null, null);
         if (cursor != null) {
             final int orientationColumnIndex = cursor.getColumnIndex (MediaStore.Images.Media.ORIENTATION);
             if (cursor.moveToFirst ()) {
@@ -615,6 +590,7 @@ public class StaticMethods {
     }
 
     private static String getEventDateAsString(Date eventDate) {
+
         long time = eventDate.getTime ();
         Calendar calendar = Calendar.getInstance ();
         calendar.setTimeInMillis (time);
@@ -749,5 +725,29 @@ public class StaticMethods {
         eventInfo.setToilet (event.getEventToiletService ());
         eventInfo.setX (event.getX ());
         eventInfo.setY (event.getY ());
+    }
+    public static ImageLoader getImageLoader(Context context) {
+
+        ImageLoader imageLoader = null;
+        DisplayImageOptions options = null;
+
+        options = new DisplayImageOptions.Builder ()
+                .cacheOnDisk (true)
+                .cacheInMemory (true)
+                .bitmapConfig (Bitmap.Config.RGB_565)
+                .imageScaleType (ImageScaleType.EXACTLY)
+                .resetViewBeforeLoading (true)
+                .build ();
+        ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder (context)
+                .defaultDisplayImageOptions (options)
+                .threadPriority (Thread.MAX_PRIORITY)
+                .threadPoolSize (4)
+                .memoryCache (new WeakMemoryCache())
+                .denyCacheImageMultipleSizesInMemory()
+                .build();
+        imageLoader = ImageLoader.getInstance();
+        imageLoader.init (config);
+
+        return imageLoader;
     }
 }

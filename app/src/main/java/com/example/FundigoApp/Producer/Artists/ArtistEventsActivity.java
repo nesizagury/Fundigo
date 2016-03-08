@@ -61,28 +61,28 @@ public class ArtistEventsActivity extends Activity implements AdapterView.OnItem
     public void onItemClick(AdapterView<?> av, View view, int i, long l) {
         Bundle b = new Bundle ();
         Intent intent = new Intent (this, EventPageActivity.class);
-        StaticMethods.onEventItemClick (i, eventsList, intent);
-        intent.putExtras (b);
-        startActivity (intent);
+        StaticMethods.onEventItemClick(i, eventsList, intent);
+        intent.putExtras(b);
+        startActivity(intent);
     }
 
     @Override
     protected void onActivityResult(final int requestCode, final int resultCode, final Intent data) {
-        StaticMethods.onActivityResult (requestCode,
-                                               data,
-                                               this);
+        StaticMethods.onActivityResult(requestCode,
+                data,
+                this);
     }
 
     @Override
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
         super.onCreateContextMenu (menu, v, menuInfo);
-        getMenuInflater ().inflate (R.menu.context_menu, menu);
+        getMenuInflater ().inflate(R.menu.context_menu, menu);
     }
 
     @Override
     protected void onResume() {
-        super.onResume ();
-        eventsListAdapter.notifyDataSetChanged ();
+        super.onResume();
+        eventsListAdapter.notifyDataSetChanged();
     }
 
     @Override
@@ -155,14 +155,57 @@ public class ArtistEventsActivity extends Activity implements AdapterView.OnItem
 
         ParseQuery<ParseObject> querySeats = ParseQuery.getQuery ("EventsSeats");
         querySeats.whereEqualTo ("eventObjectId", objectId);
-        querySeats.findInBackground (new FindCallback<ParseObject> () {
+        querySeats.findInBackground(new FindCallback<ParseObject>() {
             @Override
             public void done(List<ParseObject> objects, ParseException e) {
-                if (objects.size () != 0) {
-                    ParseObject.deleteAllInBackground (objects);
+                if (objects.size() != 0) {
+                    ParseObject.deleteAllInBackground(objects);
                 }
             }
         });
-        finish ();
+        ParseQuery<ParseObject> queryMessages = new ParseQuery("Message");
+        queryMessages.whereEqualTo("eventObjectId",objectId);
+        queryMessages.findInBackground(new FindCallback<ParseObject>() {
+            @Override
+            public void done(List<ParseObject> objects, ParseException e) {
+
+                if (objects.size() != 0) {
+                    ParseObject.deleteAllInBackground(objects);
+                }
+            }
+        });
+        ParseQuery<ParseObject> queryRoom = new ParseQuery("Room");
+        queryRoom.whereEqualTo("eventObjId", objectId);
+        queryRoom.findInBackground(new FindCallback<ParseObject>() {
+            @Override
+            public void done(List<ParseObject> objects, ParseException e) {
+                if (objects.size() != 0) {
+                    ParseObject.deleteAllInBackground(objects);
+                }
+            }
+        });
+        ParseQuery<ParseObject> queryMsgRealTime = new ParseQuery("MsgRealTime");
+        queryMsgRealTime.whereEqualTo("eventObjectId", objectId);
+        queryMsgRealTime.findInBackground(new FindCallback<ParseObject>() {
+            @Override
+            public void done(List<ParseObject> objects, ParseException e) {
+                if (objects.size() != 0) {
+                    ParseObject.deleteAllInBackground(objects);
+                }
+            }
+        });
+        ParseQuery<ParseObject> queryPush = new ParseQuery("Push");
+        queryPush.whereEqualTo("EventId", objectId);
+        queryPush.findInBackground(new FindCallback<ParseObject>() {
+            @Override
+            public void done(List<ParseObject> objects, ParseException e) {
+                if (objects.size() != 0) {
+                    ParseObject.deleteAllInBackground(objects);
+                }
+            }
+        });
+        finish();
     }
+
+
 }

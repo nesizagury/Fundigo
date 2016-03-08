@@ -20,6 +20,7 @@ import com.example.FundigoApp.Events.EventInfo;
 import com.example.FundigoApp.GlobalVariables;
 import com.example.FundigoApp.R;
 import com.example.FundigoApp.StaticMethods;
+import com.nostra13.universalimageloader.core.ImageLoader;
 import com.parse.FindCallback;
 import com.parse.ParseACL;
 import com.parse.ParseException;
@@ -46,13 +47,14 @@ public class ChatActivity extends Activity {
     String customerPhone;
     EventInfo eventInfo;
     Room room;
+    ImageLoader loader;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate (savedInstanceState);
-        this.requestWindowFeature (Window.FEATURE_NO_TITLE);
-        setContentView (R.layout.activity_main_chat);
-
+        this.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        setContentView(R.layout.activity_main_chat);
+        loader = StaticMethods.getImageLoader(this);
         profileImage = (ImageView) findViewById (R.id.profileImage_chat);
         profileName = (Button) findViewById (R.id.ProfileName_chat);
         profileFaceBook = (Button) findViewById (R.id.ProfileFacebook_chat);
@@ -68,7 +70,7 @@ public class ChatActivity extends Activity {
             updateUserDetailsFromParse ();
         } else if (GlobalVariables.IS_CUSTOMER_REGISTERED_USER) {
             profileName.setText (eventName + " (Chat with Producer)");
-            setEventInfo (eventInfo.getImageBitmap ());
+            setEventInfo (eventInfo.getPicUrl());
         }
         editTextMessage = (EditText) findViewById (R.id.etMessageChat);
         chatListView = (ListView) findViewById (R.id.messageListviewChat);
@@ -93,7 +95,7 @@ public class ChatActivity extends Activity {
         if (customerDetails.getPicUrl () != null && !customerDetails.getPicUrl ().isEmpty ()) {
             Picasso.with (this).load (customerDetails.getPicUrl ()).into (profileImage);
         } else if (customerDetails.getCustomerImage () != null) {
-            profileImage.setImageBitmap (customerDetails.getCustomerImage ());
+            loader.displayImage(customerDetails.getCustomerImage(),profileImage);
         }
         if (customerDetails.getCustomerImage () == null &&
                     customerDetails.getPicUrl () == null &&
@@ -103,16 +105,14 @@ public class ChatActivity extends Activity {
         }
     }
 
-    private void setEventInfo(Bitmap bitmap) {
+    private void setEventInfo(String picUrl) {
         profileFaceBook.setVisibility (View.GONE);
         float hight = TypedValue.applyDimension (TypedValue.COMPLEX_UNIT_DIP, 55, getResources ().getDisplayMetrics ());
         LinearLayout.LayoutParams params =
-                new LinearLayout.LayoutParams (
-                                                      0,
-                                                      Math.round (hight));
+                new LinearLayout.LayoutParams (0,Math.round (hight));
         params.weight = 90.0f;
         profileImage.setLayoutParams (params);
-        profileImage.setImageBitmap (bitmap);
+        loader.displayImage(picUrl,profileImage);
     }
 
     private Runnable runnable = new Runnable () {

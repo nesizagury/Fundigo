@@ -12,6 +12,7 @@ import android.widget.ImageView;
 import com.example.FundigoApp.DeepLinkActivity;
 import com.example.FundigoApp.R;
 import com.example.FundigoApp.StaticMethods;
+import com.nostra13.universalimageloader.core.ImageLoader;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,11 +25,12 @@ public class EventsListAdapter extends BaseAdapter {
     Uri uri;
     boolean isSavedActivity;
     public int index;
-
+    ImageLoader loader;
     public EventsListAdapter(Context c, List<EventInfo> eventList, boolean isSavedActivity) {
         this.context = c;
         this.eventList = eventList;
         this.isSavedActivity = isSavedActivity;
+        loader = StaticMethods.getImageLoader(c);
     }
 
     @Override
@@ -65,7 +67,10 @@ public class EventsListAdapter extends BaseAdapter {
             row.setVisibility (View.INVISIBLE);
         }
         index = i;
-        eventListHolder.image.setImageBitmap (event.imageId);
+        if(eventList.get(i).getPicUrl() != null)
+            loader.displayImage (eventList.get (i).getPicUrl (), eventListHolder.image);
+        else
+            eventListHolder.image.setImageResource(R.drawable.pic0);
         eventListHolder.date.setText (event.getDateAsString ());
         eventListHolder.name.setText (event.getName ());
         eventListHolder.tags.setText (event.getTags ());

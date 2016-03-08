@@ -16,6 +16,7 @@ import com.example.FundigoApp.Events.EventInfo;
 import com.example.FundigoApp.GlobalVariables;
 import com.example.FundigoApp.R;
 import com.example.FundigoApp.StaticMethods;
+import com.nostra13.universalimageloader.core.ImageLoader;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -33,10 +34,12 @@ public class EventsGridAdapter extends BaseAdapter {
     List<EventInfo> eventList = new ArrayList<EventInfo> ();
     Context context;
     private ImageView iv_share;
+    ImageLoader loader;
 
     public EventsGridAdapter(Context c, List<EventInfo> eventList) {
         this.context = c;
         this.eventList = eventList;
+        loader = StaticMethods.getImageLoader(c);
     }
 
     @Override
@@ -69,8 +72,11 @@ public class EventsGridAdapter extends BaseAdapter {
         }
         final EventInfo event = eventList.get (i);
 
-        eventGridHolder.image.setImageBitmap (event.getImageBitmap ());
-        eventGridHolder.date.setText (event.getDateAsString ());
+        if(event.getPicUrl() != null)
+            loader.displayImage(event.getPicUrl(),eventGridHolder.image);
+        else
+        eventGridHolder.image.setImageResource(R.drawable.pic0);
+
         eventGridHolder.name.setText (event.getName ());
         eventGridHolder.tags.setText (event.getTags ());
         eventGridHolder.price.setText (StaticMethods.getDisplayedEventPrice (event.getPrice ()));

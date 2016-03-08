@@ -12,7 +12,7 @@
         android:layout_width="fill_parent"
         android:layout_height="0dip"
         android:layout_weight="25"
-        android:background="@mipmap/pic0"
+        android:background="#f7f7f7"
         android:scaleType="fitXY"/>
 
     <RelativeLayout

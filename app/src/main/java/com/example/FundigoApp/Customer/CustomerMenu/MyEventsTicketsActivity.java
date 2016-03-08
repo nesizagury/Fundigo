@@ -6,6 +6,7 @@ import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.ListAdapter;
 import android.widget.ListView;
@@ -64,9 +65,11 @@ public class MyEventsTicketsActivity extends AppCompatActivity {
         String _userPhoneNumber = GlobalVariables.CUSTOMER_PHONE_NUM;
         List<EventsSeats> list;
         try {
+
             ParseQuery<EventsSeats> query = ParseQuery.getQuery ("EventsSeats");
-            query.whereEqualTo ("CustomerPhone", _userPhoneNumber).whereEqualTo ("sold", true).orderByDescending ("updatedAt");
+            query.whereEqualTo ("CustomerPhone", _userPhoneNumber).whereEqualTo("sold", true).orderByDescending ("updatedAt");
             list = query.find ();
+            Log.e("list size",list.size() + "");
             if (list.size () != 0) {
                 for (EventsSeats eventsSeats : list) {
                     if (eventsSeats.getQR_CodeFile () == null) {
@@ -100,7 +103,7 @@ public class MyEventsTicketsActivity extends AppCompatActivity {
                     EventInfo eventInfo = StaticMethods.getEventFromObjID (eventsSeats.getString ("eventObjectId"), GlobalVariables.ALL_EVENTS_DATA);
                     Date current_date = new Date ();
                     Date event_date = eventInfo.getDate ();
-                    eventInfo.setIsFutureEvent (event_date.after (current_date));
+                    eventInfo.setIsFutureEvent(event_date.after(current_date));
                     my_tickets_events_list.add (eventInfo);
                     my_tickets_list.add (new EventsSeatsInfo (eventsSeats.getSeatNumber (),
                                                                      qrCode,

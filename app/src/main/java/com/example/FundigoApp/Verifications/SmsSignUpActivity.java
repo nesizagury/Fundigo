@@ -24,6 +24,7 @@ import com.example.FundigoApp.Customer.CustomerDetails;
 import com.example.FundigoApp.GlobalVariables;
 import com.example.FundigoApp.R;
 import com.example.FundigoApp.StaticMethods;
+import com.nostra13.universalimageloader.core.ImageLoader;
 import com.parse.FindCallback;
 import com.parse.ParseACL;
 import com.parse.ParseException;
@@ -62,6 +63,7 @@ public class SmsSignUpActivity extends AppCompatActivity {
     TextView expTV;
     boolean image_selected = false;
     Numbers previousDataFound = null;
+    ImageLoader loader;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -297,10 +299,11 @@ public class SmsSignUpActivity extends AppCompatActivity {
                             usernameTE.setSelection (usernameTE.getText ().length ());
                         }
                         if (!image_selected) {
-                            Bitmap customerImage = customerDetails.getCustomerImage ();
+                            String customerImage = customerDetails.getCustomerImage ();
                             if (customerImage != null) {
                                 image_selected = true;
-                                customerImageView.setImageBitmap (customerImage);
+                                loader = StaticMethods.getImageLoader(SmsSignUpActivity.this);
+                                loader.displayImage(customerImage,customerImageView);
                             }
                         }
                     }

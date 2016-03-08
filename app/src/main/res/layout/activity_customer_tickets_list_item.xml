@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="New Text"
+        android:id="@+id/eventName"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="10dp"
+        android:textSize="18sp"
+        android:textStyle="bold" />
+
+    <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="35dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="5dp">
+
+        <TextView
+            android:id="@+id/textView12"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="0dp"
+            android:padding="5dp"
+            android:text="Price"
+            android:layout_marginRight="25dp"
+            android:layout_above="@+id/price"
+            android:layout_alignStart="@+id/eventDate"
+            android:layout_weight="1"
+            android:layout_gravity="center_vertical"
+            android:gravity="center_horizontal"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/textView13"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:padding="5dp"
+            android:text="Event Date"
+            android:layout_alignTop="@+id/textView11"
+            android:layout_toEndOf="@+id/moreDetailesButton"
+            android:layout_weight="1"
+            android:layout_gravity="center_vertical"
+            android:gravity="center_horizontal"
+            android:textStyle="bold" />
+    </TableRow>
+
+    <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="5dp" >
+
+        <TextView
+            android:id="@+id/price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="0dp"
+            android:padding="5dp"
+            android:layout_marginRight="25dp"
+            android:layout_above="@+id/price"
+            android:layout_alignStart="@+id/eventDate"
+            android:layout_weight="1"
+            android:layout_gravity="center_vertical"
+            android:gravity="center_horizontal" />
+
+        <TextView
+            android:id="@+id/eventDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:padding="5dp"
+            android:layout_alignTop="@+id/textView11"
+            android:layout_toEndOf="@+id/moreDetailesButton"
+            android:layout_weight="1"
+            android:layout_gravity="center_vertical"
+            android:gravity="center_horizontal" />
+    </TableRow>
+
+    <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="5dp" >
+
+        <TextView
+            android:id="@+id/textView14"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="0dp"
+            android:padding="5dp"
+            android:text="Seat Name"
+            android:layout_marginRight="25dp"
+            android:layout_above="@+id/price"
+            android:layout_alignStart="@+id/eventDate"
+            android:layout_weight="1"
+            android:layout_gravity="center_vertical"
+            android:gravity="center_horizontal"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/textView15"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:padding="5dp"
+            android:text="Purchase Date"
+            android:layout_alignTop="@+id/textView11"
+            android:layout_toEndOf="@+id/moreDetailesButton"
+            android:layout_weight="1"
+            android:layout_gravity="center_vertical"
+            android:gravity="center_horizontal"
+            android:textStyle="bold" />
+    </TableRow>
+
+    <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="5dp" >
+
+        <TextView
+            android:id="@+id/ticketName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="0dp"
+            android:padding="5dp"
+            android:layout_marginRight="25dp"
+            android:layout_above="@+id/ticketName"
+            android:layout_alignStart="@+id/purchaseDate"
+            android:layout_weight="1"
+            android:layout_gravity="center_vertical"
+            android:gravity="center_horizontal" />
+
+        <TextView
+            android:id="@+id/purchaseDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:padding="5dp"
+            android:layout_alignTop="@+id/textView11"
+            android:layout_toEndOf="@+id/moreDetailesButton"
+            android:layout_weight="1"
+            android:layout_gravity="center_vertical"
+            android:gravity="center_horizontal" />
+    </TableRow>
+</LinearLayout>

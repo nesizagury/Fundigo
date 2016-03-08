@@ -15,16 +15,6 @@
                 tools:context="com.example.events.EventsTickets">
 
     <TextView
-        android:id="@+id/eventName"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignEnd="@+id/eventNameTitle"
-        android:layout_alignTop="@+id/ticketName"
-        android:padding="10dp"
-        android:text=""
-        />
-
-    <TextView
         android:id="@+id/ticketName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -42,8 +32,7 @@
         android:layout_alignStart="@+id/eventDateTitle"
         android:layout_marginLeft="3dp"
         android:layout_marginTop="52dp"
-        android:padding="10dp"
-        android:text=""/>
+        android:padding="10dp" />
 
     <TextView
         android:id="@+id/price"
@@ -60,10 +49,10 @@
         style="?android:attr/buttonStyleSmall"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_below="@+id/ticketName"
         android:onClick="onClickButton"
-        android:text="more detailes"/>
+        android:text="more detailes"
+        android:layout_below="@+id/purchaseDate"
+        android:layout_centerHorizontal="true" />
 
     <Button
         android:id="@+id/eventEnded"
@@ -79,22 +68,11 @@
 
 
     <TextView
-        android:id="@+id/eventNameTitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/eventName"
-        android:layout_alignParentStart="true"
-        android:layout_marginLeft="5dp"
-        android:padding="5dp"
-        android:text="Event Name"/>
-
-    <TextView
         android:id="@+id/seatNameTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_above="@+id/ticketName"
         android:layout_marginLeft="5dp"
-        android:layout_toEndOf="@+id/eventName"
         android:padding="5dp"
         android:text="Seat Name"
         android:visibility="visible"/>
@@ -103,20 +81,48 @@
         android:id="@+id/priceTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/price"
         android:layout_marginLeft="0dp"
-        android:layout_toStartOf="@+id/moreDetailesButton"
         android:padding="5dp"
         android:text="Price"
-        android:layout_marginRight="25dp"/>
+        android:layout_marginRight="25dp"
+        android:layout_above="@+id/price"
+        android:layout_alignStart="@+id/eventDate" />
 
     <TextView
         android:id="@+id/eventDateTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignStart="@+id/moreDetailesButton"
-        android:layout_alignTop="@+id/priceTitle"
         android:layout_marginLeft="5dp"
         android:padding="5dp"
-        android:text="Event Date"/>
+        android:text="Event Date"
+        android:layout_alignTop="@+id/textView11"
+        android:layout_toEndOf="@+id/moreDetailesButton" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="New Text"
+        android:id="@+id/eventName"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="5dp" />
+
+    <TextView
+        android:id="@+id/textView11"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="5dp"
+        android:padding="5dp"
+        android:text="Purchase Date"
+        android:layout_below="@+id/ticketName"
+        android:layout_toEndOf="@+id/ticketName" />
+
+    <TextView
+        android:id="@+id/purchaseDate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="3dp"
+        android:padding="10dp"
+        android:layout_below="@+id/textView11"
+        android:layout_alignStart="@+id/textView11" />
 </RelativeLayout>

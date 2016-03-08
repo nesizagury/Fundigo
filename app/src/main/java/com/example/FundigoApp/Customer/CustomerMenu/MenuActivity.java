@@ -32,6 +32,7 @@ import com.facebook.HttpMethod;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
+import com.nostra13.universalimageloader.core.ImageLoader;
 import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
@@ -50,7 +51,7 @@ public class MenuActivity extends AppCompatActivity {
     LoginButton facebook_logout_button;
     String currentUserName;
     String phoneNum;
-    Bitmap userImage;
+    String userImage;
     TableLayout tableLayout; //table to prsent profile
     ImageView drawView; // profile picture
     TextView facebookUserNameView;
@@ -60,6 +61,7 @@ public class MenuActivity extends AppCompatActivity {
     Button user_evnets_tickets_button;
     Button save_credit_card_button;
     Button delete_credit_card_button;
+    ImageLoader loader;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -206,7 +208,8 @@ public class MenuActivity extends AppCompatActivity {
         pRaw.setText (phoneNum);
         if (userImage != null) {// for present User Picture
             drawView.setVisibility (View.VISIBLE);
-            drawView.setImageBitmap (userImage);
+            loader = StaticMethods.getImageLoader(this);
+            loader.displayImage(userImage,drawView);
         }
     }
 
@@ -282,7 +285,7 @@ public class MenuActivity extends AppCompatActivity {
                         }
                     });
 
-            builder.setPositiveButton ("Cancel", new DialogInterface.OnClickListener () {
+            builder.setPositiveButton ("Cancel",new DialogInterface.OnClickListener () {
                 public void onClick(DialogInterface dialog, int id) {
                     dialog.cancel ();
                 }

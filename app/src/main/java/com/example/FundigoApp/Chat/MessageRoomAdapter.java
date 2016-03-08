@@ -8,6 +8,8 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 
 import com.example.FundigoApp.R;
+import com.example.FundigoApp.StaticMethods;
+import com.nostra13.universalimageloader.core.ImageLoader;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -19,10 +21,12 @@ public class MessageRoomAdapter extends BaseAdapter {
     ArrayList<Bitmap> listOfEventsImage = new ArrayList<> ();
     Context context;
     Boolean comeFromMessageProducer = false;
+    ImageLoader loader;
 
     public MessageRoomAdapter(Context c, List listOfConversations) {
         this.context = c;
         this.listOfConversations = listOfConversations;
+        loader = StaticMethods.getImageLoader(c);
     }
 
     public MessageRoomAdapter(Context c, List listOfConversations, ArrayList<Bitmap> listOfEventsImage) {
@@ -30,6 +34,7 @@ public class MessageRoomAdapter extends BaseAdapter {
         this.listOfConversations = listOfConversations;
         this.listOfEventsImage = listOfEventsImage;
         comeFromMessageProducer = true;
+        loader = StaticMethods.getImageLoader(c);
     }
 
     @Override
@@ -68,8 +73,9 @@ public class MessageRoomAdapter extends BaseAdapter {
                            !message_bean.getCustomerImageFacebookUrl ().isEmpty ()) {
             Picasso.with (context).load (message_bean.getCustomerImageFacebookUrl ()).into (holder.customerOrEventImage);
         } else if (message_bean.getCustomerImage () != null) {
-            holder.customerOrEventImage.setImageBitmap (message_bean.getCustomerImage ());
-        }
+            loader.displayImage(message_bean.getCustomerImage(),holder.customerOrEventImage);        }
+       else
+        holder.customerOrEventImage.setImageResource(R.drawable.pic0);
         holder.messageBody.setText (message_bean.getLastMessage ());
         holder.customerOrEventName.setText (message_bean.getCustomer_id ());
         holder.customerOrEventImage.setTag (message_bean);

@@ -1,6 +1,7 @@
 package com.example.FundigoApp.Events;
 
 import com.parse.ParseClassName;
+import com.parse.ParseFile;
 import com.parse.ParseObject;
 
 import java.util.Date;
@@ -25,7 +26,7 @@ public class Event extends ParseObject {
     }
 
     public int getNumOfTickets() {
-        return getInt ("NumOfTickets");
+        return getInt("NumOfTickets");
     }
 
     public void setNumOfTickets(int numOfTickets) {
@@ -33,7 +34,7 @@ public class Event extends ParseObject {
     }
 
     public String getPrice() {
-        return getString ("Price");
+        return getString("Price");
     }
 
     public void setPrice(String price) {
@@ -41,7 +42,7 @@ public class Event extends ParseObject {
     }
 
     public double getX() {
-        return getDouble ("X");
+        return getDouble("X");
     }
 
     public double getY() {
@@ -89,7 +90,7 @@ public class Event extends ParseObject {
     }
 
     public Date getRealDate() {
-        return getDate ("realDate");
+        return getDate("realDate");
     }
 
     public void setRealDate(Date date) {
@@ -97,7 +98,7 @@ public class Event extends ParseObject {
     }
 
     public String getPlace() {
-        return getString ("place");
+        return getString("place");
     }
 
     public void setPlace(String place) {
@@ -161,6 +162,15 @@ public class Event extends ParseObject {
     }
 
     public boolean getIsStadium() { //link saved in Parse for link to Even FB page
-        return getBoolean ("isStadium");
+        return getBoolean("isStadium");
     }
+
+    public ParseFile getPic() {
+        return getParseFile("ImageFile");
+    }
+
+    public void setPic(ParseFile file) {
+        put ("ImageFile", file);
+    }
+
 }

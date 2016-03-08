@@ -25,9 +25,9 @@ android {
 }
 
 dependencies {
-    compile group: 'org.apache.httpcomponents' , name: 'httpclient-android' , version: '4.3.5.1'
+    compile 'org.apache.httpcomponents:httpclient-android:4.3.5.1'
     compile 'com.facebook.android:facebook-android-sdk:4.+'
-    compile fileTree(include: ['*.jar'], dir: 'libs')
+    compile fileTree(dir: 'libs', include: ['*.jar'])
     compile 'com.astuetz:pagerslidingtabstrip:1.0.1'
     testCompile 'junit:junit:4.12'
     compile 'com.android.support:appcompat-v7:23.1.1'
@@ -44,5 +44,6 @@ dependencies {
     compile 'com.google.code.gson:gson:2.6.1'
     compile 'com.stripe:stripe-android:+'
     compile 'com.github.ganfra:material-spinner:1.1.1'
+    compile 'com.nostra13.universalimageloader:universal-image-loader:1.9.5'
 }
 

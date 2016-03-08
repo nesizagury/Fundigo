@@ -37,8 +37,10 @@ import com.example.FundigoApp.Tickets.WebBrowserActivity;
 import com.example.FundigoApp.Verifications.SmsSignUpActivity;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
+import com.nostra13.universalimageloader.core.ImageLoader;
 import com.parse.FindCallback;
 import com.parse.ParseException;
+import com.parse.ParseObject;
 import com.parse.ParseQuery;
 
 import org.json.JSONException;
@@ -66,9 +68,7 @@ public class EventPageActivity extends Activity implements View.OnClickListener 
     private ImageView iv_chat;
     Button getTicketsButton;
     Intent intent;
-    Button editEvent;
     Button producerPush;
-
     private String date;
     private String eventName;
     private String eventPlace;
@@ -76,12 +76,12 @@ public class EventPageActivity extends Activity implements View.OnClickListener 
     private String walking;
     private boolean walkNdrive = false;
     private int walkValue = -1;
-    Bitmap bitmap;
     EventInfo eventInfo;
     Button realTimeButton;
     String i = "";
     private ImageView ivQrScan;
     private String faceBookUrl;
+    ImageLoader loader;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -127,12 +127,11 @@ public class EventPageActivity extends Activity implements View.OnClickListener 
         faceBookUrl = intent.getStringExtra ("fbUrl");//get link from the Intent
         GlobalVariables.deepLinkEventObjID = "";
         GlobalVariables.deepLink_params = "";
-        if (getIntent ().getByteArrayExtra ("eventImage") != null) {
-            byte[] byteArray = getIntent ().getByteArrayExtra ("eventImage");
-            bitmap = BitmapFactory.decodeByteArray (byteArray, 0, byteArray.length);
+
             ImageView event_image = (ImageView) findViewById (R.id.eventPage_image);
-            event_image.setImageBitmap (bitmap);
-        }
+       loader = StaticMethods.getImageLoader(this);
+        loader.displayImage (eventInfo.getPicUrl(), event_image);
+
         date = eventInfo.getDateAsString ();
         TextView event_date = (TextView) findViewById (R.id.eventPage_date);
         event_date.setText (date);
@@ -200,7 +199,10 @@ public class EventPageActivity extends Activity implements View.OnClickListener 
                                                                               even_addr +
                                                                               "+Israel&mode=walking&language=en-EN&key=AIzaSyAuwajpG7_lKGFWModvUIoMqn3vvr9CMyc");
         }
+
     }
+
+
 
     public void openTicketsPage(View view) {
         if (!GlobalVariables.IS_PRODUCER) {

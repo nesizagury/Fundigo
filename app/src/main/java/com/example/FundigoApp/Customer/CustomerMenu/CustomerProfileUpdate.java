@@ -15,6 +15,7 @@ import com.example.FundigoApp.Customer.CustomerDetails;
 import com.example.FundigoApp.GlobalVariables;
 import com.example.FundigoApp.R;
 import com.example.FundigoApp.StaticMethods;
+import com.nostra13.universalimageloader.core.ImageLoader;
 import com.parse.ParseFile;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
@@ -27,6 +28,7 @@ public class CustomerProfileUpdate extends AppCompatActivity {
     EditText customerName;
     ImageView customerImg;
     boolean IMAGE_SELECTED = false;
+    ImageLoader loader;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -115,9 +117,10 @@ public class CustomerProfileUpdate extends AppCompatActivity {
             customerName.setText (currentUserName);
             customerName.setSelection (customerName.getText ().length ());
         }
-        Bitmap userImage = customerDetails.getCustomerImage ();
+        loader = StaticMethods.getImageLoader(this);
+        String userImage = customerDetails.getCustomerImage ();
         if(userImage != null && !IMAGE_SELECTED){
-            customerImg.setImageBitmap (userImage);
+           loader.displayImage(userImage,customerImg);
             customerImg.setVisibility (View.VISIBLE);
             IMAGE_SELECTED = true;
         }

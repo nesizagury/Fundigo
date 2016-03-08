@@ -20,6 +20,7 @@ import com.example.FundigoApp.Events.EventInfo;
 import com.example.FundigoApp.GlobalVariables;
 import com.example.FundigoApp.R;
 import com.example.FundigoApp.StaticMethods;
+import com.nostra13.universalimageloader.core.ImageLoader;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
@@ -43,19 +44,20 @@ public class RealTimeChatActivity extends AppCompatActivity implements AdapterVi
     Button eventName;
     ImageView eventImage;
     EventInfo eventInfo;
+    ImageLoader loader;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate (savedInstanceState);
+        super.onCreate(savedInstanceState);
         setContentView (R.layout.activity_real_time_cahts);
         eventImage = (ImageView) findViewById (R.id.profileImage_rt_chat);
         eventName = (Button) findViewById (R.id.ProfileName_rt_chat);
         buttonSend = (Button) findViewById (R.id.btSend_rt_Chat);
-
+        loader = StaticMethods.getImageLoader(this);
         Intent intent = getIntent ();
         eventObjectId = intent.getStringExtra ("eventObjectId");
         eventInfo = StaticMethods.getEventFromObjID (eventObjectId, GlobalVariables.ALL_EVENTS_DATA);
-        eventImage.setImageBitmap (eventInfo.getImageBitmap ());
+        loader.displayImage(eventInfo.getPicUrl(),eventImage);
         eventName.setText (eventInfo.getName () + " (Real Time Chat)");
         if (GlobalVariables.IS_CUSTOMER_REGISTERED_USER) {
             current_user_id = GlobalVariables.CUSTOMER_PHONE_NUM;

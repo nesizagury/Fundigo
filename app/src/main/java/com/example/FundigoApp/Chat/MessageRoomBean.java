@@ -5,7 +5,7 @@ import android.graphics.Bitmap;
 import java.io.Serializable;
 
 public class MessageRoomBean implements Serializable {
-    Bitmap customerImage;
+    String customerImageUrl;
     String customerImageFacebookUrl;
     String lastMessage;
     String customer_id;
@@ -17,12 +17,12 @@ public class MessageRoomBean implements Serializable {
         this.producer_id = producer_id;
     }
 
-    public Bitmap getCustomerImage() {
-        return customerImage;
+    public String getCustomerImage() {
+        return customerImageUrl;
     }
 
-    public void setCustomerImage(Bitmap customerImage) {
-        this.customerImage = customerImage;
+    public void setCustomerImage(String customerImage) {
+        this.customerImageUrl = customerImage;
     }
 
     public String getCustomerImageFacebookUrl() {
