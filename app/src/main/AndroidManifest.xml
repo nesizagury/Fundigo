@@ -37,20 +37,10 @@
         android:label="Fundigo"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".MainActivity"
-            android:launchMode="singleTask">
-            <intent-filter>
-                <data android:scheme="event"/>
-                <action android:name="android.intent.action.VIEW"/>
-
-                <category android:name="android.intent.category.DEFAULT"/>
-                <category android:name="android.intent.category.BROWSABLE"/>
-            </intent-filter>
+            android:name=".MainActivity">
         </activity>
         <activity
-            android:name=".Events.EventPageActivity"
-            android:launchMode="singleTask">
-        </activity>
+            android:name=".Events.EventPageActivity"></activity>
         <activity android:name=".Tickets.GetTicketQRCodeActivity">
         </activity>
         <activity android:name=".Tickets.SelectSeatActivity">

@@ -131,8 +131,8 @@
     <string name="image_upload">העלה תמונה</string>
     <string name="submit">טען</string>
     <string name="what_to_share">מה תרצה לשתף?</string>
-    <string name="app_pafw">דף רפליקציה</string>
-    <string name="web_page">עמוד אינטרנט:</string>
+    <string name="app_pafw">דף האפליקציה</string>
+    <string name="web_page">עמוד האינטרנט</string>
     <string name="mipo_party_real_time">מסיבות מיפו בזמן אמת</string>
     <string name="gust_entered">אורח רשום:</string>
     <string name="qr_scanner">סורק QR</string>

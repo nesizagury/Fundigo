@@ -79,7 +79,7 @@ public class SavedEventActivity extends AppCompatActivity implements View.OnClic
 
         if (GlobalVariables.ALL_EVENTS_DATA.size () == 0) {
             Intent intent = new Intent (this, EventPageActivity.class);
-            StaticMethods.uploadEventsData (this, null, this.getApplicationContext (), intent);
+            StaticMethods.downloadEventsData (this, null, this.getApplicationContext (), intent);
         } else {
             inflateCityMenu ();
             getSavedEventsFromJavaList ();

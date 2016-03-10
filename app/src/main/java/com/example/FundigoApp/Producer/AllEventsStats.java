@@ -61,7 +61,7 @@ public class AllEventsStats extends Fragment implements GetEventsDataCallback {
 
         if (GlobalVariables.ALL_EVENTS_DATA.size () == 0) {
             Intent intent = new Intent (this.getActivity (), EventPageActivity.class);
-            StaticMethods.uploadEventsData (this, GlobalVariables.PRODUCER_PARSE_OBJECT_ID, this.getContext (), intent);
+            StaticMethods.downloadEventsData (this, GlobalVariables.PRODUCER_PARSE_OBJECT_ID, this.getContext (), intent);
         } else {
             if (artist_list.size () == 0) {
                 StaticMethods.uploadArtistData (artist_list);

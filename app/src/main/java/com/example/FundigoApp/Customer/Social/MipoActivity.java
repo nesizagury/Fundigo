@@ -1,9 +1,11 @@
 package com.example.FundigoApp.Customer.Social;
 
 import android.content.ComponentName;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.location.Location;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.AdapterView;
@@ -14,7 +16,7 @@ import android.widget.Toast;
 
 import com.example.FundigoApp.GlobalVariables;
 import com.example.FundigoApp.R;
-import com.parse.FindCallback;
+import com.example.FundigoApp.Verifications.SmsSignUpActivity;
 import com.parse.ParseException;
 import com.parse.ParseGeoPoint;
 import com.parse.ParseQuery;
@@ -42,61 +44,64 @@ public class MipoActivity extends AppCompatActivity implements View.OnClickListe
 
         massage.setOnClickListener (this);
         notification.setOnClickListener (this);
-        if (GlobalVariables.MY_LOCATION != null) {
-            uploadProfiles ();
-        } else {
-            Toast.makeText (this, "Turn on gps and try again", Toast.LENGTH_SHORT).show ();
+        if (GlobalVariables.IS_CUSTOMER_GUEST) {
+            dialogForGuestToRegister ();
         }
     }
 
-    private void uploadProfiles() {
+    private void downloadProfiles() {
         ParseQuery<MipoProfile> query = new ParseQuery ("Profile");
         query.orderByDescending ("createdAt");
-        query.findInBackground (new FindCallback<MipoProfile> () {
-            public void done(List<MipoProfile> profilesList, ParseException e) {
-                if (e == null) {
-                    for (int i = 0; i < profilesList.size (); i++) {
-                        MipoProfile profile = profilesList.get (i);
-                        mipoUsers.add (new MipoUser (null,
-                                                            profile.getName (), profile.getNumber ()));
+        List<MipoProfile> profilesList = null;
+        try {
+            profilesList = query.find ();
+            for (int i = 0; i < profilesList.size (); i++) {
+                MipoProfile profile = profilesList.get (i);
+                if (profile.getLastSeen () == null) {
+                    continue;
+                }
+                mipoUsers.add (new MipoUser (null,
+                                                    profile.getName (), profile.getNumber ()));
 
-                        if (profilesList.get (i).getPic () != null) {
-                            mipoUsers.get (i).setPicUrl (profile.getPic ().getUrl ());
-                        }
-                        mipoUsers.get (i).setUserLocation (profilesList.get (i).getLocation ());
+                if (profilesList.get (i).getPic () != null) {
+                    mipoUsers.get (i).setPicUrl (profile.getPic ().getUrl ());
+                }
+                mipoUsers.get (i).setUserLocation (profilesList.get (i).getLocation ());
+            }
 
-                    }
-
-                    for (int i = 0; i < mipoUsers.size (); i++) {
-                        MipoUser user = mipoUsers.get (i);
-                        ParseGeoPoint parseGeoPoint = user.getUserLocation ();
-                        Location userLocation = new Location ("GPS");
-                        userLocation.setLatitude (parseGeoPoint.getLatitude ());
-                        userLocation.setLongitude (parseGeoPoint.getLongitude ());
-                        double distance = (double) GlobalVariables.MY_LOCATION.distanceTo (userLocation) / 1000;
-                        DecimalFormat df = new DecimalFormat ("#.##");
-                        String dx = df.format (distance);
-                        distance = Double.valueOf (dx);
-                        user.setDist (distance);
-                    }
-
-                    Collections.sort (mipoUsers, new Comparator<MipoUser> () {
-                        @Override
-                        public int compare(MipoUser a, MipoUser b) {
-                            if (a.dist < b.dist) return -1;
-                            if (a.dist >= b.dist) return 1;
-                            return 0;
-                        }
-                    });
-
-                    grid = (GridView) findViewById (R.id.gridViewMipo);
-                    mipoAdapter = new MipoGridAdaptor (MipoActivity.this, mipoUsers, false);
-                    grid.setAdapter (mipoAdapter);
-                    grid.setOnItemClickListener (MipoActivity.this);
+            for (int i = 0; i < mipoUsers.size (); i++) {
+                MipoUser user = mipoUsers.get (i);
+                if (user.getUserPhone ().equals (GlobalVariables.CUSTOMER_PHONE_NUM)) {
+                    user.setDist (-1);
+                } else {
+                    ParseGeoPoint parseGeoPoint = user.getUserLocation ();
+                    Location userLocation = new Location ("GPS");
+                    userLocation.setLatitude (parseGeoPoint.getLatitude ());
+                    userLocation.setLongitude (parseGeoPoint.getLongitude ());
+                    double distance = (double) GlobalVariables.MY_LOCATION.distanceTo (userLocation) / 1000;
+                    DecimalFormat df = new DecimalFormat ("#.##");
+                    String dx = df.format (distance);
+                    distance = Double.valueOf (dx);
+                    user.setDist (distance);
                 }
             }
-        });
 
+            Collections.sort (mipoUsers, new Comparator<MipoUser> () {
+                @Override
+                public int compare(MipoUser a, MipoUser b) {
+                    if (a.dist < b.dist) return -1;
+                    if (a.dist >= b.dist) return 1;
+                    return 0;
+                }
+            });
+
+            grid = (GridView) findViewById (R.id.gridViewMipo);
+            mipoAdapter = new MipoGridAdaptor (MipoActivity.this, mipoUsers, false);
+            grid.setAdapter (mipoAdapter);
+            grid.setOnItemClickListener (MipoActivity.this);
+        } catch (ParseException e) {
+            e.printStackTrace ();
+        }
     }
 
     @Override
@@ -123,5 +128,42 @@ public class MipoActivity extends AppCompatActivity implements View.OnClickListe
         intent.putExtra ("index", mipoUsers.get (position).getUserPhone ());
         intent.setFlags (Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity (intent);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume ();
+        if (GlobalVariables.IS_CUSTOMER_REGISTERED_USER &&
+                    GlobalVariables.MY_LOCATION != null &&
+                    mipoUsers.size () == 0) {
+            downloadProfiles ();
+        } else if (GlobalVariables.IS_CUSTOMER_REGISTERED_USER &&
+                           GlobalVariables.MY_LOCATION == null &&
+                           mipoUsers.size () == 0) {
+            Toast.makeText (this, "Turn on gps and try again", Toast.LENGTH_LONG).show ();
+        }
+    }
+
+    public boolean dialogForGuestToRegister() {
+        //Assaf:show dialog in case  Guest want to Chat
+        final AlertDialog.Builder builder = new AlertDialog.Builder (this);
+        builder.setMessage ("In order to Chat or Send Message you have to pass Registration First")
+                .setCancelable (true)
+                .setNeutralButton ("Register by SMS", new DialogInterface.OnClickListener () {
+                    public void onClick(DialogInterface dialog, int id) {
+
+                        Intent smsRegister = new Intent (MipoActivity.this, SmsSignUpActivity.class);
+                        startActivity (smsRegister);
+                    }
+                });
+
+        builder.setPositiveButton ("Cancel", new DialogInterface.OnClickListener () {
+            public void onClick(DialogInterface dialog, int id) {
+                dialog.cancel ();
+            }
+        });
+        AlertDialog smsAlert = builder.create ();
+        smsAlert.show ();
+        return true;
     }
 }

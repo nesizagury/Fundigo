@@ -99,12 +99,10 @@ public class EditEventActivity extends AppCompatActivity implements AdapterView.
                         @Override
                         public void done(byte[] data, ParseException e) {
                             if (e == null) {
-
                                 bmp = BitmapFactory.decodeByteArray (data, 0, data.length);
                                 img.setImageBitmap (bmp);
-
                             } else {
-                                // something went wrong
+                                e.printStackTrace ();
                             }
                         }
                     });

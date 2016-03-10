@@ -125,7 +125,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
         if (GlobalVariables.ALL_EVENTS_DATA.size () == 0) {
             Intent intent = new Intent (this, EventPageActivity.class);
-            StaticMethods.uploadEventsData (this, null, this.context, intent);
+            StaticMethods.downloadEventsData (this, null, this.context, intent);
         } else {
             inflateCityMenu ();
             filtered_events_data.clear ();

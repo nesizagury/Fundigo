@@ -127,7 +127,6 @@ public class CustomerProfileUpdate extends AppCompatActivity {
         if(userImage != null && !IMAGE_SELECTED){
             customerImg.setImageBitmap (userImage);
             customerImg.setVisibility (View.VISIBLE);
-            IMAGE_SELECTED = true;
         }
     }
 }

@@ -89,9 +89,7 @@ public class MipoGridAdaptor extends BaseAdapter {
         ImageView image2;
         TextView name;
 
-
         public GridHolder(View v) {
-
             image = (ImageView) v.findViewById (R.id.imageView1);
             image2 = (ImageView) v.findViewById (R.id.imageView2);
             name = (TextView) v.findViewById (R.id.textView1);

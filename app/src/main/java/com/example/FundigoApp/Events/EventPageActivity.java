@@ -204,7 +204,7 @@ public class EventPageActivity extends Activity implements View.OnClickListener 
                                                                               getLocation2 ().getLongitude () +
                                                                               "&destinations=" +
                                                                               even_addr +
-                                                                              "+Israel&mode=driving&language=" + Locale.getDefault ().getLanguage () + "&key=AIzaSyAuwajpG7_lKGFWModvUIoMqn3vvr9CMyc");
+                                                                              "+Israel&mode=walking&language=" + Locale.getDefault ().getLanguage () + "&key=AIzaSyAuwajpG7_lKGFWModvUIoMqn3vvr9CMyc");
         }
     }
 
@@ -565,7 +565,7 @@ public class EventPageActivity extends Activity implements View.OnClickListener 
                                                               .setTitle ("My Content Title")
                                                               .setContentDescription (this.getString (R.string.my_content_description))
                                                               .setContentIndexingMode (BranchUniversalObject.CONTENT_INDEX_MODE.PUBLIC)
-                                                              .addContentMetadata ("i", i);
+                                                              .addContentMetadata ("objectId", eventInfo.getParseObjectId ());
 
         io.branch.referral.util.LinkProperties linkProperties = new LinkProperties ()
                                                                         .setChannel ("My Application")

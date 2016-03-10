@@ -96,7 +96,7 @@ public class CreateEventActivity extends Activity implements View.OnClickListene
     LinearLayout ll_artist;
     LinearLayout ll_description;
     private static final int SELECT_PICTURE = 1;
-    private boolean pictureSelected;
+    private boolean pictureSelected = false;
     private boolean address_ok = false;
     Gson gson;
     Result result;
@@ -551,7 +551,7 @@ public class CreateEventActivity extends Activity implements View.OnClickListene
                 }, 3000);
             }
             GlobalVariables.refreshArtistsList = true;
-            Toast.makeText (this,R.string.event_has_created_successfully, Toast.LENGTH_LONG);//TODO
+            Toast.makeText (this, R.string.event_has_created_successfully, Toast.LENGTH_LONG);//TODO
             finish ();
         } catch (ParseException e) {
             e.printStackTrace ();
@@ -956,7 +956,7 @@ public class CreateEventActivity extends Activity implements View.OnClickListene
         @Override
         protected void onPreExecute() {
             dialog = new ProgressDialog (CreateEventActivity.this);
-            dialog.setMessage (""+R.string.validating);
+            dialog.setMessage ("" + R.string.validating);
             dialog.show ();
         }
 
@@ -1014,7 +1014,6 @@ public class CreateEventActivity extends Activity implements View.OnClickListene
 
     }
 
-
     private void saveTicketsPrice(String eventObjectId) {
         final SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences (this);
         SharedPreferences.Editor editor = sp.edit ();
@@ -1024,41 +1023,28 @@ public class CreateEventActivity extends Activity implements View.OnClickListene
             eventsSeats.put ("eventObjectId", eventObjectId);
             eventsSeats.put ("seatNumber", "Floor " + i);
             eventsSeats.setIsSold (false);
-            try {
-                eventsSeats.save ();
-                blueIncome = 4 * sp.getInt (GlobalVariables.BLUE, 0);
-            } catch (ParseException e) {
-                e.printStackTrace ();
-
-            }
+            eventsSeats.saveInBackground ();
+            blueIncome = 4 * sp.getInt (GlobalVariables.BLUE, 0);
         }
+
         for (int i = 11; i <= 27; i++) {
             EventsSeats eventsSeats = new EventsSeats ();
             eventsSeats.put ("price", sp.getInt (GlobalVariables.ORANGE, 0));
             eventsSeats.put ("eventObjectId", eventObjectId);
             eventsSeats.put ("seatNumber", "Orange " + i);
             eventsSeats.setIsSold (false);
-            try {
-                eventsSeats.save ();
-                orangeIncome = 17 * sp.getInt (GlobalVariables.ORANGE, 0);
-            } catch (ParseException e) {
-                e.printStackTrace ();
-
-            }
+            eventsSeats.saveInBackground ();
+            orangeIncome = 17 * sp.getInt (GlobalVariables.ORANGE, 0);
         }
+
         for (int i = 101; i <= 117; i++) {
             EventsSeats eventsSeats = new EventsSeats ();
             eventsSeats.put ("price", sp.getInt (GlobalVariables.PINK, 0));
             eventsSeats.put ("eventObjectId", eventObjectId);
             eventsSeats.put ("seatNumber", "Pink " + i);
             eventsSeats.setIsSold (false);
-            try {
-                eventsSeats.save ();
-                pinkIncome = 17 * sp.getInt (GlobalVariables.PINK, 0);
-            } catch (ParseException e) {
-                e.printStackTrace ();
-
-            }
+            eventsSeats.saveInBackground ();
+            pinkIncome = 17 * sp.getInt (GlobalVariables.PINK, 0);
         }
         for (int i = 121; i <= 136; i++) {
             EventsSeats eventsSeats = new EventsSeats ();
@@ -1066,69 +1052,48 @@ public class CreateEventActivity extends Activity implements View.OnClickListene
             eventsSeats.put ("eventObjectId", eventObjectId);
             eventsSeats.put ("seatNumber", "Pink " + i);
             eventsSeats.setIsSold (false);
-            try {
-                eventsSeats.save ();
-                pinkIncome = pinkIncome + 16 * sp.getInt (GlobalVariables.PINK, 0);
-            } catch (ParseException e) {
-                e.printStackTrace ();
-
-            }
+            eventsSeats.saveInBackground ();
+            pinkIncome = pinkIncome + 16 * sp.getInt (GlobalVariables.PINK, 0);
         }
+
         for (int i = 201; i <= 217; i++) {
             EventsSeats eventsSeats = new EventsSeats ();
             eventsSeats.put ("price", sp.getInt (GlobalVariables.YELLOW, 0));
             eventsSeats.put ("eventObjectId", eventObjectId);
             eventsSeats.put ("seatNumber", "Yellow " + i);
             eventsSeats.setIsSold (false);
-            try {
-                eventsSeats.save ();
-                yellowIncome = 17 * sp.getInt (GlobalVariables.YELLOW, 0);
-            } catch (ParseException e) {
-                e.printStackTrace ();
-
-            }
+            eventsSeats.saveInBackground ();
+            yellowIncome = 17 * sp.getInt (GlobalVariables.YELLOW, 0);
         }
+
         for (int i = 221; i <= 236; i++) {
             EventsSeats eventsSeats = new EventsSeats ();
             eventsSeats.put ("price", sp.getInt (GlobalVariables.YELLOW, 0));
             eventsSeats.put ("eventObjectId", eventObjectId);
             eventsSeats.put ("seatNumber", "Yellow " + i);
             eventsSeats.setIsSold (false);
-            try {
-                eventsSeats.save ();
-                yellowIncome = yellowIncome + 16 * sp.getInt (GlobalVariables.YELLOW, 0);
-            } catch (ParseException e) {
-                e.printStackTrace ();
-
-            }
+            eventsSeats.saveInBackground ();
+            yellowIncome = yellowIncome + 16 * sp.getInt (GlobalVariables.YELLOW, 0);
         }
+
         for (int i = 207; i <= 213; i++) {
             EventsSeats eventsSeats = new EventsSeats ();
             eventsSeats.put ("price", sp.getInt (GlobalVariables.GREEN, 0));
             eventsSeats.put ("eventObjectId", eventObjectId);
             eventsSeats.put ("seatNumber", "Green " + i);
             eventsSeats.setIsSold (false);
-            try {
-                eventsSeats.save ();
-                greenIncome = 7 * sp.getInt (GlobalVariables.GREEN, 0);
-            } catch (ParseException e) {
-                e.printStackTrace ();
-
-            }
+            eventsSeats.saveInBackground ();
+            greenIncome = 7 * sp.getInt (GlobalVariables.GREEN, 0);
         }
+
         for (int i = 225; i <= 231; i++) {
             EventsSeats eventsSeats = new EventsSeats ();
             eventsSeats.put ("price", sp.getInt (GlobalVariables.GREEN, 0));
             eventsSeats.put ("eventObjectId", eventObjectId);
             eventsSeats.put ("seatNumber", "Green " + i);
             eventsSeats.setIsSold (false);
-            try {
-                eventsSeats.save ();
-                greenIncome = greenIncome + 7 * sp.getInt (GlobalVariables.GREEN, 0);
-            } catch (ParseException e) {
-                e.printStackTrace ();
-
-            }
+            eventsSeats.saveInBackground ();
+            greenIncome = greenIncome + 7 * sp.getInt (GlobalVariables.GREEN, 0);
         }
 
         editor.putBoolean (GlobalVariables.SEATS, false);

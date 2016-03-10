@@ -147,7 +147,7 @@ class CostumeAdapter extends BaseAdapter {
     }
     
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, View convertView, ViewGroup parent) {
         
         LayoutInflater layoutInfla = (LayoutInflater) context.getSystemService (Context.LAYOUT_INFLATER_SERVICE);
         View row = layoutInfla.inflate (R.layout.service_row, parent, false);
@@ -155,7 +155,7 @@ class CostumeAdapter extends BaseAdapter {
         TextView description = (TextView) row.findViewById (R.id.textView6);
         ImageView image = (ImageView) row.findViewById (R.id.imageView4);
         
-        SignelRow temp = list.get (position);
+        final SignelRow temp = list.get (position);
         title.setText (temp.title);
         description.setText (temp.description);
         image.setImageResource (temp.image);

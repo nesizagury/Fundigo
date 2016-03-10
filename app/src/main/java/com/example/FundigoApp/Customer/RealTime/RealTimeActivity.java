@@ -67,7 +67,7 @@ public class RealTimeActivity extends AppCompatActivity implements View.OnClickL
 
         if (GlobalVariables.ALL_EVENTS_DATA.size () == 0) {
             Intent intent = new Intent (this, EventPageActivity.class);
-            StaticMethods.uploadEventsData (this, null, this.getApplicationContext (), intent);
+            StaticMethods.downloadEventsData (this, null, this.getApplicationContext (), intent);
         } else {
             if (GlobalVariables.MY_LOCATION != null  && StaticMethods.isLocationEnabled (this)) {
                 events_sorted_by_dist_data = getSortedListByDist ();

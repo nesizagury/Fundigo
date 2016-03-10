@@ -82,7 +82,8 @@ public class MenuActivity extends AppCompatActivity {
         drawView = (ImageView) findViewById (R.id.profileImg);
 
         if (GlobalVariables.IS_CUSTOMER_REGISTERED_USER) {
-            sms_login_button.setText (this.getString (R.string.you_logged_in_as) + " " + GlobalVariables.CUSTOMER_PHONE_NUM);
+            String toast = this.getString (R.string.you_logged_in_as) + " " + GlobalVariables.CUSTOMER_PHONE_NUM;
+            sms_login_button.setText (toast);
             sms_login_button.setOnClickListener (null);
             user_profile_button.setVisibility (View.VISIBLE);//if already registered then button is visible
             user_profile_update_button.setVisibility (View.VISIBLE);
@@ -160,7 +161,8 @@ public class MenuActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume ();
         if (GlobalVariables.IS_CUSTOMER_REGISTERED_USER) {
-            sms_login_button.setText (this.getString (R.string.you_logged_in_as) + GlobalVariables.CUSTOMER_PHONE_NUM);
+            String toast = this.getString (R.string.you_logged_in_as) + " " + GlobalVariables.CUSTOMER_PHONE_NUM;
+            sms_login_button.setText (toast);
             sms_login_button.setOnClickListener (null);
             user_profile_button.setVisibility (View.VISIBLE);
             user_profile_update_button.setVisibility (View.VISIBLE);

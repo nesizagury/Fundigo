@@ -44,7 +44,6 @@ import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.assist.ImageScaleType;
-import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseQuery;
@@ -74,73 +73,70 @@ public class StaticMethods {
     private static LocationManager locationManager;
     private static LocationListener locationListener;
 
-    public static void uploadEventsData(final GetEventsDataCallback ic,
-                                        String producerId,
-                                        final Context context,
-                                        final Intent intent) {
+    public static void downloadEventsData(final GetEventsDataCallback ic,
+                                          String producerId,
+                                          final Context context,
+                                          final Intent intent) {
         final ArrayList<EventInfo> tempEventsList = new ArrayList<> ();
         ParseQuery<Event> query = new ParseQuery ("Event");
         if (producerId != null && producerId != "") {
             query.whereEqualTo ("producerId", producerId);
         }
         query.orderByDescending ("createdAt");
-        query.findInBackground (new FindCallback<Event> () {
-            public void done(List<Event> eventParse, ParseException e) {
-                if (e == null) {
-                    for (int i = 0; i < eventParse.size (); i++) {
-                        Event event = eventParse.get (i);
-                        tempEventsList.add (new EventInfo (event.getPic().getUrl(),
-                                                                  event.getRealDate (),
-                                                                  getEventDateAsString (event.getRealDate ()),
-                                                                  event.getName (),
-                                                                  event.getTags (),
-                                                                  event.getPrice (),
-                                                                  event.getDescription (),
-                                                                  event.getPlace (),
-                                                                  event.getAddress (),
-                                                                  event.getCity (),
-                                                                  event.getEventToiletService (),
-                                                                  event.getEventParkingService (),
-                                                                  event.getEventCapacityService (),
-                                                                  event.getEventATMService (),
-                                                                  event.getFilterName (),
-                                                                  false,
-                                                                  event.getProducerId (),
-                                                                  i,
-                                                                  event.getX (),
-                                                                  event.getY (),
-                                                                  event.getArtist (),
-                                                                  event.getNumOfTickets (),
-                                                                  event.getObjectId (),
-                                                                  event.getFbUrl (),
-                                                                  event.getIsStadium ()
-                        ));
-                    }
-                    updateSavedEvents (tempEventsList, context);
-                    GlobalVariables.ALL_EVENTS_DATA.clear ();
-                    GlobalVariables.ALL_EVENTS_DATA.addAll (tempEventsList);
+        List<Event> eventParse = null;
+        try {
+            eventParse = query.find ();
+            for (int i = 0; i < eventParse.size (); i++) {
+                Event event = eventParse.get (i);
+                tempEventsList.add (new EventInfo (event.getPic ().getUrl (),
+                                                          event.getRealDate (),
+                                                          getEventDateAsString (event.getRealDate ()),
+                                                          event.getName (),
+                                                          event.getTags (),
+                                                          event.getPrice (),
+                                                          event.getDescription (),
+                                                          event.getPlace (),
+                                                          event.getAddress (),
+                                                          event.getCity (),
+                                                          event.getEventToiletService (),
+                                                          event.getEventParkingService (),
+                                                          event.getEventCapacityService (),
+                                                          event.getEventATMService (),
+                                                          event.getFilterName (),
+                                                          false,
+                                                          event.getProducerId (),
+                                                          i,
+                                                          event.getX (),
+                                                          event.getY (),
+                                                          event.getArtist (),
+                                                          event.getNumOfTickets (),
+                                                          event.getObjectId (),
+                                                          event.getFbUrl (),
+                                                          event.getIsStadium ()
+                ));
+            }
+            updateSavedEvents (tempEventsList, context);
+            GlobalVariables.ALL_EVENTS_DATA.clear ();
+            GlobalVariables.ALL_EVENTS_DATA.addAll (tempEventsList);
 
-                    GlobalVariables.cityMenuInstance = new CityMenu (tempEventsList, context);
-                    GlobalVariables.namesCity = GlobalVariables.cityMenuInstance.getCityNames ();
-                    if (!GlobalVariables.deepLinkEventObjID.equals ("") || GlobalVariables.deepLinkEventObjID != "") {
-                        for (int i = 0; i < GlobalVariables.ALL_EVENTS_DATA.size (); i++) {
-                            if (GlobalVariables.deepLinkEventObjID.equals (GlobalVariables.ALL_EVENTS_DATA.get (i).getParseObjectId ())) {
-                                ic.eventDataCallback ();
-                                Bundle b = new Bundle ();
-                                onEventItemClick (i, GlobalVariables.ALL_EVENTS_DATA, intent);
-                                intent.putExtras (b);
-                                context.startActivity (intent);
-                                Toast.makeText (context.getApplicationContext (), "found", Toast.LENGTH_SHORT).show ();
-                                return;
-                            }
-                        }
+            GlobalVariables.cityMenuInstance = new CityMenu (tempEventsList, context);
+            GlobalVariables.namesCity = GlobalVariables.cityMenuInstance.getCityNames ();
+            if (!GlobalVariables.deepLinkEventObjID.equals ("")) {
+                for (int i = 0; i < GlobalVariables.ALL_EVENTS_DATA.size (); i++) {
+                    if (GlobalVariables.deepLinkEventObjID.equals (GlobalVariables.ALL_EVENTS_DATA.get (i).getParseObjectId ())) {
+                        Bundle b = new Bundle ();
+                        onEventItemClick (i, GlobalVariables.ALL_EVENTS_DATA, intent);
+                        intent.putExtras (b);
+                        context.startActivity (intent);
+                        ic.eventDataCallback ();
+                        return;
                     }
-                    ic.eventDataCallback ();
-                } else {
-                    e.printStackTrace ();
                 }
             }
-        });
+            ic.eventDataCallback ();
+        } catch (ParseException e) {
+            e.printStackTrace ();
+        }
     }
 
     public static EventInfo getEventFromObjID(String parseObjID, List<EventInfo> eventsList) {
@@ -290,26 +286,25 @@ public class StaticMethods {
         String number = "";
         String myData = "";
         try {
-            File myExternalFile = new File(Environment.getExternalStoragePublicDirectory (Environment.DIRECTORY_DOWNLOADS), "verify.txt");
-            FileInputStream fis = new FileInputStream(myExternalFile);
-            DataInputStream in = new DataInputStream(fis);
+            File myExternalFile = new File (Environment.getExternalStoragePublicDirectory (Environment.DIRECTORY_DOWNLOADS), "verify.txt");
+            FileInputStream fis = new FileInputStream (myExternalFile);
+            DataInputStream in = new DataInputStream (fis);
             BufferedReader br =
-                    new BufferedReader(new InputStreamReader(in));
+                    new BufferedReader (new InputStreamReader (in));
             String strLine;
-            while ((strLine = br.readLine()) != null) {
+            while ((strLine = br.readLine ()) != null) {
                 myData = myData + strLine;
             }
-            in.close();
+            in.close ();
         } catch (IOException e) {
-            e.printStackTrace();
+            e.printStackTrace ();
         }
 
-        if(myData != null) {
-            if(myData.contains("isFundigo")) {
-                String[] parts = myData.split(" ");
+        if (myData != null) {
+            if (myData.contains ("isFundigo")) {
+                String[] parts = myData.split (" ");
                 number = parts[0];
-            }
-            else
+            } else
                 number = myData;
 
         }
@@ -406,7 +401,7 @@ public class StaticMethods {
             faceBookId = profile.getFbId ();
             customerPicFacebookUrl = profile.getFbUrl ();
             customerName = profile.getName ();
-            customerImage = profile.getPic().getUrl ();
+            customerImage = profile.getPic ().getUrl ();
         }
         return new CustomerDetails (faceBookId, customerPicFacebookUrl, customerImage, customerName);
     }
@@ -740,12 +735,12 @@ public class StaticMethods {
     }
 
     public static void updateEventInfoDromParseEvent(EventInfo eventInfo,
-                                                     Event event){
+                                                     Event event) {
         eventInfo.setPrice (event.getPrice ());
         eventInfo.setAddress (event.getAddress ());
         eventInfo.setIsStadium (event.getIsStadium ());
         eventInfo.setParseObjectId (event.getObjectId ());
-        Date currentDate = new Date();
+        Date currentDate = new Date ();
         eventInfo.setIsFutureEvent (event.getRealDate ().after (currentDate));
         eventInfo.setArtist (event.getArtist ());
         eventInfo.setAtm (event.getEventATMService ());
@@ -764,26 +759,27 @@ public class StaticMethods {
         eventInfo.setX (event.getX ());
         eventInfo.setY (event.getY ());
     }
+
     public static ImageLoader getImageLoader(Context context) {
 
         ImageLoader imageLoader = null;
         DisplayImageOptions options = null;
 
         options = new DisplayImageOptions.Builder ()
-                .cacheOnDisk (true)
-                .cacheInMemory (true)
-                .bitmapConfig (Bitmap.Config.RGB_565)
-                .imageScaleType (ImageScaleType.EXACTLY)
-                .resetViewBeforeLoading (true)
-                .build ();
+                          .cacheOnDisk (true)
+                          .cacheInMemory (true)
+                          .bitmapConfig (Bitmap.Config.RGB_565)
+                          .imageScaleType (ImageScaleType.EXACTLY)
+                          .resetViewBeforeLoading (true)
+                          .build ();
         ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder (context)
-                .defaultDisplayImageOptions (options)
-                .threadPriority (Thread.MAX_PRIORITY)
-                .threadPoolSize (4)
-                .memoryCache (new WeakMemoryCache ())
-                .denyCacheImageMultipleSizesInMemory()
-                .build();
-        imageLoader = ImageLoader.getInstance();
+                                                  .defaultDisplayImageOptions (options)
+                                                  .threadPriority (Thread.MAX_PRIORITY)
+                                                  .threadPoolSize (4)
+                                                  .memoryCache (new WeakMemoryCache ())
+                                                  .denyCacheImageMultipleSizesInMemory ()
+                                                  .build ();
+        imageLoader = ImageLoader.getInstance ();
         imageLoader.init (config);
 
         return imageLoader;

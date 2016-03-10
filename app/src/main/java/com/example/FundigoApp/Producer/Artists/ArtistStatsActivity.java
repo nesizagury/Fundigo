@@ -58,7 +58,7 @@ public class ArtistStatsActivity extends Activity implements GetEventsDataCallba
 
         if (GlobalVariables.ALL_EVENTS_DATA.size () == 0) {
             Intent intent = new Intent (this, EventPageActivity.class);
-            StaticMethods.uploadEventsData (this, GlobalVariables.PRODUCER_PARSE_OBJECT_ID, this, intent);
+            StaticMethods.downloadEventsData (this, GlobalVariables.PRODUCER_PARSE_OBJECT_ID, this, intent);
         } else {
             calculateStates ();
         }
