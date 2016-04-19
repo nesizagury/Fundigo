@@ -25,7 +25,7 @@ public class TicketsPriceActivity extends AppCompatActivity implements View.OnCl
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate (savedInstanceState);
-        setContentView (R.layout.activity_tickets_price);
+        setContentView (R.layout.activity_producer_tickets_price);
 
         btn_save = (Button) findViewById (R.id.btn_save_tickets_price);
         et_blue = (EditText) findViewById (R.id.et_blue);

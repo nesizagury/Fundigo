@@ -16,7 +16,7 @@
         android:layout_centerHorizontal="true"
         android:text="@string/menu"
         android:textColor="#000000"
-        android:textSize="30dp"/>
+        android:textSize="30sp"/>
 
     <com.facebook.login.widget.LoginButton
         android:id="@+id/login_button11"
@@ -61,7 +61,7 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:onClick="saveCreditCard"
-        android:text="Save Crdit Card"
+        android:text="Save Credit Card"
         android:layout_below="@+id/faebook_profile"
         android:textSize="20sp"
         android:visibility="gone"/>
@@ -71,16 +71,17 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:onClick="deleteCreditCard"
-        android:text="Delete Crdit Card XXXX-"
+        android:text="Delete Credit Card XXXX-"
         android:layout_below="@+id/save_credit_card"
         android:textSize="20sp"
         android:visibility="gone"/>
 
     <Button
-        android:id="@+id/button3"
+        android:id="@+id/buttonSignUpNew"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
         android:layout_below="@+id/delete_credit_card"
         android:layout_marginTop="2dp"
         android:onClick="smsLogin"
@@ -92,10 +93,11 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
-        android:layout_below="@+id/button3"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/buttonSignUpNew"
         android:onClick="getUserProfile"
         android:text="@string/userDetailes"
-        android:textSize="20dp"
+        android:textSize="20sp"
         android:visibility="gone"/>
 
     <Button
@@ -104,7 +106,7 @@
         android:text="@string/updateProfile"
         android:id="@+id/buttonUserProfileUpdate"
         android:layout_below="@+id/profileImg"
-        android:textSize="20dp"
+        android:textSize="20sp"
         android:onClick="updateUserProfile"
         android:visibility="gone"
         android:layout_centerHorizontal="true"
@@ -115,7 +117,7 @@
         android:text="@string/tickets"
         android:id="@+id/eventsTicketsButton"
         android:layout_below="@+id/buttonUserProfileUpdate"
-        android:textSize="20dp"
+        android:textSize="20sp"
         android:onClick="EventsTicketsDisplay"
         android:visibility="gone"
         android:layout_centerHorizontal="true"

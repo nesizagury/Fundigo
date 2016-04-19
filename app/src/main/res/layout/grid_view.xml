@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                android:layout_width="200dp"
+                android:layout_width="wrap_content"
                 android:layout_height="300dp"
                 android:background="@android:drawable/dialog_holo_light_frame">
 
@@ -8,8 +8,6 @@
         android:id="@+id/tableRowAll"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentStart="true"
         android:background="#ffffff"
         android:contextClickable="true"
         android:orientation="vertical"
@@ -19,14 +17,14 @@
             android:id="@+id/imageView_grid"
             android:layout_width="fill_parent"
             android:layout_height="0dip"
-            android:layout_weight="135"
+            android:layout_weight="120"
             android:scaleType="fitXY"/>
 
         <LinearLayout
             android:id="@+id/tableRow2"
             android:layout_width="fill_parent"
             android:layout_height="0dip"
-            android:layout_weight="47"
+            android:layout_weight="62"
             android:baselineAligned="false"
             android:contextClickable="true"
             android:gravity="center_vertical|left"
@@ -123,9 +121,11 @@
         android:layout_width="wrap_content"
         android:layout_height="15dp"
         android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
         android:layout_gravity="right"
         android:layout_marginEnd="10dp"
+        android:layout_marginRight="10dp"
         android:layout_marginTop="10dp"
         android:background="#c8e1e1e1"
         android:gravity="center_vertical|center_horizontal"

@@ -27,25 +27,26 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/autoText"
         android:id="@+id/linerLayout_button"
+        android:weightSum="100"
         >
         <Button
-            android:layout_width="100dp"
+            android:layout_width="0dp"
             android:layout_height="50dp"
-            android:layout_marginStart="95dp"
+            android:layout_weight="50"
             android:text="@string/history"
             android:background="@color/colorPrimary"
             android:id="@+id/b_history"
             />
 
         <Button
-            android:layout_width="100dp"
+            android:layout_width="0dp"
             android:layout_height="50dp"
-            android:layout_marginStart="14dp"
+            android:layout_weight="50"
             android:text="@string/clear_history"
             android:background="@color/colorPrimary"
             android:id="@+id/b_clear"
             android:onClick="onClick"
-            />
+            android:textSize="17sp" />
     </LinearLayout>
     <ListView
         android:id="@+id/listView_Search"

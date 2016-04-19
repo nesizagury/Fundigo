@@ -3,6 +3,7 @@ package com.example.FundigoApp.Tickets;
 import android.graphics.Bitmap;
 
 import com.example.FundigoApp.Events.EventInfo;
+import com.parse.ParseObject;
 
 import java.util.Date;
 
@@ -12,17 +13,20 @@ public class EventsSeatsInfo {
     private Date purchaseDate;
     private int price;
     private EventInfo eventInfo;
+    private ParseObject soldTickets;
 
     public EventsSeatsInfo(String ticketName,
                            Bitmap QR,
                            Date purchaseDate,
                            int price,
-                           EventInfo eventInfo) {
+                           EventInfo eventInfo,
+                           ParseObject soldTickets) {
         this.ticketName = ticketName;
         this.QR = QR;
         this.purchaseDate = purchaseDate;
         this.price = price;
         this.eventInfo = eventInfo;
+        this.soldTickets = soldTickets;
     }
 
     public String getTicketName() {
@@ -47,5 +51,13 @@ public class EventsSeatsInfo {
 
     public void setEventInfo(EventInfo eventInfo) {
         this.eventInfo = eventInfo;
+    }
+
+    public ParseObject getSoldTickets() {
+        return soldTickets;
+    }
+
+    public void setSoldTickets(ParseObject soldTickets) {
+        this.soldTickets = soldTickets;
     }
 }

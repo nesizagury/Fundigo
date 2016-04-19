@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent"
+    android:background="#ededed">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/user_name"
+        android:id="@+id/textView10"
+        android:textSize="16sp"
+        android:layout_marginBottom="46dp"
+        android:layout_alignBottom="@+id/usernameET"
+        android:layout_alignStart="@+id/usernameET"
+        android:layout_alignLeft="@+id/usernameET"
+        android:layout_centerHorizontal="true"
+        android:layout_marginLeft="2dp" />
+
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/email"
+        android:id="@+id/textView19"
+        android:textSize="16sp"
+        android:layout_above="@+id/emailET"
+        android:layout_centerHorizontal="true"
+        android:layout_alignStart="@+id/emailET"
+        android:layout_alignLeft="@+id/emailET"
+        android:layout_marginBottom="6dp"
+        android:layout_marginLeft="2dp" />
+
+    <EditText
+        android:layout_width="200dp"
+        android:layout_height="40dp"
+        android:id="@+id/emailET"
+        android:background="#ffffff"
+        android:layout_above="@+id/textView10"
+        android:layout_alignStart="@+id/textView10"
+        android:layout_alignLeft="@+id/textView10"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="24dp" />
+
+    <EditText
+        android:layout_width="200dp"
+        android:layout_height="40dp"
+        android:id="@+id/usernameET"
+        android:layout_marginTop="190dp"
+        android:background="#ffffff"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/password"
+        android:id="@+id/textView20"
+        android:textSize="16sp"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/usernameET"
+        android:layout_alignStart="@+id/usernameET"
+        android:layout_marginTop="30dp"
+        android:layout_marginBottom="6dp"
+        android:layout_marginLeft="2dp" />
+
+    <EditText
+        android:layout_width="200dp"
+        android:layout_height="40dp"
+        android:id="@+id/passwordET"
+        android:background="#ffffff"
+        android:layout_below="@+id/textView20"
+        android:layout_centerHorizontal="true"
+        android:layout_alignStart="@+id/textView20" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/finish_reistration"
+        android:onClick="createAccount"
+        android:id="@+id/button8"
+        android:background="#71B7E6"
+        android:layout_centerHorizontal="true"
+        android:textColor="#ffffff"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="68dp"
+        android:textSize="15sp"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/create_your_fundigo_account"
+        android:id="@+id/textView21"
+        android:layout_marginTop="30dp"
+        android:textColor="#71B7E6"
+        android:textSize="23sp"
+        android:textStyle="bold"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true" />
+</RelativeLayout>

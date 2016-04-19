@@ -23,7 +23,7 @@ public class CreateNewProducerActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate (savedInstanceState);
-        setContentView (R.layout.activity_signup);
+        setContentView (R.layout.activity_signup_new_producer);
         mailET = (EditText) findViewById (R.id.emailET);
         usernameET = (EditText) findViewById (R.id.usernameET);
         passwordET = (EditText) findViewById (R.id.passwordET);

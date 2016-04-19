@@ -17,7 +17,7 @@ import com.example.FundigoApp.Chat.Room;
 import com.example.FundigoApp.Events.EventInfo;
 import com.example.FundigoApp.GlobalVariables;
 import com.example.FundigoApp.R;
-import com.example.FundigoApp.StaticMethods;
+import com.example.FundigoApp.StaticMethod.EventDataMethods;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
@@ -101,7 +101,7 @@ public class CustomerMessageConversationsListActivity extends AppCompatActivity 
         List<EventInfo> event_info_list_temp = new ArrayList<EventInfo> ();
         for (int i = 0; i < listOfConversationWithProducer.size (); i++) {
             Room room = listOfConversationWithProducer.get (i);
-            EventInfo eventInfo = StaticMethods.getEventFromObjID (room.getEventObjId (), GlobalVariables.ALL_EVENTS_DATA);
+            EventInfo eventInfo = EventDataMethods.getEventFromObjID (room.getEventObjId (), GlobalVariables.ALL_EVENTS_DATA);
             if(eventInfo != null) {
                 eventImageListTemp.add (eventInfo.getPicUrl ());
                 event_info_list_temp.add (eventInfo);

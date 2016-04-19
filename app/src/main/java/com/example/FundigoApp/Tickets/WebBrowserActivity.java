@@ -45,7 +45,7 @@ public class WebBrowserActivity extends AppCompatActivity {
         view.getSettings ().setDomStorageEnabled (true);
         view.getSettings ().setLoadWithOverviewMode (true);
         view.getSettings ().setUseWideViewPort (true);
-        view.loadUrl ("https://fundigo.parseapp.com/");
+        view.loadUrl ("https://akimbomaster.parseapp.com/");
         view.setWebViewClient (new WebViewClient () {
             @Override
             public boolean shouldOverrideUrlLoading(WebView v, String url) {
@@ -55,7 +55,7 @@ public class WebBrowserActivity extends AppCompatActivity {
             @Override
             public void onPageFinished(WebView v, String url) {
                 v.loadUrl ("javascript:" +
-                                   "var y = document.getElementsByName('amount')[0].value='" + amount + "';" +
+                                   "var y = document.getElementsByName('amount')[0].value='" + -1 + "';" +
                                    "var x = document.getElementsByName('orderid')[0].value='" + orderId + "';");
 
             }

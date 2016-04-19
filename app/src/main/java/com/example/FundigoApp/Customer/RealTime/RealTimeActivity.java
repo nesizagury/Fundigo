@@ -20,12 +20,13 @@ import com.example.FundigoApp.Events.EventInfo;
 import com.example.FundigoApp.Events.EventPageActivity;
 import com.example.FundigoApp.FilterPageActivity;
 import com.example.FundigoApp.GlobalVariables;
-import com.example.FundigoApp.MainActivity;
 import com.example.FundigoApp.R;
 import com.example.FundigoApp.SearchActivity;
-import com.example.FundigoApp.StaticMethods;
-import com.example.FundigoApp.StaticMethods.GetEventsDataCallback;
-import com.example.FundigoApp.StaticMethods.GpsICallback;
+import com.example.FundigoApp.StaticMethod.EventDataMethods;
+import com.example.FundigoApp.StaticMethod.GPSMethods;
+import com.example.FundigoApp.StaticMethod.GPSMethods.GpsICallback;
+import com.example.FundigoApp.StaticMethod.GeneralStaticMethods;
+import com.example.FundigoApp.StaticMethod.EventDataMethods.GetEventsDataCallback;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -33,7 +34,10 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-public class RealTimeActivity extends AppCompatActivity implements View.OnClickListener, AdapterView.OnItemClickListener, GetEventsDataCallback, GpsICallback {
+public class RealTimeActivity extends AppCompatActivity implements View.OnClickListener,
+                                                                           AdapterView.OnItemClickListener,
+                                                                           GetEventsDataCallback,
+                                                                           GpsICallback {
 
     private GridView gridView;
     private Button Event, RealTime, SavedEvent;
@@ -61,22 +65,22 @@ public class RealTimeActivity extends AppCompatActivity implements View.OnClickL
         search.setOnClickListener (this);
 
         RealTime.setTextColor (Color.WHITE);
-        if (GlobalVariables.MY_LOCATION == null && !StaticMethods.isLocationEnabled (this)) {
+        if (GlobalVariables.MY_LOCATION == null && !GPSMethods.isLocationEnabled (this)) {
             turnOnGps ();
         }
 
         if (GlobalVariables.ALL_EVENTS_DATA.size () == 0) {
             Intent intent = new Intent (this, EventPageActivity.class);
-            StaticMethods.downloadEventsData (this, null, this.getApplicationContext (), intent);
+            EventDataMethods.downloadEventsData (this, null, this.getApplicationContext (), intent);
         } else {
-            if (GlobalVariables.MY_LOCATION != null  && StaticMethods.isLocationEnabled (this)) {
+            if (GlobalVariables.MY_LOCATION != null  && GPSMethods.isLocationEnabled (this)) {
                 events_sorted_by_dist_data = getSortedListByDist ();
                 List<EventInfo> tempFilteredList =
-                        StaticMethods.filterByFilterName (GlobalVariables.CURRENT_FILTER_NAME, events_sorted_by_dist_data);
+                        GeneralStaticMethods.filterByFilterName (GlobalVariables.CURRENT_FILTER_NAME, events_sorted_by_dist_data);
                 events_data_filtered.clear ();
                 events_data_filtered.addAll (tempFilteredList);
             } else {
-                StaticMethods.updateDeviceLocationGPS (this.getApplicationContext (), this);
+                GPSMethods.updateDeviceLocationGPS (this.getApplicationContext (), this);
             }
         }
 
@@ -96,7 +100,7 @@ public class RealTimeActivity extends AppCompatActivity implements View.OnClickL
         if (GlobalVariables.ALL_EVENTS_DATA.size () > 0) {
             events_sorted_by_dist_data = getSortedListByDist ();
             List<EventInfo> tempFilteredList =
-                    StaticMethods.filterByFilterName (GlobalVariables.CURRENT_FILTER_NAME, events_sorted_by_dist_data);
+                    GeneralStaticMethods.filterByFilterName (GlobalVariables.CURRENT_FILTER_NAME, events_sorted_by_dist_data);
             events_data_filtered.clear ();
             events_data_filtered.addAll (tempFilteredList);
             eventsGridAdapter.notifyDataSetChanged ();
@@ -109,13 +113,13 @@ public class RealTimeActivity extends AppCompatActivity implements View.OnClickL
         if (GlobalVariables.MY_LOCATION != null) {
             events_sorted_by_dist_data = getSortedListByDist ();
             List<EventInfo> tempFilteredList =
-                    StaticMethods.filterByFilterName (GlobalVariables.CURRENT_FILTER_NAME, events_sorted_by_dist_data);
+                    GeneralStaticMethods.filterByFilterName (GlobalVariables.CURRENT_FILTER_NAME, events_sorted_by_dist_data);
             events_data_filtered.clear ();
             events_data_filtered.addAll (tempFilteredList);
             eventsGridAdapter.notifyDataSetChanged ();
             turnOnGPS.setVisibility (View.GONE);
         } else {
-            StaticMethods.updateDeviceLocationGPS (this.getApplicationContext (), this);
+            GPSMethods.updateDeviceLocationGPS (this.getApplicationContext (), this);
         }
     }
 
@@ -152,8 +156,6 @@ public class RealTimeActivity extends AppCompatActivity implements View.OnClickL
         int vId = v.getId ();
         Intent newIntent = null;
         if (vId == Event.getId ()) {
-            newIntent = new Intent (this, MainActivity.class);
-            startActivity (newIntent);
             finish ();
         } else if (vId == SavedEvent.getId ()) {
             newIntent = new Intent (this, SavedEventActivity.class);
@@ -177,7 +179,7 @@ public class RealTimeActivity extends AppCompatActivity implements View.OnClickL
     public void onItemClick(AdapterView<?> av, View view, int i, long l) {
         Bundle b = new Bundle ();
         Intent intent = new Intent (this, EventPageActivity.class);
-        StaticMethods.onEventItemClick (i, events_data_filtered, intent);
+        EventDataMethods.onEventItemClick (i, events_data_filtered, intent);
         intent.putExtras (b);
         startActivity (intent);
     }
@@ -187,11 +189,22 @@ public class RealTimeActivity extends AppCompatActivity implements View.OnClickL
         startActivity (menuPageIntent);
     }
 
+    public void openNotificationPage(View v) {
+        Intent i = new Intent (this, MyNotificationsActivity.class);
+        startActivity (i);
+    }
+
+    public void openSearch(View v) {
+        Intent i = new Intent (this, SearchActivity.class);
+        startActivity (i);
+    }
+
+
     @Override
     protected void onResume() {
         super.onResume ();
         List<EventInfo> tempFilteredList =
-                StaticMethods.filterByFilterName (GlobalVariables.CURRENT_FILTER_NAME, events_sorted_by_dist_data);
+                GeneralStaticMethods.filterByFilterName (GlobalVariables.CURRENT_FILTER_NAME, events_sorted_by_dist_data);
         events_data_filtered.clear ();
         events_data_filtered.addAll (tempFilteredList);
         eventsGridAdapter.notifyDataSetChanged ();
@@ -199,8 +212,8 @@ public class RealTimeActivity extends AppCompatActivity implements View.OnClickL
 
     @Override
     protected void onActivityResult(final int requestCode, final int resultCode, final Intent data) {
-        StaticMethods.onActivityResult (requestCode,
-                                               data,
-                                               this);
+        GeneralStaticMethods.onActivityResult (requestCode,
+                                                      data,
+                                                      this);
     }
 }

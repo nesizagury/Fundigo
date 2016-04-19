@@ -7,7 +7,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 
 import com.example.FundigoApp.R;
-import com.example.FundigoApp.StaticMethods;
+import com.example.FundigoApp.StaticMethod.FileAndImageMethods;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.squareup.picasso.Picasso;
 
@@ -25,7 +25,7 @@ public class MessageRoomAdapter extends BaseAdapter {
     public MessageRoomAdapter(Context c, List listOfConversations) {
         this.context = c;
         this.listOfConversations = listOfConversations;
-        loader = StaticMethods.getImageLoader (c);
+        loader = FileAndImageMethods.getImageLoader (c);
     }
 
     public MessageRoomAdapter(Context c, List listOfConversations, ArrayList<String> listOfEventsImage) {
@@ -33,7 +33,7 @@ public class MessageRoomAdapter extends BaseAdapter {
         this.listOfConversations = listOfConversations;
         this.listOfEventsImage = listOfEventsImage;
         isCustomer = true;
-        loader = StaticMethods.getImageLoader (c);
+        loader = FileAndImageMethods.getImageLoader (c);
     }
 
     @Override

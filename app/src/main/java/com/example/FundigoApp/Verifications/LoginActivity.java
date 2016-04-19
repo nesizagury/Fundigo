@@ -10,13 +10,15 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.example.FundigoApp.Customer.Social.MipoProfile;
+import com.example.FundigoApp.Customer.Social.Profile;
 import com.example.FundigoApp.GlobalVariables;
 import com.example.FundigoApp.MainActivity;
 import com.example.FundigoApp.R;
-import com.example.FundigoApp.StaticMethods;
+import com.example.FundigoApp.StaticMethod.FileAndImageMethods;
 import com.parse.FindCallback;
 import com.parse.ParseException;
+import com.parse.ParseInstallation;
+import com.parse.ParsePush;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
@@ -24,6 +26,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import io.branch.referral.Branch;
@@ -49,7 +52,7 @@ public class LoginActivity extends Activity {
         producer_loginButton = (Button) findViewById (R.id.button_login);
         customer_loginButton = (Button) findViewById (R.id.button_customer);
 
-        GlobalVariables.CUSTOMER_PHONE_NUM = StaticMethods.getCustomerPhoneNumFromFile (this);
+        GlobalVariables.CUSTOMER_PHONE_NUM = FileAndImageMethods.getCustomerPhoneNumFromFile (this);
         if (GlobalVariables.CUSTOMER_PHONE_NUM == null || GlobalVariables.CUSTOMER_PHONE_NUM.equals ("")) {
             customer_loginButton.setText (R.string.guest_login);
         }
@@ -115,14 +118,22 @@ public class LoginActivity extends Activity {
         } else {
             GlobalVariables.IS_CUSTOMER_GUEST = false;
             GlobalVariables.IS_CUSTOMER_REGISTERED_USER = true;
-            ParseQuery<MipoProfile> query = ParseQuery.getQuery ("Profile");
+            ParseQuery<Profile> query = ParseQuery.getQuery ("Profile");
             query.whereEqualTo ("number", GlobalVariables.CUSTOMER_PHONE_NUM);
-            query.findInBackground (new FindCallback<MipoProfile> () {
+            query.findInBackground (new FindCallback<Profile> () {
                 @Override
-                public void done(List<MipoProfile> objects, ParseException e) {
+                public void done(List<Profile> objects, ParseException e) {
                     if (e == null) {
                         if(objects.get (0).getChanels () != null){
-                            GlobalVariables.userChanels.addAll (objects.get (0).getChanels ());
+                            if(GlobalVariables.userChanels.size () == 0) {
+                                GlobalVariables.userChanels.addAll (objects.get (0).getChanels ());
+                            }
+                            ParseInstallation installation = ParseInstallation.getCurrentInstallation ();
+                            installation.addAll ("Channels", (Collection<?>) GlobalVariables.userChanels);
+                            installation.saveInBackground ();
+                            for (int i = 0; i < GlobalVariables.userChanels.size (); i++) {
+                                ParsePush.subscribeInBackground ("a" + GlobalVariables.userChanels.get (i));
+                            }
                         }
                     } else{
                         e.printStackTrace ();

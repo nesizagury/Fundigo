@@ -11,7 +11,7 @@ import android.widget.TextView;
 
 import com.example.FundigoApp.GlobalVariables;
 import com.example.FundigoApp.R;
-import com.example.FundigoApp.StaticMethods;
+import com.example.FundigoApp.StaticMethod.EventDataMethods;
 import com.example.FundigoApp.Tickets.EventsSeats;
 import com.example.FundigoApp.Tickets.TicketAdapter;
 import com.parse.ParseException;
@@ -64,8 +64,8 @@ public class EventStatusActivity extends Activity implements AdapterView.OnItemC
         eventNameTV.setText ("" + getIntent ().getStringExtra ("name"));
 
         String eventObjId = getIntent ().getStringExtra ("eventObjectId");
-        eventInfo = StaticMethods.getEventFromObjID (eventObjId,
-                                                            GlobalVariables.ALL_EVENTS_DATA);
+        eventInfo = EventDataMethods.getEventFromObjID (eventObjId,
+                                                               GlobalVariables.ALL_EVENTS_DATA);
         adapter = new TicketAdapter (this, list);
 
         lv_tickets = (ListView) findViewById (R.id.lv_tickets);

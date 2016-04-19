@@ -9,65 +9,70 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.example.events.CustomerProfileUpdate">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/user_name"
-        android:id="@+id/textView8"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentStart="true"
-        android:textSize="15dp" />
-
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/userEdit"
-        android:maxWidth="150dp"
-        android:width="150dp"
-        android:layout_alignParentTop="true"
-        android:layout_toEndOf="@+id/textView8"
-        android:singleLine="true" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/select_picture"
-        android:id="@+id/textView9"
-        android:layout_below="@+id/textView8"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="63dp"
-        android:textSize="15dp" />
-
-    <ImageView
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:id="@+id/customerImage"
-        android:layout_below="@+id/imgUpload"
-        android:visibility="gone"
+    <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
         android:layout_centerHorizontal="true"
-        android:layout_toEndOf="@+id/textView8" />
+        android:id="@+id/tableRow3">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/user_name"
+            android:id="@+id/textView8"
+            android:textSize="15dp"
+            android:layout_weight="2" />
+
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/userEdit"
+            android:maxWidth="150dp"
+            android:width="150dp"
+            android:singleLine="true"
+            android:layout_weight="2"
+            android:layout_marginRight="20dp" />
+    </TableRow>
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/tableRow3"
+        android:layout_marginTop="20dp">
+
+        <ImageView
+            android:layout_width="130dp"
+            android:layout_height="90dp"
+            android:id="@+id/customerImage"
+            android:layout_gravity="center_horizontal"
+            android:background="#eceaea" />
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/image_upload"
+            android:id="@+id/imgUpload"
+            android:textSize="10dp"
+            android:layout_gravity="center_horizontal"
+            android:onClick="imageUpload"
+            android:layout_marginTop="10dp" />
+
+
+
+    </LinearLayout>
+
+
+
 
     <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/image_upload"
-        android:id="@+id/imgUpload"
-        android:textSize="10dp"
-        android:onClick="imageUpload"
-        android:layout_alignTop="@+id/textView9"
-        android:layout_toEndOf="@+id/textView9" />
-
-
-    <Button
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/submit"
         android:id="@+id/submit"
         android:textSize="20dp"
-        android:layout_below="@+id/customerImage"
         android:onClick="updateProfile"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="46dp" />
+        android:layout_marginTop="246dp" />
+
 
 
 

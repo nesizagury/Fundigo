@@ -26,10 +26,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.FundigoApp.Customer.CustomerDetails;
-import com.example.FundigoApp.Customer.Social.MipoProfile;
+import com.example.FundigoApp.Customer.Social.Profile;
 import com.example.FundigoApp.GlobalVariables;
 import com.example.FundigoApp.R;
-import com.example.FundigoApp.StaticMethods;
+import com.example.FundigoApp.StaticMethod.FileAndImageMethods;
+import com.example.FundigoApp.StaticMethod.UserDetailsMethod;
 import com.parse.FindCallback;
 import com.parse.ParseACL;
 import com.parse.ParseException;
@@ -72,10 +73,11 @@ public class SmsSignUpActivity extends AppCompatActivity {
     TextView optionalTV;
     TextView expTV;
     boolean image_selected = false;
-    MipoProfile previousDataFound = null;
+    Profile previousDataFound = null;
     private Locale locale = null;
     boolean imageSelected = false;
     boolean image_was_before = false;
+    Bitmap image;
 
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
     private void forceRTLIfSupported() {
@@ -88,7 +90,7 @@ public class SmsSignUpActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         forceRTLIfSupported ();
         super.onCreate (savedInstanceState);
-        setContentView (R.layout.activity_sms_varification);
+        setContentView (R.layout.activity_sms_login);
         Locale.getDefault ().getDisplayLanguage ();
         array_spinner = new String[6];
         array_spinner[0] = "050";
@@ -145,9 +147,9 @@ public class SmsSignUpActivity extends AppCompatActivity {
 
     public void Signup(View view) {
         username = usernameTE.getText ().toString ();
-        MipoProfile mipoProfileParseObject;
+        Profile profileParseObject;
         if (previousDataFound != null) {
-            mipoProfileParseObject = previousDataFound;
+            profileParseObject = previousDataFound;
             GlobalVariables.CUSTOMER_PHONE_NUM = previousDataFound.getNumber ();
             ParseUser.logOut ();
             try {
@@ -155,8 +157,8 @@ public class SmsSignUpActivity extends AppCompatActivity {
             } catch (ParseException e) {
                 e.printStackTrace ();
             }
-            if (mipoProfileParseObject.getChanels () != null) {
-                GlobalVariables.userChanels.addAll (mipoProfileParseObject.getChanels ());
+            if (profileParseObject.getChanels () != null) {
+                GlobalVariables.userChanels.addAll (profileParseObject.getChanels ());
             }
             if (!GlobalVariables.userChanels.isEmpty ()) {
                 ParseInstallation installation = ParseInstallation.getCurrentInstallation ();
@@ -167,15 +169,31 @@ public class SmsSignUpActivity extends AppCompatActivity {
                 }
             }
         } else {
-            mipoProfileParseObject = new MipoProfile ();
+            profileParseObject = new Profile ();
+            ParseUser user = new ParseUser ();
+            user.setUsername (area + phoneET.getText ().toString ());
+            user.setPassword (area + phoneET.getText ().toString ());
+            try {
+                user.signUp ();
+            } catch (ParseException e) {
+                e.printStackTrace ();
+            }
+            profileParseObject.setUser (user);
         }
-        mipoProfileParseObject.setName (username);
+        profileParseObject.setName (username);
         if (imageSelected) {
             customerImageView.buildDrawingCache ();
-            Bitmap bitmap = customerImageView.getDrawingCache ();
-            ByteArrayOutputStream stream = new ByteArrayOutputStream ();
-            bitmap.compress (CompressFormat.JPEG, 100, stream);
-            byte[] image = stream.toByteArray ();
+            Bitmap bitmap = image;
+            byte[] image;
+            if(bitmap.getByteCount () > 500000) {
+                ByteArrayOutputStream stream = new ByteArrayOutputStream ();
+                bitmap.compress (CompressFormat.JPEG, 100, stream);
+                image = stream.toByteArray ();
+            } else{
+                ByteArrayOutputStream stream = new ByteArrayOutputStream ();
+                bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
+                image = stream.toByteArray ();
+            }
             ParseFile file = new ParseFile ("picturePath", image);
             try {
                 file.save ();
@@ -185,15 +203,15 @@ public class SmsSignUpActivity extends AppCompatActivity {
             ParseACL parseAcl = new ParseACL ();
             parseAcl.setPublicReadAccess (true);
             parseAcl.setPublicWriteAccess (true);
-            mipoProfileParseObject.setACL (parseAcl);
-            mipoProfileParseObject.put ("pic", file);
+            profileParseObject.setACL (parseAcl);
+            profileParseObject.put ("pic", file);
         } else if(!image_was_before) {
             Bitmap bmp = BitmapFactory.decodeResource (this.getResources (),
                                                        R.drawable.no_image_icon_md);
             customerImageView.setImageBitmap (bmp);
             customerImageView.buildDrawingCache ();
             ByteArrayOutputStream stream = new ByteArrayOutputStream ();
-            bmp.compress (CompressFormat.JPEG, 100, stream);
+            bmp.compress (CompressFormat.PNG, 100, stream);
             byte[] image = stream.toByteArray ();
             ParseFile file = new ParseFile ("picturePath", image);
             try {
@@ -204,30 +222,30 @@ public class SmsSignUpActivity extends AppCompatActivity {
             ParseACL parseAcl = new ParseACL ();
             parseAcl.setPublicReadAccess (true);
             parseAcl.setPublicWriteAccess (true);
-            mipoProfileParseObject.setACL (parseAcl);
-            mipoProfileParseObject.put ("pic", file);
+            profileParseObject.setACL (parseAcl);
+            profileParseObject.put ("pic", file);
         }
-        mipoProfileParseObject.setNumber (area + phoneET.getText ().toString ());
+        profileParseObject.setNumber (area + phoneET.getText ().toString ());
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences (SmsSignUpActivity.this);
         String fbId = sp.getString (GlobalVariables.FB_ID, null);
         if (fbId != null) {
-            mipoProfileParseObject.setFbId (fbId);
+            profileParseObject.setFbId (fbId);
         }
         String fbUrl = sp.getString (GlobalVariables.FB_PIC_URL, null);
         if (fbUrl != null) {
-            mipoProfileParseObject.setFbUrl (fbUrl);
+            profileParseObject.setFbUrl (fbUrl);
         }
         if (GlobalVariables.MY_LOCATION != null) {
             ParseGeoPoint parseGeoPoint = new ParseGeoPoint (GlobalVariables.MY_LOCATION.getLatitude (),
                                                                     GlobalVariables.MY_LOCATION.getLongitude ());
-            mipoProfileParseObject.setLocation (parseGeoPoint);
+            profileParseObject.setLocation (parseGeoPoint);
         } else {
             ParseGeoPoint parseGeoPoint = new ParseGeoPoint (31.8971205,
                                                                     34.8136008);
-            mipoProfileParseObject.setLocation (parseGeoPoint);
+            profileParseObject.setLocation (parseGeoPoint);
         }
         try {
-            mipoProfileParseObject.save ();
+            profileParseObject.save ();
             Toast.makeText (getApplicationContext (), R.string.successfully_signed_up, Toast.LENGTH_SHORT).show ();
             saveToFile (area + phoneET.getText ().toString ());
             GlobalVariables.CUSTOMER_PHONE_NUM = area + phoneET.getText ().toString ();
@@ -273,7 +291,7 @@ public class SmsSignUpActivity extends AppCompatActivity {
 
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == GlobalVariables.SELECT_PICTURE && resultCode == RESULT_OK && null != data) {
-            Bitmap image = StaticMethods.getImageFromDevice (data, this);
+            image = FileAndImageMethods.getImageFromDevice (data, this);
             customerImageView.setImageBitmap (image);
             image_selected = true;
             imageSelected = true;
@@ -352,14 +370,14 @@ public class SmsSignUpActivity extends AppCompatActivity {
     }
 
     private void getUserPreviousDetails(String user_number) {
-        ParseQuery<MipoProfile> query = ParseQuery.getQuery ("Profile");
+        ParseQuery<Profile> query = ParseQuery.getQuery ("Profile");
         query.whereEqualTo ("number", user_number);
-        query.findInBackground (new FindCallback<MipoProfile> () {
-            public void done(List<MipoProfile> numbers, ParseException e) {
+        query.findInBackground (new FindCallback<Profile> () {
+            public void done(List<Profile> numbers, ParseException e) {
                 if (e == null) {
                     if (numbers.size () > 0) {
                         previousDataFound = numbers.get (0);
-                        CustomerDetails customerDetails = StaticMethods.getUserDetailsWithBitmap (numbers);
+                        CustomerDetails customerDetails = UserDetailsMethod.getUserDetailsWithBitmap (numbers);
                         if (usernameTE.getText ().toString ().isEmpty ()) {
                             usernameTE.setText (customerDetails.getCustomerName () + "");
                             usernameTE.setSelection (usernameTE.getText ().length ());

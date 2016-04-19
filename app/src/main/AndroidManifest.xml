@@ -32,17 +32,15 @@
     <application
         android:name="com.example.FundigoApp.Fundigo"
         android:allowBackup="true"
-        android:supportsRtl="true"
         android:icon="@mipmap/ic_launcher"
         android:label="Fundigo"
+        android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
             android:name=".MainActivity">
         </activity>
         <activity
             android:name=".Events.EventPageActivity"></activity>
-        <activity android:name=".Tickets.GetTicketQRCodeActivity">
-        </activity>
         <activity android:name=".Tickets.SelectSeatActivity">
         </activity>
         <activity android:name=".Customer.Social.DetailedNotificationActivity"/>
@@ -50,13 +48,11 @@
         <activity android:name=".Producer.ProducerSendPuchActivity"/>
         <activity android:name=".Customer.Social.CustomerMessageConversationsListActivity"/>
         <activity android:name=".Customer.Social.MipoActivity"></activity>
-        <activity android:name=".Producer.Artists.QR_producer" >
+        <activity android:name=".Producer.Artists.QR_producer">
         </activity>
         <activity android:name=".FilterPageActivity">
         </activity>
         <activity android:name=".Tickets.WebBrowserActivity">
-        </activity>
-        <activity android:name=".Tickets.Web1Activity">
         </activity>
         <activity android:name="com.example.FundigoApp.Events.CreateEventActivity">
         </activity>
@@ -88,19 +84,19 @@
         <activity android:name=".Customer.CustomerMenu.CustomerTicketsMoreDetailesActivity"></activity>
         <activity android:name=".SearchActivity">
         </activity>
-        <activity android:name=".Tickets.TicketsPriceActivity" />
+        <activity android:name=".Tickets.TicketsPriceActivity"/>
         <activity android:name=".Customer.CustomerMenu.CustomerProfileUpdate"/>
         <activity android:name=".Customer.CustomerMenu.MyEventsTicketsActivity"></activity>
         <activity android:name=".Events.EventStatusActivity"></activity>
         <activity android:name=".Producer.Artists.ArtistEventsActivity"></activity>
         <activity android:name=".Producer.Artists.ArtistStatsActivity"></activity>
-        <activity android:name=".Events.EditEventActivity" />
+        <activity android:name=".Events.EditEventActivity"/>
         <activity android:name=".Events.EventDetailsActivity"></activity>
         <activity
             android:name=".Events.EventServiceActivity"
             android:theme="@style/AppTheme.PopupServiceEvent"></activity>
         <activity
-            android:name=".Chat.MessagesRoomActivity"
+            android:name=".Chat.MessagesRoomProducerActivity"
             />
         <activity android:name=".Chat.RealTimeChatActivity"></activity>
 

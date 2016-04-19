@@ -19,7 +19,8 @@ import android.widget.ListView;
 import com.example.FundigoApp.Events.EventInfo;
 import com.example.FundigoApp.GlobalVariables;
 import com.example.FundigoApp.R;
-import com.example.FundigoApp.StaticMethods;
+import com.example.FundigoApp.StaticMethod.EventDataMethods;
+import com.example.FundigoApp.StaticMethod.FileAndImageMethods;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.parse.FindCallback;
 import com.parse.ParseException;
@@ -53,10 +54,10 @@ public class RealTimeChatActivity extends AppCompatActivity implements AdapterVi
         eventImage = (ImageView) findViewById (R.id.profileImage_rt_chat);
         eventName = (Button) findViewById (R.id.ProfileName_rt_chat);
         buttonSend = (Button) findViewById (R.id.btSend_rt_Chat);
-        loader = StaticMethods.getImageLoader (this);
+        loader = FileAndImageMethods.getImageLoader (this);
         Intent intent = getIntent ();
         eventObjectId = intent.getStringExtra ("eventObjectId");
-        eventInfo = StaticMethods.getEventFromObjID (eventObjectId, GlobalVariables.ALL_EVENTS_DATA);
+        eventInfo = EventDataMethods.getEventFromObjID (eventObjectId, GlobalVariables.ALL_EVENTS_DATA);
         loader.displayImage (eventInfo.getPicUrl (), eventImage);
         eventName.setText (eventInfo.getName () + "(" + getResources ().getString (R.string.real_time_chat) + ")");
         if (GlobalVariables.IS_CUSTOMER_REGISTERED_USER) {

@@ -13,7 +13,7 @@ import android.widget.ListView;
 import com.example.FundigoApp.Events.EventInfo;
 import com.example.FundigoApp.GlobalVariables;
 import com.example.FundigoApp.R;
-import com.example.FundigoApp.StaticMethods;
+import com.example.FundigoApp.StaticMethod.EventDataMethods;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
@@ -68,8 +68,8 @@ public class MyNotificationsActivity extends AppCompatActivity implements Adapte
         List<ParseObject> tempPushObjectsList = new ArrayList<ParseObject> ();
         for (int i = 0; i < pushObjectsList.size (); i++) {
             ParseObject parseObject = pushObjectsList.get (i);
-            EventInfo eventInfo = StaticMethods.getEventFromObjID (parseObject.getString ("EvendId"),
-                                                                          GlobalVariables.ALL_EVENTS_DATA);
+            EventInfo eventInfo = EventDataMethods.getEventFromObjID (parseObject.getString ("EvendId"),
+                                                                             GlobalVariables.ALL_EVENTS_DATA);
             if(eventInfo == null){
                 continue;
             } else {

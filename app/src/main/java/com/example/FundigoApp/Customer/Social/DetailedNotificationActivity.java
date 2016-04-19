@@ -11,7 +11,7 @@ import com.example.FundigoApp.Events.EventInfo;
 import com.example.FundigoApp.Events.EventPageActivity;
 import com.example.FundigoApp.GlobalVariables;
 import com.example.FundigoApp.R;
-import com.example.FundigoApp.StaticMethods;
+import com.example.FundigoApp.StaticMethod.EventDataMethods;
 
 public class DetailedNotificationActivity extends AppCompatActivity {
 
@@ -22,7 +22,7 @@ public class DetailedNotificationActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate (savedInstanceState);
-        setContentView (R.layout.activity_push_page);
+        setContentView (R.layout.activity_customer_push_page);
         intent = getIntent ();
         message = (TextView) findViewById (R.id.eventInfoEventPage);
         date = (TextView) findViewById (R.id.PushPage_date);
@@ -30,8 +30,8 @@ public class DetailedNotificationActivity extends AppCompatActivity {
         goToEvent = (Button) findViewById (R.id.Button_pushPage);
 
         message.setText (intent.getExtras ().getString ("Message"));
-        final EventInfo eventInfo = StaticMethods.getEventFromObjID (intent.getExtras ().getString ("EvendId"),
-                                                                            GlobalVariables.ALL_EVENTS_DATA);
+        final EventInfo eventInfo = EventDataMethods.getEventFromObjID (intent.getExtras ().getString ("EvendId"),
+                                                                               GlobalVariables.ALL_EVENTS_DATA);
         eventObjectId.setText (eventInfo.getName ());
         date.setText (eventInfo.getDateAsString ());
         final Intent intent = new Intent (this, EventPageActivity.class);
@@ -39,9 +39,9 @@ public class DetailedNotificationActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Bundle b = new Bundle ();
-                StaticMethods.onEventItemClick (eventInfo.getIndexInFullList (),
-                                                       GlobalVariables.ALL_EVENTS_DATA,
-                                                       intent);
+                EventDataMethods.onEventItemClick (eventInfo.getIndexInFullList (),
+                                                          GlobalVariables.ALL_EVENTS_DATA,
+                                                          intent);
                 intent.putExtras (b);
                 startActivity (intent);
             }

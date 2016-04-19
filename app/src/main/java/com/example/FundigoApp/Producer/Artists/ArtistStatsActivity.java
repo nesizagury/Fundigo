@@ -10,8 +10,9 @@ import com.example.FundigoApp.Events.EventInfo;
 import com.example.FundigoApp.Events.EventPageActivity;
 import com.example.FundigoApp.GlobalVariables;
 import com.example.FundigoApp.R;
-import com.example.FundigoApp.StaticMethods;
-import com.example.FundigoApp.StaticMethods.GetEventsDataCallback;
+import com.example.FundigoApp.StaticMethod.EventDataMethods;
+import com.example.FundigoApp.StaticMethod.GeneralStaticMethods;
+import com.example.FundigoApp.StaticMethod.EventDataMethods.GetEventsDataCallback;
 import com.example.FundigoApp.Tickets.EventsSeats;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
@@ -58,7 +59,7 @@ public class ArtistStatsActivity extends Activity implements GetEventsDataCallba
 
         if (GlobalVariables.ALL_EVENTS_DATA.size () == 0) {
             Intent intent = new Intent (this, EventPageActivity.class);
-            StaticMethods.downloadEventsData (this, GlobalVariables.PRODUCER_PARSE_OBJECT_ID, this, intent);
+            EventDataMethods.downloadEventsData (this, GlobalVariables.PRODUCER_PARSE_OBJECT_ID, this, intent);
         } else {
             calculateStates ();
         }
@@ -67,8 +68,8 @@ public class ArtistStatsActivity extends Activity implements GetEventsDataCallba
     private void calculateStates() {
         String artistName = getIntent ().getStringExtra ("artist_name");
         artistTV.setText (artistName);
-        StaticMethods.filterEventsByArtist (artistName,
-                                                   eventsList);
+        GeneralStaticMethods.filterEventsByArtist (artistName,
+                                                          eventsList);
         updateEventsSeatsLists (eventsList);
         getCalculatedData (eventsList);
         sumIncomeTV.setText (sumIncomeSold + "₪");

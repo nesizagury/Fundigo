@@ -23,7 +23,7 @@ public class ProducerSendPuchActivity extends AppCompatActivity implements View.
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate (savedInstanceState);
-        setContentView (R.layout.activity_push);
+        setContentView (R.layout.activity_producer_push);
         eventObjectId = getIntent ().getExtras ().get ("id").toString ();
         editText = (EditText) findViewById (R.id.editTextPush);
         send = (Button) findViewById (R.id.sendPush);

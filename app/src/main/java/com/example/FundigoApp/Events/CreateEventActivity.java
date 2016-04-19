@@ -32,17 +32,19 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.example.FundigoApp.GlobalVariables;
 import com.example.FundigoApp.R;
-import com.example.FundigoApp.Tickets.EventsSeats;
 import com.example.FundigoApp.Tickets.TicketsPriceActivity;
 import com.google.gson.Gson;
 import com.parse.FindCallback;
+import com.parse.FunctionCallback;
 import com.parse.GetCallback;
+import com.parse.ParseCloud;
 import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseObject;
@@ -58,6 +60,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 import fr.ganfra.materialspinner.MaterialSpinner;
@@ -89,8 +92,8 @@ public class CreateEventActivity extends Activity implements View.OnClickListene
     Button btn_pic;
     ImageView pic;
     Button btn_price_details;
-    LinearLayout create_event2;
-    LinearLayout create_event3;
+    ScrollView create_event2;
+    ScrollView create_event3;
     LinearLayout ll_name;
     LinearLayout ll_date;
     LinearLayout ll_artist;
@@ -676,8 +679,8 @@ public class CreateEventActivity extends Activity implements View.OnClickListene
         btn_date.setOnClickListener (this);
         freeBox.setOnCheckedChangeListener (this);
         checkBoxPrice.setOnCheckedChangeListener (this);
-        create_event2 = (LinearLayout) findViewById (R.id.create_event2);
-        create_event3 = (LinearLayout) findViewById (R.id.create_event3);
+        create_event2 = (ScrollView) findViewById (R.id.create_event2);
+        create_event3 = (ScrollView) findViewById (R.id.create_event3);
         ll_name = (LinearLayout) findViewById (R.id.ll_name);
         ll_date = (LinearLayout) findViewById (R.id.ll_date);
         ll_artist = (LinearLayout) findViewById (R.id.ll_artist);
@@ -689,6 +692,7 @@ public class CreateEventActivity extends Activity implements View.OnClickListene
         FILTERS = getResources ().getStringArray (R.array.filters);
         ArrayAdapter<String> filterSpinnerAdapter = new ArrayAdapter<> (this, android.R.layout.simple_spinner_item, FILTERS);
         filterSpinnerAdapter.setDropDownViewResource (android.R.layout.simple_spinner_dropdown_item);
+        filterSpinner = (MaterialSpinner) findViewById (R.id.filterSpinner);
         filterSpinner = (MaterialSpinner) findViewById (R.id.filterSpinner);
         filterSpinner.setAdapter (filterSpinnerAdapter);
         filterSpinner.setOnItemSelectedListener (this);
@@ -1007,98 +1011,111 @@ public class CreateEventActivity extends Activity implements View.OnClickListene
                     iv_val_add.setVisibility (View.VISIBLE);
                     Toast.makeText (CreateEventActivity.this, R.string.problem_is + result.getStatus (), Toast.LENGTH_SHORT).show ();
                 }
-
             }
-
         }
-
     }
 
     private void saveTicketsPrice(String eventObjectId) {
         final SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences (this);
         SharedPreferences.Editor editor = sp.edit ();
-        for (int i = 1; i <= 4; i++) {
-            EventsSeats eventsSeats = new EventsSeats ();
-            eventsSeats.put ("price", sp.getInt (GlobalVariables.BLUE, 0));
-            eventsSeats.put ("eventObjectId", eventObjectId);
-            eventsSeats.put ("seatNumber", "Floor " + i);
-            eventsSeats.setIsSold (false);
-            eventsSeats.saveInBackground ();
-            blueIncome = 4 * sp.getInt (GlobalVariables.BLUE, 0);
+        HashMap<String, String> map = new HashMap<> ();
+        map.put ("start", "1");
+        map.put ("end", "4");
+        map.put ("price", "" + sp.getInt (GlobalVariables.BLUE, 0));
+        map.put ("eventObjectId", eventObjectId);
+        map.put ("seatNumber", "Floor ");
+        ParseCloud.callFunctionInBackground ("saveTicketsPrice", map, new FunctionCallback<Object> () {
+            @Override
+            public void done(Object response, ParseException exc) {
+                Log.e ("cloud code example", "response: " + response);
+            }
+        });
+
+        map.put ("start", "11");
+        map.put ("end", "27");
+        map.put ("price", "" + sp.getInt (GlobalVariables.ORANGE, 0));
+        map.put ("eventObjectId", eventObjectId);
+        map.put ("seatNumber", "Orange");
+        ParseCloud.callFunctionInBackground ("saveTicketsPrice", map, new FunctionCallback<Object> () {
+            @Override
+            public void done(Object response, ParseException exc) {
+                Log.e ("cloud code example", "response: " + response);
+            }
+        });
+
+        map.put ("start", "101");
+        map.put ("end", "117");
+        map.put ("price", "" + sp.getInt (GlobalVariables.PINK, 0));
+        map.put ("eventObjectId", eventObjectId);
+        map.put ("seatNumber", "Pink");
+        ParseCloud.callFunctionInBackground ("saveTicketsPrice", map, new FunctionCallback<Object> () {
+            @Override
+            public void done(Object response, ParseException exc) {
+                Log.e ("cloud code example", "response: " + response);
+            }
+        });
+
+        map.put ("start", "121");
+        map.put ("end", "136");
+        map.put ("price", "" + sp.getInt (GlobalVariables.PINK, 0));
+        map.put ("eventObjectId", eventObjectId);
+        map.put ("seatNumber", "Pink");
+        ParseCloud.callFunctionInBackground ("saveTicketsPrice", map, new FunctionCallback<Object> () {
+            @Override
+            public void done(Object response, ParseException exc) {
+                Log.e ("cloud code example", "response: " + response);
+            }
+        });
+
+        map.put ("start", "201");
+        map.put ("end", "217");
+        map.put ("price", "" + sp.getInt (GlobalVariables.YELLOW, 0));
+        map.put ("eventObjectId", eventObjectId);
+        map.put ("seatNumber", "Yellow");
+        ParseCloud.callFunctionInBackground ("saveTicketsPrice", map, new FunctionCallback<Object> () {
+            @Override
+            public void done(Object response, ParseException exc) {
+                Log.e ("cloud code example", "response: " + response);
+            }
+        });
+
+
+        map.put ("start", "221");
+        map.put ("end", "236");
+        map.put ("price", "" + sp.getInt (GlobalVariables.YELLOW, 0));
+        map.put ("eventObjectId", eventObjectId);
+        map.put ("seatNumber", "Yellow");
+        try {
+            Integer result = ParseCloud.callFunction ("saveTicketsPrice", map);
+        } catch (ParseException e) {
+            e.printStackTrace ();
         }
 
-        for (int i = 11; i <= 27; i++) {
-            EventsSeats eventsSeats = new EventsSeats ();
-            eventsSeats.put ("price", sp.getInt (GlobalVariables.ORANGE, 0));
-            eventsSeats.put ("eventObjectId", eventObjectId);
-            eventsSeats.put ("seatNumber", "Orange " + i);
-            eventsSeats.setIsSold (false);
-            eventsSeats.saveInBackground ();
-            orangeIncome = 17 * sp.getInt (GlobalVariables.ORANGE, 0);
-        }
+        map.put ("start", "207");
+        map.put ("end", "213");
+        map.put ("price", "" + sp.getInt (GlobalVariables.GREEN, 0));
+        map.put ("eventObjectId", eventObjectId);
+        map.put ("seatNumber", "green");
+        ParseCloud.callFunctionInBackground ("saveTicketsPrice", map, new FunctionCallback<Object> () {
+            @Override
+            public void done(Object response, ParseException exc) {
+                Log.e ("cloud code example", "response: " + response);
+            }
+        });
 
-        for (int i = 101; i <= 117; i++) {
-            EventsSeats eventsSeats = new EventsSeats ();
-            eventsSeats.put ("price", sp.getInt (GlobalVariables.PINK, 0));
-            eventsSeats.put ("eventObjectId", eventObjectId);
-            eventsSeats.put ("seatNumber", "Pink " + i);
-            eventsSeats.setIsSold (false);
-            eventsSeats.saveInBackground ();
-            pinkIncome = 17 * sp.getInt (GlobalVariables.PINK, 0);
-        }
-        for (int i = 121; i <= 136; i++) {
-            EventsSeats eventsSeats = new EventsSeats ();
-            eventsSeats.put ("price", sp.getInt (GlobalVariables.PINK, 0));
-            eventsSeats.put ("eventObjectId", eventObjectId);
-            eventsSeats.put ("seatNumber", "Pink " + i);
-            eventsSeats.setIsSold (false);
-            eventsSeats.saveInBackground ();
-            pinkIncome = pinkIncome + 16 * sp.getInt (GlobalVariables.PINK, 0);
-        }
-
-        for (int i = 201; i <= 217; i++) {
-            EventsSeats eventsSeats = new EventsSeats ();
-            eventsSeats.put ("price", sp.getInt (GlobalVariables.YELLOW, 0));
-            eventsSeats.put ("eventObjectId", eventObjectId);
-            eventsSeats.put ("seatNumber", "Yellow " + i);
-            eventsSeats.setIsSold (false);
-            eventsSeats.saveInBackground ();
-            yellowIncome = 17 * sp.getInt (GlobalVariables.YELLOW, 0);
-        }
-
-        for (int i = 221; i <= 236; i++) {
-            EventsSeats eventsSeats = new EventsSeats ();
-            eventsSeats.put ("price", sp.getInt (GlobalVariables.YELLOW, 0));
-            eventsSeats.put ("eventObjectId", eventObjectId);
-            eventsSeats.put ("seatNumber", "Yellow " + i);
-            eventsSeats.setIsSold (false);
-            eventsSeats.saveInBackground ();
-            yellowIncome = yellowIncome + 16 * sp.getInt (GlobalVariables.YELLOW, 0);
-        }
-
-        for (int i = 207; i <= 213; i++) {
-            EventsSeats eventsSeats = new EventsSeats ();
-            eventsSeats.put ("price", sp.getInt (GlobalVariables.GREEN, 0));
-            eventsSeats.put ("eventObjectId", eventObjectId);
-            eventsSeats.put ("seatNumber", "Green " + i);
-            eventsSeats.setIsSold (false);
-            eventsSeats.saveInBackground ();
-            greenIncome = 7 * sp.getInt (GlobalVariables.GREEN, 0);
-        }
-
-        for (int i = 225; i <= 231; i++) {
-            EventsSeats eventsSeats = new EventsSeats ();
-            eventsSeats.put ("price", sp.getInt (GlobalVariables.GREEN, 0));
-            eventsSeats.put ("eventObjectId", eventObjectId);
-            eventsSeats.put ("seatNumber", "Green " + i);
-            eventsSeats.setIsSold (false);
-            eventsSeats.saveInBackground ();
-            greenIncome = greenIncome + 7 * sp.getInt (GlobalVariables.GREEN, 0);
-        }
-
+        map.put ("start", "225");
+        map.put ("end", "231");
+        map.put ("price", "" + sp.getInt (GlobalVariables.GREEN, 0));
+        map.put ("eventObjectId", eventObjectId);
+        map.put ("seatNumber", "green");
+        ParseCloud.callFunctionInBackground ("saveTicketsPrice", map, new FunctionCallback<Object> () {
+            @Override
+            public void done(Object response, ParseException exc) {
+                Log.e ("cloud code example", "response: " + response);
+            }
+        });
         editor.putBoolean (GlobalVariables.SEATS, false);
         editor.apply ();
     }
-
 }
 

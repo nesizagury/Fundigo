@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:layout_width="match_parent"
               android:id="@+id/create_profile_layout"
@@ -35,21 +37,22 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
-
+        android:weightSum="100.0"
         android:orientation="horizontal">
 
         <TextView
             android:id="@+id/tv_name"
+            android:textSize="15sp"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
+            android:layout_weight="20"
             android:text="@string/name" />
 
         <EditText
             android:id="@+id/et_name"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="3"
+            android:layout_weight="80"
             android:imeActionLabel="Done" />
     </LinearLayout>
 
@@ -64,7 +67,7 @@
             android:id="@+id/btn_date"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
+            android:layout_weight="2.37"
             android:inputType="date"
             android:text="@string/pick_date" />
 
@@ -84,33 +87,33 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:weightSum="100.0">
+
         <LinearLayout
             android:layout_width="0dp"
             android:layout_gravity="bottom"
             android:orientation="vertical"
-            android:layout_weight="1"
+            android:layout_weight="20"
             android:layout_height="wrap_content">
             <TextView
                 android:id="@+id/tv_artist"
+                android:textSize="15sp"
                 android:layout_width="wrap_content"
-                android:layout_height="0dp"
-                android:layout_weight="1"
+                android:layout_height="wrap_content"
                 android:text="Artist:" />
             <TextView
                 android:layout_width="wrap_content"
-                android:layout_height="0dp"
-                android:textSize="10sp"
-                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:textSize="12sp"
                 android:text="(Optional)" />
         </LinearLayout>
-
 
         <EditText
             android:id="@+id/et_artist"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="3"
+            android:layout_weight="80"
             android:imeActionLabel="Done" />
     </LinearLayout>
 
@@ -119,20 +122,23 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:weightSum="100.0">
 
         <TextView
             android:id="@+id/tv_description"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/description" />
+            android:layout_height="match_parent"
+            android:layout_weight="30"
+            android:textSize="15sp"
+            android:text="@string/description"
+            android:gravity="center_vertical"/>
 
         <EditText
             android:id="@+id/et_description"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="2.5"
+            android:layout_weight="70"
             android:imeActionLabel="Done" />
     </LinearLayout>
 
@@ -145,3 +151,4 @@
         android:text="@string/next" />
 
 </LinearLayout>
+</ScrollView>

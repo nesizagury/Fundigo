@@ -19,7 +19,8 @@ import android.widget.Toast;
 import com.example.FundigoApp.Customer.CustomerDetails;
 import com.example.FundigoApp.GlobalVariables;
 import com.example.FundigoApp.R;
-import com.example.FundigoApp.StaticMethods;
+import com.example.FundigoApp.StaticMethod.FileAndImageMethods;
+import com.example.FundigoApp.StaticMethod.UserDetailsMethod;
 import com.example.FundigoApp.Verifications.SmsSignUpActivity;
 import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
@@ -71,7 +72,7 @@ public class MenuActivity extends AppCompatActivity {
         facebook_login_button = (LoginButton) findViewById (R.id.login_button11);
         facebookUserNameView = (TextView) findViewById (R.id.profileUserName);
         profileFacebookPictureView = (ImageView) findViewById (R.id.faebook_profile);
-        sms_login_button = (Button) findViewById (R.id.button3);
+        sms_login_button = (Button) findViewById (R.id.buttonSignUpNew);
         user_profile_button = (Button) findViewById (R.id.buttonUserProfile);
         user_profile_update_button = (Button) findViewById (R.id.buttonUserProfileUpdate);
         user_evnets_tickets_button = (Button) findViewById (R.id.eventsTicketsButton);
@@ -193,7 +194,7 @@ public class MenuActivity extends AppCompatActivity {
     public void getUserProfile(View view) { //get onclick event for pulling the user profile
         /// verify if not Guest and set the Button to visible done in Oncreate function
         phoneNum = GlobalVariables.CUSTOMER_PHONE_NUM;
-        CustomerDetails customerDetails = StaticMethods.getUserDetailsFromParseInMainThread (phoneNum);
+        CustomerDetails customerDetails = UserDetailsMethod.getUserDetailsFromParseInMainThread (phoneNum);
         currentUserName = customerDetails.getCustomerName ();
         userImage = customerDetails.getCustomerImage ();
         userProfileDisplay ();
@@ -207,7 +208,7 @@ public class MenuActivity extends AppCompatActivity {
         pRaw.setText (phoneNum);
         if (userImage != null) {// for present User Picture
             drawView.setVisibility (View.VISIBLE);
-            loader = StaticMethods.getImageLoader (this);
+            loader = FileAndImageMethods.getImageLoader (this);
             loader.displayImage (userImage, drawView);
         }
     }

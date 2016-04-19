@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    android:layout_height="match_parent"
+    android:layout_width="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/phoneTV"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="204dp"
+            android:gravity="center"
+            android:text="@string/enter_phone_number"
+            android:textSize="25sp"
+            />
+
+        <LinearLayout
+            android:id="@+id/phoneLinearLayout"
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_below="@+id/phoneTV"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <EditText
+                android:id="@+id/phoneET"
+                android:layout_width="190dp"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:gravity="center"
+                android:inputType="phone"
+                android:maxLength="7"/>
+
+            <Spinner
+                android:id="@+id/spinner"
+                android:layout_width="100dp"
+                android:layout_height="40dp"/>
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/usernameTV"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_above="@+id/phoneLinearLayout"
+            android:gravity="center"
+            android:text="@string/user_name"
+            android:textSize="25sp"
+            android:visibility="invisible"
+            />
+
+        <EditText
+            android:id="@+id/usernameTE"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/usernameTV"
+            android:layout_centerHorizontal="true"
+            android:ems="10"
+            android:inputType="textPersonName"
+            android:visibility="invisible"/>
+
+        <TextView
+            android:id="@+id/imageTV"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_below="@+id/phoneTV"
+            android:gravity="center"
+            android:text="Insert Image"
+            android:textSize="25sp"
+            android:visibility="invisible"
+            />
+
+        <Button
+            android:id="@+id/button2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/upload_button"
+            android:layout_marginTop="38dp"
+            android:onClick="Signup"
+            android:text="@string/signup"
+            android:visibility="invisible"/>
+
+        <Button
+            android:id="@+id/upload_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/phoneLinearLayout"
+            android:onClick="imageUpload"
+            android:text="@string/upload"
+            android:visibility="invisible"
+            />
+
+        <ImageView
+            android:id="@+id/imageV"
+            android:layout_width="200dp"
+            android:layout_height="180dp"
+            android:layout_above="@+id/usernameTV"
+            android:layout_centerHorizontal="true"
+            android:background="#d7d5d5"
+            android:visibility="invisible"/>
+
+        <TextView
+            android:id="@+id/optionalTV"
+            android:layout_width="80dp"
+            android:layout_height="25dp"
+            android:layout_below="@+id/imageV"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="15dp"
+            android:gravity="center"
+            android:text="@string/optional"
+            android:textSize="14sp"
+            android:visibility="invisible"/>
+
+        <TextView
+            android:id="@+id/explanationTV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/imageV"
+            android:layout_alignTop="@+id/imageV"
+            android:gravity="center"
+            android:text="@string/your_first_use"
+            android:textColor="#a3a2a2"
+            android:textSize="19sp"
+            android:visibility="visible"/>
+
+    </RelativeLayout>
+</ScrollView>

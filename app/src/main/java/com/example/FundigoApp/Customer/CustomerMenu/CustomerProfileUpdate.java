@@ -14,7 +14,8 @@ import android.widget.Toast;
 import com.example.FundigoApp.Customer.CustomerDetails;
 import com.example.FundigoApp.GlobalVariables;
 import com.example.FundigoApp.R;
-import com.example.FundigoApp.StaticMethods;
+import com.example.FundigoApp.StaticMethod.FileAndImageMethods;
+import com.example.FundigoApp.StaticMethod.UserDetailsMethod;
 import com.parse.ParseFile;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
@@ -105,7 +106,7 @@ public class CustomerProfileUpdate extends AppCompatActivity {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         try {
             if (requestCode == GlobalVariables.SELECT_PICTURE && resultCode == RESULT_OK && null != data) {
-                Bitmap image = StaticMethods.getImageFromDevice (data, this);
+                Bitmap image = FileAndImageMethods.getImageFromDevice (data, this);
                 customerImg.setImageBitmap (image);
                 customerImg.setVisibility (View.VISIBLE);
                 IMAGE_SELECTED = true;
@@ -117,7 +118,7 @@ public class CustomerProfileUpdate extends AppCompatActivity {
 
     public void getCurrentUserProfile() {
         String phoneNum = GlobalVariables.CUSTOMER_PHONE_NUM;
-        CustomerDetails customerDetails = StaticMethods.getUserDetailsFromParseInMainThreadWithBitmap (phoneNum);
+        CustomerDetails customerDetails = UserDetailsMethod.getUserDetailsFromParseInMainThreadWithBitmap (phoneNum);
         String currentUserName = customerDetails.getCustomerName ();
         if(customerName.getText ().toString ().isEmpty ()){
             customerName.setText (currentUserName);

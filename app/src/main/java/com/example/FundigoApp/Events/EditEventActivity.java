@@ -19,7 +19,8 @@ import android.widget.Toast;
 
 import com.example.FundigoApp.GlobalVariables;
 import com.example.FundigoApp.R;
-import com.example.FundigoApp.StaticMethods;
+import com.example.FundigoApp.StaticMethod.EventDataMethods;
+import com.example.FundigoApp.StaticMethod.FileAndImageMethods;
 import com.google.gson.Gson;
 import com.parse.GetCallback;
 import com.parse.GetDataCallback;
@@ -84,7 +85,7 @@ public class EditEventActivity extends AppCompatActivity implements AdapterView.
         eventObjectId = callingIntent.getStringExtra (GlobalVariables.OBJECTID);
         componentInit ();
         getEvent (eventObjectId);
-        eventInfo = StaticMethods.getEventFromObjID (eventObjectId, GlobalVariables.ALL_EVENTS_DATA);
+        eventInfo = EventDataMethods.getEventFromObjID (eventObjectId, GlobalVariables.ALL_EVENTS_DATA);
     }
 
     public Event getEvent(String eventObjectId) {
@@ -355,7 +356,7 @@ public class EditEventActivity extends AppCompatActivity implements AdapterView.
 
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == GlobalVariables.SELECT_PICTURE && resultCode == RESULT_OK && null != data) {
-            Bitmap image = StaticMethods.getImageFromDevice (data, this);
+            Bitmap image = FileAndImageMethods.getImageFromDevice (data, this);
             img.setImageBitmap (image);
             pictureSelected = true;
         }
@@ -407,7 +408,7 @@ public class EditEventActivity extends AppCompatActivity implements AdapterView.
             public void done(ParseException e) {
                 if (e == null) {
                     Toast.makeText (EditEventActivity.this, "Event saved successfully", Toast.LENGTH_SHORT).show ();
-                    StaticMethods.updateEventInfoDromParseEvent (eventInfo, event);
+                    EventDataMethods.updateEventInfoDromParseEvent (eventInfo, event);
                     finish ();
                 } else {
                     Toast.makeText (EditEventActivity.this, "Not  saved " + e.toString (), Toast.LENGTH_SHORT).show ();

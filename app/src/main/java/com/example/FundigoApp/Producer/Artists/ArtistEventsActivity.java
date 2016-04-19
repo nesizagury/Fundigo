@@ -20,7 +20,8 @@ import com.example.FundigoApp.Events.EventPageActivity;
 import com.example.FundigoApp.Events.EventsListAdapter;
 import com.example.FundigoApp.GlobalVariables;
 import com.example.FundigoApp.R;
-import com.example.FundigoApp.StaticMethods;
+import com.example.FundigoApp.StaticMethod.EventDataMethods;
+import com.example.FundigoApp.StaticMethod.GeneralStaticMethods;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseObject;
@@ -51,8 +52,8 @@ public class ArtistEventsActivity extends Activity implements AdapterView.OnItem
         eventsListView.setAdapter (eventsListAdapter);
         eventsListView.setSelector (new ColorDrawable (Color.TRANSPARENT));
         eventsListView.setOnItemClickListener (this);
-        StaticMethods.filterEventsByArtist (artistName,
-                                                   eventsList);
+        GeneralStaticMethods.filterEventsByArtist (artistName,
+                                                          eventsList);
         eventsListAdapter.notifyDataSetChanged ();
         registerForContextMenu (eventsListView);
     }
@@ -61,16 +62,16 @@ public class ArtistEventsActivity extends Activity implements AdapterView.OnItem
     public void onItemClick(AdapterView<?> av, View view, int i, long l) {
         Bundle b = new Bundle ();
         Intent intent = new Intent (this, EventPageActivity.class);
-        StaticMethods.onEventItemClick (i, eventsList, intent);
+        EventDataMethods.onEventItemClick (i, eventsList, intent);
         intent.putExtras (b);
         startActivity (intent);
     }
 
     @Override
     protected void onActivityResult(final int requestCode, final int resultCode, final Intent data) {
-        StaticMethods.onActivityResult (requestCode,
-                                               data,
-                                               this);
+        GeneralStaticMethods.onActivityResult (requestCode,
+                                                      data,
+                                                      this);
     }
 
     @Override

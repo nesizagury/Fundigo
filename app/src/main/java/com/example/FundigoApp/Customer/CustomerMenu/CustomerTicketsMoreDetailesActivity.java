@@ -10,7 +10,7 @@ import android.widget.TextView;
 
 import com.example.FundigoApp.Events.EventPageActivity;
 import com.example.FundigoApp.R;
-import com.example.FundigoApp.StaticMethods;
+import com.example.FundigoApp.StaticMethod.EventDataMethods;
 import com.example.FundigoApp.Tickets.EventsSeatsInfo;
 
 import java.text.SimpleDateFormat;
@@ -50,7 +50,7 @@ public class CustomerTicketsMoreDetailesActivity extends AppCompatActivity {
                 try {
                     Bundle b = new Bundle ();
                     Intent intent = new Intent (context, EventPageActivity.class);
-                    StaticMethods.onEventItemClick (index, MyEventsTicketsActivity.my_tickets_events_list, intent);
+                    EventDataMethods.onEventItemClick (index, MyEventsTicketsActivity.my_tickets_events_list, intent);
                     intent.putExtras (b);
                     startActivity (intent);
                 } catch (Exception e) {

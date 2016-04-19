@@ -13,7 +13,8 @@ import android.widget.Toast;
 import com.example.FundigoApp.DeepLinkActivity;
 import com.example.FundigoApp.Events.EventInfo;
 import com.example.FundigoApp.R;
-import com.example.FundigoApp.StaticMethods;
+import com.example.FundigoApp.StaticMethod.EventDataMethods;
+import com.example.FundigoApp.StaticMethod.FileAndImageMethods;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
 import java.io.BufferedReader;
@@ -37,7 +38,7 @@ public class EventsGridAdapter extends BaseAdapter {
     public EventsGridAdapter(Context c, List<EventInfo> eventList) {
         this.context = c;
         this.eventList = eventList;
-        loader = StaticMethods.getImageLoader(c);
+        loader = FileAndImageMethods.getImageLoader (c);
     }
 
     @Override
@@ -70,13 +71,15 @@ public class EventsGridAdapter extends BaseAdapter {
         }
         final EventInfo event = eventList.get (i);
 
-        if(event.getPicUrl() != null)
-            loader.displayImage(event.getPicUrl(),eventGridHolder.image);
-        else
-            eventGridHolder.image.setImageResource(R.drawable.pic0);        eventGridHolder.date.setText (event.getDateAsString ());
+        if (event.getPicUrl () != null) {
+            loader.displayImage (event.getPicUrl (), eventGridHolder.image);
+        } else {
+            eventGridHolder.image.setImageResource (R.drawable.event);
+        }
+        eventGridHolder.date.setText (event.getDateAsString ());
         eventGridHolder.name.setText (event.getName ());
         eventGridHolder.tags.setText (event.getTags ());
-        eventGridHolder.price.setText (StaticMethods.getDisplayedEventPrice (event.getPrice ()));
+        eventGridHolder.price.setText (EventDataMethods.getDisplayedEventPrice (event.getPrice ()));
         eventGridHolder.place.setText (event.getDist () + " " + context.getResources ().getString (R.string.km_away));
         checkIfChangeColorToSaveButtton (event, eventGridHolder.saveEvent);
         eventGridHolder.saveEvent.setOnClickListener (new View.OnClickListener () {

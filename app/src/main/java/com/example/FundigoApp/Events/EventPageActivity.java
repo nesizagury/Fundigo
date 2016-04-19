@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.graphics.Bitmap;
 import android.location.Location;
 import android.location.LocationManager;
 import android.net.Uri;
@@ -23,13 +22,15 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.FundigoApp.Chat.ChatActivity;
-import com.example.FundigoApp.Chat.MessagesRoomActivity;
+import com.example.FundigoApp.Chat.MessagesRoomProducerActivity;
 import com.example.FundigoApp.Chat.RealTimeChatActivity;
-import com.example.FundigoApp.Customer.Social.MipoProfile;
 import com.example.FundigoApp.GlobalVariables;
 import com.example.FundigoApp.Producer.ProducerSendPuchActivity;
 import com.example.FundigoApp.R;
-import com.example.FundigoApp.StaticMethods;
+import com.example.FundigoApp.StaticMethod.EventDataMethods;
+import com.example.FundigoApp.StaticMethod.FileAndImageMethods;
+import com.example.FundigoApp.StaticMethod.GPSMethods;
+import com.example.FundigoApp.StaticMethod.GeneralStaticMethods;
 import com.example.FundigoApp.Tickets.EventsSeats;
 import com.example.FundigoApp.Tickets.SelectSeatActivity;
 import com.example.FundigoApp.Tickets.WebBrowserActivity;
@@ -39,8 +40,6 @@ import com.google.zxing.integration.android.IntentResult;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.parse.FindCallback;
 import com.parse.ParseException;
-import com.parse.ParseInstallation;
-import com.parse.ParsePush;
 import com.parse.ParseQuery;
 
 import org.json.JSONException;
@@ -69,7 +68,6 @@ public class EventPageActivity extends Activity implements View.OnClickListener 
     private ImageView iv_chat;
     Button getTicketsButton;
     Intent intent;
-    Button producerPush;
 
     private String date;
     private String eventName;
@@ -78,7 +76,6 @@ public class EventPageActivity extends Activity implements View.OnClickListener 
     private String walking;
     private boolean walkNdrive = false;
     private int walkValue = -1;
-    Bitmap bitmap;
     EventInfo eventInfo;
     String i = "";
 
@@ -90,18 +87,16 @@ public class EventPageActivity extends Activity implements View.OnClickListener 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate (savedInstanceState);
         setContentView (R.layout.activity_event_page);
-        producerPush = (Button) findViewById (R.id.pushButton);
         getTicketsButton = (Button) findViewById (R.id.button);
 
         intent = getIntent ();
         eventInfo = GlobalVariables.ALL_EVENTS_DATA.get
                                                             (intent.getIntExtra ("index", 0));
 
-        producerPush.setOnClickListener (this);
-
         Date currentDate = new Date ();
         Date eventDate = eventInfo.getDate ();
         eventInfo.setIsFutureEvent (eventDate.after (currentDate));
+        saveButton = (ImageView) findViewById (R.id.imageEvenetPageView3);
         if (eventInfo.getPrice ().equals ("FREE")) {
             getTicketsButton.setText ("FUNDIGO");
             getTicketsButton.setClickable (false);
@@ -114,22 +109,11 @@ public class EventPageActivity extends Activity implements View.OnClickListener 
             if (!eventInfo.getPrice ().equals ("FREE")) {
                 getTicketsButton.setText (this.getString (R.string.tickets_status));
             }
-            producerPush.setVisibility (View.VISIBLE);
-            producerPush.setOnClickListener (this);
-            producerPush.setText (getApplicationContext ().getString (R.string.send_push));
+            saveButton.setImageResource (R.drawable.ic_micro_send_push_frame);
         } else {
             if (eventInfo.isFutureEvent () && !eventInfo.getPrice ().equals ("FREE")) {
                 checkIfTicketsLeft ();
             }
-        }
-        if (GlobalVariables.IS_CUSTOMER_REGISTERED_USER) {
-            if (GlobalVariables.userChanels.indexOf (eventInfo.getParseObjectId ()) != -1) {
-                producerPush.setText (getApplicationContext ().getString (R.string.cancel_push));
-            } else {
-                producerPush.setText (getApplicationContext ().getString (R.string.get_push));
-            }
-        } else if(GlobalVariables.IS_CUSTOMER_GUEST) {
-            producerPush.setVisibility (View.GONE);
         }
 
         faceBookUrl = intent.getStringExtra ("fbUrl");//get link from the Intent
@@ -137,7 +121,7 @@ public class EventPageActivity extends Activity implements View.OnClickListener 
         GlobalVariables.deepLink_params = "";
 
         ImageView event_image = (ImageView) findViewById (R.id.eventPage_image);
-        loader = StaticMethods.getImageLoader(this);
+        loader = FileAndImageMethods.getImageLoader (this);
         loader.displayImage (eventInfo.getPicUrl(), event_image);
         date = eventInfo.getDateAsString ();
         TextView event_date = (TextView) findViewById (R.id.eventPage_date);
@@ -154,7 +138,7 @@ public class EventPageActivity extends Activity implements View.OnClickListener 
         if (GlobalVariables.IS_PRODUCER) {
             event_price.setText ("Edit Event");
         } else {
-            event_price.setText (StaticMethods.getDisplayedEventPrice (eventPrice));
+            event_price.setText (EventDataMethods.getDisplayedEventPrice (eventPrice));
         }
         String eventDescription = intent.getStringExtra ("eventInfo");
         TextView event_info = (TextView) findViewById (R.id.eventInfoEventPage);
@@ -183,12 +167,11 @@ public class EventPageActivity extends Activity implements View.OnClickListener 
                 startActivity (intent2);
             }
         });
-        saveButton = (ImageView) findViewById (R.id.imageEvenetPageView3);
         checkIfChangeColorToSaveButtton ();
         String even_addr = eventInfo.getAddress ();
         even_addr = even_addr.replace (",", "");
         even_addr = even_addr.replace (" ", "+");
-        if (GlobalVariables.MY_LOCATION != null && StaticMethods.isLocationEnabled (this)) {
+        if (GlobalVariables.MY_LOCATION != null && GPSMethods.isLocationEnabled (this)) {
             new GetEventDis2 (EventPageActivity.this).execute (
                                                                       "https://maps.googleapis.com/maps/api/distancematrix/json?origins=" +
                                                                               getLocation2 ().getLatitude () +
@@ -251,7 +234,7 @@ public class EventPageActivity extends Activity implements View.OnClickListener 
     }
 
     private void loadMessagesPageProducer() {
-        Intent intent = new Intent (this, MessagesRoomActivity.class);
+        Intent intent = new Intent (this, MessagesRoomProducerActivity.class);
         intent.putExtra ("index", eventInfo.getIndexInFullList ());
         startActivity (intent);
     }
@@ -294,7 +277,13 @@ public class EventPageActivity extends Activity implements View.OnClickListener 
                 alert.show ();
                 break;
             case R.id.imageEvenetPageView3:
-                handleSaveEventClicked (this.intent.getIntExtra ("index", 0));
+                if (GlobalVariables.IS_PRODUCER) {
+                    Intent pushIntent = new Intent (EventPageActivity.this, ProducerSendPuchActivity.class);
+                    pushIntent.putExtra ("id", eventInfo.getParseObjectId ());
+                    startActivity (pushIntent);
+                } else {
+                    handleSaveEventClicked (this.intent.getIntExtra ("index", 0));
+                }
                 break;
             case R.id.imageEvenetPageView5:
                 AlertDialog.Builder builder2 = new AlertDialog.Builder (this);
@@ -311,66 +300,6 @@ public class EventPageActivity extends Activity implements View.OnClickListener 
                 dialog.show ();
                 TextView messageText = (TextView) dialog.findViewById (android.R.id.message);
                 messageText.setGravity (Gravity.CENTER);
-                break;
-            case R.id.pushButton:
-                if (GlobalVariables.IS_PRODUCER) {
-                    Intent pushIntent = new Intent (EventPageActivity.this, ProducerSendPuchActivity.class);
-                    pushIntent.putExtra ("id", eventInfo.getParseObjectId ());
-                    startActivity (pushIntent);
-                }
-                if (GlobalVariables.IS_CUSTOMER_REGISTERED_USER) {
-                    if (GlobalVariables.userChanels.indexOf (eventInfo.getParseObjectId ()) != -1) {
-                        producerPush.setText (getApplicationContext ().getString (R.string.get_push));
-                        ParseInstallation installation = ParseInstallation.getCurrentInstallation ();
-                        ParsePush.unsubscribeInBackground ("a" + eventInfo.getParseObjectId ());
-                        installation.saveInBackground ();
-                        GlobalVariables.userChanels.remove (eventInfo.getParseObjectId ());
-                        ParseQuery<MipoProfile> query = ParseQuery.getQuery ("Profile");
-                        query.whereEqualTo ("number", GlobalVariables.CUSTOMER_PHONE_NUM);
-
-                        query.findInBackground (new FindCallback<MipoProfile> () {
-                            @Override
-                            public void done(List<MipoProfile> objects, ParseException e) {
-                                if (e == null) {
-                                    objects.get (0).removeAll ("Chanels", objects.get (0).getChanels ());
-                                    objects.get (0).saveInBackground ();
-
-                                    objects.get (0).addAllUnique ("Chanels", GlobalVariables.userChanels);
-                                    objects.get (0).saveInBackground ();
-                                } else {
-                                    e.printStackTrace ();
-                                }
-                            }
-
-                        });
-
-                    } else {
-                        producerPush.setText (getApplicationContext ().getString (R.string.cancel_push));
-                        ParseInstallation installation = ParseInstallation.getCurrentInstallation ();
-                        ParsePush.subscribeInBackground ("a" + eventInfo.getParseObjectId ());
-                        installation.saveInBackground ();
-                        GlobalVariables.userChanels.add (eventInfo.getParseObjectId ());
-
-                        ParseQuery<MipoProfile> query = ParseQuery.getQuery ("Profile");
-                        query.whereEqualTo ("number", GlobalVariables.CUSTOMER_PHONE_NUM);
-                        query.findInBackground (new FindCallback<MipoProfile> () {
-                            @Override
-                            public void done(List<MipoProfile> objects, ParseException e) {
-                                if (e == null) {
-                                    if (objects.get (0).getChanels () != null) {
-                                        objects.get (0).getChanels ().removeAll ((objects.get (0).getChanels ()));
-                                        objects.get (0).saveInBackground ();
-                                    }
-                                    objects.get (0).addAllUnique ("Chanels", GlobalVariables.userChanels);
-                                    objects.get (0).saveInBackground ();
-                                } else {
-                                    e.printStackTrace ();
-                                }
-                            }
-
-                        });
-                    }
-                }
                 break;
         }
     }
@@ -426,9 +355,9 @@ public class EventPageActivity extends Activity implements View.OnClickListener 
             Toast.makeText (EventPageActivity.this, R.string.scan_didnt_finish, Toast.LENGTH_SHORT).show ();
         }
         if (data != null && requestCode == GlobalVariables.REQUEST_CODE_MY_PICK) {
-            StaticMethods.onActivityResult (requestCode,
-                                                   data,
-                                                   this);
+            GeneralStaticMethods.onActivityResult (requestCode,
+                                                          data,
+                                                          this);
         }
     }
 
@@ -445,11 +374,11 @@ public class EventPageActivity extends Activity implements View.OnClickListener 
 
     public void handleSaveEventClicked(int index) {
         EventInfo event = GlobalVariables.ALL_EVENTS_DATA.get (index);
-        StaticMethods.handleSaveEventClicked (event,
-                                                     saveButton,
-                                                     this.getApplicationContext (),
-                                                     R.mipmap.whsavedd,
-                                                     R.mipmap.wh);
+        GeneralStaticMethods.handleSaveEventClicked (event,
+                                                            saveButton,
+                                                            this.getApplicationContext (),
+                                                            R.mipmap.whsavedd,
+                                                            R.mipmap.wh);
     }
 
     public boolean dialogForGuestToRegister() {

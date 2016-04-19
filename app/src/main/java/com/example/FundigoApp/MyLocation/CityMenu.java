@@ -7,7 +7,7 @@ import android.util.Log;
 import com.example.FundigoApp.Events.EventInfo;
 import com.example.FundigoApp.GlobalVariables;
 import com.example.FundigoApp.MainActivity;
-import com.example.FundigoApp.StaticMethods;
+import com.example.FundigoApp.StaticMethod.GPSMethods;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -39,7 +39,7 @@ public class CityMenu {
 
     public void getCustomerLocation() {
         // not Equal to Null and Location not changed
-        if (GlobalVariables.MY_LOCATION != null && StaticMethods.isLocationEnabled (context)) {
+        if (GlobalVariables.MY_LOCATION != null && GPSMethods.isLocationEnabled (context)) {
             GPS_ENABLE = true;
             customerDeviceLocation = new Location (GlobalVariables.MY_LOCATION);
             getSortedListByDistanceFromDevice ();

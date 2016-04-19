@@ -38,7 +38,8 @@
                 android:layout_marginLeft="10dp"
                 android:text="0"
                 android:textColor="#000000"
-                android:textSize="23sp"/>
+                android:textSize="23sp"
+                android:layout_gravity="center"/>
         </LinearLayout>
 
         <LinearLayout
@@ -51,6 +52,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentStart="true"
+                android:layout_alignParentLeft="true"
                 android:layout_marginLeft="10dp"
                 android:text="Number Tickets Sold"
                 android:textSize="23sp"/>
@@ -62,7 +64,8 @@
                 android:layout_marginLeft="10dp"
                 android:text="0"
                 android:textColor="#000000"
-                android:textSize="23sp"/>
+                android:textSize="23sp"
+                android:layout_gravity="center"/>
         </LinearLayout>
 
         <LinearLayout
@@ -85,7 +88,8 @@
                 android:layout_marginLeft="10dp"
                 android:text="0"
                 android:textColor="#000000"
-                android:textSize="23sp"/>
+                android:textSize="23sp"
+                android:layout_gravity="center"/>
 
         </LinearLayout>
 
@@ -109,7 +113,8 @@
                 android:layout_marginLeft="10dp"
                 android:text="0"
                 android:textColor="#000000"
-                android:textSize="23sp"/>
+                android:textSize="23sp"
+                android:layout_gravity="center"/>
         </LinearLayout>
 
         <LinearLayout
@@ -122,7 +127,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
-                android:text="Total Tickets \nPotantial Income"
+                android:text="Potential Total \nIncome"
                 android:textSize="23sp"/>
 
             <TextView
@@ -132,7 +137,8 @@
                 android:layout_marginLeft="10dp"
                 android:text="0"
                 android:textColor="#000000"
-                android:textSize="23sp"/>
+                android:textSize="23sp"
+                android:layout_gravity="center"/>
         </LinearLayout>
 
         <LinearLayout
@@ -152,11 +158,11 @@
                 android:id="@+id/numberTicketsUpcoming"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="15dp"
                 android:layout_marginLeft="10dp"
                 android:text="0"
                 android:textColor="#000000"
-                android:textSize="23sp"/>
+                android:textSize="23sp"
+                android:layout_gravity="center"/>
         </LinearLayout>
 
         <LinearLayout
@@ -169,7 +175,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
-                android:text="Number Of\nUpcoming Events"
+                android:text="Number Of Upcoming\nEvents"
                 android:textSize="23sp"/>
 
             <TextView
@@ -179,7 +185,8 @@
                 android:layout_marginLeft="10dp"
                 android:text="0"
                 android:textColor="#000000"
-                android:textSize="23sp"/>
+                android:textSize="23sp"
+                android:layout_gravity="center"/>
         </LinearLayout>
 
         <LinearLayout
@@ -203,7 +210,8 @@
                 android:layout_marginLeft="10dp"
                 android:text="0"
                 android:textColor="#000000"
-                android:textSize="23sp"/>
+                android:textSize="23sp"
+                android:layout_gravity="center"/>
         </LinearLayout>
 
         <Button
@@ -212,8 +220,8 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/upcomingTicketPriceAvgTv"
             android:layout_marginTop="30dp"
-            android:layout_toEndOf="@+id/incomeSoFarTV"
             android:onClick="goToEvents"
-            android:text="Events"/>
+            android:text="Events"
+            android:layout_gravity="center_horizontal"/>
     </LinearLayout>
 </ScrollView>

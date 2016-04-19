@@ -25,19 +25,22 @@ import com.example.FundigoApp.Events.EventPageActivity;
 import com.example.FundigoApp.Events.EventsListAdapter;
 import com.example.FundigoApp.FilterPageActivity;
 import com.example.FundigoApp.GlobalVariables;
-import com.example.FundigoApp.MainActivity;
 import com.example.FundigoApp.MyLocation.CityMenu;
 import com.example.FundigoApp.R;
 import com.example.FundigoApp.SearchActivity;
-import com.example.FundigoApp.StaticMethods;
-import com.example.FundigoApp.StaticMethods.GetEventsDataCallback;
-import com.example.FundigoApp.StaticMethods.GpsICallback;
+import com.example.FundigoApp.StaticMethod.EventDataMethods;
+import com.example.FundigoApp.StaticMethod.GPSMethods;
+import com.example.FundigoApp.StaticMethod.GPSMethods.GpsICallback;
+import com.example.FundigoApp.StaticMethod.GeneralStaticMethods;
+import com.example.FundigoApp.StaticMethod.EventDataMethods.GetEventsDataCallback;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class SavedEventActivity extends AppCompatActivity implements View.OnClickListener, AdapterView.OnItemClickListener, GetEventsDataCallback, GpsICallback {
-    static ArrayList<EventInfo> savedEventsList = new ArrayList<> ();
+public class SavedEventActivity extends AppCompatActivity implements View.OnClickListener,
+                                                                             AdapterView.OnItemClickListener,
+                                                                             GetEventsDataCallback,
+                                                                             GpsICallback {
     static ArrayList<EventInfo> filteredSavedEventsList = new ArrayList<> ();
 
     ListView list_view;
@@ -79,12 +82,12 @@ public class SavedEventActivity extends AppCompatActivity implements View.OnClic
 
         if (GlobalVariables.ALL_EVENTS_DATA.size () == 0) {
             Intent intent = new Intent (this, EventPageActivity.class);
-            StaticMethods.downloadEventsData (this, null, this.getApplicationContext (), intent);
+            EventDataMethods.downloadEventsData (this, null, this.getApplicationContext (), intent);
         } else {
             inflateCityMenu ();
             getSavedEventsFromJavaList ();
             if (GlobalVariables.MY_LOCATION == null) {
-                StaticMethods.updateDeviceLocationGPS (this.context, this);
+                GPSMethods.updateDeviceLocationGPS (this.context, this);
             }
         }
         GlobalVariables.SAVED_ACTIVITY_RUNNING = true;
@@ -96,26 +99,29 @@ public class SavedEventActivity extends AppCompatActivity implements View.OnClic
         if (GlobalVariables.ALL_EVENTS_DATA.size () != 0) {
             if (GlobalVariables.USER_CHOSEN_CITY_MANUALLY) {
                 ArrayList<EventInfo> tempEventsListFiltered =
-                        StaticMethods.filterByCityAndFilterName (
-                                                                        GlobalVariables.namesCity[GlobalVariables.indexCityChosen],
-                                                                        GlobalVariables.CURRENT_FILTER_NAME,
-                                                                        GlobalVariables.ALL_EVENTS_DATA);
+                        GeneralStaticMethods.filterByCityAndFilterName (
+                                                                               GlobalVariables.namesCity[GlobalVariables.indexCityChosen],
+                                                                               GlobalVariables.CURRENT_FILTER_NAME,
+                                                                               GlobalVariables.ALL_EVENTS_DATA);
                 filteredSavedEventsList.clear ();
                 filteredSavedEventsList.addAll (getSavedEventsFromList (tempEventsListFiltered));
                 eventsListAdapter.notifyDataSetChanged ();
                 if (GlobalVariables.CITY_GPS != null &&
                             !GlobalVariables.CITY_GPS.isEmpty () &&
-                            GlobalVariables.namesCity[GlobalVariables.indexCityChosen].equals (GlobalVariables.CITY_GPS)) {
+                            GlobalVariables.namesCity[GlobalVariables.indexCityChosen].equals (GlobalVariables.CITY_GPS) &&
+                            GPSMethods.getCityIndexFromName (GlobalVariables.CITY_GPS) >= 0) {
                     currentCityButton.setText (GlobalVariables.namesCity[GlobalVariables.indexCityChosen] + "(GPS)");
                 } else {
                     currentCityButton.setText (GlobalVariables.namesCity[GlobalVariables.indexCityChosen]);
                 }
-            } else if (GlobalVariables.CITY_GPS != null && !GlobalVariables.CITY_GPS.isEmpty ()) {
+            } else if (GlobalVariables.CITY_GPS != null &&
+                               !GlobalVariables.CITY_GPS.isEmpty () &&
+                               GPSMethods.getCityIndexFromName (GlobalVariables.CITY_GPS) >= 0) {
                 ArrayList<EventInfo> tempEventsListFiltered =
-                        StaticMethods.filterByCityAndFilterName (
-                                                                        GlobalVariables.CITY_GPS,
-                                                                        GlobalVariables.CURRENT_FILTER_NAME,
-                                                                        GlobalVariables.ALL_EVENTS_DATA);
+                        GeneralStaticMethods.filterByCityAndFilterName (
+                                                                               GlobalVariables.CITY_GPS,
+                                                                               GlobalVariables.CURRENT_FILTER_NAME,
+                                                                               GlobalVariables.ALL_EVENTS_DATA);
                 filteredSavedEventsList.clear ();
                 filteredSavedEventsList.addAll (getSavedEventsFromList (tempEventsListFiltered));
                 eventsListAdapter.notifyDataSetChanged ();
@@ -128,9 +134,9 @@ public class SavedEventActivity extends AppCompatActivity implements View.OnClic
                     }
                 }
                 filteredSavedEventsList.clear ();
-                if(GlobalVariables.CURRENT_FILTER_NAME != null) {
-                    tempEventsList = StaticMethods.filterByFilterName (GlobalVariables.CURRENT_FILTER_NAME,
-                                                                                               tempEventsList);
+                if (GlobalVariables.CURRENT_FILTER_NAME != null) {
+                    tempEventsList = GeneralStaticMethods.filterByFilterName (GlobalVariables.CURRENT_FILTER_NAME,
+                                                                                     tempEventsList);
                 }
                 filteredSavedEventsList.addAll (getSavedEventsFromList (tempEventsList));
                 eventsListAdapter.notifyDataSetChanged ();
@@ -144,16 +150,22 @@ public class SavedEventActivity extends AppCompatActivity implements View.OnClic
             GlobalVariables.cityMenuInstance = new CityMenu (GlobalVariables.ALL_EVENTS_DATA, this);
             GlobalVariables.namesCity = GlobalVariables.cityMenuInstance.getCityNames ();
             inflateCityMenu ();
-            if (!GlobalVariables.USER_CHOSEN_CITY_MANUALLY) {
-                ArrayList<EventInfo> tempEventsListFiltered =
-                        StaticMethods.filterByCityAndFilterName (
-                                                                        GlobalVariables.CITY_GPS,
-                                                                        GlobalVariables.CURRENT_FILTER_NAME,
-                                                                        GlobalVariables.ALL_EVENTS_DATA);
-                filteredSavedEventsList.clear ();
-                filteredSavedEventsList.addAll (getSavedEventsFromList (tempEventsListFiltered));
-                eventsListAdapter.notifyDataSetChanged ();
-                currentCityButton.setText (GlobalVariables.CITY_GPS + "(GPS)");
+            int indexCityGps = GPSMethods.getCityIndexFromName (GlobalVariables.CITY_GPS);
+            if (indexCityGps >= 0) {
+                popup.getMenu ().getItem (GlobalVariables.indexCityGPS).setTitle (GlobalVariables.namesCity[GlobalVariables.indexCityGPS]);
+                GlobalVariables.indexCityGPS = indexCityGps;
+                popup.getMenu ().getItem (GlobalVariables.indexCityGPS).setTitle (GlobalVariables.CITY_GPS + "(GPS)");
+                if (!GlobalVariables.USER_CHOSEN_CITY_MANUALLY) {
+                    ArrayList<EventInfo> tempEventsListFiltered =
+                            GeneralStaticMethods.filterByCityAndFilterName (
+                                                                                   GlobalVariables.CITY_GPS,
+                                                                                   GlobalVariables.CURRENT_FILTER_NAME,
+                                                                                   GlobalVariables.ALL_EVENTS_DATA);
+                    filteredSavedEventsList.clear ();
+                    filteredSavedEventsList.addAll (getSavedEventsFromList (tempEventsListFiltered));
+                    eventsListAdapter.notifyDataSetChanged ();
+                    currentCityButton.setText (GlobalVariables.CITY_GPS + "(GPS)");
+                }
             }
         }
     }
@@ -163,7 +175,7 @@ public class SavedEventActivity extends AppCompatActivity implements View.OnClic
         inflateCityMenu ();
         getSavedEventsFromJavaList ();
         if (GlobalVariables.MY_LOCATION == null) {
-            StaticMethods.updateDeviceLocationGPS (this.getApplicationContext (), this);
+            GPSMethods.updateDeviceLocationGPS (this.getApplicationContext (), this);
         }
     }
 
@@ -174,33 +186,37 @@ public class SavedEventActivity extends AppCompatActivity implements View.OnClic
                 tempEventsList.add (GlobalVariables.ALL_EVENTS_DATA.get (i));
             }
         }
-        if(GlobalVariables.CURRENT_FILTER_NAME != null) {
-            tempEventsList = StaticMethods.filterByFilterName (GlobalVariables.CURRENT_FILTER_NAME,
-                                                                      tempEventsList);
+        if (GlobalVariables.CURRENT_FILTER_NAME != null) {
+            tempEventsList = GeneralStaticMethods.filterByFilterName (GlobalVariables.CURRENT_FILTER_NAME,
+                                                                             tempEventsList);
         }
         filteredSavedEventsList.clear ();
         filteredSavedEventsList.addAll (getSavedEventsFromList (tempEventsList));
         eventsListAdapter.notifyDataSetChanged ();
         if (GlobalVariables.USER_CHOSEN_CITY_MANUALLY) {
             ArrayList<EventInfo> tempEventsListFiltered =
-                    StaticMethods.filterByCityAndFilterName (
-                                                                    GlobalVariables.namesCity[GlobalVariables.indexCityChosen],
-                                                                    GlobalVariables.CURRENT_FILTER_NAME,
-                                                                    GlobalVariables.ALL_EVENTS_DATA);
+                    GeneralStaticMethods.filterByCityAndFilterName (
+                                                                           GlobalVariables.namesCity[GlobalVariables.indexCityChosen],
+                                                                           GlobalVariables.CURRENT_FILTER_NAME,
+                                                                           GlobalVariables.ALL_EVENTS_DATA);
             filteredSavedEventsList.clear ();
             filteredSavedEventsList.addAll (getSavedEventsFromList (tempEventsListFiltered));
             eventsListAdapter.notifyDataSetChanged ();
-            if (GlobalVariables.CITY_GPS != null && GlobalVariables.namesCity[GlobalVariables.indexCityChosen].equals (GlobalVariables.CITY_GPS)) {
+            if (GlobalVariables.CITY_GPS != null &&
+                        GlobalVariables.namesCity[GlobalVariables.indexCityChosen].equals (GlobalVariables.CITY_GPS) &&
+                        GPSMethods.getCityIndexFromName (GlobalVariables.CITY_GPS) >= 0) {
                 currentCityButton.setText (GlobalVariables.namesCity[GlobalVariables.indexCityChosen] + "(GPS)");
             } else {
                 currentCityButton.setText (GlobalVariables.namesCity[GlobalVariables.indexCityChosen]);
             }
-        } else if (GlobalVariables.CITY_GPS != null && !GlobalVariables.CITY_GPS.isEmpty ()) {
+        } else if (GlobalVariables.CITY_GPS != null &&
+                           !GlobalVariables.CITY_GPS.isEmpty () &&
+                           GPSMethods.getCityIndexFromName (GlobalVariables.CITY_GPS) >= 0) {
             ArrayList<EventInfo> tempEventsListFiltered =
-                    StaticMethods.filterByCityAndFilterName (
-                                                                    GlobalVariables.CITY_GPS,
-                                                                    GlobalVariables.CURRENT_FILTER_NAME,
-                                                                    GlobalVariables.ALL_EVENTS_DATA);
+                    GeneralStaticMethods.filterByCityAndFilterName (
+                                                                           GlobalVariables.CITY_GPS,
+                                                                           GlobalVariables.CURRENT_FILTER_NAME,
+                                                                           GlobalVariables.ALL_EVENTS_DATA);
             filteredSavedEventsList.clear ();
             filteredSavedEventsList.addAll (getSavedEventsFromList (tempEventsListFiltered));
             eventsListAdapter.notifyDataSetChanged ();
@@ -213,9 +229,9 @@ public class SavedEventActivity extends AppCompatActivity implements View.OnClic
         popup.getMenuInflater ().inflate (R.menu.popup_city, popup.getMenu ());
 
         if (GlobalVariables.namesCity.length == 0) {
-            loadCityNamesToPopUp (true);
+            loadCityNamesToPopUp ();
         } else {
-            loadCityNamesToPopUp (false);
+            loadCityNamesToPopUp ();
         }
         currentCityButton.setOnClickListener (new View.OnClickListener () {
             @Override
@@ -227,16 +243,17 @@ public class SavedEventActivity extends AppCompatActivity implements View.OnClic
                         GlobalVariables.CURRENT_CITY_NAME = item.getTitle ().toString ();
                         if (GlobalVariables.CITY_GPS != null &&
                                     !GlobalVariables.CITY_GPS.isEmpty () &&
-                                    item.getTitle ().equals (GlobalVariables.CITY_GPS)) {
+                                    item.getTitle ().equals (GlobalVariables.CITY_GPS) &&
+                                    GPSMethods.getCityIndexFromName (GlobalVariables.CITY_GPS) >= 0) {
                             currentCityButton.setText (item.getTitle () + "(GPS)");
                         } else {
                             currentCityButton.setText (item.getTitle ());
                         }
                         ArrayList<EventInfo> tempEventsListFiltered =
-                                StaticMethods.filterByCityAndFilterName (
-                                                                                GlobalVariables.namesCity[GlobalVariables.indexCityChosen],
-                                                                                GlobalVariables.CURRENT_FILTER_NAME,
-                                                                                GlobalVariables.ALL_EVENTS_DATA);
+                                GeneralStaticMethods.filterByCityAndFilterName (
+                                                                                       GlobalVariables.namesCity[GlobalVariables.indexCityChosen],
+                                                                                       GlobalVariables.CURRENT_FILTER_NAME,
+                                                                                       GlobalVariables.ALL_EVENTS_DATA);
                         filteredSavedEventsList.clear ();
                         filteredSavedEventsList.addAll (getSavedEventsFromList (tempEventsListFiltered));
                         eventsListAdapter.notifyDataSetChanged ();
@@ -249,15 +266,17 @@ public class SavedEventActivity extends AppCompatActivity implements View.OnClic
         });
     }
 
-    private void loadCityNamesToPopUp(boolean loadCityList) {
+    private void loadCityNamesToPopUp() {
         try {
             boolean foundCity = true;
             if (!GlobalVariables.CURRENT_CITY_NAME.isEmpty ()) {
                 foundCity = false;
             }
             for (int i = 0; i < GlobalVariables.namesCity.length; i++) {
-                if (i == GlobalVariables.indexCityGPS && GlobalVariables.CITY_GPS != null &&
-                            !GlobalVariables.CITY_GPS.isEmpty ()) {
+                if (i == GlobalVariables.indexCityGPS &&
+                            GlobalVariables.CITY_GPS != null &&
+                            !GlobalVariables.CITY_GPS.isEmpty () &&
+                            GPSMethods.getCityIndexFromName (GlobalVariables.CITY_GPS) >= 0) {
                     popup.getMenu ().getItem (i).setTitle (GlobalVariables.namesCity[i] + "(GPS)");
                 } else {
                     popup.getMenu ().getItem (i).setTitle (GlobalVariables.namesCity[i]);
@@ -276,7 +295,8 @@ public class SavedEventActivity extends AppCompatActivity implements View.OnClic
             if (GlobalVariables.USER_CHOSEN_CITY_MANUALLY) {
                 currentCityButton.setText (popup.getMenu ().getItem (GlobalVariables.indexCityChosen).getTitle ());
             } else if (GlobalVariables.CITY_GPS != null &&
-                               !GlobalVariables.CITY_GPS.isEmpty ()) {
+                               !GlobalVariables.CITY_GPS.isEmpty () &&
+                               GPSMethods.getCityIndexFromName (GlobalVariables.CITY_GPS) >= 0) {
                 currentCityButton.setText (GlobalVariables.CITY_GPS + "(GPS)");
             } else {
                 currentCityButton.setText (popup.getMenu ().getItem (0).getTitle ());
@@ -311,8 +331,6 @@ public class SavedEventActivity extends AppCompatActivity implements View.OnClic
     public void onClick(View v) {
         Intent newIntent = null;
         if (v.getId () == eventTab.getId ()) {
-            newIntent = new Intent (this, MainActivity.class);
-            startActivity (newIntent);
             finish ();
         } else if (v.getId () == realTimeTab.getId ()) {
             newIntent = new Intent (this, RealTimeActivity.class);
@@ -341,16 +359,16 @@ public class SavedEventActivity extends AppCompatActivity implements View.OnClic
     public void onItemClick(AdapterView<?> av, View view, int i, long l) {
         Bundle b = new Bundle ();
         Intent intent = new Intent (this, EventPageActivity.class);
-        StaticMethods.onEventItemClick (i, filteredSavedEventsList, intent);
+        EventDataMethods.onEventItemClick (i, filteredSavedEventsList, intent);
         intent.putExtras (b);
         startActivity (intent);
     }
 
     @Override
     protected void onActivityResult(final int requestCode, final int resultCode, final Intent data) {
-        StaticMethods.onActivityResult (requestCode,
-                                               data,
-                                               this);
+        GeneralStaticMethods.onActivityResult (requestCode,
+                                                      data,
+                                                      this);
     }
 
     public void createEvent(View view) {

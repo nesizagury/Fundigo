@@ -11,24 +11,23 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:weightSum="400.0"
-
-        android:layout_alignParentStart="true">
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true">
 
         <ImageView
             android:id="@+id/profileImage_rt_chat"
             android:layout_width="0dip"
-            android:layout_height="55dip"
+            android:layout_height="55dp"
             android:layout_weight="100"
             android:adjustViewBounds="false"
             android:background="#3293CD"
             android:clickable="true"
-            android:scaleType="fitXY"
-            android:src="@drawable/pic0"/>
+            android:scaleType="fitXY"/>
 
         <Button
             android:id="@+id/ProfileName_rt_chat"
-            android:layout_width="0dip"
-            android:layout_height="55dip"
+            android:layout_width="0dp"
+            android:layout_height="55dp"
             android:layout_weight="300"
             android:background="#3293CD"
             android:text="Big Fassion Event - Real Time Chat"
@@ -59,7 +58,8 @@
         android:paddingLeft="0dp"
         android:paddingRight="0dp"
         android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true">
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true">
         <EditText
             android:id="@+id/etMessage_rt_Chat"
             android:layout_width="match_parent"

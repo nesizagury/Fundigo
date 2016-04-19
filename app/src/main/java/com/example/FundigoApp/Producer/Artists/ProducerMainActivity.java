@@ -15,8 +15,8 @@ import android.widget.ListView;
 import com.example.FundigoApp.Events.EventPageActivity;
 import com.example.FundigoApp.GlobalVariables;
 import com.example.FundigoApp.R;
-import com.example.FundigoApp.StaticMethods;
-import com.example.FundigoApp.StaticMethods.GetEventsDataCallback;
+import com.example.FundigoApp.StaticMethod.EventDataMethods;
+import com.example.FundigoApp.StaticMethod.EventDataMethods.GetEventsDataCallback;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,10 +44,9 @@ public class ProducerMainActivity extends Fragment implements GetEventsDataCallb
             }
         });
 
-        if (GlobalVariables.ALL_EVENTS_DATA.size () == 0) {
-            Intent intent = new Intent (this.getActivity (), EventPageActivity.class);
-            StaticMethods.downloadEventsData (this, GlobalVariables.PRODUCER_PARSE_OBJECT_ID, this.getContext (), intent);
-        }
+        Intent intent = new Intent (this.getActivity (), EventPageActivity.class);
+        EventDataMethods.downloadEventsData (this, GlobalVariables.PRODUCER_PARSE_OBJECT_ID, this.getContext (), intent);
+
         artistListView.setOnItemClickListener (new AdapterView.OnItemClickListener () {
             public void onItemClick(AdapterView<?> parent, View view,
                                     int position, long id) {
@@ -61,7 +60,7 @@ public class ProducerMainActivity extends Fragment implements GetEventsDataCallb
 
     @Override
     public void eventDataCallback() {
-        StaticMethods.uploadArtistData (artist_list);
+        EventDataMethods.uploadArtistData (artist_list);
         artistAdapter.notifyDataSetChanged ();
     }
 
@@ -71,7 +70,7 @@ public class ProducerMainActivity extends Fragment implements GetEventsDataCallb
         if(GlobalVariables.refreshArtistsList){
             GlobalVariables.refreshArtistsList = false;
             Intent intent = new Intent (this.getActivity (), EventPageActivity.class);
-            StaticMethods.downloadEventsData (this, GlobalVariables.PRODUCER_PARSE_OBJECT_ID, this.getContext (), intent);
+            EventDataMethods.downloadEventsData (this, GlobalVariables.PRODUCER_PARSE_OBJECT_ID, this.getContext (), intent);
         }
     }
 }

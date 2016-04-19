@@ -18,7 +18,8 @@ import com.example.FundigoApp.Customer.CustomerDetails;
 import com.example.FundigoApp.Events.EventInfo;
 import com.example.FundigoApp.GlobalVariables;
 import com.example.FundigoApp.R;
-import com.example.FundigoApp.StaticMethods;
+import com.example.FundigoApp.StaticMethod.FileAndImageMethods;
+import com.example.FundigoApp.StaticMethod.UserDetailsMethod;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.parse.FindCallback;
 import com.parse.ParseACL;
@@ -45,7 +46,7 @@ public class ChatActivity extends Activity {
     String eventName;
     String customerPhone;
     EventInfo eventInfo;
-    Room room;
+    private Room room;
     ImageLoader loader;
 
     @Override
@@ -53,7 +54,7 @@ public class ChatActivity extends Activity {
         super.onCreate (savedInstanceState);
         this.requestWindowFeature (Window.FEATURE_NO_TITLE);
         setContentView (R.layout.activity_main_chat);
-        loader = StaticMethods.getImageLoader(this);
+        loader = FileAndImageMethods.getImageLoader (this);
         profileImage = (ImageView) findViewById (R.id.profileImage_chat);
         profileName = (Button) findViewById (R.id.ProfileName_chat);
         profileFaceBook = (Button) findViewById (R.id.ProfileFacebook_chat);
@@ -62,8 +63,10 @@ public class ChatActivity extends Activity {
         customerPhone = intent.getStringExtra ("customer_phone");
 
         eventInfo = GlobalVariables.ALL_EVENTS_DATA.get (eventIndex);
-        room = getRoomObject ();
-        eventName = eventInfo.getName ();
+        if(room == null) {
+            room = getRoomObject ();
+        }        
+		eventName = eventInfo.getName ();
         if (GlobalVariables.IS_PRODUCER) {
             profileName.setText (customerPhone);
             updateUserDetailsFromParse ();
@@ -80,11 +83,10 @@ public class ChatActivity extends Activity {
         mAdapter = new MessageAdapter (this, mMessageChatsList, false);
 
         chatListView.setAdapter (mAdapter);
-        handler.postDelayed (runnable, 0);
     }
 
     private void updateUserDetailsFromParse() {
-        CustomerDetails customerDetails = StaticMethods.getUserDetailsFromParseInMainThread (customerPhone);
+        CustomerDetails customerDetails = UserDetailsMethod.getUserDetailsFromParseInMainThread (customerPhone);
         if (customerDetails.getFaceBookId () == null || customerDetails.getFaceBookId ().isEmpty ()) {
             profileFaceBook.setText ("");
             profileFaceBook.setClickable (false);
@@ -238,12 +240,16 @@ public class ChatActivity extends Activity {
     public void onPause() {
         super.onPause ();
         handler.removeCallbacks (runnable);
+        room = null;
     }
 
     @Override
-    public void onRestart() {
-        super.onRestart ();
-        handler.postDelayed (runnable, 300);
+    public void onResume() {
+        super.onResume ();
+        if(room == null) {
+            room = getRoomObject ();
+        }
+        handler.postDelayed (runnable, 0);
     }
 
     public void oOpenFacebookIntent(View view) {

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name"></string>
+    <string name="app_name">FUNDIGO</string>
 
     <string name="filterPageName">Filter</string>
 
@@ -131,7 +131,7 @@
         <item>Fashion</item>
         <item>Education</item>
         <item>Government</item>
-        <item>Home&amp;Lifestyle</item>
+        <item>Home and LifeStyle</item>
         <item>Music</item>
     </string-array>
 
@@ -171,7 +171,7 @@
     <string name="artist">Artis</string>
     <string name="description">Description</string>
     <string name="next">Next</string>
-    <string name="user_name">User Name:</string>
+    <string name="user_name">Username:</string>
     <string name="select_picture">Select Picture:</string>
 
     <string name="image_upload">Image Upload</string>
@@ -180,7 +180,7 @@
     <string name="app_pafw">App Page</string>
     <string name="web_page">Web Page</string>
     <string name="mipo_party_real_time">Mipo Party Real Time</string>
-    <string name="gust_entered">Gust\'s Entered:</string>
+    <string name="gust_entered">Guest\'s Entered:</string>
     <string name="qr_scanner">QR - Scanner</string>
     <string name="push">Push:</string>
     v
@@ -192,7 +192,7 @@
     <string name="events_stats">Events Stats</string>
     <string name="list_of_my_events_and_tickets">List of My Events and Tickets</string>
     <string name="enter_phone_number_hear">Enter Phone Number Hear</string>
-    <string name="start_downlaod">Start Downlaod</string>
+    <string name="start_downlaod">Start Download</string>
     <string name="add">Add</string>
     <string name="create_new_producer">Create New Producer</string>
     <string name="events">Events</string>
@@ -205,7 +205,7 @@
     <string name="phone_number">Phone Number:</string>
     <string name="price">Price:</string>
     <string name="new_text">New Text</string>
-    <string name="massage">Massage</string>
+    <string name="massage">Message</string>
     <string name="event_name">Event Name</string>
     <string name="date">Date</string>
     <string name="go_to_event">Go To Event</string>
@@ -217,7 +217,7 @@
     <string name="email">Email</string>
     <string name="password">Password</string>
     <string name="finish_reistration">Finish Reistration</string>
-    <string name="create_your_fundigo_account">Create Your Funfigo Account</string>
+    <string name="create_your_fundigo_account">Create Your Fundigo Account</string>
     <string name="insert_image">Insert Image</string>
     <string name="signup">Signup</string>
     <string name="upload">Upload</string>

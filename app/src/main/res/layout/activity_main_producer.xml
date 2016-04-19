@@ -3,7 +3,7 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <RelativeLayout
+    <TableRow
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <ImageView
@@ -17,7 +17,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/qr_text"
-            android:layout_toEndOf="@+id/qr_scan_produ"
             android:text="@string/scan_customer_qr"
             android:textAppearance="@android:style/TextAppearance.Large"
             android:padding="10dp"
@@ -25,7 +24,7 @@
             />
 
 
-    </RelativeLayout>
+    </TableRow>
 
     <ListView
         android:layout_width="wrap_content"

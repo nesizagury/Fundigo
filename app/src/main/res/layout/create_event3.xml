@@ -1,165 +1,174 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="match_parent"
-              xmlns:app="http://schemas.android.com/apk/res-auto"
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
-              android:layout_height="match_parent"
-              android:orientation="vertical">
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                  xmlns:app="http://schemas.android.com/apk/res-auto"
+                  android:layout_width="match_parent"
 
+                  android:layout_height="match_parent"
+                  android:orientation="vertical">
 
-
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:orientation="horizontal">
         <LinearLayout
-            android:layout_width="0dp"
-            android:layout_gravity="bottom"
-            android:orientation="vertical"
-            android:layout_weight="1"
-            android:layout_height="wrap_content">
-            <TextView
-                android:id="@+id/tv_capacity"
-                android:layout_width="wrap_content"
-                android:layout_height="0dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
                 android:layout_weight="1"
-                android:text="@string/hall_capacity" />
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="0dp"
-                android:textSize="10sp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tv_capacity"
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:text="@string/hall_capacity"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:text="(Optional)"
+                    android:textSize="10sp"/>
+            </LinearLayout>
+
+
+            <EditText
+                android:id="@+id/et_capacity"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:imeActionLabel="Done"
+                android:inputType="number"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
                 android:layout_weight="1"
-                android:text="(Optional)" />
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tv_parking"
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:text="@string/parking"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:text="(Optional)"
+                    android:textSize="10sp"/>
+            </LinearLayout>
+
+
+            <EditText
+                android:id="@+id/et_parking"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="3"
+                android:ems="10"
+                android:imeActionLabel="Done"
+                android:inputType="number"/>
+        </LinearLayout>
+
+        <fr.ganfra.materialspinner.MaterialSpinner
+            android:id="@+id/filterSpinner"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            app:ms_alignLabels="false"
+            app:ms_arrowColor="@color/colorPrimary"
+            app:ms_arrowSize="16dp"
+            app:ms_baseColor="@color/colorPrimary"
+            app:ms_enableErrorLabel="false"
+            app:ms_enableFloatingLabel="true"
+            app:ms_errorColor="@color/Red"
+            app:ms_floatingLabelText="This will be your first tag, you can add more!"
+            app:ms_hint="Pick a filter"
+            app:ms_hintColor="@color/DarkRed"
+            app:ms_multiline="false"
+            app:ms_thickness="2dp"/>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tv_tags"
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:text="@string/tags"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:text="(Optional)"
+                    android:textSize="10sp"/>
+            </LinearLayout>
+
+
+            <EditText
+                android:id="@+id/et_tags"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="3"
+                android:imeActionLabel="Done"
+                android:singleLine="true"/>
         </LinearLayout>
 
 
-        <EditText
-            android:id="@+id/et_capacity"
-            android:layout_width="0dp"
-            android:imeActionLabel="Done"
+        <Button
+            android:id="@+id/btn_pic"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:inputType="number"
-            android:layout_weight="2" />
-    </LinearLayout>
+            android:layout_gravity="center"
+            android:layout_margin="10dp"
+            android:text="@string/image_upload"/>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:orientation="horizontal">
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_gravity="bottom"
-            android:orientation="vertical"
-            android:layout_weight="1"
-            android:layout_height="wrap_content">
-            <TextView
-                android:id="@+id/tv_parking"
-                android:layout_width="wrap_content"
-                android:layout_height="0dp"
-                android:layout_weight="1"
-                android:text="@string/parking" />
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="0dp"
-                android:textSize="10sp"
-                android:layout_weight="1"
-                android:text="(Optional)" />
-        </LinearLayout>
+        <ImageView
+            android:id="@+id/pic"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:layout_gravity="center"
+            android:visibility="gone"/>
 
 
-        <EditText
-            android:id="@+id/et_parking"
-            android:layout_width="0dp"
-            android:inputType="number"
-            android:ems="10"
-            android:imeActionLabel="Done"
+        <Button
+            android:id="@+id/btn_next2"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="3" />
+            android:layout_gravity="center"
+            android:layout_margin="10dp"
+            android:text="@string/finish"/>
+
     </LinearLayout>
-
-    <fr.ganfra.materialspinner.MaterialSpinner
-        android:id="@+id/filterSpinner"
-        app:ms_floatingLabelText="This will be your first tag, you can add more!"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        app:ms_alignLabels="false"
-        app:ms_arrowColor="@color/colorPrimary"
-        app:ms_arrowSize="16dp"
-        app:ms_baseColor="@color/colorPrimary"
-        app:ms_enableErrorLabel="false"
-        app:ms_enableFloatingLabel="true"
-        app:ms_errorColor="@color/Red"
-        app:ms_hint="Pick a filter"
-        app:ms_hintColor="@color/DarkRed"
-        app:ms_multiline="false"
-        app:ms_thickness="2dp" />
-
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:orientation="horizontal">
-
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_gravity="bottom"
-            android:orientation="vertical"
-            android:layout_weight="1"
-            android:layout_height="wrap_content">
-            <TextView
-                android:id="@+id/tv_tags"
-                android:layout_width="wrap_content"
-                android:layout_height="0dp"
-                android:layout_weight="1"
-                android:text="@string/tags" />
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="0dp"
-                android:textSize="10sp"
-                android:layout_weight="1"
-                android:text="(Optional)" />
-        </LinearLayout>
-
-
-        <EditText
-            android:id="@+id/et_tags"
-            android:layout_width="0dp"
-            android:singleLine="true"
-            android:imeActionLabel="Done"
-            android:layout_height="wrap_content"
-            android:layout_weight="3" />
-    </LinearLayout>
-
-
-    <Button
-        android:id="@+id/btn_pic"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_margin="10dp"
-        android:text="@string/image_upload" />
-
-    <ImageView
-        android:layout_width="150dp"
-        android:id="@+id/pic"
-        android:visibility="gone"
-        android:layout_gravity="center"
-        android:layout_height="150dp" />
-
-
-    <Button
-        android:id="@+id/btn_next2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_margin="10dp"
-        android:text="@string/finish" />
-
-
-
-</LinearLayout>
+</ScrollView>

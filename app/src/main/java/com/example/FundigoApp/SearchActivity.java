@@ -20,6 +20,8 @@ import android.widget.Toast;
 import com.example.FundigoApp.Events.EventInfo;
 import com.example.FundigoApp.Events.EventPageActivity;
 import com.example.FundigoApp.Events.EventsListAdapter;
+import com.example.FundigoApp.StaticMethod.EventDataMethods;
+import com.example.FundigoApp.StaticMethod.GeneralStaticMethods;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -218,16 +220,16 @@ public class SearchActivity extends AppCompatActivity implements SearchView.OnCl
 
     @Override
     protected void onActivityResult(final int requestCode, final int resultCode, final Intent data) {
-        StaticMethods.onActivityResult (requestCode,
-                                               data,
-                                               this);
+        GeneralStaticMethods.onActivityResult (requestCode,
+                                                      data,
+                                                      this);
     }
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         Bundle b = new Bundle ();
         Intent intent = new Intent (this, EventPageActivity.class);
-        StaticMethods.onEventItemClick (position, eventsResultList, intent);
+        EventDataMethods.onEventItemClick (position, eventsResultList, intent);
         intent.putExtras (b);
         startActivity (intent);
     }

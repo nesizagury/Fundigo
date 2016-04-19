@@ -52,4 +52,6 @@ public class GlobalVariables {
 
     public static boolean refreshArtistsList = false;
     public static ArrayList<String> userChanels = new ArrayList<> ();
+    //in millis
+    public static final int GPS_UPDATE_TIME_INTERVAL = 10000;
 }

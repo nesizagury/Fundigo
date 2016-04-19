@@ -48,7 +48,15 @@ public class FilterPageActivity extends AppCompatActivity implements AdapterView
         home_lifeStyle = getApplicationContext ().getString (R.string.home_lifeStyle);
         music = getApplicationContext ().getString (R.string.music);
 
-        num = new String[]{sports, travel, drinks, business, fashion, education, government, home_lifeStyle, music};
+        num = new String[]{"Sports",
+                                  "Travel",
+                                  "Drink",
+                                  "Business",
+                                  "Fashion",
+                                  "Education",
+                                  "Government",
+                                  "Home and LifeStyle",
+                                  "Music"};
         Names = new String[]{sports, travel, drinks, business, fashion, education, government, home_lifeStyle, music};
         setTitle (getApplicationContext ().getString (R.string.filter_page));
 
@@ -65,11 +73,11 @@ public class FilterPageActivity extends AppCompatActivity implements AdapterView
     @Override
     public void onItemClick(AdapterView<?> av, View view, int i, long l) {
         if (ans == null) {
-            ans = Names[i];
+            ans = num[i];
             GlobalVariables.CURRENT_FILTER_NAME = ans;
             view.setBackgroundColor (Color.RED);
         } else {
-            if (ans.equals (Names[i])) {
+            if (ans.equals (num[i])) {
                 ans = null;
                 GlobalVariables.CURRENT_FILTER_NAME = "";
                 view.setBackgroundColor (Color.TRANSPARENT);

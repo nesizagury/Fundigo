@@ -13,8 +13,9 @@ import com.example.FundigoApp.Events.EventPageActivity;
 import com.example.FundigoApp.GlobalVariables;
 import com.example.FundigoApp.Producer.Artists.Artist;
 import com.example.FundigoApp.R;
-import com.example.FundigoApp.StaticMethods;
-import com.example.FundigoApp.StaticMethods.GetEventsDataCallback;
+import com.example.FundigoApp.StaticMethod.EventDataMethods;
+import com.example.FundigoApp.StaticMethod.GeneralStaticMethods;
+import com.example.FundigoApp.StaticMethod.EventDataMethods.GetEventsDataCallback;
 import com.example.FundigoApp.Tickets.EventsSeats;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
@@ -61,10 +62,10 @@ public class AllEventsStats extends Fragment implements GetEventsDataCallback {
 
         if (GlobalVariables.ALL_EVENTS_DATA.size () == 0) {
             Intent intent = new Intent (this.getActivity (), EventPageActivity.class);
-            StaticMethods.downloadEventsData (this, GlobalVariables.PRODUCER_PARSE_OBJECT_ID, this.getContext (), intent);
+            EventDataMethods.downloadEventsData (this, GlobalVariables.PRODUCER_PARSE_OBJECT_ID, this.getContext (), intent);
         } else {
             if (artist_list.size () == 0) {
-                StaticMethods.uploadArtistData (artist_list);
+                EventDataMethods.uploadArtistData (artist_list);
             }
             calculateStats ();
         }
@@ -74,8 +75,8 @@ public class AllEventsStats extends Fragment implements GetEventsDataCallback {
     void calculateStats() {
         for (Artist artist : artist_list) {
             List<EventInfo> eventsListFiltered = new ArrayList<EventInfo> ();
-            StaticMethods.filterEventsByArtist (artist.getName (),
-                                                       eventsListFiltered);
+            GeneralStaticMethods.filterEventsByArtist (artist.getName (),
+                                                              eventsListFiltered);
             updateEventsSeatsLists (eventsListFiltered);
             getCalculatedData (eventsListFiltered);
         }
@@ -99,7 +100,7 @@ public class AllEventsStats extends Fragment implements GetEventsDataCallback {
 
     @Override
     public void eventDataCallback() {
-        StaticMethods.uploadArtistData (artist_list);
+        EventDataMethods.uploadArtistData (artist_list);
         calculateStats ();
     }
 

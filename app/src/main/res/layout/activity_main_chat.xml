@@ -11,13 +11,13 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:weightSum="400.0"
-
-        android:layout_alignParentStart="true">
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true">
 
         <ImageView
             android:id="@+id/profileImage_chat"
             android:layout_width="0dip"
-            android:layout_height="55dip"
+            android:layout_height="55dp"
             android:layout_weight="50"
             android:adjustViewBounds="false"
             android:background="#3293CD"
@@ -29,7 +29,7 @@
         <Button
             android:id="@+id/ProfileName_chat"
             android:layout_width="0dip"
-            android:layout_height="55dip"
+            android:layout_height="55dp"
             android:layout_weight="310"
             android:background="#3293CD"
             android:text="0527959455"
@@ -39,8 +39,8 @@
 
         <Button
             android:id="@+id/ProfileFacebook_chat"
-            android:layout_width="0dip"
-            android:layout_height="55dip"
+            android:layout_width="0dp"
+            android:layout_height="55dp"
             android:layout_weight="40"
             android:background="#3293CD"
             android:text="@string/fb"

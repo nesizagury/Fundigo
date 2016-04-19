@@ -9,8 +9,12 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 
 import com.example.FundigoApp.DeepLinkActivity;
+import com.example.FundigoApp.GlobalVariables;
+import com.example.FundigoApp.Producer.ProducerSendPuchActivity;
 import com.example.FundigoApp.R;
-import com.example.FundigoApp.StaticMethods;
+import com.example.FundigoApp.StaticMethod.EventDataMethods;
+import com.example.FundigoApp.StaticMethod.FileAndImageMethods;
+import com.example.FundigoApp.StaticMethod.GeneralStaticMethods;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
 import java.util.ArrayList;
@@ -29,7 +33,7 @@ public class EventsListAdapter extends BaseAdapter {
         this.context = c;
         this.eventList = eventList;
         this.isSavedActivity = isSavedActivity;
-        loader = StaticMethods.getImageLoader (c);
+        loader = FileAndImageMethods.getImageLoader (c);
     }
 
     @Override
@@ -67,17 +71,23 @@ public class EventsListAdapter extends BaseAdapter {
         eventListHolder.date.setText (event.getDateAsString ());
         eventListHolder.name.setText (event.getName ());
         eventListHolder.tags.setText (event.getTags ());
-        eventListHolder.price.setText (StaticMethods.getDisplayedEventPrice (event.getPrice ()));
+        eventListHolder.price.setText (EventDataMethods.getDisplayedEventPrice (event.getPrice ()));
         eventListHolder.place.setText (event.getPlace ());
         checkIfChangeColorToSaveButtton (event, eventListHolder.saveEvent);
         eventListHolder.saveEvent.setOnClickListener (new View.OnClickListener () {
             @Override
             public void onClick(View v) {
-                StaticMethods.handleSaveEventClicked (event,
-                                                             eventListHolder.saveEvent,
-                                                             context,
-                                                             R.mipmap.whhsaved,
-                                                             R.mipmap.whh);
+                if (GlobalVariables.IS_PRODUCER) {
+                    Intent pushIntent = new Intent (context, ProducerSendPuchActivity.class);
+                    pushIntent.putExtra ("id", event.getParseObjectId ());
+                    context.startActivity (pushIntent);
+                } else {
+                    GeneralStaticMethods.handleSaveEventClicked (event,
+                                                                        eventListHolder.saveEvent,
+                                                                        context,
+                                                                        R.mipmap.whhsaved,
+                                                                        R.mipmap.whh);
+                }
             }
         });
 
@@ -103,10 +113,14 @@ public class EventsListAdapter extends BaseAdapter {
     }
 
     private void checkIfChangeColorToSaveButtton(EventInfo event, ImageView saveEvent) {
-        if (event.getIsSaved ()) {
-            saveEvent.setImageResource (R.mipmap.whhsaved);
+        if (GlobalVariables.IS_PRODUCER) {
+            saveEvent.setImageResource (R.drawable.ic_send_push);
         } else {
-            saveEvent.setImageResource (R.mipmap.whh);
+            if (event.getIsSaved ()) {
+                saveEvent.setImageResource (R.mipmap.whhsaved);
+            } else {
+                saveEvent.setImageResource (R.mipmap.whh);
+            }
         }
     }
 }

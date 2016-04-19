@@ -33,7 +33,7 @@ public class NotificationAdapter extends BaseAdapter {
 
         if (row == null) {
             LayoutInflater inflator = (LayoutInflater) c.getSystemService (Context.LAYOUT_INFLATER_SERVICE);
-            row = inflator.inflate (R.layout.push_list, viewGroup, false);
+            row = inflator.inflate (R.layout.push_customer_list, viewGroup, false);
             holder = new NotificationHolder (row);
             row.setTag (holder);
         } else {

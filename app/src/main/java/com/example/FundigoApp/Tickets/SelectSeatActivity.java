@@ -21,15 +21,9 @@ import com.parse.ParseException;
 import com.parse.ParseQuery;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
-import static java.util.concurrent.TimeUnit.MILLISECONDS;
-import static java.util.concurrent.TimeUnit.MINUTES;
-
 public class SelectSeatActivity extends AppCompatActivity {
-    long MAX_DURATION_TO_SAVE_TICKET = MILLISECONDS.convert (20, MINUTES);
-
     private String eventObjectId;
     private ListView seatsList;
     private String customerPhone;
@@ -48,12 +42,12 @@ public class SelectSeatActivity extends AppCompatActivity {
         eventObjectId = intentHere1.getStringExtra ("eventObjectId");
         customerPhone = intentHere1.getStringExtra ("phone");
         ParseQuery<EventsSeats> query = new ParseQuery ("EventsSeats");
-        query.whereMatches ("eventObjectId", eventObjectId).whereDoesNotExist ("Sold");
-
+        query.whereMatches ("eventObjectId", eventObjectId).whereNotEqualTo ("CustomerPhone", null);
         seatsArray.clear ();
         try {
             List<EventsSeats> tempSeatsList = query.find ();
             if (tempSeatsList.size () == 0) {
+                //TODO delete this test loops
                 for (int i = 1; i <= 4; i++) {
                     EventsSeats eventsSeats = new EventsSeats ();
                     eventsSeats.put ("price", 1);
@@ -120,23 +114,10 @@ public class SelectSeatActivity extends AppCompatActivity {
                 }
                 tempSeatsList = query.find ();
             }
-            for (EventsSeats eventsSeat : tempSeatsList) {
-                if (eventsSeat.getCustomerPhone () != null && !eventsSeat.getCustomerPhone ().isEmpty ()) {
-                    Date currentDate = new Date ();
-                    long duration = currentDate.getTime () - eventsSeat.getUpdatedAt ().getTime ();
-                    if (duration >= MAX_DURATION_TO_SAVE_TICKET) {
-                        eventsSeat.setCustomerPhone ("");
-                        eventsSeat.saveInBackground ();
-                        seatsArray.add (eventsSeat);
-                    }
-                } else {
-                    seatsArray.add (eventsSeat);
-                }
-            }
+            seatsArray.addAll (tempSeatsList);
         } catch (ParseException e) {
             e.printStackTrace ();
         }
-
         seatsList.setAdapter (new SelectSeatAdapter (this, seatsArray));
     }
 
@@ -199,7 +180,7 @@ public class SelectSeatActivity extends AppCompatActivity {
             });
             final SeatRow temp = seatList.get (position);
             title.setText (temp.title);
-            priceTicket.setText (getApplicationContext().getString(R.string.price) +" "+ temp.ticketPrice + "₪");
+            priceTicket.setText (getApplicationContext ().getString (R.string.price) + " " + temp.ticketPrice + "₪");
             image.setImageResource (temp.image);
             buyTicket.setOnClickListener (new View.OnClickListener () {
                 @Override
@@ -229,7 +210,7 @@ public class SelectSeatActivity extends AppCompatActivity {
                         e.printStackTrace ();
                     }
                     startActivity (intentQr);
-                    finish();
+                    finish ();
                 }
             });
 
